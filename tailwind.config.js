@@ -33,6 +33,13 @@ export default {
           500: '#baa971',
           600: '#d98804',
           700: '#b56d02',
+        },
+        bone: {
+          DEFAULT: '#F9F6EE', // Putih Tulang
+          50: '#FDFCF9',
+          100: '#F9F6EE',
+          200: '#F1ECE0',
+          300: '#E7DFCC',
         }
       },
       fontFamily: {

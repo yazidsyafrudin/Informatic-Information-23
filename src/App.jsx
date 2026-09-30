@@ -70,7 +70,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FBFBFA] text-slate-800 font-instrument selection:bg-primary selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F9F6EE] text-slate-800 font-instrument selection:bg-primary selection:text-white">
       {/* Navbar Biru Resmi UAA */}
       <Navbar
         activeTab={activeTab}
@@ -79,7 +79,7 @@ export default function App() {
         profile={profile}
       />
 
-      {/* Main Container dengan background Putih Susu */}
+      {/* Main Container dengan background Putih Tulang */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {activeTab === 'dashboard' && (
           <DashboardView
@@ -124,8 +124,8 @@ export default function App() {
         onClose={() => setIsSupabaseModalOpen(false)}
       />
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
+      {/* Footer dengan nuansa hangat putih tulang */}
+      <footer className="border-t border-[#E8E2D5] bg-[#F4F1E8]/80 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white">
