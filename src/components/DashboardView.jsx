@@ -170,40 +170,40 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
       {/* Grid: Timeline Angkatan & Sorotan Aturan FKT */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Timeline Angkatan (2 Cols) */}
-        <div className="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+        {/* Timeline Angkatan (2 Cols) - Solid Blue UAA */}
+        <div className="lg:col-span-2 bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-bold font-philosopher text-primary">
+              <h2 className="text-xl font-bold font-philosopher text-white">
                 Timeline Perjalanan Angkatan '23
               </h2>
-              <p className="text-xs font-instrument text-slate-500">
+              <p className="text-xs font-instrument text-white/80">
                 Peta jalan waktu dari magang hingga wisuda sarjana komputer Universitas Alma Ata
               </p>
             </div>
             <button 
               onClick={() => setActiveTab('roadmap')}
-              className="text-xs font-instrument font-bold text-primary hover:text-primary/80 flex items-center space-x-1"
+              className="text-xs font-instrument font-bold text-accent hover:text-white flex items-center space-x-1"
             >
               <span>Detail Tahapan</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-primary/30">
+          <div className="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-white/30">
             {TIMELINE_EVENTS.map((event, idx) => (
               <div key={idx} className="relative group">
                 <div className={`absolute -left-[27px] top-1.5 w-4 h-4 rounded-full border-2 transition-all ${
                   event.status === 'current'
-                    ? 'bg-primary border-white ring-4 ring-sky-200'
+                    ? 'bg-accent border-white ring-4 ring-white/30'
                     : event.status === 'highlight'
-                    ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
+                    ? 'bg-amber-400 border-white ring-4 ring-amber-300/40 animate-pulse'
                     : event.status === 'goal'
-                    ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
-                    : 'bg-slate-300 border-white'
+                    ? 'bg-emerald-400 border-white ring-4 ring-emerald-300/40'
+                    : 'bg-white/40 border-white'
                 }`} />
 
-                <div className="bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 border-primary-700 group-hover:border-accent transition-all shadow-md">
+                <div className="bg-white/10 p-4 sm:p-5 rounded-2xl border-2 border-white/20 group-hover:border-accent group-hover:bg-white/15 transition-all shadow-md">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
                     <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${
@@ -225,7 +225,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
         </div>
 
         {/* Sorotan Ketentuan Skripsi FKT Alma Ata (1 Col) - Solid Blue Card */}
-        <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-md flex flex-col justify-between">
+        <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col justify-between">
           <div>
             <div className="flex items-center space-x-2 text-white mb-2">
               <BookMarked className="w-5 h-5 text-accent" />
@@ -236,29 +236,29 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
             </p>
 
             <div className="space-y-3 font-instrument">
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Indeks Prestasi Kumulatif</span>
-                <span className="text-sm font-bold text-primary">Minimal IPK 3.25</span>
+              <div className="p-3.5 rounded-2xl bg-white/15 border border-white/20 text-white shadow-xs">
+                <span className="text-[11px] text-white/80 block font-semibold">Indeks Prestasi Kumulatif</span>
+                <span className="text-sm font-bold text-accent">Minimal IPK 3.25</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">SKS Lulus</span>
-                <span className="text-sm font-bold text-primary">Minimal 75% Total SKS</span>
+              <div className="p-3.5 rounded-2xl bg-white/15 border border-white/20 text-white shadow-xs">
+                <span className="text-[11px] text-white/80 block font-semibold">SKS Lulus</span>
+                <span className="text-sm font-bold text-accent">Minimal 75% Total SKS</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Bahasa Inggris & Keagamaan</span>
-                <span className="text-sm font-bold text-slate-900">AAEPT ≥ 450 & Lulus LPBA</span>
+              <div className="p-3.5 rounded-2xl bg-white/15 border border-white/20 text-white shadow-xs">
+                <span className="text-[11px] text-white/80 block font-semibold">Bahasa Inggris & Keagamaan</span>
+                <span className="text-sm font-bold text-white">AAEPT ≥ 450 & Lulus LPBA</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Maksimal Similaritas Turnitin</span>
+              <div className="p-3.5 rounded-2xl bg-white/15 border border-white/20 text-white shadow-xs">
+                <span className="text-[11px] text-white/80 block font-semibold">Maksimal Similaritas Turnitin</span>
                 <span className="text-sm font-bold text-accent">Maksimal 20% (≤ 20%)</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Format Layout Naskah</span>
-                <span className="text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</span>
+              <div className="p-3.5 rounded-2xl bg-white/15 border border-white/20 text-white shadow-xs">
+                <span className="text-[11px] text-white/80 block font-semibold">Format Layout Naskah</span>
+                <span className="text-sm font-bold text-white">Margin 4-4-3-3 & TNR 12 (Spasi 2)</span>
               </div>
             </div>
           </div>

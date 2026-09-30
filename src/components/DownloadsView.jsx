@@ -88,43 +88,27 @@ export default function DownloadsView() {
         {downloadItems.map((item, idx) => (
           <div
             key={idx}
-            className={`p-6 rounded-3xl border-2 transition-all flex flex-col justify-between ${
-              item.isPrimary
-                ? 'bg-primary text-white border-primary-700 shadow-md'
-                : 'bg-white border-slate-200 hover:border-primary/50 shadow-xs'
-            }`}
+            className="p-6 rounded-3xl border-2 border-primary-700 bg-primary text-white shadow-md flex flex-col justify-between hover:shadow-lg hover:border-accent transition-all"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                  item.isPrimary
-                    ? 'bg-white/15 text-white border border-white/20'
-                    : 'bg-primary/10 text-primary border border-primary/20'
-                }`}>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/15 text-white border border-white/20">
                   {item.code}
                 </span>
-                <span className={`text-[11px] font-bold font-instrument ${
-                  item.isPrimary ? 'text-accent' : 'text-slate-500'
-                }`}>
+                <span className="text-[11px] font-bold font-instrument text-accent">
                   {item.category}
                 </span>
               </div>
 
-              <h3 className={`font-bold text-sm sm:text-base mb-1 font-instrument ${
-                item.isPrimary ? 'text-white' : 'text-slate-800'
-              }`}>
+              <h3 className="font-bold text-sm sm:text-base mb-1 font-instrument text-white">
                 {item.title}
               </h3>
-              <p className={`text-xs leading-relaxed mb-4 font-instrument ${
-                item.isPrimary ? 'text-white/90' : 'text-slate-600'
-              }`}>
+              <p className="text-xs leading-relaxed mb-4 font-instrument text-white/90">
                 {item.desc}
               </p>
             </div>
 
-            <div className={`pt-3 border-t flex items-center justify-between ${
-              item.isPrimary ? 'border-white/20' : 'border-slate-100'
-            }`}>
+            <div className="pt-3 border-t border-white/20 flex items-center justify-between">
               {item.isPrimary ? (
                 <a
                   href={item.href}
@@ -135,11 +119,11 @@ export default function DownloadsView() {
                   <span>Download PDF Sekarang (3.6 MB)</span>
                 </a>
               ) : (
-                <div className="flex items-center justify-between w-full text-xs text-slate-500 font-instrument">
-                  <span className="italic text-[11px]">{item.note}</span>
+                <div className="flex items-center justify-between w-full text-xs text-white/80 font-instrument">
+                  <span className="italic text-[11px] text-white/70">{item.note}</span>
                   <a
                     href="/panduan-skripsi-fkt-almaata.pdf"
-                    className="text-primary hover:text-primary/80 font-bold flex items-center space-x-1"
+                    className="text-accent hover:text-white font-bold flex items-center space-x-1"
                   >
                     <span>Buka di PDF</span>
                     <ExternalLink className="w-3 h-3" />
@@ -152,13 +136,13 @@ export default function DownloadsView() {
       </div>
 
       {/* Box Info Kontak & Ruang Akademik */}
-      <div className="p-6 rounded-3xl bg-white border-2 border-sky-100 text-xs text-slate-600 shadow-xs font-instrument">
-        <h3 className="font-bold text-primary font-philosopher text-base mb-1">
+      <div className="p-6 rounded-3xl bg-primary text-white border-2 border-primary-700 text-xs shadow-md font-instrument">
+        <h3 className="font-bold text-white font-philosopher text-base mb-1">
           Alamat Penyerahan Berkas Fisik:
         </h3>
-        <p className="leading-relaxed">
+        <p className="leading-relaxed text-white/90">
           Bagian Administrasi Akademik Fakultas Sains, Rekayasa dan Teknologi (d/h FKT), Gedung Utama Lantai 2, Universitas Alma Ata Yogyakarta.
-          Pastikan pengumpulan berkas pendaftaran seminar proposal dilakukan minimal <strong>H-3 hari kerja</strong> sebelum jadwal seminar.
+          Pastikan pengumpulan berkas pendaftaran seminar proposal dilakukan minimal <strong className="text-accent font-bold">H-3 hari kerja</strong> sebelum jadwal seminar.
         </p>
       </div>
     </div>
