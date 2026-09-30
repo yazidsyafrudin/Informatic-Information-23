@@ -128,12 +128,16 @@ export default function App() {
       <footer className="border-t border-[#E8E2D5] bg-[#F4F1E8]/80 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white">
-              <GraduationCap className="w-4 h-4 text-accent" />
+            <div className="w-9 h-9 rounded-full overflow-hidden border border-primary/20 flex items-center justify-center bg-white shadow-xs">
+              <img 
+                src="/logo pusing coding.png" 
+                alt="Logo Pusing Coding" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <span className="font-bold font-philosopher text-primary text-sm block">
-                Informatika 2023 • Universitas Alma Ata
+                Pusing Coding • Informatika 2023
               </span>
               <span className="text-[11px] text-slate-500">
                 Fakultas Sains, Rekayasa dan Teknologi
