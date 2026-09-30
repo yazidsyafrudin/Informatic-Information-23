@@ -344,13 +344,13 @@ export default function TrackerView({
         </h2>
 
         {ROADMAP_PHASES.map((phase) => (
-          <div key={phase.phaseId} className="bg-primary text-white rounded-3xl p-6 border-2 border-primary-700 shadow-md">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-white/20">
+          <div key={phase.phaseId} className="bg-gradient-to-br from-sky-50/40 via-white to-sky-50/60 rounded-3xl p-6 border-2 border-sky-200/90 shadow-sm">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-sky-100">
               <div>
-                <h3 className="font-bold text-white font-philosopher text-base sm:text-lg">{phase.title}</h3>
-                <p className="text-xs font-instrument text-white/80">{phase.period}</p>
+                <h3 className="font-bold text-primary font-philosopher text-base sm:text-lg">{phase.title}</h3>
+                <p className="text-xs font-instrument text-slate-500">{phase.period}</p>
               </div>
-              <span className="text-xs font-mono font-bold text-accent font-instrument bg-white/15 px-3 py-1 rounded-full border border-white/20 shadow-xs">
+              <span className="text-xs font-mono font-bold text-accent font-instrument bg-white px-3 py-1 rounded-full border border-sky-100 shadow-2xs">
                 {phase.steps.filter(s => progress[s.id]).length} / {phase.steps.length} Selesai
               </span>
             </div>
@@ -365,27 +365,25 @@ export default function TrackerView({
                     onClick={() => handleCheckboxClick(step.id)}
                     className={`p-4 rounded-2xl border-2 flex items-start space-x-3 cursor-pointer transition-all ${
                       isChecked
-                        ? 'bg-emerald-950/40 border-emerald-500/50 shadow-xs'
-                        : 'bg-white/10 border-white/20 hover:border-accent hover:bg-white/15 shadow-xs'
+                        ? 'bg-emerald-50/80 border-emerald-200 shadow-2xs'
+                        : 'bg-white border-sky-100 hover:border-primary/50 hover:bg-sky-50/30 shadow-xs'
                     }`}
                   >
                     <div className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all flex-shrink-0 ${
                       isChecked
-                        ? 'bg-emerald-500 text-white shadow-xs'
-                        : 'border-2 border-white/40 bg-white/10'
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'border-2 border-sky-300 bg-white'
                     }`}>
                       {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                     </div>
 
                     <div className="flex-1">
                       <h4 className={`text-xs sm:text-sm font-bold ${
-                        isChecked ? 'text-emerald-300 line-through' : 'text-white'
+                        isChecked ? 'text-emerald-800 line-through' : 'text-slate-800'
                       }`}>
                         {step.title}
                       </h4>
-                      <p className={`text-xs mt-0.5 leading-relaxed ${
-                        isChecked ? 'text-emerald-200/80' : 'text-white/80'
-                      }`}>
+                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
                         {step.desc}
                       </p>
                     </div>

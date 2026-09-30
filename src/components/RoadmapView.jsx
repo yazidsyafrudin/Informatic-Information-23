@@ -111,35 +111,37 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
           return (
             <div
               key={phase.phaseId}
-              className="bg-primary text-white rounded-3xl border-2 border-primary-700 shadow-md overflow-hidden transition-all"
+              className={`bg-gradient-to-br from-sky-50/50 via-white to-sky-50/60 rounded-3xl border-2 transition-all overflow-hidden ${
+                isExpanded ? 'border-primary/50 shadow-md' : 'border-sky-200/90 shadow-xs'
+              }`}
             >
               {/* Phase Header */}
               <div
                 onClick={() => setExpandedPhase(isExpanded ? null : phase.phaseId)}
-                className="p-6 cursor-pointer flex items-center justify-between bg-primary hover:bg-primary-700 transition-colors"
+                className="p-6 cursor-pointer flex items-center justify-between bg-white hover:bg-sky-50/60 transition-colors"
               >
                 <div className="flex items-start sm:items-center space-x-4">
-                  <div className="w-11 h-11 rounded-2xl bg-white text-primary flex items-center justify-center font-bold text-base shadow-sm flex-shrink-0 font-philosopher">
+                  <div className="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center font-bold text-white text-base shadow-sm flex-shrink-0 font-philosopher">
                     {phase.phaseId}
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <h2 className="text-base sm:text-lg font-bold text-white font-philosopher">{phase.title}</h2>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-accent text-white shadow-xs">
+                      <h2 className="text-base sm:text-lg font-bold text-primary font-philosopher">{phase.title}</h2>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-sky-100 text-primary border border-sky-200">
                         {phase.status}
                       </span>
                     </div>
-                    <p className="text-xs font-instrument text-white/80">{phase.period} • {phase.description}</p>
+                    <p className="text-xs font-instrument text-slate-500">{phase.period} • {phase.description}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 flex-shrink-0 ml-4 font-instrument">
                   <div className="hidden sm:block text-right">
-                    <span className="text-xs font-mono font-bold text-accent">
+                    <span className="text-xs font-mono font-bold text-primary">
                       {completedCount} dari {totalInPhase} Selesai
                     </span>
                   </div>
-                  <div className="p-1.5 rounded-xl bg-white/15 text-white border border-white/20">
+                  <div className="p-1.5 rounded-xl bg-sky-50 text-primary border border-sky-200">
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </div>
                 </div>
@@ -147,7 +149,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
 
               {/* Steps inside Phase */}
               {isExpanded && (
-                <div className="p-6 border-t-2 border-primary-700 space-y-4 bg-primary-800/40">
+                <div className="p-6 border-t-2 border-sky-100 space-y-4 bg-sky-50/40">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {phase.steps.map((step, idx) => {
                       const isDone = Boolean(progress[step.id]);
@@ -157,8 +159,8 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                           key={step.id}
                           className={`p-5 rounded-2xl border-2 transition-all ${
                             isDone
-                              ? 'bg-emerald-950/40 border-emerald-500/50 shadow-xs'
-                              : 'bg-white/10 border-white/20 hover:border-accent hover:bg-white/15 shadow-xs'
+                              ? 'bg-emerald-50/80 border-emerald-200 shadow-xs'
+                              : 'bg-white border-sky-100 hover:border-primary/50 shadow-xs'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3 mb-2">
@@ -167,30 +169,30 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                                 onClick={() => onToggleMilestone(step.id)}
                                 className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all ${
                                   isDone
-                                    ? 'bg-emerald-500 text-white shadow-xs'
-                                    : 'border-2 border-white/40 bg-white/10 hover:border-accent'
+                                    ? 'bg-emerald-600 text-white shadow-xs'
+                                    : 'border-2 border-sky-300 hover:border-primary bg-white'
                                 }`}
                                 title={isDone ? 'Tandai belum selesai' : 'Tandai sudah selesai'}
                               >
                                 {isDone && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                               </button>
                               <div>
-                                <h3 className={`text-sm font-bold font-instrument ${isDone ? 'text-emerald-300 line-through' : 'text-white'}`}>
+                                <h3 className={`text-sm font-bold font-instrument ${isDone ? 'text-emerald-800 line-through' : 'text-slate-800'}`}>
                                   {step.title}
                                 </h3>
                               </div>
                             </div>
-                            <span className="text-[10px] font-mono font-bold text-accent flex-shrink-0">
+                            <span className="text-[10px] font-mono font-bold text-primary flex-shrink-0">
                               #{idx + 1}
                             </span>
                           </div>
 
-                          <p className={`text-xs font-instrument pl-8 mb-3 leading-relaxed ${isDone ? 'text-emerald-200/80' : 'text-white/80'}`}>
+                          <p className="text-xs font-instrument text-slate-600 pl-8 mb-3 leading-relaxed">
                             {step.desc}
                           </p>
 
                           {step.tips && (
-                            <div className="ml-8 p-3 rounded-xl bg-accent/20 border border-accent/40 text-white text-xs flex items-start space-x-2 font-instrument">
+                            <div className="ml-8 p-3 rounded-xl bg-amber-50/90 border border-amber-200 text-amber-950 text-xs flex items-start space-x-2 font-instrument">
                               <Lightbulb className="w-3.5 h-3.5 text-accent mt-0.5 flex-shrink-0" />
                               <span className="text-[11px] leading-relaxed">
                                 <strong className="text-accent font-bold">Tips Dospem: </strong>
@@ -203,10 +205,10 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                     })}
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-white/20 flex justify-end">
+                  <div className="mt-4 pt-4 border-t border-sky-200 flex justify-end">
                     <button
                       onClick={() => setActiveTab('tracker')}
-                      className="flex items-center space-x-2 text-xs font-bold font-instrument text-accent hover:text-white"
+                      className="flex items-center space-x-2 text-xs font-bold font-instrument text-primary hover:text-primary/80"
                     >
                       <span>Lihat & Validasi di Tracker Progres Mahasiswa</span>
                       <ArrowRight className="w-3.5 h-3.5" />
