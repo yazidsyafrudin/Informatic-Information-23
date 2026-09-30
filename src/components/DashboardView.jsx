@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Rocket, 
   ArrowRight, 
@@ -6,12 +6,16 @@ import {
   FileText, 
   BookMarked, 
   ChevronRight,
-  Award
+  Award,
+  Users,
+  Maximize2,
+  X
 } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import { TIMELINE_EVENTS } from '../data/milestones';
 
 export default function DashboardView({ setActiveTab, profile, progressCount, totalMilestones }) {
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
   const percentComplete = Math.round((progressCount / totalMilestones) * 100) || 0;
 
   return (
@@ -76,6 +80,100 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
         </div>
       </div>
+
+      {/* Showcase Solidaritas & Foto Angkatan '23 */}
+      <section className="bg-white rounded-3xl overflow-hidden border-2 border-primary/20 shadow-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+          
+          {/* Kolom Foto Angkatan */}
+          <div 
+            onClick={() => setShowPhotoModal(true)}
+            className="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto min-h-[320px] overflow-hidden group cursor-pointer bg-slate-900"
+            title="Klik untuk memperbesar foto angkatan"
+          >
+            <img 
+              src="/puscod23.png" 
+              alt="Keluarga Besar Informatika Angkatan 2023 Universitas Alma Ata"
+              className="w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-5">
+              <span className="text-white text-xs font-instrument font-semibold flex items-center space-x-1.5 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-xs">
+                <Maximize2 className="w-3.5 h-3.5 text-accent" />
+                <span>Klik untuk perbesar foto</span>
+              </span>
+              <span className="text-[11px] text-white/80 font-mono">Informatika '23 UAA</span>
+            </div>
+          </div>
+
+          {/* Kolom Konten & Spirit Angkatan */}
+          <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between bg-gradient-to-br from-white to-[#F9F6EE]">
+            <div>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-instrument font-bold mb-4">
+                <Users className="w-3.5 h-3.5 text-accent" />
+                <span>Informatika Angkatan 2023</span>
+              </div>
+              
+              <h2 className="font-philosopher font-bold text-2xl sm:text-3xl text-primary leading-tight mb-3">
+                Satu Visi, Satu Frekuensi, Lulus Bareng!
+              </h2>
+
+              <p className="font-instrument text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                "Di ruang kelas kita belajar logika, di depan laptop kita pusing coding bareng, dan di panggung wisuda nanti kita akan melangkah bersama sebagai Sarjana Komputer."
+              </p>
+            </div>
+
+            <div className="space-y-3 pt-4 border-t border-slate-200/80">
+              <div className="flex items-center justify-between text-xs font-instrument text-slate-600 bg-white p-3 rounded-xl border border-primary/10 shadow-xs">
+                <span className="font-medium">Komunitas Belajar:</span>
+                <span className="font-bold text-primary font-philosopher">Pusing Coding IF23</span>
+              </div>
+              <div className="flex items-center justify-between text-xs font-instrument text-slate-600 bg-white p-3 rounded-xl border border-primary/10 shadow-xs">
+                <span className="font-medium">Almamater:</span>
+                <span className="font-bold text-accent font-philosopher">Universitas Alma Ata Yogyakarta</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Lightbox Modal Foto Angkatan Full-Screen */}
+      {showPhotoModal && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setShowPhotoModal(false)}
+        >
+          <div 
+            className="relative max-w-5xl w-full max-h-[90vh] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/20 flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 bg-primary text-white flex items-center justify-between border-b border-white/10">
+              <div className="flex items-center space-x-2">
+                <Users className="w-4 h-4 text-accent" />
+                <span className="font-philosopher font-bold text-sm sm:text-base">
+                  Keluarga Besar Informatika '23 • Universitas Alma Ata
+                </span>
+              </div>
+              <button 
+                onClick={() => setShowPhotoModal(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="overflow-auto p-2 flex items-center justify-center bg-black/60">
+              <img 
+                src="/puscod23.png" 
+                alt="Foto Angkatan Informatika 2023 UAA" 
+                className="max-h-[75vh] w-auto object-contain rounded-xl shadow-lg"
+              />
+            </div>
+            <div className="p-3 bg-slate-900 text-center text-white/70 text-xs font-instrument border-t border-white/10">
+              Pemberangkatan Mahasiswa KKN & Angkatan 2023 • Universitas Alma Ata Yogyakarta
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Countdown Timers (Solid Blue Cards) */}
       <section>
