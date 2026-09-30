@@ -8,27 +8,37 @@ export default {
   theme: {
     extend: {
       colors: {
-        alma: {
-          50: '#f0f7ff',
-          100: '#e0effe',
-          200: '#bae0fd',
-          300: '#7cc7fb',
-          400: '#36a8f6',
-          500: '#0c8de7',
-          600: '#016fc5',
-          700: '#02599f',
-          800: '#064b82',
-          900: '#0b3f6d',
-          950: '#072848',
+        primary: {
+          DEFAULT: '#0b5e91',
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#b9e6fe',
+          300: '#7cd2fd',
+          400: '#36bbf8',
+          500: '#0ca1e9',
+          600: '#0b5e91', // UAA Primary Signature
+          700: '#084d77',
+          800: '#074265',
+          900: '#0a3855',
+          950: '#062338',
         },
-        gold: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
+        accent: {
+          DEFAULT: '#d98804', // UAA Gold / Amber CTA
+          gold: '#baa971',    // UAA Muted Gold
+          50: '#fdfbf7',
+          100: '#f7f1e4',
+          200: '#eee0c5',
+          300: '#dec69d',
+          400: '#caa971',
+          500: '#baa971',
+          600: '#d98804',
+          700: '#b56d02',
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+        philosopher: ['Philosopher', 'serif'],
+        instrument: ['Instrument Sans', 'sans-serif'],
+        sans: ['Instrument Sans', 'sans-serif'],
       }
     },
   },

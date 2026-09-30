@@ -67,17 +67,17 @@ export default function DownloadsView() {
   ];
 
   return (
-    <div className="space-y-8 animate-fadeIn">
+    <div className="space-y-8 animate-fadeIn font-instrument">
       {/* Header */}
-      <div className="glass-card rounded-2xl p-6 border border-slate-200">
-        <div className="flex items-center space-x-2 text-alma-600 mb-2">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-xs">
+        <div className="flex items-center space-x-2 text-accent mb-2">
           <FolderDown className="w-5 h-5" />
-          <span className="text-xs font-bold uppercase tracking-wider">Repository Berkas</span>
+          <span className="text-xs font-bold uppercase tracking-wider font-instrument">Repository Berkas</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800">
+        <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-primary">
           Pusat Unduhan & Formulir Skripsi
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed font-instrument">
           Unduh dokumen panduan PDF asli serta akses formulir administrasi resmi FKT Alma Ata 
           agar kamu tidak perlu repot mencari berkas saat pendaftaran judul dan sempro.
         </p>
@@ -88,46 +88,46 @@ export default function DownloadsView() {
         {downloadItems.map((item, idx) => (
           <div
             key={idx}
-            className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
+            className={`p-6 rounded-3xl border transition-all flex flex-col justify-between ${
               item.isPrimary
-                ? 'bg-gradient-to-br from-white via-alma-50/60 to-indigo-50/40 border-alma-300 shadow-sm'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                ? 'bg-gradient-to-br from-white via-sky-50/60 to-white border-primary/40 shadow-xs'
+                : 'bg-white border-sky-100 hover:border-sky-200 shadow-xs'
             }`}
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 text-alma-800 border border-slate-200">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-sky-50 text-primary border border-sky-200">
                   {item.code}
                 </span>
-                <span className="text-[11px] font-bold text-slate-500">
+                <span className="text-[11px] font-bold text-slate-500 font-instrument">
                   {item.category}
                 </span>
               </div>
 
-              <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1">
+              <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1 font-instrument">
                 {item.title}
               </h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
+              <p className="text-xs text-slate-600 leading-relaxed mb-4 font-instrument">
                 {item.desc}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
+            <div className="pt-3 border-t border-sky-100 flex items-center justify-between">
               {item.isPrimary ? (
                 <a
                   href={item.href}
                   download={item.fileName}
-                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-alma-600 hover:bg-alma-700 text-white font-bold text-xs shadow-md shadow-alma-600/20 transition-colors"
+                  className="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-md shadow-primary/20 transition-colors font-instrument"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download PDF Sekarang (3.6 MB)</span>
                 </a>
               ) : (
-                <div className="flex items-center justify-between w-full text-xs text-slate-500">
+                <div className="flex items-center justify-between w-full text-xs text-slate-500 font-instrument">
                   <span className="italic text-[11px]">{item.note}</span>
                   <a
                     href="/panduan-skripsi-fkt-almaata.pdf"
-                    className="text-alma-600 hover:text-alma-800 font-bold flex items-center space-x-1"
+                    className="text-primary hover:text-primary/80 font-bold flex items-center space-x-1"
                   >
                     <span>Buka di PDF</span>
                     <ExternalLink className="w-3 h-3" />
@@ -140,10 +140,12 @@ export default function DownloadsView() {
       </div>
 
       {/* Box Info Kontak & Ruang Akademik */}
-      <div className="p-5 rounded-2xl bg-white border border-slate-200 text-xs text-slate-600 shadow-xs">
-        <h3 className="font-bold text-slate-800 text-sm mb-1">Alamat Penyerahan Berkas Fisik:</h3>
+      <div className="p-6 rounded-3xl bg-white border border-sky-100 text-xs text-slate-600 shadow-xs font-instrument">
+        <h3 className="font-bold text-primary font-philosopher text-base mb-1">
+          Alamat Penyerahan Berkas Fisik:
+        </h3>
         <p className="leading-relaxed">
-          Bagian Administrasi Akademik Fakultas Komputer dan Teknik (FKT), Gedung Utama Lantai 2, Universitas Alma Ata Yogyakarta.
+          Bagian Administrasi Akademik Fakultas Sains, Rekayasa dan Teknologi (d/h FKT), Gedung Utama Lantai 2, Universitas Alma Ata Yogyakarta.
           Pastikan pengumpulan berkas pendaftaran seminar proposal dilakukan minimal <strong>H-3 hari kerja</strong> sebelum jadwal seminar.
         </p>
       </div>

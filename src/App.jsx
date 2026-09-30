@@ -8,7 +8,6 @@ import DownloadsView from './components/DownloadsView';
 import SupabaseModal from './components/SupabaseModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
-import { GraduationCap } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -30,12 +29,10 @@ export default function App() {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Hitung total milestones
   const allMilestoneIds = ROADMAP_PHASES.flatMap(phase => phase.steps.map(s => s.id));
   const totalMilestones = allMilestoneIds.length;
   const progressCount = Object.keys(progress).filter(id => progress[id]).length;
 
-  // Load data awal dari StorageService (Supabase atau LocalStorage)
   useEffect(() => {
     async function loadInitialData() {
       try {
@@ -56,18 +53,15 @@ export default function App() {
     loadInitialData();
   }, []);
 
-  // Update profil
   const handleUpdateProfile = async (newProfile) => {
     setProfile(newProfile);
     await StorageService.saveProfile(newProfile);
   };
 
-  // Toggle milestone
   const handleToggleMilestone = async (milestoneId) => {
     const currentState = Boolean(progress[milestoneId]);
     const newState = !currentState;
     
-    // Optimistic update
     const updatedProgress = { ...progress, [milestoneId]: newState };
     setProgress(updatedProgress);
 
@@ -75,7 +69,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans selection:bg-alma-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-slate-800 font-instrument selection:bg-primary selection:text-white">
       {/* Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -85,7 +79,7 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {activeTab === 'dashboard' && (
           <DashboardView
             setActiveTab={setActiveTab}
@@ -129,27 +123,35 @@ export default function App() {
         onClose={() => setIsSupabaseModalOpen(false)}
       />
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-8 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 rounded-lg bg-alma-600 flex items-center justify-center text-white">
-              <GraduationCap className="w-3.5 h-3.5" />
+      {/* Footer - Alma Ata Style */}
+      <footer className="border-t border-sky-100 bg-sky-50/50 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/uaa-logo-icon.png" 
+              alt="UAA Icon" 
+              className="h-8 object-contain" 
+            />
+            <div>
+              <span className="font-bold font-philosopher text-primary text-sm block">
+                Informatika 2023 • Universitas Alma Ata
+              </span>
+              <span className="text-[11px] text-slate-500">
+                Fakultas Sains, Rekayasa dan Teknologi (FSET)
+              </span>
             </div>
-            <span className="font-bold text-slate-700">
-              Informatika 2023 • Universitas Alma Ata
-            </span>
           </div>
 
-          <div className="flex items-center space-x-1">
-            <span>Didedikasikan untuk perjuangan angkatan:</span>
-            <strong className="text-alma-700 font-extrabold">
+          <div className="text-center sm:text-left">
+            <span className="text-slate-600 block">Satu Angkatan, Satu Visi:</span>
+            <strong className="text-primary font-philosopher text-base">
               Lulus Bareng 2025!
             </strong>
           </div>
 
-          <div>
-            <span>Pedoman FKT SK Rektor 182/A/SK/UAA/IX/2021</span>
+          <div className="text-center sm:text-right text-[11px] text-slate-400">
+            <span>Pedoman FKT SK Rektor No. 182/A/SK/UAA/IX/2021</span>
+            <span className="block mt-0.5">Yogyakarta, Indonesia</span>
           </div>
         </div>
       </footer>
