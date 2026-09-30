@@ -30,11 +30,11 @@ export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, p
             className="flex items-center space-x-3 cursor-pointer group flex-shrink-0" 
             onClick={() => setActiveTab('dashboard')}
           >
-            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-white/30 shadow-md group-hover:scale-105 transition-all flex-shrink-0 bg-white">
+            <div className="w-11 h-11 rounded-full overflow-hidden shadow-md group-hover:scale-105 transition-all flex-shrink-0">
               <img 
                 src="/logo pusing coding.png" 
                 alt="Logo Pusing Coding" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="flex-shrink-0">
