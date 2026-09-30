@@ -21,30 +21,30 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Header Card - Bernuansa Biru Segar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-br from-sky-50/80 via-white to-sky-100/60 p-6 sm:p-8 rounded-3xl border-2 border-sky-200/90 shadow-sm">
+      {/* Header Card - Solid Blue UAA */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-primary text-white p-6 sm:p-8 rounded-3xl border-2 border-primary-700 shadow-xl">
         <div>
           <div className="flex items-center space-x-2 text-accent mb-1">
-            <Compass className="w-5 h-5" />
-            <span className="text-xs font-bold uppercase tracking-wider font-instrument">Panduan Langkah Demi Langkah</span>
+            <Compass className="w-5 h-5 text-accent" />
+            <span className="text-xs font-bold uppercase tracking-wider font-instrument text-accent">Panduan Langkah Demi Langkah</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-primary">
+          <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
             Roadmap Skripsi Informatika '23
           </h1>
-          <p className="text-xs sm:text-sm font-instrument text-slate-600 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm font-instrument text-white/90 mt-1 max-w-2xl leading-relaxed">
             Peta jalan terstruktur dari magang 3 bulan, penyusunan draf Bab 1-3, 
-            <strong className="text-primary font-semibold"> Seminar Proposal Bersama di bulan Januari</strong>, hingga pendadaran dan wisuda.
+            <strong className="text-accent font-bold"> Seminar Proposal Bersama di bulan Januari</strong>, hingga pendadaran dan wisuda.
           </p>
         </div>
 
         {/* Filter Switcher */}
-        <div className="flex items-center space-x-2 bg-white p-1.5 rounded-2xl border-2 border-sky-200 self-start md:self-auto font-instrument shadow-xs">
+        <div className="flex items-center space-x-2 bg-white/15 backdrop-blur-xs p-1.5 rounded-2xl border border-white/20 self-start md:self-auto font-instrument shadow-xs">
           <button
             onClick={() => setFilterMode('all')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
               filterMode === 'all'
-                ? 'bg-primary text-white shadow-xs'
-                : 'text-slate-600 hover:text-primary'
+                ? 'bg-white text-primary shadow-xs'
+                : 'text-white/80 hover:text-white'
             }`}
           >
             Semua Fase (1–4)
@@ -53,8 +53,8 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
             onClick={() => setFilterMode('current')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
               filterMode === 'current'
-                ? 'bg-primary text-white shadow-xs'
-                : 'text-slate-600 hover:text-primary'
+                ? 'bg-white text-primary shadow-xs'
+                : 'text-white/80 hover:text-white'
             }`}
           >
             Fokus Semester 7 Sekarang
@@ -76,8 +76,8 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
               onClick={() => setExpandedPhase(phase.phaseId)}
               className={`p-5 rounded-2xl text-left border-2 transition-all ${
                 isSelected
-                  ? 'bg-sky-50 border-primary ring-2 ring-primary/20 shadow-xs'
-                  : 'bg-white border-sky-100 hover:bg-sky-50/50 hover:border-sky-300'
+                  ? 'bg-primary text-white border-primary-700 shadow-md ring-2 ring-accent/30'
+                  : 'bg-white border-slate-200 hover:border-primary shadow-xs'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
@@ -85,17 +85,17 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                   isPhaseDone
                     ? 'bg-emerald-100 text-emerald-800'
                     : isSelected
-                    ? 'bg-primary text-white'
-                    : 'bg-sky-100 text-primary'
+                    ? 'bg-accent text-white'
+                    : 'bg-primary text-white'
                 }`}>
                   Fase {phase.phaseId}
                 </span>
-                <span className="text-xs font-mono font-bold text-slate-500">
+                <span className={`text-xs font-mono font-bold ${isSelected ? 'text-white/90' : 'text-slate-500'}`}>
                   {completedCount}/{totalInPhase}
                 </span>
               </div>
-              <h3 className="text-sm font-bold text-slate-800 font-philosopher truncate">{phase.title}</h3>
-              <p className="text-[11px] font-instrument text-slate-500 mt-1">{phase.period}</p>
+              <h3 className={`text-sm font-bold font-philosopher truncate ${isSelected ? 'text-white' : 'text-slate-800'}`}>{phase.title}</h3>
+              <p className={`text-[11px] font-instrument mt-1 ${isSelected ? 'text-white/80' : 'text-slate-500'}`}>{phase.period}</p>
             </button>
           );
         })}

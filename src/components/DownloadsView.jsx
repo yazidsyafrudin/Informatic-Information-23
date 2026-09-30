@@ -68,16 +68,16 @@ export default function DownloadsView() {
 
   return (
     <div className="space-y-8 animate-fadeIn font-instrument">
-      {/* Header */}
-      <div className="bg-gradient-to-br from-sky-50/90 via-white to-sky-100/60 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm">
+      {/* Header - Solid Blue UAA */}
+      <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl">
         <div className="flex items-center space-x-2 text-accent mb-2">
-          <FolderDown className="w-5 h-5" />
-          <span className="text-xs font-bold uppercase tracking-wider font-instrument">Repository Berkas</span>
+          <FolderDown className="w-5 h-5 text-accent" />
+          <span className="text-xs font-bold uppercase tracking-wider font-instrument text-accent">Repository Berkas</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-primary">
+        <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
           Pusat Unduhan & Formulir Skripsi
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed font-instrument">
+        <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed font-instrument">
           Unduh dokumen panduan PDF asli serta akses formulir administrasi resmi FKT Alma Ata 
           agar kamu tidak perlu repot mencari berkas saat pendaftaran judul dan sempro.
         </p>
@@ -90,34 +90,46 @@ export default function DownloadsView() {
             key={idx}
             className={`p-6 rounded-3xl border-2 transition-all flex flex-col justify-between ${
               item.isPrimary
-                ? 'bg-gradient-to-br from-sky-50 via-white to-sky-100/60 border-primary shadow-xs'
-                : 'bg-white border-sky-100 hover:border-primary/50 shadow-xs'
+                ? 'bg-primary text-white border-primary-700 shadow-md'
+                : 'bg-white border-slate-200 hover:border-primary/50 shadow-xs'
             }`}
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-sky-50 text-primary border border-sky-200">
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                  item.isPrimary
+                    ? 'bg-white/15 text-white border border-white/20'
+                    : 'bg-primary/10 text-primary border border-primary/20'
+                }`}>
                   {item.code}
                 </span>
-                <span className="text-[11px] font-bold text-slate-500 font-instrument">
+                <span className={`text-[11px] font-bold font-instrument ${
+                  item.isPrimary ? 'text-accent' : 'text-slate-500'
+                }`}>
                   {item.category}
                 </span>
               </div>
 
-              <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1 font-instrument">
+              <h3 className={`font-bold text-sm sm:text-base mb-1 font-instrument ${
+                item.isPrimary ? 'text-white' : 'text-slate-800'
+              }`}>
                 {item.title}
               </h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4 font-instrument">
+              <p className={`text-xs leading-relaxed mb-4 font-instrument ${
+                item.isPrimary ? 'text-white/90' : 'text-slate-600'
+              }`}>
                 {item.desc}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-sky-100 flex items-center justify-between">
+            <div className={`pt-3 border-t flex items-center justify-between ${
+              item.isPrimary ? 'border-white/20' : 'border-slate-100'
+            }`}>
               {item.isPrimary ? (
                 <a
                   href={item.href}
                   download={item.fileName}
-                  className="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-md shadow-primary/20 transition-colors font-instrument"
+                  className="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md shadow-accent/25 transition-colors font-instrument"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download PDF Sekarang (3.6 MB)</span>

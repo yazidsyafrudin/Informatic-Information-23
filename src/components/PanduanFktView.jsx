@@ -16,19 +16,19 @@ export default function PanduanFktView() {
   return (
     <div className="space-y-8 animate-fadeIn font-instrument">
       
-      {/* Header Banner Card - Bernuansa Biru Segar */}
-      <div className="bg-gradient-to-br from-sky-50/90 via-white to-sky-100/60 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+      {/* Header Banner Card - Solid Blue UAA */}
+      <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center space-x-2 text-accent mb-2">
-            <BookOpen className="w-5 h-5" />
-            <span className="text-xs font-bold uppercase tracking-wider font-instrument">
+            <BookOpen className="w-5 h-5 text-accent" />
+            <span className="text-xs font-bold uppercase tracking-wider font-instrument text-accent">
               {PANDUAN_FKT.fakultas} • {PANDUAN_FKT.universitas}
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-primary">
+          <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
             Ringkasan Buku Panduan Skripsi FKT
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
             Intisari dari 50 halaman buku panduan resmi (SK Rektor No: {PANDUAN_FKT.skRektor}) 
             yang dirangkum agar mahasiswa Informatika 23 tidak tersesat dalam aturan administrasi & teknis penulisan.
           </p>
@@ -37,7 +37,7 @@ export default function PanduanFktView() {
         <a
           href="/panduan-skripsi-fkt-almaata.pdf"
           download="Buku_Panduan_Skripsi_FKT_Alma_Ata.pdf"
-          className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-md shadow-primary/25 transition-all self-start md:self-auto flex-shrink-0"
+          className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md shadow-accent/25 transition-all self-start md:self-auto flex-shrink-0"
         >
           <Download className="w-4 h-4" />
           <span>Download PDF Asli (50 Hal)</span>
@@ -45,7 +45,7 @@ export default function PanduanFktView() {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex flex-wrap gap-2 border-b-2 border-sky-100 pb-3">
+      <div className="flex flex-wrap gap-2 border-b-2 border-primary-200 pb-3">
         {[
           { id: 'syarat', label: '1. Persyaratan Akademik', icon: FileCheck2 },
           { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
@@ -61,7 +61,7 @@ export default function PanduanFktView() {
               className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                 isActive
                   ? 'bg-primary text-white shadow-xs'
-                  : 'bg-white text-slate-600 border-2 border-sky-100 hover:text-primary hover:bg-sky-50'
+                  : 'bg-white text-slate-600 border-2 border-slate-200 hover:text-primary hover:bg-white'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -76,14 +76,14 @@ export default function PanduanFktView() {
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {PANDUAN_FKT.persyaratanAkademik.map((item, idx) => (
-              <div key={item.id} className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/70 p-5 rounded-2xl border-2 border-sky-200/90 hover:border-primary shadow-xs transition-all">
+              <div key={item.id} className="bg-primary text-white p-5 rounded-2xl border-2 border-primary-700 hover:border-accent shadow-md transition-all">
                 <div className="flex items-center space-x-3 mb-2">
-                  <div className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center text-xs font-bold font-mono shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-white text-primary flex items-center justify-center text-xs font-bold font-mono shadow-xs">
                     {idx + 1}
                   </div>
-                  <h3 className="font-bold text-slate-800 text-sm font-instrument">{item.title}</h3>
+                  <h3 className="font-bold text-white text-sm font-instrument">{item.title}</h3>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed pl-10 font-instrument">
+                <p className="text-xs text-white/90 leading-relaxed pl-10 font-instrument">
                   {item.desc}
                 </p>
               </div>

@@ -60,21 +60,21 @@ export default function TrackerView({
   return (
     <div className="space-y-8 animate-fadeIn">
       
-      {/* Header & Profil Card - Nuansa Biru UAA */}
-      <div className="bg-gradient-to-br from-sky-50/80 via-white to-sky-100/50 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm">
+      {/* Header & Profil Card - Solid Blue UAA */}
+      <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           
           {/* User Info */}
           <div className="flex items-start space-x-4">
-            <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-white font-extrabold text-2xl shadow-md shadow-primary/25 flex-shrink-0 font-philosopher">
+            <div className="w-16 h-16 rounded-2xl bg-white text-primary flex items-center justify-center font-extrabold text-2xl shadow-md flex-shrink-0 font-philosopher">
               {profile?.nama_lengkap?.charAt(0) || 'M'}
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-1">
-                <h1 className="text-xl sm:text-2xl font-bold font-philosopher text-primary">
+                <h1 className="text-xl sm:text-2xl font-bold font-philosopher text-white">
                   {profile?.nama_lengkap || 'Mahasiswa Informatika 23'}
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-white text-primary border border-sky-200 shadow-2xs">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-white/15 text-white border border-white/20 shadow-xs">
                   {profile?.nim || 'NIM Belum Diatur'}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-bold font-instrument bg-accent text-white shadow-xs">
@@ -82,11 +82,11 @@ export default function TrackerView({
                 </span>
               </div>
               
-              <p className="text-xs font-instrument text-slate-500">
-                Dosen Pembimbing: <strong className="text-slate-800">{profile?.dosen_pembimbing || 'Belum Ditentukan / Sedang Pengajuan'}</strong>
+              <p className="text-xs font-instrument text-white/80">
+                Dosen Pembimbing: <strong className="text-white">{profile?.dosen_pembimbing || 'Belum Ditentukan / Sedang Pengajuan'}</strong>
               </p>
               {profile?.judul_skripsi && (
-                <p className="text-xs font-instrument text-slate-600 mt-1 italic">
+                <p className="text-xs font-instrument text-accent mt-1 italic font-medium">
                   "{profile.judul_skripsi}"
                 </p>
               )}
@@ -94,20 +94,20 @@ export default function TrackerView({
           </div>
 
           {/* Badge & Progres Ringkas */}
-          <div className="flex items-center space-x-4 bg-white p-4 rounded-2xl border-2 border-sky-100 self-stretch sm:self-auto justify-between sm:justify-start shadow-xs">
+          <div className="flex items-center space-x-4 bg-white/15 backdrop-blur-xs p-4 rounded-2xl border border-white/20 self-stretch sm:self-auto justify-between sm:justify-start shadow-xs">
             <div>
-              <div className="flex items-center space-x-1.5 text-xs font-instrument text-slate-500 mb-1">
+              <div className="flex items-center space-x-1.5 text-xs font-instrument text-white/80 mb-1">
                 <BadgeIcon className="w-4 h-4 text-accent" />
-                <span className="font-bold text-slate-700">{badge.label}</span>
+                <span className="font-bold text-white">{badge.label}</span>
               </div>
-              <div className="text-2xl font-black text-primary font-mono">
-                {percent}% <span className="text-xs font-normal text-slate-500">({progressCount}/{totalMilestones} Selesai)</span>
+              <div className="text-2xl font-black text-white font-mono">
+                {percent}% <span className="text-xs font-normal text-white/80">({progressCount}/{totalMilestones} Selesai)</span>
               </div>
             </div>
 
             <button
               onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="p-2.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-primary border border-sky-200 shadow-2xs transition-colors"
+              className="p-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/20 shadow-2xs transition-colors"
               title="Edit Data Mahasiswa"
             >
               <Edit3 className="w-4 h-4" />
@@ -199,17 +199,17 @@ export default function TrackerView({
         )}
       </div>
 
-      {/* Progress Bar Visual Card */}
-      <div className="bg-gradient-to-br from-sky-50/60 to-white rounded-3xl p-6 border-2 border-sky-200/90 shadow-xs">
+      {/* Progress Bar Visual Card - Solid Blue UAA */}
+      <div className="bg-primary text-white rounded-3xl p-6 border-2 border-primary-700 shadow-md">
         <div className="flex items-center justify-between mb-2 font-instrument">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
+          <span className="text-xs font-bold uppercase tracking-wider text-white/90">
             Kemajuan Menuju Kelulusan Angkatan '23
           </span>
-          <span className="text-sm font-bold text-primary font-mono">{percent}% Lolos</span>
+          <span className="text-sm font-bold text-accent font-mono">{percent}% Lolos</span>
         </div>
-        <div className="w-full h-3.5 bg-white rounded-full overflow-hidden p-0.5 border-2 border-sky-100 shadow-inner">
+        <div className="w-full h-3.5 bg-primary-950 rounded-full overflow-hidden p-0.5 border border-white/20 shadow-inner">
           <div
-            className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-500"
+            className="h-full bg-gradient-to-r from-accent via-amber-400 to-emerald-400 rounded-full transition-all duration-500"
             style={{ width: `${percent}%` }}
           />
         </div>
@@ -218,22 +218,22 @@ export default function TrackerView({
       {/* Interactive Syarat Validator Cards (Turnitin, IPK, AAEPT, Hadir Sempro) */}
       <div>
         <h2 className="text-xl font-bold font-philosopher text-primary mb-3 flex items-center space-x-2">
-          <ShieldCheck className="w-5 h-5 text-emerald-600" />
+          <ShieldCheck className="w-5 h-5 text-primary" />
           <span>Validasi Kelayakan Syarat Wajib FKT Alma Ata</span>
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-instrument">
           
           {/* IPK Validator */}
-          <div className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/80 rounded-2xl p-5 border-2 border-sky-200/90 shadow-xs hover:border-primary transition-all">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md hover:border-accent transition-all">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-slate-700">IPK Mahasiswa</span>
+              <span className="text-xs font-bold text-white/90">IPK Mahasiswa</span>
               {profile.ipk >= 3.25 ? (
-                <span className="text-[10px] font-bold text-emerald-700 flex items-center bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] font-bold text-emerald-300 flex items-center bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/40">
                   <Check className="w-3 h-3 mr-0.5" /> Lolos
                 </span>
               ) : (
-                <span className="text-[10px] font-bold text-amber-700 flex items-center bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                <span className="text-[10px] font-bold text-amber-300 flex items-center bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/40">
                   <AlertTriangle className="w-3 h-3 mr-0.5" /> Belum Min
                 </span>
               )}
@@ -246,22 +246,22 @@ export default function TrackerView({
                 max="4"
                 value={profile.ipk || 3.25}
                 onChange={(e) => onUpdateProfile({ ...profile, ipk: parseFloat(e.target.value) || 0 })}
-                className="w-20 bg-white border-2 border-sky-200 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-primary focus:outline-none shadow-2xs"
+                className="w-20 bg-white border-2 border-primary-400 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-accent focus:outline-none shadow-xs"
               />
-              <span className="text-xs text-slate-500 font-semibold">Syarat: ≥ 3.25</span>
+              <span className="text-xs text-white/80 font-semibold">Syarat: ≥ 3.25</span>
             </div>
           </div>
 
           {/* Turnitin Validator */}
-          <div className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/80 rounded-2xl p-5 border-2 border-sky-200/90 shadow-xs hover:border-primary transition-all">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md hover:border-accent transition-all">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-slate-700">Hasil Cek Turnitin</span>
+              <span className="text-xs font-bold text-white/90">Hasil Cek Turnitin</span>
               {profile.turnitin_persen <= 20 ? (
-                <span className="text-[10px] font-bold text-emerald-700 flex items-center bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] font-bold text-emerald-300 flex items-center bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/40">
                   <Check className="w-3 h-3 mr-0.5" /> Lolos
                 </span>
               ) : (
-                <span className="text-[10px] font-bold text-rose-700 flex items-center bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                <span className="text-[10px] font-bold text-rose-300 flex items-center bg-rose-950/60 px-2 py-0.5 rounded-full border border-rose-500/40">
                   <AlertTriangle className="w-3 h-3 mr-0.5" /> Lebih 20%
                 </span>
               )}
@@ -273,22 +273,22 @@ export default function TrackerView({
                 max="100"
                 value={profile.turnitin_persen ?? 15}
                 onChange={(e) => onUpdateProfile({ ...profile, turnitin_persen: parseInt(e.target.value, 10) || 0 })}
-                className="w-20 bg-white border-2 border-sky-200 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-primary focus:outline-none shadow-2xs"
+                className="w-20 bg-white border-2 border-primary-400 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-accent focus:outline-none shadow-xs"
               />
-              <span className="text-xs text-slate-500 font-semibold">% (Maks 20%)</span>
+              <span className="text-xs text-white/80 font-semibold">% (Maks 20%)</span>
             </div>
           </div>
 
           {/* Skor AAEPT */}
-          <div className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/80 rounded-2xl p-5 border-2 border-sky-200/90 shadow-xs hover:border-primary transition-all">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md hover:border-accent transition-all">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-slate-700">Skor AAEPT</span>
+              <span className="text-xs font-bold text-white/90">Skor AAEPT</span>
               {profile.skor_aaept >= 450 ? (
-                <span className="text-[10px] font-bold text-emerald-700 flex items-center bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] font-bold text-emerald-300 flex items-center bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/40">
                   <Check className="w-3 h-3 mr-0.5" /> Lolos
                 </span>
               ) : (
-                <span className="text-[10px] font-bold text-amber-700 flex items-center bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                <span className="text-[10px] font-bold text-amber-300 flex items-center bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/40">
                   <AlertTriangle className="w-3 h-3 mr-0.5" /> &lt; 450
                 </span>
               )}
@@ -300,22 +300,22 @@ export default function TrackerView({
                 max="677"
                 value={profile.skor_aaept || 450}
                 onChange={(e) => onUpdateProfile({ ...profile, skor_aaept: parseInt(e.target.value, 10) || 0 })}
-                className="w-20 bg-white border-2 border-sky-200 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-primary focus:outline-none shadow-2xs"
+                className="w-20 bg-white border-2 border-primary-400 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-accent focus:outline-none shadow-xs"
               />
-              <span className="text-xs text-slate-500 font-semibold">Min: 450</span>
+              <span className="text-xs text-white/80 font-semibold">Min: 450</span>
             </div>
           </div>
 
           {/* Audiens Sempro Teman (5x) */}
-          <div className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/80 rounded-2xl p-5 border-2 border-sky-200/90 shadow-xs hover:border-primary transition-all">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md hover:border-accent transition-all">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-slate-700">Audiens Sempro Teman</span>
+              <span className="text-xs font-bold text-white/90">Audiens Sempro Teman</span>
               {profile.hadir_sempro_count >= 5 ? (
-                <span className="text-[10px] font-bold text-emerald-700 flex items-center bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] font-bold text-emerald-300 flex items-center bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/40">
                   <Check className="w-3 h-3 mr-0.5" /> Lengkap
                 </span>
               ) : (
-                <span className="text-[10px] font-bold text-amber-700 flex items-center bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                <span className="text-[10px] font-bold text-amber-300 flex items-center bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/40">
                   Kurang {5 - (profile.hadir_sempro_count || 0)}x
                 </span>
               )}
@@ -327,9 +327,9 @@ export default function TrackerView({
                 max="20"
                 value={profile.hadir_sempro_count ?? 5}
                 onChange={(e) => onUpdateProfile({ ...profile, hadir_sempro_count: parseInt(e.target.value, 10) || 0 })}
-                className="w-20 bg-white border-2 border-sky-200 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-primary focus:outline-none shadow-2xs"
+                className="w-20 bg-white border-2 border-primary-400 rounded-xl px-2 py-1 text-lg font-mono font-bold text-slate-900 text-center focus:border-accent focus:outline-none shadow-xs"
               />
-              <span className="text-xs text-slate-500 font-semibold">Wajib: 5x</span>
+              <span className="text-xs text-white/80 font-semibold">Wajib: 5x</span>
             </div>
           </div>
 

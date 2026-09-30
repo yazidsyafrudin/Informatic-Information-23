@@ -96,70 +96,70 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
-          <div className="bg-[#e6f3fa] rounded-2xl p-5 border-2 border-sky-200/90 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-md hover:border-primary hover:-translate-y-1">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-lg hover:border-accent hover:-translate-y-1 shadow-md">
             <div className="flex items-center space-x-2">
-              <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center text-white font-instrument text-xs font-bold shadow-xs">
+              <div className="w-7 h-7 bg-white text-primary rounded-lg flex items-center justify-center font-instrument text-xs font-bold shadow-xs">
                 1
               </div>
-              <span className="font-philosopher font-bold text-primary text-sm">
+              <span className="font-philosopher font-bold text-accent text-sm">
                 Fase Magang
               </span>
             </div>
-            <h3 className="font-instrument font-bold text-slate-900 text-sm">
+            <h3 className="font-instrument font-bold text-white text-sm">
               Ambil Masalah di Tempat Magang
             </h3>
-            <p className="font-instrument text-xs text-slate-700 leading-relaxed">
+            <p className="font-instrument text-xs text-white/90 leading-relaxed">
               Catat proses bisnis apa yang manual, lambat, atau butuh otomasi software/AI untuk dijadikan topik skripsi.
             </p>
           </div>
 
-          <div className="bg-[#e6f3fa] rounded-2xl p-5 border-2 border-sky-200/90 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-md hover:border-primary hover:-translate-y-1">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-lg hover:border-accent hover:-translate-y-1 shadow-md">
             <div className="flex items-center space-x-2">
-              <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center text-white font-instrument text-xs font-bold shadow-xs">
+              <div className="w-7 h-7 bg-white text-primary rounded-lg flex items-center justify-center font-instrument text-xs font-bold shadow-xs">
                 2
               </div>
-              <span className="font-philosopher font-bold text-primary text-sm">
+              <span className="font-philosopher font-bold text-accent text-sm">
                 Studi Literatur
               </span>
             </div>
-            <h3 className="font-instrument font-bold text-slate-900 text-sm">
+            <h3 className="font-instrument font-bold text-white text-sm">
               Koleksi 5–10 Jurnal Relevan
             </h3>
-            <p className="font-instrument text-xs text-slate-700 leading-relaxed">
+            <p className="font-instrument text-xs text-white/90 leading-relaxed">
               Cari jurnal SINTA / IEEE 3-5 tahun terakhir yang memakai metode yang ingin kamu gunakan (misal: CNN, Scrum).
             </p>
           </div>
 
-          <div className="bg-[#e6f3fa] rounded-2xl p-5 border-2 border-sky-200/90 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-md hover:border-accent hover:-translate-y-1">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-lg hover:border-accent hover:-translate-y-1 shadow-md">
             <div className="flex items-center space-x-2">
-              <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center text-white font-instrument text-xs font-bold shadow-xs">
+              <div className="w-7 h-7 bg-accent text-white rounded-lg flex items-center justify-center font-instrument text-xs font-bold shadow-xs">
                 3
               </div>
               <span className="font-philosopher font-bold text-accent text-sm">
                 Syarat Kampus
               </span>
             </div>
-            <h3 className="font-instrument font-bold text-slate-900 text-sm">
+            <h3 className="font-instrument font-bold text-white text-sm">
               Cicil Hadir 5x Sempro Kawan
             </h3>
-            <p className="font-instrument text-xs text-slate-700 leading-relaxed">
+            <p className="font-instrument text-xs text-white/90 leading-relaxed">
               Buku panduan FKT mewajibkan bukti hadir 5x sempro. Pantau jadwal sempro kakak tingkat dan kawan sekarang juga!
             </p>
           </div>
 
-          <div className="bg-[#e6f3fa] rounded-2xl p-5 border-2 border-sky-200/90 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-md hover:border-primary hover:-translate-y-1">
+          <div className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 flex flex-col gap-2.5 transition-all duration-300 hover:shadow-lg hover:border-accent hover:-translate-y-1 shadow-md">
             <div className="flex items-center space-x-2">
-              <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center text-white font-instrument text-xs font-bold shadow-xs">
+              <div className="w-7 h-7 bg-white text-primary rounded-lg flex items-center justify-center font-instrument text-xs font-bold shadow-xs">
                 4
               </div>
-              <span className="font-philosopher font-bold text-primary text-sm">
+              <span className="font-philosopher font-bold text-accent text-sm">
                 Administrasi
               </span>
             </div>
-            <h3 className="font-instrument font-bold text-slate-900 text-sm">
+            <h3 className="font-instrument font-bold text-white text-sm">
               Cek Skor AAEPT & LPBA
             </h3>
-            <p className="font-instrument text-xs text-slate-700 leading-relaxed">
+            <p className="font-instrument text-xs text-white/90 leading-relaxed">
               Pastikan skor AAEPT sudah minimal 450 dan sertifikat LPBA (Al-Qur'an & Sholat) sudah siap sebelum sempro dibuka.
             </p>
           </div>
@@ -203,21 +203,21 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                     : 'bg-slate-300 border-white'
                 }`} />
 
-                <div className="bg-[#eef7fc] p-4 sm:p-5 rounded-2xl border-2 border-sky-200/80 group-hover:border-primary transition-all shadow-xs">
+                <div className="bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 border-primary-700 group-hover:border-accent transition-all shadow-md">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
-                    <span className="text-xs font-mono font-bold text-primary">{event.date}</span>
+                    <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${
                       event.status === 'highlight'
                         ? 'bg-accent text-white shadow-xs'
                         : event.status === 'current'
-                        ? 'bg-primary text-white shadow-xs'
-                        : 'bg-slate-200 text-slate-700'
+                        ? 'bg-white text-primary shadow-xs'
+                        : 'bg-white/20 text-white'
                     }`}>
                       {event.category}
                     </span>
                   </div>
-                  <h3 className="font-bold text-slate-900 font-philosopher text-base">{event.title}</h3>
-                  <p className="text-xs text-slate-600 mt-1 font-instrument leading-relaxed">{event.desc}</p>
+                  <h3 className="font-bold text-white font-philosopher text-base">{event.title}</h3>
+                  <p className="text-xs text-white/90 mt-1 font-instrument leading-relaxed">{event.desc}</p>
                 </div>
               </div>
             ))}
