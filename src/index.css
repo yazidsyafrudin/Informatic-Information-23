@@ -6,11 +6,13 @@
   --color-primary: #0b5e91;
   --color-accent: #d98804;
   --color-accent-gold: #baa971;
+  --color-milk: #fcfbf9;
 }
 
 @layer base {
   body {
-    @apply bg-white text-slate-800 font-instrument min-h-screen selection:bg-primary selection:text-white;
+    background-color: #fbfbfa;
+    @apply text-slate-800 font-instrument min-h-screen selection:bg-primary selection:text-white;
   }
 
   h1, h2, h3, h4, .heading-uaa {
@@ -24,7 +26,7 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f8fafc;
+  background: #fbfbfa;
 }
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
@@ -35,20 +37,13 @@
 }
 
 /* Clean UAA Cards & Panels */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-}
-
 .glass-card {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e9edf2;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
 }
 
 .glass-card:hover {
-  border-color: #7cd2fd;
-  box-shadow: 0 10px 25px -5px rgba(11, 94, 145, 0.08);
+  border-color: #b9e6fe;
+  box-shadow: 0 10px 25px -5px rgba(11, 94, 145, 0.07);
 }

@@ -8,6 +8,7 @@ import DownloadsView from './components/DownloadsView';
 import SupabaseModal from './components/SupabaseModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
+import { GraduationCap } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -69,16 +70,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-800 font-instrument selection:bg-primary selection:text-white">
-      {/* Navbar */}
+    <div className="min-h-screen flex flex-col bg-[#FBFBFA] text-slate-800 font-instrument selection:bg-primary selection:text-white">
+      {/* Navbar Biru Resmi UAA */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        onOpenSupabaseModal={() => setIsSupabaseModalOpen(true)}
+        onOpenSupabaseModal={() => setIsSupabaseModalOpen(false || true)}
         profile={profile}
       />
 
-      {/* Main Container */}
+      {/* Main Container dengan background Putih Susu */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {activeTab === 'dashboard' && (
           <DashboardView
@@ -123,21 +124,19 @@ export default function App() {
         onClose={() => setIsSupabaseModalOpen(false)}
       />
 
-      {/* Footer - Alma Ata Style */}
-      <footer className="border-t border-sky-100 bg-sky-50/50 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
-            <img 
-              src="/uaa-logo-icon.png" 
-              alt="UAA Icon" 
-              className="h-8 object-contain" 
-            />
+            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white">
+              <GraduationCap className="w-4 h-4 text-accent" />
+            </div>
             <div>
               <span className="font-bold font-philosopher text-primary text-sm block">
                 Informatika 2023 • Universitas Alma Ata
               </span>
               <span className="text-[11px] text-slate-500">
-                Fakultas Sains, Rekayasa dan Teknologi (FSET)
+                Fakultas Sains, Rekayasa dan Teknologi
               </span>
             </div>
           </div>
