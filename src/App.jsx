@@ -8,7 +8,7 @@ import DownloadsView from './components/DownloadsView';
 import SupabaseModal from './components/SupabaseModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
-import { GraduationCap, Heart, Sparkles } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -75,7 +75,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans selection:bg-alma-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans selection:bg-alma-500 selection:text-white">
       {/* Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -130,20 +130,20 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-8 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400">
+      <footer className="border-t border-slate-200 bg-white py-8 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <div className="w-6 h-6 rounded-lg bg-alma-600 flex items-center justify-center text-white">
               <GraduationCap className="w-3.5 h-3.5" />
             </div>
-            <span className="font-bold text-slate-300">
+            <span className="font-bold text-slate-700">
               Informatika 2023 • Universitas Alma Ata
             </span>
           </div>
 
           <div className="flex items-center space-x-1">
             <span>Didedikasikan untuk perjuangan angkatan:</span>
-            <strong className="text-transparent bg-clip-text bg-gradient-to-r from-alma-400 to-cyan-300">
+            <strong className="text-alma-700 font-extrabold">
               Lulus Bareng 2025!
             </strong>
           </div>
