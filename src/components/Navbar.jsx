@@ -25,25 +25,29 @@ export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, p
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex items-center justify-between h-20 gap-4">
           
-          {/* Pojok Kiri: Teks Branding Bersih Tanpa Logo Alma Ata */}
+          {/* Pojok Kiri: Logo Pusing Coding & Branding */}
           <div 
             className="flex items-center space-x-3 cursor-pointer group flex-shrink-0" 
             onClick={() => setActiveTab('dashboard')}
           >
-            <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white shadow-sm group-hover:bg-white/20 transition-all flex-shrink-0">
-              <GraduationCap className="w-6 h-6 text-accent" />
+            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-white/30 shadow-md group-hover:scale-105 transition-all flex-shrink-0 bg-white">
+              <img 
+                src="/logo pusing coding.png" 
+                alt="Logo Pusing Coding" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <span className="font-philosopher font-bold text-xl text-white tracking-wide whitespace-nowrap">
-                  INFORMATIKA '23
+                  Pusing Coding
                 </span>
                 <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-accent text-white shadow-xs">
                   UAA
                 </span>
               </div>
               <p className="text-[11px] font-instrument text-white/80 whitespace-nowrap">
-                Universitas Alma Ata • Target Lulus Bareng
+                Informatika angkatan 23 • Target Lulus Bareng
               </p>
             </div>
           </div>
