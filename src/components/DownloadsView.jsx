@@ -69,7 +69,7 @@ export default function DownloadsView() {
   return (
     <div className="space-y-8 animate-fadeIn font-instrument">
       {/* Header */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-xs">
+      <div className="bg-gradient-to-br from-sky-50/90 via-white to-sky-100/60 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm">
         <div className="flex items-center space-x-2 text-accent mb-2">
           <FolderDown className="w-5 h-5" />
           <span className="text-xs font-bold uppercase tracking-wider font-instrument">Repository Berkas</span>
@@ -88,10 +88,10 @@ export default function DownloadsView() {
         {downloadItems.map((item, idx) => (
           <div
             key={idx}
-            className={`p-6 rounded-3xl border transition-all flex flex-col justify-between ${
+            className={`p-6 rounded-3xl border-2 transition-all flex flex-col justify-between ${
               item.isPrimary
-                ? 'bg-gradient-to-br from-white via-sky-50/60 to-white border-primary/40 shadow-xs'
-                : 'bg-white border-sky-100 hover:border-sky-200 shadow-xs'
+                ? 'bg-gradient-to-br from-sky-50 via-white to-sky-100/60 border-primary shadow-xs'
+                : 'bg-white border-sky-100 hover:border-primary/50 shadow-xs'
             }`}
           >
             <div>
@@ -140,7 +140,7 @@ export default function DownloadsView() {
       </div>
 
       {/* Box Info Kontak & Ruang Akademik */}
-      <div className="p-6 rounded-3xl bg-white border border-sky-100 text-xs text-slate-600 shadow-xs font-instrument">
+      <div className="p-6 rounded-3xl bg-white border-2 border-sky-100 text-xs text-slate-600 shadow-xs font-instrument">
         <h3 className="font-bold text-primary font-philosopher text-base mb-1">
           Alamat Penyerahan Berkas Fisik:
         </h3>

@@ -21,8 +21,8 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-sky-100 shadow-xs">
+      {/* Header Card - Bernuansa Biru Segar */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-br from-sky-50/80 via-white to-sky-100/60 p-6 sm:p-8 rounded-3xl border-2 border-sky-200/90 shadow-sm">
         <div>
           <div className="flex items-center space-x-2 text-accent mb-1">
             <Compass className="w-5 h-5" />
@@ -38,10 +38,10 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
         </div>
 
         {/* Filter Switcher */}
-        <div className="flex items-center space-x-2 bg-sky-50 p-1.5 rounded-2xl border border-sky-100 self-start md:self-auto font-instrument">
+        <div className="flex items-center space-x-2 bg-white p-1.5 rounded-2xl border-2 border-sky-200 self-start md:self-auto font-instrument shadow-xs">
           <button
             onClick={() => setFilterMode('all')}
-            className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
               filterMode === 'all'
                 ? 'bg-primary text-white shadow-xs'
                 : 'text-slate-600 hover:text-primary'
@@ -51,7 +51,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
           </button>
           <button
             onClick={() => setFilterMode('current')}
-            className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
               filterMode === 'current'
                 ? 'bg-primary text-white shadow-xs'
                 : 'text-slate-600 hover:text-primary'
@@ -74,10 +74,10 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
             <button
               key={phase.phaseId}
               onClick={() => setExpandedPhase(phase.phaseId)}
-              className={`p-5 rounded-2xl text-left border transition-all ${
+              className={`p-5 rounded-2xl text-left border-2 transition-all ${
                 isSelected
-                  ? 'bg-sky-50/80 border-primary ring-2 ring-primary/20 shadow-xs'
-                  : 'bg-white border-sky-100 hover:bg-sky-50/50 hover:border-sky-200'
+                  ? 'bg-sky-50 border-primary ring-2 ring-primary/20 shadow-xs'
+                  : 'bg-white border-sky-100 hover:bg-sky-50/50 hover:border-sky-300'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
@@ -86,7 +86,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                     ? 'bg-emerald-100 text-emerald-800'
                     : isSelected
                     ? 'bg-primary text-white'
-                    : 'bg-slate-100 text-slate-600'
+                    : 'bg-sky-100 text-primary'
                 }`}>
                   Fase {phase.phaseId}
                 </span>
@@ -111,23 +111,23 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
           return (
             <div
               key={phase.phaseId}
-              className={`bg-white rounded-3xl border transition-all overflow-hidden ${
-                isExpanded ? 'border-primary/40 shadow-md' : 'border-sky-100 shadow-xs'
+              className={`bg-gradient-to-br from-sky-50/50 via-white to-sky-50/60 rounded-3xl border-2 transition-all overflow-hidden ${
+                isExpanded ? 'border-primary/50 shadow-md' : 'border-sky-200/90 shadow-xs'
               }`}
             >
               {/* Phase Header */}
               <div
                 onClick={() => setExpandedPhase(isExpanded ? null : phase.phaseId)}
-                className="p-6 cursor-pointer flex items-center justify-between bg-white hover:bg-sky-50/40 transition-colors"
+                className="p-6 cursor-pointer flex items-center justify-between bg-white hover:bg-sky-50/60 transition-colors"
               >
                 <div className="flex items-start sm:items-center space-x-4">
-                  <div className={`w-11 h-11 rounded-2xl bg-primary flex items-center justify-center font-bold text-white text-base shadow-sm flex-shrink-0 font-philosopher`}>
+                  <div className="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center font-bold text-white text-base shadow-sm flex-shrink-0 font-philosopher">
                     {phase.phaseId}
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <h2 className="text-base sm:text-lg font-bold text-primary font-philosopher">{phase.title}</h2>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-sky-50 text-primary border border-sky-200">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-sky-100 text-primary border border-sky-200">
                         {phase.status}
                       </span>
                     </div>
@@ -141,7 +141,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                       {completedCount} dari {totalInPhase} Selesai
                     </span>
                   </div>
-                  <div className="p-1.5 rounded-xl bg-sky-50 text-slate-600 border border-sky-100">
+                  <div className="p-1.5 rounded-xl bg-sky-50 text-primary border border-sky-200">
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
 
               {/* Steps inside Phase */}
               {isExpanded && (
-                <div className="p-6 border-t border-sky-100 space-y-4 bg-sky-50/30">
+                <div className="p-6 border-t-2 border-sky-100 space-y-4 bg-sky-50/40">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {phase.steps.map((step, idx) => {
                       const isDone = Boolean(progress[step.id]);
@@ -157,10 +157,10 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                       return (
                         <div
                           key={step.id}
-                          className={`p-4 rounded-2xl border transition-all ${
+                          className={`p-5 rounded-2xl border-2 transition-all ${
                             isDone
-                              ? 'bg-emerald-50/70 border-emerald-200'
-                              : 'bg-white border-sky-100 hover:border-primary/40 shadow-xs'
+                              ? 'bg-emerald-50/80 border-emerald-200 shadow-xs'
+                              : 'bg-white border-sky-100 hover:border-primary/50 shadow-xs'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3 mb-2">
@@ -170,7 +170,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                                 className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all ${
                                   isDone
                                     ? 'bg-emerald-600 text-white shadow-xs'
-                                    : 'border border-slate-300 hover:border-primary bg-white'
+                                    : 'border-2 border-sky-300 hover:border-primary bg-white'
                                 }`}
                                 title={isDone ? 'Tandai belum selesai' : 'Tandai sudah selesai'}
                               >
@@ -182,7 +182,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                                 </h3>
                               </div>
                             </div>
-                            <span className="text-[10px] font-mono text-slate-400 flex-shrink-0">
+                            <span className="text-[10px] font-mono font-bold text-primary flex-shrink-0">
                               #{idx + 1}
                             </span>
                           </div>
@@ -192,7 +192,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                           </p>
 
                           {step.tips && (
-                            <div className="ml-8 p-3 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-950 text-xs flex items-start space-x-2 font-instrument">
+                            <div className="ml-8 p-3 rounded-xl bg-amber-50/90 border border-amber-200 text-amber-950 text-xs flex items-start space-x-2 font-instrument">
                               <Lightbulb className="w-3.5 h-3.5 text-accent mt-0.5 flex-shrink-0" />
                               <span className="text-[11px] leading-relaxed">
                                 <strong className="text-accent font-bold">Tips Dospem: </strong>
@@ -205,7 +205,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                     })}
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-sky-100 flex justify-end">
+                  <div className="mt-4 pt-4 border-t border-sky-200 flex justify-end">
                     <button
                       onClick={() => setActiveTab('tracker')}
                       className="flex items-center space-x-2 text-xs font-bold font-instrument text-primary hover:text-primary/80"

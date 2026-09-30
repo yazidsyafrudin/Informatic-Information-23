@@ -46,19 +46,19 @@ export default function CountdownTimer() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* Card Countdown 1: Sempro Bersama Januari */}
-      <div className="relative overflow-hidden rounded-3xl bg-white border border-sky-100 p-6 shadow-xs hover:shadow-md transition-shadow">
+      {/* Card Countdown 1: Sempro Bersama Januari (Nuansa Biru Segar) */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-50 via-white to-sky-100/70 border-2 border-sky-200/90 p-6 shadow-sm hover:shadow-md hover:border-primary transition-all">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2.5">
-            <span className="p-2 rounded-xl bg-sky-50 text-primary border border-sky-100">
+            <span className="p-2.5 rounded-xl bg-primary text-white shadow-xs">
               <Calendar className="w-5 h-5" />
             </span>
             <h3 className="font-philosopher font-bold text-primary text-base sm:text-lg">
               Seminar Proposal Bersama
             </h3>
           </div>
-          <span className="px-3 py-1 rounded-full text-xs font-bold font-instrument bg-amber-50 text-accent border border-amber-200 flex items-center">
-            <Sparkles className="w-3.5 h-3.5 mr-1" />
+          <span className="px-3 py-1 rounded-full text-xs font-bold font-instrument bg-primary text-white shadow-xs flex items-center">
+            <Sparkles className="w-3.5 h-3.5 mr-1 text-accent" />
             Januari 2025
           </span>
         </div>
@@ -69,45 +69,45 @@ export default function CountdownTimer() {
 
         {/* Counter digits */}
         <div className="grid grid-cols-4 gap-2.5 text-center font-instrument">
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-slate-800 font-mono">
               {String(timeLeftSempro.days).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Hari</span>
+            <span className="text-[10px] uppercase font-bold text-primary">Hari</span>
           </div>
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-primary font-mono">
               {String(timeLeftSempro.hours).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Jam</span>
+            <span className="text-[10px] uppercase font-bold text-primary">Jam</span>
           </div>
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-primary font-mono">
               {String(timeLeftSempro.minutes).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Menit</span>
+            <span className="text-[10px] uppercase font-bold text-primary">Menit</span>
           </div>
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-accent font-mono">
               {String(timeLeftSempro.seconds).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Detik</span>
+            <span className="text-[10px] uppercase font-bold text-accent">Detik</span>
           </div>
         </div>
       </div>
 
-      {/* Card Countdown 2: Selesai Magang 3 Bulan */}
-      <div className="relative overflow-hidden rounded-3xl bg-white border border-sky-100 p-6 shadow-xs hover:shadow-md transition-shadow">
+      {/* Card Countdown 2: Selesai Magang 3 Bulan (Nuansa Biru Segar) */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-50 via-white to-sky-100/70 border-2 border-sky-200/90 p-6 shadow-sm hover:shadow-md hover:border-primary transition-all">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2.5">
-            <span className="p-2 rounded-xl bg-sky-50 text-primary border border-sky-100">
+            <span className="p-2.5 rounded-xl bg-primary text-white shadow-xs">
               <Clock className="w-5 h-5" />
             </span>
             <h3 className="font-philosopher font-bold text-primary text-base sm:text-lg">
               Menuju Akhir Periode Magang
             </h3>
           </div>
-          <span className="px-3 py-1 rounded-full text-xs font-bold font-instrument bg-sky-50 text-primary border border-sky-200">
+          <span className="px-3 py-1 rounded-full text-xs font-bold font-instrument bg-sky-100 text-primary border border-sky-200">
             Fase Magang 3 Bulan
           </span>
         </div>
@@ -118,29 +118,29 @@ export default function CountdownTimer() {
 
         {/* Counter digits */}
         <div className="grid grid-cols-4 gap-2.5 text-center font-instrument">
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-slate-800 font-mono">
               {String(timeLeftMagang.days).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Hari</span>
+            <span className="text-[10px] uppercase font-bold text-primary">Hari</span>
           </div>
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-primary font-mono">
               {String(timeLeftMagang.hours).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Jam</span>
+            <span className="text-[10px] uppercase font-bold text-primary">Jam</span>
           </div>
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-primary font-mono">
               {String(timeLeftMagang.minutes).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Menit</span>
+            <span className="text-[10px] uppercase font-bold text-primary">Menit</span>
           </div>
-          <div className="bg-sky-50 rounded-2xl p-3 border border-sky-100">
+          <div className="bg-white rounded-2xl p-3 border-2 border-sky-100 shadow-xs">
             <span className="block text-2xl sm:text-3xl font-extrabold text-accent font-mono">
               {String(timeLeftMagang.seconds).padStart(2, '0')}
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-500">Detik</span>
+            <span className="text-[10px] uppercase font-bold text-accent">Detik</span>
           </div>
         </div>
       </div>

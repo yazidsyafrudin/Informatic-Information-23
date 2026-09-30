@@ -16,8 +16,8 @@ export default function PanduanFktView() {
   return (
     <div className="space-y-8 animate-fadeIn font-instrument">
       
-      {/* Header Banner */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      {/* Header Banner Card - Bernuansa Biru Segar */}
+      <div className="bg-gradient-to-br from-sky-50/90 via-white to-sky-100/60 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center space-x-2 text-accent mb-2">
             <BookOpen className="w-5 h-5" />
@@ -37,7 +37,7 @@ export default function PanduanFktView() {
         <a
           href="/panduan-skripsi-fkt-almaata.pdf"
           download="Buku_Panduan_Skripsi_FKT_Alma_Ata.pdf"
-          className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-md shadow-primary/20 transition-all self-start md:self-auto flex-shrink-0"
+          className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-md shadow-primary/25 transition-all self-start md:self-auto flex-shrink-0"
         >
           <Download className="w-4 h-4" />
           <span>Download PDF Asli (50 Hal)</span>
@@ -45,7 +45,7 @@ export default function PanduanFktView() {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-sky-100 pb-3">
+      <div className="flex flex-wrap gap-2 border-b-2 border-sky-100 pb-3">
         {[
           { id: 'syarat', label: '1. Persyaratan Akademik', icon: FileCheck2 },
           { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
@@ -61,7 +61,7 @@ export default function PanduanFktView() {
               className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                 isActive
                   ? 'bg-primary text-white shadow-xs'
-                  : 'bg-white text-slate-600 border border-sky-100 hover:text-primary hover:bg-sky-50'
+                  : 'bg-white text-slate-600 border-2 border-sky-100 hover:text-primary hover:bg-sky-50'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -76,9 +76,9 @@ export default function PanduanFktView() {
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {PANDUAN_FKT.persyaratanAkademik.map((item, idx) => (
-              <div key={item.id} className="bg-white p-5 rounded-2xl border border-sky-100 hover:border-primary/40 shadow-xs transition-colors">
+              <div key={item.id} className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/70 p-5 rounded-2xl border-2 border-sky-200/90 hover:border-primary shadow-xs transition-all">
                 <div className="flex items-center space-x-3 mb-2">
-                  <div className="w-7 h-7 rounded-lg bg-sky-50 text-primary flex items-center justify-center text-xs font-bold font-mono border border-sky-200">
+                  <div className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center text-xs font-bold font-mono shadow-2xs">
                     {idx + 1}
                   </div>
                   <h3 className="font-bold text-slate-800 text-sm font-instrument">{item.title}</h3>
@@ -90,7 +90,7 @@ export default function PanduanFktView() {
             ))}
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-950 flex items-start space-x-3">
+          <div className="p-4 rounded-2xl bg-amber-50/90 border-2 border-amber-200 text-xs text-amber-950 flex items-start space-x-3">
             <ShieldAlert className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
             <div>
               <strong className="text-accent font-bold block mb-0.5">Penting Diingat Mengenai Dosen Pembimbing:</strong>
@@ -106,7 +106,7 @@ export default function PanduanFktView() {
         <div className="space-y-6">
           
           {/* Visual Margin Simulation Card */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-xs">
+          <div className="bg-gradient-to-br from-sky-50/60 via-white to-sky-50/80 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm">
             <h2 className="text-xl font-bold font-philosopher text-primary mb-2">
               Aturan Tata Letak Halaman (Margin 4-4-3-3)
             </h2>
@@ -114,23 +114,23 @@ export default function PanduanFktView() {
               Kertas A4 HVS 80 gram standar. Pastikan di Microsoft Word atau Google Docs margins diatur tepat:
             </p>
 
-            <div className="max-w-md mx-auto relative bg-sky-50/50 border-2 border-dashed border-sky-200 rounded-3xl p-8 text-center shadow-xs">
+            <div className="max-w-md mx-auto relative bg-white border-2 border-dashed border-sky-300 rounded-3xl p-8 text-center shadow-xs">
               {/* Margin Labels */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 text-xs font-mono font-bold text-primary bg-white px-2.5 py-0.5 rounded border border-sky-200 shadow-xs">
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 text-xs font-mono font-bold text-white bg-primary px-3 py-0.5 rounded-full shadow-2xs">
                 Atas: 4 cm
               </div>
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-mono font-bold text-primary bg-white px-2.5 py-0.5 rounded border border-sky-200 shadow-xs">
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-mono font-bold text-white bg-primary px-3 py-0.5 rounded-full shadow-2xs">
                 Bawah: 3 cm
               </div>
-              <div className="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-primary bg-white px-2.5 py-0.5 rounded border border-sky-200 shadow-xs -rotate-90">
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-white bg-primary px-3 py-0.5 rounded-full shadow-2xs -rotate-90">
                 Kiri: 4 cm (Jilid)
               </div>
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-primary bg-white px-2.5 py-0.5 rounded border border-sky-200 shadow-xs rotate-90">
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-white bg-primary px-3 py-0.5 rounded-full shadow-2xs rotate-90">
                 Kanan: 3 cm
               </div>
 
               {/* Mock Page Content */}
-              <div className="bg-white border border-sky-100 rounded-2xl p-6 my-4 text-left shadow-sm">
+              <div className="bg-sky-50/50 border-2 border-sky-100 rounded-2xl p-6 my-4 text-left shadow-2xs">
                 <p className="text-center font-bold text-xs text-primary uppercase tracking-wider mb-2 font-serif">
                   BAB I PENDAHULUAN
                 </p>
@@ -146,7 +146,7 @@ export default function PanduanFktView() {
 
           {/* Table of Specifications */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-sky-100 shadow-xs space-y-3">
+            <div className="bg-white p-5 rounded-2xl border-2 border-sky-100 shadow-xs space-y-3">
               <h3 className="font-bold text-primary font-philosopher text-base">Spesifikasi Tipografi & Spasi</h3>
               <ul className="text-xs space-y-2 text-slate-600 font-instrument">
                 <li>• <strong>Font:</strong> Times New Roman ukuran 12 pt.</li>
@@ -156,7 +156,7 @@ export default function PanduanFktView() {
               </ul>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-sky-100 shadow-xs space-y-3">
+            <div className="bg-white p-5 rounded-2xl border-2 border-sky-100 shadow-xs space-y-3">
               <h3 className="font-bold text-primary font-philosopher text-base">Aturan Larangan & Bahasa</h3>
               <ul className="text-xs space-y-2 text-slate-600 font-instrument">
                 <li>• <strong>Anti Bullet:</strong> Jangan gunakan tanda `-` atau bullet di dalam narasi.</li>
@@ -173,21 +173,21 @@ export default function PanduanFktView() {
       {/* SECTION 3: SISTEMATIKA PROPOSAL */}
       {activeSection === 'sistematika' && (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100 text-xs text-primary font-instrument">
+          <div className="p-4 rounded-2xl bg-sky-50 border-2 border-sky-200 text-xs text-primary font-instrument">
             Berikut struktur baku draf <strong>Proposal Skripsi (Bab 1 s/d Bab 3)</strong> yang wajib diselesaikan 
             sebelum maju Seminar Proposal Bersama di bulan Januari:
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PANDUAN_FKT.sistematikaProposal.map((item, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-3xl border border-sky-100 shadow-xs flex flex-col justify-between">
+              <div key={idx} className="bg-gradient-to-br from-sky-50/50 via-white to-sky-50/70 p-6 rounded-3xl border-2 border-sky-200/90 shadow-xs flex flex-col justify-between">
                 <div>
-                  <div className="px-3 py-1 rounded-xl bg-sky-50 text-primary font-philosopher text-sm font-bold inline-block mb-3 border border-sky-200">
+                  <div className="px-3 py-1 rounded-xl bg-primary text-white font-philosopher text-sm font-bold inline-block mb-3 shadow-2xs">
                     {item.bab}
                   </div>
                   <div className="space-y-2">
                     {item.subbab.map((sub, sIdx) => (
-                      <div key={sIdx} className="text-xs text-slate-700 p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 font-instrument">
+                      <div key={sIdx} className="text-xs text-slate-700 p-2.5 rounded-xl bg-white border border-sky-100 font-instrument shadow-2xs">
                         {sub}
                       </div>
                     ))}
@@ -202,13 +202,13 @@ export default function PanduanFktView() {
       {/* SECTION 4: ATURAN SEMPRO & AUDIENS */}
       {activeSection === 'sempro' && (
         <div className="space-y-6">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-xs">
+          <div className="bg-gradient-to-br from-sky-50/60 via-white to-sky-50/80 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm">
             <h2 className="text-xl font-bold font-philosopher text-primary mb-4">
               Prosedur Seminar Proposal (Bab 7.2 Panduan FKT)
             </h2>
             <div className="space-y-4">
               {PANDUAN_FKT.alurSempro.map((step) => (
-                <div key={step.step} className="flex items-start space-x-4 p-4 rounded-2xl bg-sky-50/50 border border-sky-100 shadow-xs">
+                <div key={step.step} className="flex items-start space-x-4 p-4 rounded-2xl bg-white border-2 border-sky-100 shadow-xs">
                   <div className="w-8 h-8 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center flex-shrink-0 shadow-xs font-philosopher">
                     {step.step}
                   </div>
@@ -221,14 +221,14 @@ export default function PanduanFktView() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-sky-100 shadow-xs">
+          <div className="bg-white p-6 rounded-3xl border-2 border-sky-100 shadow-xs">
             <h3 className="font-bold text-primary font-philosopher text-base mb-3">Ketentuan Pakaian & Audiens Saat Sempro</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-600 font-instrument">
-              <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-100">
+              <div className="p-4 rounded-2xl bg-sky-50 border-2 border-sky-100">
                 <span className="font-bold text-primary block mb-1">Dresscode Sempro:</span>
                 Jas almamater Universitas Alma Ata, atasan kemeja berwarna cerah, celana kain gelap (putra) / rok panjang kain gelap (putri), tidak boleh memakai jeans, bersepatu pantofel/tertutup gelap.
               </div>
-              <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-100">
+              <div className="p-4 rounded-2xl bg-sky-50 border-2 border-sky-100">
                 <span className="font-bold text-accent block mb-1">Syarat Audiens:</span>
                 Wajib dihadiri sekurang-kurangnya 5 mahasiswa (minimal semester 4). Saling hadir dan dukung teman angkatan 23 saat maju sempro!
               </div>
