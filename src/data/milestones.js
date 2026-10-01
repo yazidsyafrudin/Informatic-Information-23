@@ -109,66 +109,113 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 3,
-    title: "Fase 3: Seminar Hasil (Semhas)",
-    shortTitle: "Semhas",
-    period: "Februari – Mei 2025 (Semester 8)",
-    status: "Riset & Analisis",
-    color: "from-amber-500 to-emerald-500",
-    description: "Pelaksanaan riset setelah lolos Ethical Clearance (jeda min. 3 bulan), coding software/AI, pengujian, Bab 4-5, hingga Seminar Hasil.",
+    title: "Fase 3: Ethical Clearance (EC) & Masa Jeda Riset",
+    shortTitle: "Ethical Clearance",
+    period: "Februari – April 2025 (Wajib Jeda Min. 3 Bulan)",
+    status: "Syarat Kunci Riset",
+    color: "from-amber-500 to-orange-500",
+    description: "Pengurusan lolos kaji etik di Komisi Etik UAA segera setelah Sempro dan menjalani masa jeda riset lapangan wajib min. 3 bulan (SE Dekan 002/2026).",
     steps: [
       {
-        id: "m-semhas-1",
-        title: "Tahap Pengajuan Ethical Clearance (EC) ke Komisi Etik",
-        desc: "Mengirimkan berkas softfile PDF (Bab 1, Bab 3, protokol penelitian, informed consent) ke email komisietik@almaata.ac.id dan konfirmasi WA.",
-        tips: "SEGERA ajukan setelah Sempro! Waktu verifikasi etik min. 2 minggu. Hardfile surat diambil di Mal Layanan Akademik."
+        id: "m-ec-1",
+        title: "Tahap Penyusunan Berkas Protokol Etik Penelitian",
+        desc: "Menyiapkan berkas softfile PDF: Naskah Bab 1 & 3 hasil revisi Sempro, protokol kaji etik 7 butir standar WHO-CIOMS, lembar Informed Consent / instrumen kuesioner.",
+        tips: "Pastikan instrumen penelitian, subjek penelitian (responden/data), dan metode pengujian sistem sudah terdefinisi secara jelas."
       },
       {
-        id: "m-semhas-2",
-        title: "Tahap Masa Jeda Riset Lapangan (Wajib Min. 3 Bulan)",
-        desc: "Menjalankan riset lapangan, survei, atau analisis data dengan jeda waktu minimal 3 bulan kalender sesuai Surat Edaran Dekan No. 002/2026.",
-        tips: "PERINGATAN SE DEKAN: Tanggal terbit EC harus berjarak minimal 3 bulan sebelum kamu boleh mendaftar Ujian Seminar Hasil!"
+        id: "m-ec-2",
+        title: "Tahap Pengiriman Berkas Softfile ke Komisi Etik UAA",
+        desc: "Mengirimkan seluruh dokumen persyaratan via surel ke komisietik@almaata.ac.id dengan format subjek: Pengajuan_EC_Nama_NIM_Prodi.",
+        tips: "Kirimkan SEGERA sehari atau beberapa hari setelah Sempro beres revisi agar masa jeda 3 bulan kalender segera berjalan dan tidak menunda Semhas!"
       },
       {
-        id: "m-semhas-3",
-        title: "Tahap Coding / Pembuatan Sistem & Pengujian",
-        desc: "Mengembangkan aplikasi/model AI sesuai rancangan Bab 3 dan melakukan pengujian komprehensif (Blackbox, UAT, Akurasi/Confusion Matrix).",
-        tips: "Simpan source code di GitHub secara berkala dan dokumentasikan setiap endpoint/fitur serta metrik hasil evaluasinya."
+        id: "m-ec-3",
+        title: "Tahap Konfirmasi WhatsApp ke Sekretariat Komisi Etik",
+        desc: "Melakukan konfirmasi pengiriman berkas ke kontak WhatsApp resmi Komisi Etik UAA (+62 857-2948-4269) dan memantau balasan email.",
+        tips: "Sampaikan salam santun, sertakan nama, NIM, prodi Informatika, dan lampirkan tangkapan layar bukti pengiriman email."
       },
       {
-        id: "m-semhas-4",
-        title: "Tahap Penulisan Naskah Bab 4 (Hasil) & Bab 5 (Penutup)",
-        desc: "Memaparkan hasil pengujian dengan grafik/tabel, pembahasan implikasi hasil, keterbatasan penelitian, kesimpulan, dan saran.",
-        tips: "Jelaskan APA makna dari angka/grafik pengujian, bukan sekadar menampilkan screenshot antarmuka sistem."
+        id: "m-ec-4",
+        title: "Tahap Proses Telaah Reviewer & Revisi Protokol Etik",
+        desc: "Menunggu proses telaah oleh reviewer komisi etik (paling cepat 2 minggu) dan menuntaskan revisi apabila terdapat catatan perbaikan.",
+        tips: "Komisi Etik TIDAK menerima percepatan/permintaan lolos etik yang melompati prosedur. Pantau email komisietik@almaata.ac.id secara rutin."
       },
       {
-        id: "m-semhas-5",
-        title: "Tahap Bimbingan Skripsi Lengkap & ACC Semhas",
-        desc: "Melakukan bimbingan intensif Bab 1–5 bersama Dosen Pembimbing hingga naskah skripsi dinyatakan layak maju Seminar Hasil.",
-        tips: "Pastikan format layout rapi sesuai pedoman FKT: Margin 4-4-3-3, font Times New Roman 12 pt, dan spasi 2."
+        id: "m-ec-5",
+        title: "Tahap Pengambilan Hardcopy Surat Keterangan Lolos Etik",
+        desc: "Mengambil Surat Keterangan Lolos Kaji Etik (Ethical Approval) fisik bertanda tangan asli di Mal Layanan Akademik Lantai 1 UAA (Ibu Ela).",
+        tips: "Perhatikan TANGGAL TERBIT pada surat lolos etik, karena tanggal ini merupakan patokan awal hitungan masa jeda wajib 3 bulan kalender!"
       },
       {
-        id: "m-semhas-6",
-        title: "Tahap Uji Turnitin Naskah Skripsi Final (≤ 20%)",
-        desc: "Melakukan pengecekan similaritas Turnitin Bab 1 sampai Bab 5 secara menyeluruh dengan hasil maksimal 20%.",
-        tips: "Lakukan pengecekan jauh-jauh hari sebelum pendaftaran agar ada waktu bila diperlukan parafrase ulang."
-      },
-      {
-        id: "m-semhas-7",
-        title: "Tahap Pendaftaran & Ujian Seminar Hasil (Semhas)",
-        desc: "Mendaftar ujian Semhas di akademik dan mempresentasikan hasil produk/penelitian di hadapan dosen pembimbing dan penguji.",
-        tips: "Siapkan live demo sistem aplikasi yang siap dijalankan dan jelaskan kontribusi risetmu secara percaya diri."
-      },
-      {
-        id: "m-semhas-8",
-        title: "Tahap Penyelesaian Revisi Seminar Hasil",
-        desc: "Menyelesaikan catatan revisi dari penguji Semhas dan meminta persetujuan untuk melangkah ke tahap Ujian Pendadaran.",
-        tips: "Selesaikan revisi semhas dalam 1-2 pekan agar pendaftaran ujian pendadaran bisa segera diproses."
+        id: "m-ec-6",
+        title: "Tahap Menjalani Masa Jeda Riset Lapangan (Wajib Min. 3 Bulan)",
+        desc: "Melakukan riset, pengumpulan data pengguna/responden, dan pengujian sistem selama minimal 3 bulan kalender penuh dari tanggal terbit surat EC.",
+        tips: "PERINGATAN SE DEKAN NO. 002/2026: Mahasiswa dilarang mendaftar Seminar Hasil sebelum jeda 3 bulan kalender genap terpenuhi!"
       }
     ]
   },
   {
     phaseId: 4,
-    title: "Fase 4: Yudisium (Pendadaran & Kelulusan)",
+    title: "Fase 4: Seminar Hasil (Semhas) & Riset Skripsi",
+    shortTitle: "Semhas",
+    period: "Mei – Juni 2025 (Semester 8)",
+    status: "Uji Produk & Hasil",
+    color: "from-sky-600 to-indigo-600",
+    description: "Pengembangan software/AI, pengujian sistem, penulisan Bab 4-5, Turnitin ≤ 20%, bimbingan intensif, hingga ujian Seminar Hasil.",
+    steps: [
+      {
+        id: "m-semhas-1",
+        title: "Tahap Coding / Pembuatan Sistem & Deployment Aplikasi",
+        desc: "Mengembangkan aplikasi, melatih model AI/Data Science, integrasi API, dan deployment prototipe sistem yang siap diuji.",
+        tips: "Simpan source code di GitHub secara berkala dan dokumentasikan setiap endpoint/fitur serta metrik hasil evaluasinya."
+      },
+      {
+        id: "m-semhas-2",
+        title: "Tahap Pengujian Sistem (Blackbox, UAT, Akurasi/Confusion Matrix)",
+        desc: "Melakukan pengujian fungsionalitas sistem (Blackbox), survei kepuasan pengguna (UAT), dan uji performa/akurasi model.",
+        tips: "Catat angka metrik evaluasi secara objektif dan susun tabel pengujian sistematis untuk dipaparkan di Bab 4."
+      },
+      {
+        id: "m-semhas-3",
+        title: "Tahap Penulisan Naskah Bab 4 (Hasil) & Bab 5 (Penutup)",
+        desc: "Memaparkan hasil pengujian dengan grafik/tabel, pembahasan implikasi temuan, keterbatasan riset, kesimpulan, dan saran.",
+        tips: "Jelaskan APA makna dari angka/grafik pengujian, bukan sekadar menampilkan screenshot antarmuka sistem."
+      },
+      {
+        id: "m-semhas-4",
+        title: "Tahap Bimbingan Skripsi Lengkap & ACC Semhas",
+        desc: "Melakukan bimbingan intensif naskah lengkap Bab 1–5 bersama Dosen Pembimbing hingga disetujui maju Seminar Hasil.",
+        tips: "Pastikan format layout rapi sesuai pedoman FKT: Margin 4-4-3-3, font Times New Roman 12 pt, dan spasi 2."
+      },
+      {
+        id: "m-semhas-5",
+        title: "Tahap Uji Turnitin Naskah Skripsi Final (≤ 20%)",
+        desc: "Melakukan pengecekan similaritas Turnitin Bab 1 sampai Bab 5 secara menyeluruh dengan hasil maksimal 20%.",
+        tips: "Lakukan pengecekan jauh-jauh hari sebelum pendaftaran agar ada waktu bila diperlukan parafrase ulang."
+      },
+      {
+        id: "m-semhas-6",
+        title: "Tahap Pendaftaran Ujian Semhas di Akademik",
+        desc: "Mendaftar ujian Semhas di akademik fakultas: serahkan form ACC dospem, bukti bebas Turnitin, softcopy naskah, dan verifikasi jeda EC 3 bulan.",
+        tips: "Staf akademik akan memverifikasi tanggal surat EC untuk memastikan masa jeda 3 bulan sudah sah terpenuhi."
+      },
+      {
+        id: "m-semhas-7",
+        title: "Tahap Pelaksanaan Seminar Hasil (Semhas)",
+        desc: "Presentasi naskah hasil riset dan live demo produk sistem software/AI di hadapan dosen pembimbing dan penguji.",
+        tips: "Siapkan live demo sistem aplikasi yang siap dijalankan dan jelaskan kontribusi risetmu secara percaya diri."
+      },
+      {
+        id: "m-semhas-8",
+        title: "Tahap Penyelesaian Revisi Seminar Hasil",
+        desc: "Menyelesaikan seluruh catatan revisi dosen penguji Semhas dan meminta persetujuan untuk melangkah ke pendaftaran Ujian Pendadaran.",
+        tips: "Selesaikan revisi semhas dalam 1-2 pekan agar pendaftaran ujian pendadaran bisa segera diproses."
+      }
+    ]
+  },
+  {
+    phaseId: 5,
+    title: "Fase 5: Yudisium (Pendadaran & Kelulusan)",
     shortTitle: "Yudisium",
     period: "Juni – Juli 2025",
     status: "Sidang & Kelulusan",
@@ -214,8 +261,8 @@ export const ROADMAP_PHASES = [
     ]
   },
   {
-    phaseId: 5,
-    title: "Fase 5: Wisuda Sarjana Komputer (S.Kom)",
+    phaseId: 6,
+    title: "Fase 6: Wisuda Sarjana Komputer (S.Kom)",
     shortTitle: "Wisuda",
     period: "Agustus – September 2025",
     status: "Puncak Perayaan",

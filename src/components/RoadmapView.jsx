@@ -36,6 +36,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
             Peta jalan terstruktur kelulusan mahasiswa Informatika '23: dari 
             <strong className="text-accent font-bold"> Magang Industri</strong>, 
             <strong className="text-accent font-bold"> Seminar Proposal</strong>, 
+            <strong className="text-accent font-bold"> Ethical Clearance (EC)</strong>, 
             <strong className="text-accent font-bold"> Seminar Hasil</strong>, 
             <strong className="text-accent font-bold"> Yudisium</strong>, hingga 
             <strong className="text-accent font-bold"> Wisuda Bersama</strong>.
@@ -44,11 +45,11 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
 
         <div className="flex items-center space-x-2 bg-white/15 backdrop-blur-xs px-4 py-2 rounded-2xl border border-white/20 self-start md:self-auto font-instrument shadow-xs text-xs font-bold text-white">
           <Sparkles className="w-4 h-4 text-accent" />
-          <span>5 Fase Menuju Sarjana Komputer (S.Kom)</span>
+          <span>6 Fase Menuju Sarjana Komputer (S.Kom)</span>
         </div>
       </div>
 
-      {/* Interactive 5 Phase Stepper Tabs */}
+      {/* Interactive 6 Phase Stepper Tabs */}
       <div>
         <div className="flex items-center justify-between mb-3 font-instrument">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -59,7 +60,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {ROADMAP_PHASES.map((phase) => {
             const isSelected = expandedPhase === phase.phaseId;
             const completedCount = phase.steps.filter(s => progress[s.id]).length;
