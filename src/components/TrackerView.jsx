@@ -10,7 +10,9 @@ import {
   AlertTriangle, 
   Sparkles,
   Trophy,
-  Flame
+  Flame,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
 
@@ -24,6 +26,11 @@ export default function TrackerView({
 }) {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [formProfile, setFormProfile] = useState(profile);
+  const [expandedPhase, setExpandedPhase] = useState(1);
+
+  const togglePhase = (phaseId) => {
+    setExpandedPhase(expandedPhase === phaseId ? null : phaseId);
+  };
 
   const percent = Math.round((progressCount / totalMilestones) * 100) || 0;
 
@@ -336,63 +343,124 @@ export default function TrackerView({
         </div>
       </div>
 
-      {/* Checklist Keseluruhan Milestone */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-bold font-philosopher text-primary flex items-center space-x-2">
-          <CheckSquare className="w-5 h-5 text-accent" />
-          <span>Daftar Checklist Mandiri Per Fase</span>
-        </h2>
+      {/* Checklist Keseluruhan Milestone dengan Dropdown / Accordion per Fase */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-xl font-bold font-philosopher text-primary flex items-center space-x-2">
+            <CheckSquare className="w-5 h-5 text-accent" />
+            <span>Checklist Mandiri Per Fase (Klik Fase untuk Buka/Tutup Tahap)</span>
+          </h2>
+          <span className="text-xs font-mono font-bold text-slate-500 font-instrument">
+            {progressCount} / {totalMilestones} Tahap Selesai
+          </span>
+        </div>
 
-        {ROADMAP_PHASES.map((phase) => (
-          <div key={phase.phaseId} className="bg-gradient-to-br from-sky-50/40 via-white to-sky-50/60 rounded-3xl p-6 border-2 border-sky-200/90 shadow-sm">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-sky-100">
-              <div>
-                <h3 className="font-bold text-primary font-philosopher text-base sm:text-lg">{phase.title}</h3>
-                <p className="text-xs font-instrument text-slate-500">{phase.period}</p>
-              </div>
-              <span className="text-xs font-mono font-bold text-accent font-instrument bg-white px-3 py-1 rounded-full border border-sky-100 shadow-2xs">
-                {phase.steps.filter(s => progress[s.id]).length} / {phase.steps.length} Selesai
-              </span>
-            </div>
+        {ROADMAP_PHASES.map((phase) => {
+          const isExpanded = expandedPhase === phase.phaseId;
+          const completedInPhase = phase.steps.filter(s => progress[s.id]).length;
+          const totalInPhase = phase.steps.length;
+          const isPhaseComplete = completedInPhase === totalInPhase && totalInPhase > 0;
 
-            <div className="space-y-3 font-instrument">
-              {phase.steps.map((step) => {
-                const isChecked = Boolean(progress[step.id]);
-
-                return (
-                  <div
-                    key={step.id}
-                    onClick={() => handleCheckboxClick(step.id)}
-                    className={`p-4 rounded-2xl border-2 flex items-start space-x-3 cursor-pointer transition-all ${
-                      isChecked
-                        ? 'bg-emerald-50/80 border-emerald-200 shadow-2xs'
-                        : 'bg-white border-sky-100 hover:border-primary/50 hover:bg-sky-50/30 shadow-xs'
-                    }`}
-                  >
-                    <div className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all flex-shrink-0 ${
-                      isChecked
-                        ? 'bg-emerald-600 text-white shadow-xs'
-                        : 'border-2 border-sky-300 bg-white'
-                    }`}>
-                      {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                    </div>
-
-                    <div className="flex-1">
-                      <h4 className={`text-xs sm:text-sm font-bold ${
-                        isChecked ? 'text-emerald-800 line-through' : 'text-slate-800'
-                      }`}>
-                        {step.title}
-                      </h4>
-                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </div>
+          return (
+            <div 
+              key={phase.phaseId} 
+              className={`rounded-3xl border-2 transition-all overflow-hidden ${
+                isExpanded 
+                  ? 'border-primary/50 shadow-md ring-2 ring-primary/10 bg-white' 
+                  : 'border-sky-200/90 shadow-xs bg-gradient-to-br from-sky-50/40 via-white to-sky-50/60'
+              }`}
+            >
+              {/* Header Fase - Clickable Dropdown Trigger */}
+              <div 
+                onClick={() => togglePhase(phase.phaseId)}
+                className="p-5 sm:p-6 cursor-pointer flex items-center justify-between hover:bg-sky-50/60 transition-colors select-none"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center font-bold text-white text-base shadow-xs flex-shrink-0 font-philosopher ${
+                    isPhaseComplete
+                      ? 'bg-emerald-600'
+                      : isExpanded
+                      ? 'bg-primary'
+                      : 'bg-primary/90'
+                  }`}>
+                    {isPhaseComplete ? '✓' : phase.phaseId}
                   </div>
-                );
-              })}
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                      <h3 className="font-bold text-primary font-philosopher text-base sm:text-lg">
+                        {phase.title}
+                      </h3>
+                      {isPhaseComplete && (
+                        <span className="text-[10px] font-bold font-instrument bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                          Tuntas
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs font-instrument text-slate-500">
+                      {phase.period} • <span className="hidden sm:inline">{phase.status}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 flex-shrink-0 ml-3">
+                  <span className={`text-xs font-mono font-bold font-instrument px-3 py-1 rounded-full border shadow-2xs ${
+                    isPhaseComplete
+                      ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                      : 'bg-white text-accent border-sky-100'
+                  }`}>
+                    {completedInPhase} / {totalInPhase} Selesai
+                  </span>
+                  <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center text-primary transition-colors">
+                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </div>
+                </div>
+              </div>
+
+              {/* Tahap di dalam Fase (Hanya Muncul Jika Dropdown Terbuka) */}
+              {isExpanded && (
+                <div className="p-5 sm:p-6 border-t-2 border-sky-100 space-y-3 font-instrument bg-sky-50/30 animate-fadeIn">
+                  <p className="text-[11px] text-slate-500 mb-2">
+                    Centang setiap tahap yang telah kamu selesaikan untuk memperbarui status kelulusanmu:
+                  </p>
+                  {phase.steps.map((step) => {
+                    const isChecked = Boolean(progress[step.id]);
+
+                    return (
+                      <div
+                        key={step.id}
+                        onClick={() => handleCheckboxClick(step.id)}
+                        className={`p-4 rounded-2xl border-2 flex items-start space-x-3 cursor-pointer transition-all ${
+                          isChecked
+                            ? 'bg-emerald-50/90 border-emerald-200 shadow-2xs'
+                            : 'bg-white border-sky-100 hover:border-primary/50 hover:bg-white shadow-xs'
+                        }`}
+                      >
+                        <div className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all flex-shrink-0 ${
+                          isChecked
+                            ? 'bg-emerald-600 text-white shadow-xs'
+                            : 'border-2 border-sky-300 bg-white hover:border-primary'
+                        }`}>
+                          {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                        </div>
+
+                        <div className="flex-1">
+                          <h4 className={`text-xs sm:text-sm font-bold leading-snug ${
+                            isChecked ? 'text-emerald-800 line-through' : 'text-slate-800'
+                          }`}>
+                            {step.title}
+                          </h4>
+                          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                            {step.desc}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
     </div>
