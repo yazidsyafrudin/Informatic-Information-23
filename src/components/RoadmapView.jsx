@@ -29,11 +29,10 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
             <span className="text-xs font-bold uppercase tracking-wider font-instrument text-accent">Panduan Langkah Demi Langkah</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
-            Roadmap Skripsi Informatika '23
+            Roadmap Kelulusan Informatika '23
           </h1>
           <p className="text-xs sm:text-sm font-instrument text-white/90 mt-1 max-w-2xl leading-relaxed">
-            Peta jalan terstruktur dari magang 3 bulan, penyusunan draf Bab 1-3, 
-            <strong className="text-accent font-bold"> Seminar Proposal Bersama di bulan Januari</strong>, hingga pendadaran dan wisuda.
+            Peta jalan terstruktur kelulusan mahasiswa Informatika '23 dari magang industri, pemenuhan syarat SPM, skripsi & seminar proposal, hingga pendadaran dan wisuda bersama.
           </p>
         </div>
 

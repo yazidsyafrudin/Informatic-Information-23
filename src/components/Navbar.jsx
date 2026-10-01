@@ -14,7 +14,7 @@ import { isSupabaseConfigured } from '../lib/supabase';
 export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, profile }) {
   const navItems = [
     { id: 'dashboard', label: 'Beranda & Timeline', icon: LayoutDashboard },
-    { id: 'roadmap', label: 'Roadmap Skripsi', icon: Map },
+    { id: 'roadmap', label: 'Roadmap Kelulusan', icon: Map },
     { id: 'tracker', label: 'Progress Tracker', icon: CheckSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
     { id: 'downloads', label: 'Pusat Berkas', icon: DownloadCloud },
