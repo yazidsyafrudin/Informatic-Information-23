@@ -17,6 +17,24 @@ export default function DownloadsView() {
       isPrimary: true
     },
     {
+      title: "Surat Edaran Dekan: Jeda Waktu 3 Bulan Ethical Clearance",
+      code: "SE 002/A/ED/FSET/2026",
+      category: "Kebijakan Dekan",
+      desc: "Ketentuan resmi wajib jeda minimal 3 bulan kalender antara tanggal penerbitan Ethical Clearance dan Ujian Seminar Hasil Skripsi.",
+      href: "/surat-edaran-dekan-ec.pdf",
+      fileName: "Surat_Edaran_Dekan_Perihal_EC.pdf",
+      isPrimary: true
+    },
+    {
+      title: "Infografis Alur Pengajuan Ethical Clearance Komisi Etik UAA",
+      code: "SOP Komisi Etik",
+      category: "SOP Etik Penelitian",
+      desc: "Panduan 6 tahap pengajuan etik, daftar 6 berkas persyaratan softfile PDF, nomor WA admin konfirmasi, dan kontak Bu Ela.",
+      href: "/alur-pengajuan-ec.pdf",
+      fileName: "Alur_Pengajuan_Ethical_Clearance_UAA.pdf",
+      isPrimary: true
+    },
+    {
       title: "Formulir Pengajuan Judul Skripsi & Proposal",
       code: "FKT.SPI.01",
       category: "Formulir Prodi",

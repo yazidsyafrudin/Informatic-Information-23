@@ -177,5 +177,52 @@ export const PANDUAN_FKT = {
     { kode: "FKT.SPI.05", nama: "Formulir Kartu Bimbingan Skripsi", kegunaan: "Log bimbingan tahap penelitian Bab 4 dan Bab 5" },
     { kode: "Lampiran 15", nama: "Surat Keterangan Bebas Plagiarisme", kegunaan: "Bukti lolos cek Turnitin ≤ 20% dari perpustakaan/fakultas" },
     { kode: "Lampiran 12", nama: "Surat Pernyataan Keaslian Penelitian", kegunaan: "Bermaterai Rp10.000 menyatakan karya asli bukan joki/plagiat" }
-  ]
+  ],
+
+  ethicalClearance: {
+    suratEdaran: {
+      nomor: "002/A/ED/FSET/UAA/VII/2026",
+      tanggal: "22 Juli 2026",
+      tentang: "Ketentuan Jeda Waktu Antara Penerbitan Ethical Clearance dengan Ujian Seminar Hasil Penelitian Skripsi",
+      pejabat: "Dr. Dadang Heksaputra, S.Kom., M.Kom.",
+      jabatan: "Dekan Fakultas Sains, Rekayasa, dan Teknologi (FSET)",
+      aturanKunci: "Mahasiswa WAJIB memberikan jeda waktu paling singkat 3 (tiga) bulan kalender antara tanggal penerbitan Ethical Clearance dengan tanggal pelaksanaan Ujian Seminar Hasil Penelitian.",
+      alasanJeda: [
+        "Melaksanakan proses pengambilan data di lapangan secara menyeluruh dan tidak tergesa-gesa",
+        "Melakukan analisis data yang mendalam dan akurat",
+        "Menyusun dan menyempurnakan laporan skripsi secara komprehensif di bawah bimbingan dosen pembimbing"
+      ],
+      sanksi: "Mahasiswa yang tidak memenuhi ketentuan jeda waktu 3 bulan TIDAK DIPERKENANKAN untuk mendaftarkan diri sebagai peserta Ujian Seminar Hasil Penelitian pada periode yang bersangkutan."
+    },
+    alurPengajuan: [
+      { step: 1, title: "Siapkan Berkas Persyaratan", desc: "Peneliti mempersiapkan seluruh persyaratan pengajuan ethical clearance dalam bentuk softfile PDF lengkap." },
+      { step: 2, title: "Kirim Email ke Komisi Etik", desc: "Peneliti mengirim berkas lengkap ke email resmi komisi etik: komisietik@almaata.ac.id." },
+      { step: 3, title: "Konfirmasi WhatsApp Admin", desc: "Segera konfirmasi ke admin komisi etik melalui nomor WhatsApp: 085729484269." },
+      { step: 4, title: "Pantau Email & Telaah/Revisi", desc: "Admin menginformasikan jika ada berkas kurang atau perlu revisi proposal melalui email (pantau email secara berkala)." },
+      { step: 5, title: "Pengumuman Lolos Etik", desc: "Jika proposal dinyatakan LOLOS, surat ethical clearance resmi diterbitkan dan dikirimkan via email." },
+      { step: 6, title: "Ambil Hardfile di Mal Layanan", desc: "Pengambilan berkas fisik/hardfile surat Ethical Clearance di Mal Layanan Akademik UAA (bertemu Bu Ela)." }
+    ],
+    persyaratanBerkas: [
+      "Surat Pengantar Permohonan Etik dari Prodi/Institusi",
+      "Surat Izin Penelitian dari Prodi/Institusi",
+      "Protokol Penelitian softfile PDF (Cover, Lembar Persetujuan & Pengesahan Proposal, BAB I & BAB III)",
+      "Lampiran Protokol: Informed Consent & Penjelasan Penelitian (unduh di Raising), Kuesioner/Panduan Wawancara/Form Data, CV Peneliti Utama, EC Institusi Lain/Payung (jika ada)",
+      "Penerimaan dokumen EC (diunduh di web/Raising)",
+      "Formulir telaah awal EC & Form checklist berkas EC (diunduh di web/Raising)"
+    ],
+    kontak: {
+      email: "komisietik@almaata.ac.id",
+      wa: "085729484269",
+      petugas: "Bu Ela",
+      lokasi: "Mal Layanan Akademik UAA",
+      jamKerja: "Senin – Jumat, 08.00 – 16.00 WIB",
+      web: "https://lppm.almaata.ac.id/komisi-etik/dokumen-komisi-etik-alma-ata/"
+    },
+    catatanPenting: [
+      "Proses Ethical Clearance paling cepat 2 minggu terhitung setelah berkas persyaratan LENGKAP.",
+      "Komisi Etik TIDAK MENERIMA permintaan LOLOS ETIK yang tidak sesuai prosedur.",
+      "Peneliti wajib rutin memantau email komisietik@almaata.ac.id.",
+      "Jika sudah memiliki EC dari institusi lain/RS, tetap wajib mengajukan EC di Komisi Etik UAA."
+    ]
+  }
 };

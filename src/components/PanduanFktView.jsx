@@ -6,7 +6,15 @@ import {
   Layout, 
   FileCheck2,
   AlertCircle,
-  ShieldAlert
+  ShieldAlert,
+  Clock,
+  Send,
+  ExternalLink,
+  Phone,
+  Mail,
+  MapPin,
+  AlertTriangle,
+  FileText
 } from 'lucide-react';
 import { PANDUAN_FKT } from '../data/panduanFKT';
 
@@ -30,7 +38,7 @@ export default function PanduanFktView() {
           </h1>
           <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
             Intisari dari 50 halaman buku panduan resmi (SK Rektor No: {PANDUAN_FKT.skRektor}) 
-            yang dirangkum agar mahasiswa Informatika 23 tidak tersesat dalam aturan administrasi & teknis penulisan.
+            serta Surat Edaran Dekan FSET No. 002/2026 tentang Ethical Clearance (EC) agar mahasiswa Informatika 23 siap tuntas skripsi.
           </p>
         </div>
 
@@ -51,6 +59,7 @@ export default function PanduanFktView() {
           { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
           { id: 'sistematika', label: '3. Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
+          { id: 'ec', label: '5. Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSection === tab.id;
@@ -234,6 +243,205 @@ export default function PanduanFktView() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* SECTION 5: ETHICAL CLEARANCE (EC) & SURAT EDARAN DEKAN */}
+      {activeSection === 'ec' && (
+        <div className="space-y-8 animate-fadeIn">
+          
+          {/* Box Surat Edaran Dekan - Wajib Jeda 3 Bulan */}
+          <div className="bg-gradient-to-r from-red-600 via-rose-700 to-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-red-500 shadow-xl relative overflow-hidden">
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 relative z-10">
+              <div className="space-y-3">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-xs">
+                  <ShieldAlert className="w-4 h-4 text-amber-300" />
+                  <span>Surat Edaran Dekan FSET No. {PANDUAN_FKT.ethicalClearance.suratEdaran.nomor}</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white leading-tight">
+                  Wajib Jeda Waktu Minimal 3 Bulan Kalender!
+                </h2>
+                <p className="text-xs sm:text-sm text-white/95 leading-relaxed max-w-3xl">
+                  {PANDUAN_FKT.ethicalClearance.suratEdaran.aturanKunci}
+                </p>
+                
+                <div className="bg-black/30 border border-white/20 p-4 rounded-2xl space-y-2">
+                  <div className="flex items-center space-x-2 text-amber-300 font-bold text-xs uppercase tracking-wider">
+                    <AlertTriangle className="w-4 h-4" />
+                    <span>Sanksi Keras:</span>
+                  </div>
+                  <p className="text-xs text-white/90 leading-relaxed font-instrument">
+                    {PANDUAN_FKT.ethicalClearance.suratEdaran.sanksi}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 flex-shrink-0 self-start md:self-auto">
+                <a
+                  href="/surat-edaran-dekan-ec.pdf"
+                  download="Surat_Edaran_Dekan_Perihal_EC.pdf"
+                  className="flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-white text-red-700 hover:bg-red-50 font-bold text-xs shadow-md transition-all whitespace-nowrap"
+                >
+                  <Download className="w-4 h-4 text-red-600" />
+                  <span>Download Surat Edaran (PDF)</span>
+                </a>
+                <a
+                  href="/alur-pengajuan-ec.pdf"
+                  download="Alur_Pengajuan_Ethical_Clearance_UAA.pdf"
+                  className="flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md transition-all whitespace-nowrap"
+                >
+                  <Download className="w-4 h-4 text-white" />
+                  <span>Download Alur Pengajuan (PDF)</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-white/20 text-[11px] text-white/80 flex flex-wrap items-center justify-between gap-2">
+              <span>Ditetapkan: {PANDUAN_FKT.ethicalClearance.suratEdaran.tanggal} oleh {PANDUAN_FKT.ethicalClearance.suratEdaran.pejabat}</span>
+              <span>{PANDUAN_FKT.ethicalClearance.suratEdaran.jabatan}</span>
+            </div>
+          </div>
+
+          {/* 6 Alur Langkah Pengajuan EC */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+            <div className="mb-6">
+              <span className="text-accent font-philosopher font-semibold text-sm">Standar Operasional Prosedur</span>
+              <h2 className="text-primary font-philosopher text-2xl sm:text-3xl font-bold">
+                6 Tahap Alur Pengajuan Ethical Clearance
+              </h2>
+              <p className="font-instrument text-slate-600 text-xs sm:text-sm mt-1">
+                Komisi Etik Penelitian Universitas Alma Ata (Keluarkan softfile, verifikasi, hingga penerbitan):
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {PANDUAN_FKT.ethicalClearance.alurPengajuan.map((step) => (
+                <div 
+                  key={step.step}
+                  className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md flex flex-col justify-between hover:border-accent hover:-translate-y-1 transition-all"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="w-8 h-8 rounded-full bg-accent text-white font-bold text-xs flex items-center justify-center font-philosopher shadow-xs">
+                        {step.step}
+                      </span>
+                      <span className="text-[10px] text-white/70 font-mono">Tahap {step.step}/6</span>
+                    </div>
+                    <h3 className="font-bold font-instrument text-white text-sm mb-2">{step.title}</h3>
+                    <p className="text-xs text-white/90 leading-relaxed font-instrument">{step.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Grid: Berkas Persyaratan & Kontak Layanan */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* Berkas Wajib */}
+            <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+              <div className="flex items-center space-x-2 text-primary mb-4">
+                <FileText className="w-5 h-5 text-accent" />
+                <h3 className="font-philosopher font-bold text-xl text-primary">Berkas yang Wajib Disiapkan</h3>
+              </div>
+              <p className="text-xs text-slate-500 mb-4 font-instrument">
+                Format softfile PDF lengkap sebelum dikirim ke email komisi etik:
+              </p>
+
+              <div className="space-y-3">
+                {PANDUAN_FKT.ethicalClearance.persyaratanBerkas.map((berkas, idx) => (
+                  <div key={idx} className="flex items-start space-x-3 p-3.5 rounded-xl bg-sky-50/70 border border-sky-100 text-xs text-slate-700">
+                    <span className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
+                      {idx + 1}
+                    </span>
+                    <span className="leading-relaxed font-instrument">{berkas}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-5 p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center justify-between">
+                <div>
+                  <span className="font-bold block">Unduh Template Raising:</span>
+                  <span>Formulir Informed Consent, Telaah Awal, & Checklist berkas EC</span>
+                </div>
+                <a
+                  href={PANDUAN_FKT.ethicalClearance.kontak.web}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-accent text-white font-bold text-[11px] flex items-center space-x-1 hover:bg-accent/90"
+                >
+                  <span>Portal LPPM</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+            {/* Kontak & Lokasi Komisi Etik */}
+            <div className="lg:col-span-5 bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-md flex flex-col justify-between">
+              <div>
+                <div className="flex items-center space-x-2 mb-4">
+                  <MapPin className="w-5 h-5 text-accent" />
+                  <h3 className="font-philosopher font-bold text-xl text-white">Kontak & Lokasi Layanan</h3>
+                </div>
+
+                <div className="space-y-3 font-instrument">
+                  <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-xs">
+                    <div className="flex items-center space-x-2 text-primary text-xs font-bold mb-1">
+                      <Mail className="w-4 h-4 text-accent" />
+                      <span>Email Pengiriman Berkas:</span>
+                    </div>
+                    <a href="mailto:komisietik@almaata.ac.id" className="text-sm font-bold text-primary hover:underline block break-all font-mono">
+                      komisietik@almaata.ac.id
+                    </a>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-xs">
+                    <div className="flex items-center space-x-2 text-primary text-xs font-bold mb-1">
+                      <Phone className="w-4 h-4 text-accent" />
+                      <span>WhatsApp Konfirmasi Admin:</span>
+                    </div>
+                    <a href="https://wa.me/6285729484269" target="_blank" rel="noreferrer" className="text-sm font-bold text-emerald-700 hover:underline block font-mono">
+                      0857-2948-4269
+                    </a>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-xs">
+                    <div className="flex items-center space-x-2 text-primary text-xs font-bold mb-1">
+                      <MapPin className="w-4 h-4 text-accent" />
+                      <span>Pengambilan Hardfile Surat:</span>
+                    </div>
+                    <p className="text-xs text-slate-700 font-medium">
+                      Mal Layanan Akademik UAA (bertemu dengan <strong className="text-primary font-bold">Bu Ela</strong>)
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-xs">
+                    <div className="flex items-center space-x-2 text-primary text-xs font-bold mb-1">
+                      <Clock className="w-4 h-4 text-accent" />
+                      <span>Waktu & Jam Kerja:</span>
+                    </div>
+                    <p className="text-xs text-slate-700">
+                      Senin – Jumat, Jam 08.00 – 16.00 WIB. Proses min. 2 minggu setelah berkas lengkap.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-white/20">
+                <a
+                  href={PANDUAN_FKT.ethicalClearance.kontak.web}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-3 rounded-xl bg-accent hover:bg-accent/90 text-white text-xs font-bold flex items-center justify-center space-x-2 transition-all shadow-md shadow-accent/20"
+                >
+                  <span>Buka Web Dokumen Komisi Etik LPPM</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       )}
 

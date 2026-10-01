@@ -9,7 +9,8 @@ import {
   Award,
   Users,
   Maximize2,
-  X
+  X,
+  ShieldAlert
 } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import { TIMELINE_EVENTS } from '../data/milestones';
@@ -174,6 +175,38 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
         </div>
       )}
+
+      {/* Banner Peringatan Akademik: Surat Edaran Dekan Perihal EC */}
+      <div className="bg-gradient-to-r from-red-600 via-rose-700 to-primary text-white rounded-3xl p-5 sm:p-6 border-2 border-red-400 shadow-xl flex flex-col md:flex-row items-center justify-between gap-5 relative overflow-hidden">
+        <div className="flex items-start sm:items-center space-x-4">
+          <div className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0 shadow-inner">
+            <ShieldAlert className="w-6 h-6 text-amber-300 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-900 font-bold text-[10px] uppercase tracking-wider font-instrument shadow-xs">
+                Kebijakan Baru Dekan
+              </span>
+              <span className="text-xs text-white/80 font-mono">SE No. 002/A/ED/FSET/UAA/VII/2026</span>
+            </div>
+            <h3 className="font-philosopher font-bold text-base sm:text-lg text-white leading-snug">
+              Wajib Jeda Minimal 3 Bulan Kalender Antara Terbitnya EC & Ujian Seminar Hasil!
+            </h3>
+            <p className="text-xs text-white/90 font-instrument mt-1 max-w-2xl leading-relaxed">
+              Segera ajukan berkas Ethical Clearance setelah Sempro. Mahasiswa yang tidak memenuhi jeda waktu 3 bulan 
+              <strong className="text-amber-300 font-bold"> TIDAK DIPERKENANKAN </strong> mendaftar Ujian Seminar Hasil.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setActiveTab('panduan')}
+          className="px-5 py-3 rounded-xl bg-white hover:bg-red-50 text-red-700 font-bold text-xs shadow-md transition-all whitespace-nowrap self-stretch md:self-auto flex items-center justify-center space-x-2 flex-shrink-0 group"
+        >
+          <span>Pelajari Alur & Syarat EC</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+        </button>
+      </div>
 
       {/* Countdown Timers (Solid Blue Cards) */}
       <section>
@@ -357,6 +390,11 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
                 <span className="text-[11px] text-slate-500 block font-semibold">Format Layout Naskah</span>
                 <span className="text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</span>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300">
+                <span className="text-[11px] text-slate-900 font-bold block">Kebijakan Baru Dekan (SE 002/2026)</span>
+                <span className="text-xs font-bold text-slate-950">Ethical Clearance Wajib Jeda Min. 3 Bulan</span>
               </div>
             </div>
           </div>

@@ -118,6 +118,18 @@ export const ROADMAP_PHASES = [
     description: "Tahap implementasi coding/pengembangan sistem, pengujian, penulisan Bab 4 & 5, Semhas, hingga Sidang Skripsi (Jilid Hardcover Biru Laut).",
     steps: [
       {
+        id: "m-ec-1",
+        title: "Pengajuan Ethical Clearance (EC) ke Komisi Etik UAA",
+        desc: "Kirim berkas softfile PDF (Bab 1, 3, protokol, informed consent) ke komisietik@almaata.ac.id dan konfirmasi WA 085729484269.",
+        tips: "SEGERA ajukan setelah Sempro! Waktu proses min. 2 minggu. Hardfile surat diambil di Mal Layanan Akademik (Bu Ela)."
+      },
+      {
+        id: "m-ec-2",
+        title: "Masa Jeda Riset Lapangan (Wajib Min. 3 Bulan Kalender)",
+        desc: "Lakukan riset & analisis data lapangan sesuai Surat Edaran Dekan FSET No. 002/A/ED/FSET/UAA/VII/2026.",
+        tips: "PERINGATAN SE DEKAN: Tanggal terbit EC harus berjarak minimal 3 bulan sebelum kamu boleh mendaftar Ujian Seminar Hasil!"
+      },
+      {
         id: "m-14",
         title: "Coding / Pembuatan Sistem & Pengujian",
         desc: "Kembangkan aplikasi/model AI sesuai rancangan Bab 3 dan lakukan pengujian (Blackbox, UAT, Akurasi/Confusion Matrix).",
