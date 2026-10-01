@@ -1,19 +1,20 @@
 import React from 'react';
 import { 
-  GraduationCap,
   LayoutDashboard, 
   Map, 
   CheckSquare, 
   BookOpen, 
   DownloadCloud, 
-  Sparkles
+  LogIn,
+  LogOut,
+  User
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, profile }) {
+export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout }) {
   const navItems = [
     { id: 'dashboard', label: 'Beranda & Timeline', icon: LayoutDashboard },
     { id: 'roadmap', label: 'Roadmap Kelulusan', icon: Map },
-    { id: 'tracker', label: 'Progress Tracker', icon: CheckSquare },
+    { id: 'tracker', label: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard', icon: CheckSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
     { id: 'downloads', label: 'Pusat Berkas', icon: DownloadCloud },
   ];
@@ -50,7 +51,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, p
             </div>
           </div>
 
-          {/* Navigation Links - Font Philosopher & Hover Accent Gold like home.almaata.ac.id */}
+          {/* Navigation Links */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -72,23 +73,46 @@ export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, p
             })}
           </nav>
 
-          {/* Profile Avatar Chip */}
+          {/* Pojok Kanan: Status Autentikasi User */}
           <div className="flex items-center flex-shrink-0">
-            <div 
-              onClick={() => setActiveTab('tracker')}
-              className="flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 cursor-pointer group transition-all"
-              title="Buka profil & checklist progres"
-            >
-              <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-xs group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0">
-                {profile?.nama_lengkap ? profile.nama_lengkap.charAt(0).toUpperCase() : 'M'}
+            {currentUser ? (
+              /* User SUDAH Login: Tampilkan Avatar, Nama, NIM & Tombol Logout */
+              <div className="flex items-center space-x-2">
+                <div 
+                  onClick={() => setActiveTab('tracker')}
+                  className="flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 cursor-pointer group transition-all"
+                  title="Buka Dashboard Pribadi"
+                >
+                  <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-xs group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0">
+                    {currentUser.nama_lengkap ? currentUser.nama_lengkap.charAt(0).toUpperCase() : 'M'}
+                  </div>
+                  <div className="hidden sm:block text-left">
+                    <p className="text-xs font-bold text-white font-instrument group-hover:text-accent transition-colors truncate max-w-[130px]">
+                      {currentUser.nama_lengkap}
+                    </p>
+                    <p className="text-[10px] text-white/70 font-mono">{currentUser.nim}</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={onLogout}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-rose-500 text-white/80 hover:text-white transition-colors cursor-pointer"
+                  title="Keluar / Logout Akun"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
               </div>
-              <div className="hidden sm:block text-left">
-                <p className="text-xs font-bold text-white font-instrument group-hover:text-accent transition-colors truncate max-w-[130px]">
-                  {profile?.nama_lengkap || 'Mahasiswa'}
-                </p>
-                <p className="text-[10px] text-white/70 font-mono">{profile?.nim || 'IF23'}</p>
-              </div>
-            </div>
+            ) : (
+              /* User BELUM Login: Tampilkan Tombol Masuk / Buat Akun */
+              <button
+                onClick={() => setActiveTab('tracker')}
+                className="flex items-center space-x-2 px-4 py-2 rounded-2xl bg-accent hover:bg-amber-600 text-white font-philosopher font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer transform hover:-translate-y-0.5"
+                title="Masuk atau Daftar Akun Mahasiswa"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Masuk / Daftar</span>
+              </button>
+            )}
           </div>
 
         </div>

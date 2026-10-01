@@ -10,14 +10,26 @@ import {
   ArrowRight,
   Check,
   CheckSquare,
-  Sparkles
+  Sparkles,
+  LogIn,
+  X,
+  ShieldAlert
 } from 'lucide-react';
 
-export default function RoadmapView({ progress, onToggleMilestone, setActiveTab }) {
+export default function RoadmapView({ progress, onToggleMilestone, setActiveTab, currentUser }) {
   const [expandedPhase, setExpandedPhase] = useState(1);
+  const [showAuthPromptModal, setShowAuthPromptModal] = useState(false);
 
   const togglePhase = (phaseId) => {
     setExpandedPhase(expandedPhase === phaseId ? null : phaseId);
+  };
+
+  const handleStepClick = (stepId) => {
+    if (!currentUser) {
+      setShowAuthPromptModal(true);
+      return;
+    }
+    onToggleMilestone(stepId);
   };
 
   return (
@@ -193,7 +205,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                       return (
                         <div
                           key={step.id}
-                          onClick={() => onToggleMilestone(step.id)}
+                          onClick={() => handleStepClick(step.id)}
                           className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between ${
                             isDone
                               ? 'bg-emerald-50/90 border-emerald-300 shadow-xs'
@@ -251,7 +263,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
                       onClick={() => setActiveTab('tracker')}
                       className="flex items-center space-x-2 text-xs font-bold text-primary hover:text-accent transition-colors"
                     >
-                      <span>Lihat & Validasi di Progress Tracker</span>
+                      <span>Lihat & Validasi di Dashboard</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -261,6 +273,52 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab 
           );
         })}
       </div>
+
+      {/* Modal Prompt Mode Tamu */}
+      {showAuthPromptModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn font-instrument">
+          <div className="bg-white rounded-3xl border-2 border-primary/20 shadow-2xl p-6 sm:p-8 max-w-md w-full relative">
+            <button
+              onClick={() => setShowAuthPromptModal(false)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-accent flex items-center justify-center mb-4">
+              <ShieldAlert className="w-6 h-6 text-accent" />
+            </div>
+
+            <h3 className="text-lg font-bold font-philosopher text-slate-900 mb-2">
+              Masuk Akun untuk Menyimpan Progres
+            </h3>
+            
+            <p className="text-xs text-slate-600 leading-relaxed mb-6 font-instrument">
+              Kamu saat ini sedang dalam <strong>Mode Tamu (Lihat Saja)</strong>. Untuk dapat mencentang tahapan kelulusan dan menyimpannya secara permanen ke database Supabase, silakan masuk atau daftarkan NIM kamu terlebih dahulu.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <button
+                onClick={() => {
+                  setShowAuthPromptModal(false);
+                  setActiveTab('tracker');
+                }}
+                className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary-700 text-white font-bold text-xs flex items-center justify-center space-x-2 shadow-md transition-all cursor-pointer"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Masuk / Daftar Akun</span>
+              </button>
+
+              <button
+                onClick={() => setShowAuthPromptModal(false)}
+                className="w-full py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+              >
+                Lanjut Lihat Saja
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -33,9 +33,13 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   skor_aaept INTEGER DEFAULT 450,
   turnitin_persen INTEGER DEFAULT 15,
   hadir_sempro_count INTEGER DEFAULT 5,
+  pin VARCHAR(100) DEFAULT '123456',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Tambah kolom PIN jika tabel profiles sudah dibuat sebelumnya
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS pin VARCHAR(100) DEFAULT '123456';
 
 -- 2. Tabel Checklist Progress Milestone
 CREATE TABLE IF NOT EXISTS public.student_progress (
@@ -71,6 +75,137 @@ const DEFAULT_LOCAL_PROFILE = {
 
 // Storage Service (otomatis switch antara Supabase dan LocalStorage)
 export const StorageService = {
+  // Cek sesi user yang sedang aktif
+  getCurrentUser() {
+    try {
+      const saved = localStorage.getItem('IF23_ACTIVE_USER');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  },
+
+  // Login mahasiswa berdasarkan NIM & PIN
+  async login(nim, pin) {
+    const cleanNim = String(nim).trim();
+    const cleanPin = String(pin).trim();
+
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('nim', cleanNim)
+          .maybeSingle();
+
+        if (error) {
+          console.error('Login query error:', error);
+          return { success: false, message: 'Gagal menghubungi server database: ' + error.message };
+        }
+
+        if (!data) {
+          return { 
+            success: false, 
+            message: `NIM "${cleanNim}" belum terdaftar di sistem. Silakan klik tab "Daftar Akun Baru" di samping!` 
+          };
+        }
+
+        // Jika kolom PIN ada di database dan terisi, periksa kecocokan
+        if (data.pin && data.pin !== cleanPin) {
+          return { success: false, message: 'PIN / Kata sandi tidak cocok. Silakan periksa kembali!' };
+        }
+
+        // Berhasil login
+        localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(data));
+        localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(data));
+        return { success: true, profile: data };
+      } catch (err) {
+        console.error('Login error:', err);
+      }
+    }
+
+    // Fallback Local Storage
+    const saved = localStorage.getItem('IF23_ACTIVE_PROFILE');
+    const localProfile = saved ? JSON.parse(saved) : DEFAULT_LOCAL_PROFILE;
+    if (localProfile.nim === cleanNim) {
+      localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(localProfile));
+      return { success: true, profile: localProfile };
+    }
+    return { success: false, message: `NIM "${cleanNim}" belum terdaftar. Silakan buat akun baru terlebih dahulu.` };
+  },
+
+  // Daftar akun mahasiswa baru
+  async register({ nim, nama_lengkap, peminatan, pin }) {
+    const cleanNim = String(nim).trim();
+    const cleanNama = String(nama_lengkap).trim();
+    const cleanPeminatan = peminatan || 'Software Engineering';
+    const cleanPin = String(pin || '123456').trim();
+
+    const newProfile = {
+      nim: cleanNim,
+      nama_lengkap: cleanNama,
+      peminatan: cleanPeminatan,
+      pin: cleanPin,
+      judul_skripsi: '',
+      dosen_pembimbing: '',
+      ipk: 3.50,
+      skor_aaept: 450,
+      turnitin_persen: 15,
+      hadir_sempro_count: 5
+    };
+
+    if (supabase && isSupabaseConfigured) {
+      try {
+        // Cek apakah NIM sudah terdaftar
+        const { data: existing } = await supabase
+          .from('profiles')
+          .select('nim')
+          .eq('nim', cleanNim)
+          .maybeSingle();
+
+        if (existing) {
+          return { 
+            success: false, 
+            message: `NIM ${cleanNim} sudah pernah didaftarkan sebelumnya. Silakan beralih ke tab "Masuk Akun".` 
+          };
+        }
+
+        // Coba insert data baru
+        let insertPayload = { ...newProfile };
+        let { error } = await supabase.from('profiles').insert([insertPayload]);
+
+        // Jika error karena kolom pin belum ada di schema database Supabase, hilangkan field pin dan coba lagi
+        if (error && error.message && error.message.toLowerCase().includes('pin')) {
+          delete insertPayload.pin;
+          const retry = await supabase.from('profiles').insert([insertPayload]);
+          error = retry.error;
+        }
+
+        if (error) {
+          console.error('Supabase register error:', error);
+          return { success: false, message: 'Gagal menyimpan ke database: ' + error.message };
+        }
+
+        localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(newProfile));
+        localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(newProfile));
+        return { success: true, profile: newProfile };
+      } catch (err) {
+        console.error('Register error:', err);
+        return { success: false, message: 'Terjadi gangguan jaringan saat mendaftar.' };
+      }
+    }
+
+    // Fallback local storage
+    localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(newProfile));
+    localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(newProfile));
+    return { success: true, profile: newProfile };
+  },
+
+  // Logout akun mahasiswa
+  logout() {
+    localStorage.removeItem('IF23_ACTIVE_USER');
+  },
+
   // Ambil profil
   async getProfile(nim = null) {
     if (supabase && isSupabaseConfigured && nim) {
@@ -79,7 +214,7 @@ export const StorageService = {
           .from('profiles')
           .select('*')
           .eq('nim', nim)
-          .single();
+          .maybeSingle();
         if (!error && data) return data;
       } catch (err) {
         console.warn('Gagal fetch dari Supabase, fallback ke local storage:', err);
@@ -93,6 +228,12 @@ export const StorageService = {
   async saveProfile(profileData) {
     localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(profileData));
     
+    // Perbarui active user juga jika yang diedit adalah user yang sedang login
+    const activeUser = this.getCurrentUser();
+    if (activeUser && activeUser.nim === profileData.nim) {
+      localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(profileData));
+    }
+
     if (supabase && isSupabaseConfigured) {
       try {
         const { error } = await supabase
@@ -126,10 +267,7 @@ export const StorageService = {
       }
     }
     const saved = localStorage.getItem(`IF23_PROGRESS_${nim || 'DEFAULT'}`);
-    return saved ? JSON.parse(saved) : {
-      'm-1': true, // Laporan magang (sedang berlangsung)
-      'm-2': true  // Tentukan topik
-    };
+    return saved ? JSON.parse(saved) : {};
   },
 
   // Simpan toggle milestone

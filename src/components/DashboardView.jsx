@@ -15,7 +15,7 @@ import {
 import CountdownTimer from './CountdownTimer';
 import { TIMELINE_EVENTS } from '../data/milestones';
 
-export default function DashboardView({ setActiveTab, profile, progressCount, totalMilestones }) {
+export default function DashboardView({ setActiveTab, profile, progressCount, totalMilestones, currentUser }) {
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const percentComplete = Math.round((progressCount / totalMilestones) * 100) || 0;
 
@@ -67,7 +67,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               className="bg-accent hover:bg-accent/90 text-white font-instrument rounded-xl px-6 py-3.5 font-bold text-sm shadow-md shadow-accent/25 transition-all duration-300 flex items-center space-x-2 transform hover:-translate-y-0.5"
             >
               <CheckCircle2 className="w-4 h-4 text-white" />
-              <span>Update Progress Saya ({percentComplete}%)</span>
+              <span>{currentUser ? `Dashboard Saya (${percentComplete}%)` : 'Masuk Dashboard Mahasiswa'}</span>
             </button>
 
             <button

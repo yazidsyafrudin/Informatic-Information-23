@@ -3,16 +3,15 @@ import Navbar from './components/Navbar';
 import DashboardView from './components/DashboardView';
 import RoadmapView from './components/RoadmapView';
 import TrackerView from './components/TrackerView';
+import AuthView from './components/AuthView';
 import PanduanFktView from './components/PanduanFktView';
 import DownloadsView from './components/DownloadsView';
-import SupabaseModal from './components/SupabaseModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
-import { GraduationCap } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [isSupabaseModalOpen, setIsSupabaseModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(() => StorageService.getCurrentUser());
   const [profile, setProfile] = useState({
     nim: "230101001",
     nama_lengkap: "Mahasiswa Informatika 23",
@@ -24,26 +23,28 @@ export default function App() {
     turnitin_persen: 16,
     hadir_sempro_count: 5
   });
-  const [progress, setProgress] = useState({
-    'm-magang-1': true,
-    'm-magang-2': true
-  });
+  const [progress, setProgress] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const allMilestoneIds = ROADMAP_PHASES.flatMap(phase => phase.steps.map(s => s.id));
   const totalMilestones = allMilestoneIds.length;
   const progressCount = allMilestoneIds.filter(id => progress[id]).length;
 
+  // Sinkronisasi data saat pertama kali aplikasi dibuka
   useEffect(() => {
     async function loadInitialData() {
       try {
-        const loadedProfile = await StorageService.getProfile();
-        if (loadedProfile) {
-          setProfile(loadedProfile);
-          const loadedProgress = await StorageService.getProgress(loadedProfile.nim);
+        const loggedInUser = StorageService.getCurrentUser();
+        if (loggedInUser) {
+          setCurrentUser(loggedInUser);
+          setProfile(loggedInUser);
+          const loadedProgress = await StorageService.getProgress(loggedInUser.nim);
           if (loadedProgress) {
             setProgress(loadedProgress);
           }
+        } else {
+          setCurrentUser(null);
+          setProgress({});
         }
       } catch (err) {
         console.error('Error loading data:', err);
@@ -54,32 +55,51 @@ export default function App() {
     loadInitialData();
   }, []);
 
+  const handleLoginSuccess = async (userProfile) => {
+    setCurrentUser(userProfile);
+    setProfile(userProfile);
+    const loadedProgress = await StorageService.getProgress(userProfile.nim);
+    setProgress(loadedProgress || {});
+    setActiveTab('tracker');
+  };
+
+  const handleLogout = () => {
+    StorageService.logout();
+    setCurrentUser(null);
+    setProgress({});
+    setActiveTab('dashboard');
+  };
+
   const handleUpdateProfile = async (newProfile) => {
     setProfile(newProfile);
+    if (currentUser) {
+      setCurrentUser(newProfile);
+    }
     await StorageService.saveProfile(newProfile);
   };
 
   const handleToggleMilestone = async (milestoneId) => {
+    const nim = currentUser?.nim || profile.nim;
     const currentState = Boolean(progress[milestoneId]);
     const newState = !currentState;
     
     const updatedProgress = { ...progress, [milestoneId]: newState };
     setProgress(updatedProgress);
 
-    await StorageService.toggleMilestone(profile.nim, milestoneId, newState);
+    await StorageService.toggleMilestone(nim, milestoneId, newState);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F6EE] text-slate-800 font-instrument selection:bg-primary selection:text-white">
-      {/* Navbar Biru Resmi UAA */}
+      {/* Navbar Resmi Biru UAA */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        onOpenSupabaseModal={() => setIsSupabaseModalOpen(false || true)}
-        profile={profile}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
-      {/* Main Container dengan background Putih Tulang */}
+      {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {activeTab === 'dashboard' && (
           <DashboardView
@@ -87,6 +107,7 @@ export default function App() {
             profile={profile}
             progressCount={progressCount}
             totalMilestones={totalMilestones}
+            currentUser={currentUser}
           />
         )}
 
@@ -95,18 +116,28 @@ export default function App() {
             progress={progress}
             onToggleMilestone={handleToggleMilestone}
             setActiveTab={setActiveTab}
+            currentUser={currentUser}
           />
         )}
 
         {activeTab === 'tracker' && (
-          <TrackerView
-            profile={profile}
-            onUpdateProfile={handleUpdateProfile}
-            progress={progress}
-            onToggleMilestone={handleToggleMilestone}
-            progressCount={progressCount}
-            totalMilestones={totalMilestones}
-          />
+          currentUser ? (
+            /* Jika SUDAH Login: Tampilkan Dashboard Pribadi Mahasiswa */
+            <TrackerView
+              profile={profile}
+              onUpdateProfile={handleUpdateProfile}
+              progress={progress}
+              onToggleMilestone={handleToggleMilestone}
+              progressCount={progressCount}
+              totalMilestones={totalMilestones}
+            />
+          ) : (
+            /* Jika BELUM Login: Tampilkan Halaman Masuk / Daftar Akun */
+            <AuthView
+              onLoginSuccess={handleLoginSuccess}
+              onContinueAsGuest={() => setActiveTab('dashboard')}
+            />
+          )
         )}
 
         {activeTab === 'panduan' && (
@@ -118,13 +149,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Supabase Config Modal */}
-      <SupabaseModal
-        isOpen={isSupabaseModalOpen}
-        onClose={() => setIsSupabaseModalOpen(false)}
-      />
-
-      {/* Footer dengan warna biru primary UAA yang serasi dengan navbar */}
+      {/* Footer UAA */}
       <footer className="border-t border-primary-700/60 bg-primary py-10 px-4 sm:px-6 lg:px-8 text-xs text-white/80 font-instrument shadow-inner">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
