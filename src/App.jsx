@@ -124,11 +124,11 @@ export default function App() {
         onClose={() => setIsSupabaseModalOpen(false)}
       />
 
-      {/* Footer dengan nuansa hangat putih tulang */}
-      <footer className="border-t border-[#E8E2D5] bg-[#F4F1E8]/80 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-instrument">
+      {/* Footer dengan warna biru primary UAA yang serasi dengan navbar */}
+      <footer className="border-t border-primary-700/60 bg-primary py-10 px-4 sm:px-6 lg:px-8 text-xs text-white/80 font-instrument shadow-inner">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-full overflow-hidden shadow-xs flex-shrink-0">
+            <div className="w-10 h-10 rounded-full overflow-hidden shadow-md flex-shrink-0 bg-white/10 p-0.5">
               <img 
                 src="/logo pusing coding.png" 
                 alt="Logo Pusing Coding" 
@@ -136,25 +136,30 @@ export default function App() {
               />
             </div>
             <div>
-              <span className="font-bold font-philosopher text-primary text-sm block">
-                Pusing Coding • Informatika 2023
-              </span>
-              <span className="text-[11px] text-slate-500">
+              <div className="flex items-center space-x-2">
+                <span className="font-bold font-philosopher text-white text-base block tracking-wide">
+                  Pusing Coding • Informatika 2023
+                </span>
+                <span className="px-2 py-0.5 text-[9px] font-bold rounded-full bg-accent text-white shadow-xs">
+                  UAA
+                </span>
+              </div>
+              <span className="text-[11px] text-white/75 block">
                 Fakultas Sains, Rekayasa dan Teknologi
               </span>
             </div>
           </div>
 
           <div className="text-center sm:text-left">
-            <span className="text-slate-600 block">Satu Angkatan, Satu Visi:</span>
-            <strong className="text-primary font-philosopher text-base">
+            <span className="text-white/70 block text-xs">Satu Angkatan, Satu Visi:</span>
+            <strong className="text-accent font-philosopher text-lg tracking-wide">
               Lulus Bareng 2025!
             </strong>
           </div>
 
-          <div className="text-center sm:text-right text-[11px] text-slate-400">
+          <div className="text-center sm:text-right text-[11px] text-white/60">
             <span>Pedoman FKT SK Rektor No. 182/A/SK/UAA/IX/2021</span>
-            <span className="block mt-0.5">Yogyakarta, Indonesia</span>
+            <span className="block mt-0.5 text-white/50">Yogyakarta, Indonesia</span>
           </div>
         </div>
       </footer>
