@@ -35,6 +35,15 @@ export default function DownloadsView() {
       isPrimary: true
     },
     {
+      title: "Buku Panduan Laporan Magang (KKL) Informatika UAA",
+      code: "Pedoman Magang",
+      category: "Magang & KKL",
+      desc: "Panduan resmi penyusunan laporan magang minimal 25 halaman, format margin 4-3-3-3, format logbook 16 minggu, dan tata cara pengumpulan.",
+      href: "/panduan-laporan-magang-kkl.pdf",
+      fileName: "Panduan_Laporan_Magang_KKL_Informatika_UAA.pdf",
+      isPrimary: true
+    },
+    {
       title: "Formulir Pengajuan Judul Skripsi & Proposal",
       code: "FKT.SPI.01",
       category: "Formulir Prodi",

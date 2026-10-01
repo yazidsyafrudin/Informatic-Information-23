@@ -224,5 +224,65 @@ export const PANDUAN_FKT = {
       "Peneliti wajib rutin memantau email komisietik@almaata.ac.id.",
       "Jika sudah memiliki EC dari institusi lain/RS, tetap wajib mengajukan EC di Komisi Etik UAA."
     ]
+  },
+
+  panduanMagang: {
+    namaMataKuliah: "Kuliah Kerja Lapangan (KKL) / Magang",
+    bobotSks: "3 SKS (Wajib Semester VII)",
+    durasi: "1 Semester (Magang Industri)",
+    waktuBimbinganLaporan: "1 Bulan bersama Dosen Pembimbing & Supervisor Lapangan",
+    formatLaporan: {
+      font: "Times New Roman 12 pt (Judul Bab 14 pt Bold)",
+      margin: "Kiri 4 cm, Atas 3 cm, Kanan 3 cm, Bawah 3 cm (4-3-3-3)",
+      spasi: "1.5 spasi",
+      minHalaman: "Minimal 25 halaman (tidak termasuk bagian awal, daftar pustaka, dan lampiran)",
+      pengumpulan: "Softcopy PDF dikirim ke email prodi: informatika@almaata.ac.id",
+      formatSubjek: "LaporanKKL_Tahun_Nama (Contoh: LaporanKKL_2026_YazidSyafrudin)"
+    },
+    sistematikaBab: [
+      {
+        bab: "BAB I",
+        judul: "PENDAHULUAN",
+        subBab: [
+          "1.1 Gambaran Umum Instansi (bidang bisnis/operasional)",
+          "1.2 Sejarah Instansi",
+          "1.3 Visi, Misi, dan Tujuan Instansi",
+          "1.4 Struktur Organisasi",
+          "1.5 Deskripsi Struktur Organisasi (Job Description)",
+          "1.6 Departemen IT / Peran IT di Instansi"
+        ]
+      },
+      {
+        bab: "BAB II",
+        judul: "PELAKSANAAN KERJA LAPANGAN",
+        subBab: [
+          "2.1 Logbook / Catatan Harian (Waktu & deskripsi pekerjaan harian)",
+          "2.2 Hasil Kerja Umum (Apa yang dikerjakan dan dihasilkan secara menyeluruh)",
+          "2.3 Bukti Kerja (Screenshots, source code, skrip, foto, dan dokumen pendukung)"
+        ]
+      },
+      {
+        bab: "BAB III",
+        judul: "HASIL PEMBELAJARAN (LEARNING OUTCOMES)",
+        subBab: [
+          "3.1 Manfaat Praktik Kerja (Pengalaman & wawasan yang didapat)",
+          "3.2 Penerapan Ilmu Komputer & Informatika di Tempat Magang",
+          "3.3 Linearitas Keilmuan (RPL: analisis masalah s.d. coding aplikasi; Data Science: analisis s.d. pemrosesan data, sertakan bukti script/screenshot)"
+        ]
+      },
+      {
+        bab: "BAB IV",
+        judul: "KESIMPULAN",
+        subBab: [
+          "Kesimpulan menyeluruh dari proses pelaksanaan magang/KKL yang telah diselesaikan"
+        ]
+      }
+    ],
+    logbookKetentuan: [
+      "Wajib mengisi laporan mingguan (Minggu 1 s.d. 16)",
+      "Memuat deskripsi pekerjaan harian, hasil kerja, serta kendala/tantangan yang dihadapi",
+      "Wajib menyertakan dokumen pendukung (foto kegiatan atau screenshot hasil kerja)",
+      "Wajib dimintakan paraf / tanda tangan Supervisor atau Penanggung Jawab Lapangan"
+    ]
   }
 };

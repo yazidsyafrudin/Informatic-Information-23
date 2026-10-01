@@ -14,7 +14,10 @@ import {
   Mail,
   MapPin,
   AlertTriangle,
-  FileText
+  FileText,
+  Briefcase,
+  CheckCircle2,
+  CalendarCheck
 } from 'lucide-react';
 import { PANDUAN_FKT } from '../data/panduanFKT';
 
@@ -60,6 +63,7 @@ export default function PanduanFktView() {
           { id: 'sistematika', label: '3. Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
           { id: 'ec', label: '5. Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
+          { id: 'magang', label: '6. Panduan Magang (KKL) Sem 7', icon: Briefcase },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSection === tab.id;
@@ -440,6 +444,141 @@ export default function PanduanFktView() {
               </div>
             </div>
 
+          </div>
+
+        </div>
+      )}
+
+      {/* SECTION 6: PANDUAN LAPORAN MAGANG (KKL) */}
+      {activeSection === 'magang' && (
+        <div className="space-y-8 animate-fadeIn">
+          
+          {/* Header Banner Magang */}
+          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2">
+                <Briefcase className="w-4 h-4 text-accent" />
+                <span>Mata Kuliah Wajib Semester 7 • 3 SKS</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
+                Panduan Laporan Kuliah Kerja Lapangan (KKL / Magang)
+              </h2>
+              <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
+                Pedoman resmi penyusunan laporan magang mahasiswa S1 Informatika Universitas Alma Ata, 
+                format penulisan standar, logbook 16 minggu, serta pengumpulan softcopy ke email prodi.
+              </p>
+            </div>
+
+            <a
+              href="/panduan-laporan-magang-kkl.pdf"
+              download="Panduan_Laporan_Magang_KKL_Informatika_UAA.pdf"
+              className="flex items-center space-x-2 px-5 py-3.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md shadow-accent/25 transition-all self-start md:self-auto flex-shrink-0"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download PDF Panduan Magang</span>
+            </a>
+          </div>
+
+          {/* Aturan Format Penulisan Laporan */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+            <h3 className="font-philosopher font-bold text-xl text-primary mb-4 flex items-center space-x-2">
+              <FileCheck2 className="w-5 h-5 text-accent" />
+              <span>Format & Ketentuan Penulisan Laporan</span>
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100">
+                <span className="text-xs text-slate-500 block font-semibold">Margin Halaman</span>
+                <span className="text-base font-bold text-primary font-philosopher">4 - 3 - 3 - 3 cm</span>
+                <p className="text-[11px] text-slate-600 mt-1">Kiri 4 cm, Atas 3 cm, Kanan 3 cm, Bawah 3 cm</p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100">
+                <span className="text-xs text-slate-500 block font-semibold">Tipografi & Spasi</span>
+                <span className="text-base font-bold text-primary font-philosopher">TNR 12 (Spasi 1.5)</span>
+                <p className="text-[11px] text-slate-600 mt-1">Times New Roman 12 pt, Judul Bab 14 pt Bold</p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100">
+                <span className="text-xs text-slate-500 block font-semibold">Ketebalan Minimal</span>
+                <span className="text-base font-bold text-accent font-philosopher">Minimal 25 Halaman</span>
+                <p className="text-[11px] text-slate-600 mt-1">Tidak termasuk cover, pengesahan, & lampiran</p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100">
+                <span className="text-xs text-slate-500 block font-semibold">Waktu Bimbingan</span>
+                <span className="text-base font-bold text-primary font-philosopher">Maksimal 1 Bulan</span>
+                <p className="text-[11px] text-slate-600 mt-1">Bimbingan bersama Dosen & Supervisor</p>
+              </div>
+            </div>
+
+            {/* Email Pengumpulan */}
+            <div className="mt-5 p-4 rounded-2xl bg-primary text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold text-accent uppercase tracking-wider block">Pengumpulan Laporan Softcopy</span>
+                <p className="text-xs text-white/90 mt-0.5">
+                  Kirimkan softfile PDF laporan magang ke email prodi: <strong className="text-white font-mono">informatika@almaata.ac.id</strong>
+                </p>
+              </div>
+              <div className="bg-white/15 px-3.5 py-2 rounded-xl border border-white/20 text-xs font-mono text-white flex-shrink-0">
+                Subject: LaporanKKL_Tahun_Nama
+              </div>
+            </div>
+          </div>
+
+          {/* Sistematika 4 Bab Laporan Magang */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+            <h3 className="font-philosopher font-bold text-xl text-primary mb-1">
+              Sistematika 4 Bab Isi Laporan Magang
+            </h3>
+            <p className="text-xs text-slate-500 mb-6 font-instrument">
+              Susunan isi naskah laporan KKL dari Bab I sampai Bab IV sesuai buku panduan resmi:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {PANDUAN_FKT.panduanMagang.sistematikaBab.map((item, idx) => (
+                <div key={idx} className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="px-2.5 py-0.5 rounded-full bg-accent text-white text-[10px] font-bold font-philosopher">
+                        {item.bab}
+                      </span>
+                      <span className="text-xs text-white/70 font-mono">KKL Informatika</span>
+                    </div>
+                    <h4 className="font-bold text-white font-philosopher text-base mb-3">{item.judul}</h4>
+                    
+                    <ul className="space-y-1.5 text-xs text-white/90 font-instrument">
+                      {item.subBab.map((sub, sIdx) => (
+                        <li key={sIdx} className="flex items-start space-x-2">
+                          <span className="text-accent font-bold mt-0.5">•</span>
+                          <span className="leading-relaxed">{sub}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Ketentuan Logbook Mingguan (1-16) */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+            <div className="flex items-center space-x-2 text-primary mb-3">
+              <CalendarCheck className="w-5 h-5 text-accent" />
+              <h3 className="font-philosopher font-bold text-xl text-primary">Ketentuan Logbook Mingguan (Minggu 1 s.d. 16)</h3>
+            </div>
+            <p className="text-xs text-slate-500 mb-4 font-instrument">
+              Format lampiran catatan harian/mingguan yang wajib dilengkapi dan dimintakan persetujuan tempat magang:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-instrument">
+              {PANDUAN_FKT.panduanMagang.logbookKetentuan.map((rule, idx) => (
+                <div key={idx} className="flex items-start space-x-3 p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span className="leading-relaxed">{rule}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
