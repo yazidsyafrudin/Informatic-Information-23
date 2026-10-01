@@ -6,10 +6,8 @@ import {
   CheckSquare, 
   BookOpen, 
   DownloadCloud, 
-  Database,
   Sparkles
 } from 'lucide-react';
-import { isSupabaseConfigured } from '../lib/supabase';
 
 export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, profile }) {
   const navItems = [
@@ -74,34 +72,18 @@ export default function Navbar({ activeTab, setActiveTab, onOpenSupabaseModal, p
             })}
           </nav>
 
-          {/* Action / Cloud Status */}
-          <div className="flex items-center space-x-3 flex-shrink-0">
-            <button
-              onClick={onOpenSupabaseModal}
-              className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-xs font-instrument font-semibold border transition-all whitespace-nowrap ${
-                isSupabaseConfigured
-                  ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/40 hover:bg-emerald-500/30'
-                  : 'bg-white/10 text-amber-200 border-white/20 hover:bg-white/20'
-              }`}
-              title="Konfigurasi Database Cloud Supabase"
-            >
-              <Database className="w-3.5 h-3.5 text-accent flex-shrink-0" />
-              <span className="hidden sm:inline whitespace-nowrap">
-                {isSupabaseConfigured ? 'Cloud Sync Aktif' : 'Supabase (Offline)'}
-              </span>
-            </button>
-
-            {/* Profile Avatar Chip */}
+          {/* Profile Avatar Chip */}
+          <div className="flex items-center flex-shrink-0">
             <div 
               onClick={() => setActiveTab('tracker')}
-              className="flex items-center space-x-2.5 pl-3 border-l border-white/20 cursor-pointer group flex-shrink-0"
+              className="flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 cursor-pointer group transition-all"
               title="Buka profil & checklist progres"
             >
-              <div className="w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-sm group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-xs group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0">
                 {profile?.nama_lengkap ? profile.nama_lengkap.charAt(0).toUpperCase() : 'M'}
               </div>
-              <div className="hidden lg:block text-left">
-                <p className="text-xs font-bold text-white font-instrument group-hover:text-accent transition-colors truncate max-w-[140px]">
+              <div className="hidden sm:block text-left">
+                <p className="text-xs font-bold text-white font-instrument group-hover:text-accent transition-colors truncate max-w-[130px]">
                   {profile?.nama_lengkap || 'Mahasiswa'}
                 </p>
                 <p className="text-[10px] text-white/70 font-mono">{profile?.nim || 'IF23'}</p>
