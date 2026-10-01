@@ -6,11 +6,14 @@ import TrackerView from './components/TrackerView';
 import AuthView from './components/AuthView';
 import PanduanFktView from './components/PanduanFktView';
 import DownloadsView from './components/DownloadsView';
+import KalenderAkademikView from './components/KalenderAkademikView';
+import NavigationMenuModal from './components/NavigationMenuModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(() => StorageService.getCurrentUser());
   const [profile, setProfile] = useState({
     nim: "230101001",
@@ -97,6 +100,7 @@ export default function App() {
         setActiveTab={setActiveTab}
         currentUser={currentUser}
         onLogout={handleLogout}
+        onOpenMenuModal={() => setIsMenuModalOpen(true)}
       />
 
       {/* Main Container */}
@@ -140,6 +144,10 @@ export default function App() {
           )
         )}
 
+        {activeTab === 'kalender' && (
+          <KalenderAkademikView />
+        )}
+
         {activeTab === 'panduan' && (
           <PanduanFktView />
         )}
@@ -148,6 +156,15 @@ export default function App() {
           <DownloadsView />
         )}
       </main>
+
+      {/* Navigation Command Palette Modal (Persis Referensi Raycast / Cmd+K) */}
+      <NavigationMenuModal
+        isOpen={isMenuModalOpen}
+        onClose={() => setIsMenuModalOpen(false)}
+        activeTab={activeTab}
+        onSelectTab={(tabId) => setActiveTab(tabId)}
+        currentUser={currentUser}
+      />
 
       {/* Footer UAA */}
       <footer className="border-t border-primary-700/60 bg-primary py-10 px-4 sm:px-6 lg:px-8 text-xs text-white/80 font-instrument shadow-inner">
@@ -183,7 +200,7 @@ export default function App() {
           </div>
 
           <div className="text-center sm:text-right text-[11px] text-white/60">
-            <span>Pedoman FKT SK Rektor No. 182/A/SK/UAA/IX/2021</span>
+            <span>Pedoman FKT SK Rektor No. 182/A/SK/UAA/IX/2021 & SK No. 216/A/SK/UAA/VII/2026</span>
             <span className="block mt-0.5 text-white/50">Yogyakarta, Indonesia</span>
           </div>
         </div>

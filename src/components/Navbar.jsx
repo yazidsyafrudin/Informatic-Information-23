@@ -4,23 +4,21 @@ import {
   Map, 
   CheckSquare, 
   BookOpen, 
-  DownloadCloud, 
+  LayoutGrid, 
   LogIn,
-  LogOut,
-  User
+  LogOut
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout }) {
-  const navItems = [
+export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout, onOpenMenuModal }) {
+  const primaryNavItems = [
     { id: 'dashboard', label: 'Beranda & Timeline', icon: LayoutDashboard },
     { id: 'roadmap', label: 'Roadmap Kelulusan', icon: Map },
     { id: 'tracker', label: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard', icon: CheckSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
-    { id: 'downloads', label: 'Pusat Berkas', icon: DownloadCloud },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-primary shadow-md">
+    <header className="sticky top-0 z-40 bg-primary shadow-md">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex items-center justify-between h-20 gap-4">
           
@@ -53,7 +51,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout 
 
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {navItems.map((item) => {
+            {primaryNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               return (
@@ -71,6 +69,22 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout 
                 </button>
               );
             })}
+
+            {/* Tombol Menu - Membuka Command Palette / Modal Navigasi Lengkap */}
+            <button
+              onClick={onOpenMenuModal}
+              className={`flex items-center space-x-2 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-xl text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
+                ['kalender', 'downloads'].includes(activeTab)
+                  ? 'bg-accent text-white font-bold shadow-md'
+                  : 'text-white hover:text-accent hover:bg-white/10'
+              }`}
+              title="Buka Menu & Navigasi Lengkap (Kalender Akademik, Pusat Berkas, dll.)"
+            >
+              <LayoutGrid className="w-4 h-4 flex-shrink-0" />
+              <span className="whitespace-nowrap">
+                {activeTab === 'kalender' ? 'Kalender Akademik' : activeTab === 'downloads' ? 'Pusat Berkas' : 'Menu'}
+              </span>
+            </button>
           </nav>
 
           {/* Pojok Kanan: Status Autentikasi User */}
@@ -119,7 +133,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout 
 
         {/* Mobile Nav Bar */}
         <div className="flex md:hidden overflow-x-auto py-2.5 space-x-2 border-t border-white/10 no-scrollbar">
-          {navItems.map((item) => {
+          {primaryNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
@@ -137,6 +151,18 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout 
               </button>
             );
           })}
+
+          <button
+            onClick={onOpenMenuModal}
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-philosopher font-semibold whitespace-nowrap transition-colors ${
+              ['kalender', 'downloads'].includes(activeTab)
+                ? 'bg-accent text-white font-bold'
+                : 'text-white/90 hover:text-accent bg-white/10'
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Menu</span>
+          </button>
         </div>
       </div>
     </header>
