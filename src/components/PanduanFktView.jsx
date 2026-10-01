@@ -599,14 +599,16 @@ export default function PanduanFktView() {
             <div>
               <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2">
                 <Award className="w-4 h-4 text-accent" />
-                <span>Direktorat Kemahasiswaan UAA</span>
+                <span>Direktorat Kemahasiswaan & Prodi Informatika</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
-                Skor Prestasi Mahasiswa (SPM) • Min. 25 Poin
+                2 Syarat Wajib Skor Prestasi Mahasiswa (SPM)
               </h2>
               <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
-                Ketetapan resmi Universitas Alma Ata: Mahasiswa S1 angkatan 2021 ke atas (termasuk Informatika 2023) 
-                <strong className="text-accent font-bold"> WAJIB memenuhi minimal 25 Poin SPM </strong> dan lolos verifikasi syarat perlu konten media sosial.
+                Ketetapan resmi bagi mahasiswa S1 Informatika: Wajib memenuhi 
+                <strong className="text-accent font-bold"> SPM Akademik/Birokrasi (9 Poin) </strong> dan 
+                <strong className="text-accent font-bold"> SPM Prodi Informatika (Min. 25 Poin) </strong> 
+                sebagai prasyarat Sempro dan Ujian Pendadaran.
               </p>
             </div>
 
@@ -631,41 +633,107 @@ export default function PanduanFktView() {
             </div>
           </div>
 
-          {/* Ketentuan Penting Syarat Sempro vs Syarat Pendadaran */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-amber-500 text-slate-950 border-2 border-amber-300 shadow-md">
-              <div className="flex items-center space-x-2 mb-2 font-bold text-xs uppercase tracking-wider text-slate-900">
-                <Video className="w-4 h-4" />
-                <span>Syarat Pendaftaran SEMPRO</span>
+          {/* Rincian 2 Kategori Wajib SPM */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* Kategori 1: SPM Akademik / Birokrasi (9 Poin) */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-amber-300 shadow-md flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold uppercase tracking-wider">
+                    Syarat 1 • Wajib Sempro
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-amber-500 text-slate-950 font-bold text-xs">
+                    Total: 9 Poin Wajib
+                  </span>
+                </div>
+
+                <h3 className="font-philosopher font-bold text-xl text-slate-900 mb-1">
+                  1. SPM Akademik / Birokrasi
+                </h3>
+                <p className="text-xs text-slate-600 mb-4 font-instrument">
+                  Dikelola bersama Biro Admisi & Humas universitas. Terdiri dari 3 tugas wajib masing-masing bernilai 3 poin:
+                </p>
+
+                <div className="space-y-3">
+                  {PANDUAN_FKT.skorPrestasiMahasiswa.duaSyaratWajib.birokrasi.komponen.map((komp, idx) => (
+                    <div key={idx} className="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200">
+                      <div className="flex items-start justify-between gap-2 mb-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center">
+                            {idx + 1}
+                          </span>
+                          <h4 className="font-bold text-slate-900 text-xs font-instrument">{komp.nama}</h4>
+                        </div>
+                        <span className="text-xs font-bold text-amber-700 bg-amber-200/70 px-2 py-0.5 rounded-md font-mono flex-shrink-0">
+                          {komp.poin} Poin
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed font-instrument pl-7">
+                        {komp.deskripsi}
+                      </p>
+                      <div className="mt-2 pt-2 border-t border-amber-200/60 pl-7 text-[10px] text-slate-500">
+                        <strong className="text-slate-700">Bukti: </strong>{komp.bukti}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h3 className="font-philosopher font-bold text-xl mb-2 text-slate-950">
-                Syarat Perlu (Klinik Konten Medsos)
-              </h3>
-              <p className="text-xs text-slate-900 leading-relaxed font-instrument">
-                {PANDUAN_FKT.skorPrestasiMahasiswa.kegunaan.sempro}
-              </p>
-              <div className="mt-4 pt-3 border-t border-slate-900/20 text-[11px] font-bold text-slate-900 flex items-center justify-between">
-                <span>Form Validasi Syarat Perlu (1)</span>
-                <span className="bg-slate-900 text-white px-2.5 py-0.5 rounded-full text-[10px]">Wajib ACC Admisi</span>
+
+              <div className="mt-5 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-instrument">
+                <span className="text-slate-600">Output Validasi:</span>
+                <span className="font-bold text-slate-900 bg-amber-100 px-3 py-1 rounded-xl">
+                  Form Validasi Syarat Perlu (1)
+                </span>
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 rounded-3xl bg-primary text-white border-2 border-primary-700 shadow-md">
-              <div className="flex items-center space-x-2 mb-2 font-bold text-xs uppercase tracking-wider text-accent">
-                <Award className="w-4 h-4" />
-                <span>Syarat Ujian PENDADARAN</span>
+            {/* Kategori 2: SPM Prodi Informatika (Min. 25 Poin) */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-primary/20 shadow-md flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-3 py-1 rounded-full bg-sky-100 text-primary text-[11px] font-bold uppercase tracking-wider">
+                    Syarat 2 • Wajib Pendadaran
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-primary text-white font-bold text-xs">
+                    Target: Min. 25 Poin
+                  </span>
+                </div>
+
+                <h3 className="font-philosopher font-bold text-xl text-primary mb-1">
+                  2. SPM Prodi Informatika
+                </h3>
+                <p className="text-xs text-slate-600 mb-4 font-instrument">
+                  Divalidasi oleh Kour Kemahasiswaan Prodi Informatika dari aktivitas akademik, organisasi, dan prestasi:
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {PANDUAN_FKT.skorPrestasiMahasiswa.duaSyaratWajib.prodi.contohKegiatan.map((item, idx) => (
+                    <div key={idx} className="p-3 rounded-2xl bg-sky-50/70 border border-sky-100 flex flex-col justify-between">
+                      <div>
+                        <span className="text-xs font-bold text-primary font-instrument block mb-1">
+                          {item.kategori}
+                        </span>
+                        <span className="text-xs font-bold text-accent font-philosopher block mb-1">
+                          {item.estimasi}
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 font-instrument border-t border-sky-200/50 pt-1.5 mt-1">
+                        <strong className="text-slate-700">Bukti: </strong>{item.bukti}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h3 className="font-philosopher font-bold text-xl mb-2 text-white">
-                Total Akumulasi SPM ≥ 25 Poin
-              </h3>
-              <p className="text-xs text-white/90 leading-relaxed font-instrument">
-                {PANDUAN_FKT.skorPrestasiMahasiswa.kegunaan.pendadaran}
-              </p>
-              <div className="mt-4 pt-3 border-t border-white/20 text-[11px] font-bold text-white flex items-center justify-between">
-                <span>Form Validasi Prestasi (2)</span>
-                <span className="bg-accent text-white px-2.5 py-0.5 rounded-full text-[10px]">Wajib Lolos Kemahasiswaan</span>
+
+              <div className="mt-5 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-instrument">
+                <span className="text-slate-600">Output Validasi:</span>
+                <span className="font-bold text-primary bg-sky-100 px-3 py-1 rounded-xl">
+                  Form Validasi Prestasi (2)
+                </span>
               </div>
             </div>
+
           </div>
 
           {/* 6 Alur Langkah Pelaporan & Validasi SPM */}
@@ -676,7 +744,7 @@ export default function PanduanFktView() {
                 6 Langkah Pengajuan & Validasi SPM
               </h2>
               <p className="font-instrument text-slate-600 text-xs sm:text-sm mt-1">
-                Ikuti alur resmi dari pembuatan konten hingga verifikasi status "MEMENUHI":
+                Alur sistematis untuk memvalidasi SPM Birokrasi (9 Poin) dan SPM Prodi (25 Poin):
               </p>
             </div>
 
@@ -763,35 +831,6 @@ export default function PanduanFktView() {
                       </a>
                     )}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Sumber Poin Cepat SPM untuk Informatika '23 */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
-            <h3 className="font-philosopher font-bold text-xl text-primary mb-2 flex items-center space-x-2">
-              <Star className="w-5 h-5 text-accent" />
-              <span>Cara Cepat Mengumpulkan 25 Poin SPM (Informatika 23)</span>
-            </h3>
-            <p className="text-xs text-slate-500 mb-6 font-instrument">
-              Berbagai kegiatan yang dapat kamu konversikan menjadi poin prestasi mahasiswa:
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {PANDUAN_FKT.skorPrestasiMahasiswa.sumberPoinUmum.map((sumber, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-sky-50 border border-sky-100 flex flex-col justify-between">
-                  <div>
-                    <span className="text-xs font-bold text-primary font-instrument block mb-1">
-                      {sumber.kategori}
-                    </span>
-                    <span className="text-sm font-bold text-accent font-philosopher block mb-2">
-                      {sumber.poin}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-slate-600 font-instrument border-t border-sky-200/60 pt-2">
-                    <strong className="text-slate-800">Bukti: </strong>{sumber.bukti}
-                  </p>
                 </div>
               ))}
             </div>

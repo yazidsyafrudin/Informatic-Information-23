@@ -393,8 +393,9 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm border border-primary/20">
-                <span className="text-[11px] text-slate-500 block font-semibold">Skor Prestasi Mahasiswa (SPM)</span>
-                <span className="text-sm font-bold text-primary">Minimal 25 Poin & Konten Medsos</span>
+                <span className="text-[11px] text-slate-500 block font-semibold">2 Syarat Wajib Skor Prestasi (SPM)</span>
+                <span className="text-xs font-bold text-primary block">Birokrasi 9 Poin & Prodi 25 Poin</span>
+                <span className="text-[10px] text-slate-500 mt-0.5 block">Video, Artikel, Review Bintang 5 + Kegiatan Prodi</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300">

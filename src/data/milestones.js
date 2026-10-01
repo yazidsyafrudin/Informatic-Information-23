@@ -63,9 +63,9 @@ export const ROADMAP_PHASES = [
       },
       {
         id: "m-8",
-        title: "Cek Syarat Administrasi (IPK 3.25, LPBA, AAEPT, SPM Konten)",
-        desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, hadir min. 5x sempro, dan lolos validasi Syarat Perlu SPM (Klinik Konten Medsos).",
-        tips: "Syarat perlu SPM: Wajib gabung Grup WhatsApp 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) & buat video branding UAA untuk dapat Form Validasi (1) sebelum daftar Sempro!"
+        title: "Cek Syarat Administrasi (IPK, AAEPT, SPM Birokrasi 9 Poin)",
+        desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, hadir min. 5x sempro, dan tuntas SPM Birokrasi 9 Poin (Video medsos 3 poin, Artikel 3 poin, Google review bintang 5 3 poin).",
+        tips: "Gabung Grup WhatsApp 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) untuk panduan pembuatan video, artikel, dan ulasan bintang 5!"
       },
       {
         id: "m-9",
@@ -149,9 +149,9 @@ export const ROADMAP_PHASES = [
       },
       {
         id: "m-spm-pendadaran",
-        title: "Validasi Akhir SPM Minimal 25 Poin (Dir. Kemahasiswaan)",
-        desc: "Pastikan seluruh sertifikat, magang, konten medsos, dan prestasi telah tervalidasi minimal 25 poin untuk syarat pendaftaran ujian pendadaran.",
-        tips: "Unggah Form Validasi 1 & 2 ke almaata.ac.id/verifikasi-spm dan hubungi admin kemahasiswaan (0851-7343-5928)."
+        title: "Validasi SPM Prodi Minimal 25 Poin (Kour Kemahasiswaan)",
+        desc: "Pastikan seluruh kegiatan prodi (organisasi, seminar/webinar IT, kepanitiaan, magang, sertifikasi) mencapai minimal 25 poin untuk syarat pendaftaran ujian pendadaran.",
+        tips: "Dapatkan pengesahan Form Validasi Prestasi (2) dari Kour Kemahasiswaan Prodi Informatika lalu unggah ke almaata.ac.id/verifikasi-spm."
       },
       {
         id: "m-17",

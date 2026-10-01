@@ -288,22 +288,65 @@ export const PANDUAN_FKT = {
 
   skorPrestasiMahasiswa: {
     judul: "Skor Prestasi Mahasiswa (SPM)",
-    syaratMinS1: "Minimal 25 Poin (Angkatan 2021 dan setelahnya / Angkatan 2023)",
+    deskripsi: "Syarat wajib kelulusan SPM terdiri dari 2 kategori utama: SPM Akademik/Birokrasi (9 Poin) dan SPM Prodi (25 Poin).",
+    duaSyaratWajib: {
+      birokrasi: {
+        nama: "1. SPM Akademik / Birokrasi (Total 9 Poin)",
+        totalPoin: 9,
+        statusWajib: "Wajib 9 Poin (Syarat Perlu Sempro)",
+        deskripsi: "Kewajiban publikasi dan citra positif universitas yang diaudit oleh tim admisi/branding melalui 3 komponen (masing-masing 3 poin):",
+        komponen: [
+          {
+            nama: "Konten Media Sosial (Video / Reels / TikTok)",
+            poin: 3,
+            deskripsi: "Karya video orisinil 15–60 detik bertema positif branding UAA, hashtag #banggauaa #universitasalmaata #pmbalmaata #spmuaa, tag @universitas_almaata, dan pasang link PMB di bio/story.",
+            bukti: "Link postingan IG Reels / TikTok & tangkapan layar"
+          },
+          {
+            nama: "Konten Media Sosial Berupa Artikel",
+            poin: 3,
+            deskripsi: "Publikasi artikel/tulisan positif tentang perkuliahan, karya teknologi, atau prestasi Informatika di media online/blog/LinkedIn.",
+            bukti: "Tautan artikel publikasi online & tangkapan layar"
+          },
+          {
+            nama: "Ulasan Positif di Google Review (Bintang 5)",
+            poin: 3,
+            deskripsi: "Memberikan ulasan positif dan bintang 5 di Google Review / Google Maps resmi Universitas Alma Ata.",
+            bukti: "Tangkapan layar (screenshot) ulasan Google Review bintang 5"
+          }
+        ]
+      },
+      prodi: {
+        nama: "2. SPM Prodi Informatika (Total 25 Poin)",
+        totalPoin: 25,
+        statusWajib: "Wajib Minimal 25 Poin (Syarat Pendadaran)",
+        deskripsi: "Akumulasi poin aktivitas kemahasiswaan dan keilmuan yang dilaporkan dan disahkan oleh Kour Kemahasiswaan Prodi Informatika:",
+        contohKegiatan: [
+          { kategori: "Partisipasi Seminar / Webinar / Workshop IT", estimasi: "1 – 3 Poin per kegiatan", bukti: "Sertifikat Peserta & Notulensi" },
+          { kategori: "Keaktifan Organisasi (HIMA / BEM / DPM / UKM)", estimasi: "3 – 6 Poin", bukti: "SK Kepengurusan / Sertifikat Pengurus" },
+          { kategori: "Kepanitiaan Kegiatan Kampus / Nasional", estimasi: "1 – 4 Poin", bukti: "SK Panitia / Sertifikat Kepanitiaan" },
+          { kategori: "Program Magang Industri / MBKM", estimasi: "3 – 5 Poin", bukti: "Surat Tugas & Sertifikat Magang" },
+          { kategori: "Sertifikasi Kompetensi Bidang IT (BNSP / Vendor)", estimasi: "5 – 10 Poin", bukti: "Sertifikat Kompetensi resmi" },
+          { kategori: "Juara Lomba / Kompetisi Regional – Nasional", estimasi: "4 – 15 Poin", bukti: "Sertifikat Juara & Surat Tugas" }
+        ]
+      }
+    },
+    totalAkumulasi: "Total Lengkap: 34 Poin (9 Poin Birokrasi + 25 Poin Prodi)",
     kegunaan: {
-      sempro: "Syarat Perlu: Wajib gabung ke Grup WA 'Program Pendampingan Konten SPM' dan membuat konten video Reels/TikTok untuk mendapatkan Form Validasi Syarat Perlu (1) dari admisi. WAJIB dipenuhi sebelum daftar Seminar Proposal.",
-      pendadaran: "Total Skor SPM Minimal 25 Poin (tervalidasi Kour Kemahasiswaan Prodi & disetujui Direktorat Kemahasiswaan) WAJIB dipenuhi sebelum daftar Ujian Pendadaran / Sidang Skripsi."
+      sempro: "Syarat Perlu (SPM Akademik/Birokrasi - 9 Poin): Wajib gabung ke Grup WA 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) dan menyelesaikan 3 tugas (video 3 poin, artikel 3 poin, review bintang 5 3 poin) untuk mendapatkan Form Validasi Syarat Perlu (1).",
+      pendadaran: "Syarat Pendadaran (SPM Prodi - Min. 25 Poin): Wajib mengumpulkan minimal 25 poin kegiatan prodi (organisasi, seminar, kepanitiaan, sertifikasi, dll.) yang disahkan Kour Kemahasiswaan Prodi dan diaudit Direktorat Kemahasiswaan."
     },
     alurValidasi: [
       {
         step: 1,
-        title: "Pahami Panduan SPM",
-        desc: "Memahami seluruh ketentuan, kriteria, dan bobot kegiatan pada Buku Panduan SPM (Skor Prestasi Mahasiswa) Universitas Alma Ata.",
+        title: "Pahami Panduan SPM (2 Kategori Wajib)",
+        desc: "Memahami 2 syarat wajib SPM: SPM Akademik/Birokrasi (9 Poin) dan SPM Prodi Informatika (25 Poin) pada Buku Panduan SPM UAA.",
         downloadLink: "/panduan-skor-prestasi-mahasiswa-spm.pdf"
       },
       {
         step: 2,
-        title: "Gabung Grup WA Pendampingan Konten",
-        desc: "Bergabung pada Grup WhatsApp 'Program Pendampingan Konten SPM' untuk mendapatkan arahan teknis konten branding dan memperoleh Form Validasi Syarat Perlu (1).",
+        title: "Gabung Grup WA & Tuntaskan SPM Birokrasi (9 Poin)",
+        desc: "Bergabung pada Grup WhatsApp 'Program Pendampingan Konten SPM' untuk menuntaskan 3 tugas wajib (Video Medsos 3 poin, Artikel 3 poin, Google Review Bintang 5 3 poin) hingga terbit Form Validasi Syarat Perlu (1).",
         link: "https://bit.ly/klinik-konten-spm",
         waGroup: "https://chat.whatsapp.com/Ddq7wQjJfjQJGKpOhBqzWJ",
         highlight: "Wajib Join Grup WhatsApp",
@@ -311,21 +354,21 @@ export const PANDUAN_FKT = {
       },
       {
         step: 3,
-        title: "Lapor Prestasi & Hubungi Kour Prodi",
-        desc: "Melakukan Lapor Prestasi online dan menghubungi Kour Kemahasiswaan Prodi Informatika untuk mohon validasi berkas hingga mendapatkan Form Validasi Prestasi (2).",
+        title: "Lapor SPM Prodi (25 Poin) ke Kour Prodi",
+        desc: "Melaporkan bukti kegiatan prodi (organisasi, seminar, magang, sertifikasi) melalui tautan lapor dan menghubungi Kour Kemahasiswaan Prodi Informatika untuk mendapatkan Form Validasi Prestasi (2).",
         link: "https://bit.ly/tautanlaporSPM",
         catatan: "Narahubung: Kour Kemahasiswaan Prodi Informatika"
       },
       {
         step: 4,
         title: "Unggah Form Validasi 1 & 2 ke Web",
-        desc: "Mengunggah Form Validasi Syarat Perlu (1) dan Form Validasi Prestasi (2) ke portal resmi verifikasi SPM universitas.",
+        desc: "Mengunggah Form Validasi Syarat Perlu 1 (9 Poin) dan Form Validasi Prestasi 2 (25 Poin) ke portal resmi verifikasi SPM universitas.",
         link: "https://almaata.ac.id/verifikasi-spm"
       },
       {
         step: 5,
         title: "Verifikasi Direktorat Kemahasiswaan",
-        desc: "Audit dan verifikasi berkas oleh Direktorat Kemahasiswaan UAA (Narahubung Admin Kemahasiswaan: +62 851-7343-5928).",
+        desc: "Audit dan verifikasi akhir kedua berkas oleh Direktorat Kemahasiswaan UAA (Narahubung Admin Kemahasiswaan: +62 851-7343-5928).",
         kontak: "+62 851-7343-5928"
       },
       {
@@ -333,14 +376,6 @@ export const PANDUAN_FKT = {
         title: "Hasil Verifikasi 'MEMENUHI' ke Surel",
         desc: "Pelaporan yang telah divalidasi dan diverifikasi 'MEMENUHI' akan dikirim langsung ke surel (email) mahasiswa sebagai syarat sah daftar ujian."
       }
-    ],
-    sumberPoinUmum: [
-      { kategori: "Konten Media Sosial & Ulasan", poin: "4 Poin per video + 1 Poin Google review bintang 5", bukti: "Link konten, bukti share, tangkapan layar ulasan" },
-      { kategori: "Program MBKM / Magang Industri", poin: "3 – 5 Poin", bukti: "Surat Tugas, Laporan Kegiatan, Sertifikat Magang" },
-      { kategori: "Kepengurusan Organisasi (HIMA / BEM / UKM)", poin: "3 – 6 Poin", bukti: "SK Kepengurusan, Sertifikat Jabatan" },
-      { kategori: "Kepanitiaan Kegiatan Kampus / Nasional", poin: "1 – 4 Poin", bukti: "SK / Sertifikat Panitia, Surat Tugas" },
-      { kategori: "Sertifikasi Kompetensi IT (BNSP / Vendor)", poin: "5 – 10 Poin", bukti: "Sertifikat Kompetensi resmi" },
-      { kategori: "Juara Lomba / Kompetisi Regional – Nasional", poin: "4 – 15 Poin", bukti: "Sertifikat Juara, Surat Tugas, Dokumentasi" }
     ],
     kontak: {
       portal: "https://kemahasiswaan.almaata.ac.id/skor-prestasi-mahasiswa/",
