@@ -652,7 +652,7 @@ export default function PanduanFktView() {
                   1. SPM Akademik / Birokrasi
                 </h3>
                 <p className="text-xs text-slate-600 mb-4 font-instrument">
-                  Dikelola bersama Biro Admisi & Humas universitas. Terdiri dari 3 tugas wajib masing-masing bernilai 3 poin:
+                  Dikelola bersama Biro Admisi & Humas universitas. Terdiri dari 3 tugas wajib: Video Medsos (4 Poin), Artikel (4 Poin), dan Google Maps Review Bintang 5 (1 Poin):
                 </p>
 
                 <div className="space-y-3">

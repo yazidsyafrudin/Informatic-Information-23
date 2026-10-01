@@ -64,8 +64,8 @@ export const ROADMAP_PHASES = [
       {
         id: "m-8",
         title: "Cek Syarat Administrasi (IPK, AAEPT, SPM Birokrasi 9 Poin)",
-        desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, hadir min. 5x sempro, dan tuntas SPM Birokrasi 9 Poin (Video medsos 3 poin, Artikel 3 poin, Google review bintang 5 3 poin).",
-        tips: "Gabung Grup WhatsApp 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) untuk panduan pembuatan video, artikel, dan ulasan bintang 5!"
+        desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, hadir min. 5x sempro, dan tuntas SPM Birokrasi 9 Poin (Video medsos 4 poin, Artikel 4 poin, Google Maps review bintang 5 1 poin).",
+        tips: "Gabung Grup WhatsApp 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) untuk panduan pembuatan video (4 poin), artikel (4 poin), dan ulasan Google Maps (1 poin)!"
       },
       {
         id: "m-9",

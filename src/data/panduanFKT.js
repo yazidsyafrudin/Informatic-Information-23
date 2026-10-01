@@ -294,25 +294,25 @@ export const PANDUAN_FKT = {
         nama: "1. SPM Akademik / Birokrasi (Total 9 Poin)",
         totalPoin: 9,
         statusWajib: "Wajib 9 Poin (Syarat Perlu Sempro)",
-        deskripsi: "Kewajiban publikasi dan citra positif universitas yang diaudit oleh tim admisi/branding melalui 3 komponen (masing-masing 3 poin):",
+        deskripsi: "Kewajiban publikasi dan citra positif universitas yang diaudit oleh tim admisi/branding: Konten Video Medsos (4 Poin), Konten Artikel (4 Poin), dan Google Maps Review Bintang 5 (1 Poin):",
         komponen: [
           {
             nama: "Konten Media Sosial (Video / Reels / TikTok)",
-            poin: 3,
+            poin: 4,
             deskripsi: "Karya video orisinil 15–60 detik bertema positif branding UAA, hashtag #banggauaa #universitasalmaata #pmbalmaata #spmuaa, tag @universitas_almaata, dan pasang link PMB di bio/story.",
             bukti: "Link postingan IG Reels / TikTok & tangkapan layar"
           },
           {
             nama: "Konten Media Sosial Berupa Artikel",
-            poin: 3,
+            poin: 4,
             deskripsi: "Publikasi artikel/tulisan positif tentang perkuliahan, karya teknologi, atau prestasi Informatika di media online/blog/LinkedIn.",
             bukti: "Tautan artikel publikasi online & tangkapan layar"
           },
           {
-            nama: "Ulasan Positif di Google Review (Bintang 5)",
-            poin: 3,
-            deskripsi: "Memberikan ulasan positif dan bintang 5 di Google Review / Google Maps resmi Universitas Alma Ata.",
-            bukti: "Tangkapan layar (screenshot) ulasan Google Review bintang 5"
+            nama: "Ulasan Positif di Google Maps Review (Bintang 5)",
+            poin: 1,
+            deskripsi: "Memberikan ulasan positif dan bintang 5 di Google Maps / Google Review resmi Universitas Alma Ata.",
+            bukti: "Tangkapan layar (screenshot) ulasan Google Maps review bintang 5"
           }
         ]
       },
@@ -333,7 +333,7 @@ export const PANDUAN_FKT = {
     },
     totalAkumulasi: "Total Lengkap: 34 Poin (9 Poin Birokrasi + 25 Poin Prodi)",
     kegunaan: {
-      sempro: "Syarat Perlu (SPM Akademik/Birokrasi - 9 Poin): Wajib gabung ke Grup WA 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) dan menyelesaikan 3 tugas (video 3 poin, artikel 3 poin, review bintang 5 3 poin) untuk mendapatkan Form Validasi Syarat Perlu (1).",
+      sempro: "Syarat Perlu (SPM Akademik/Birokrasi - 9 Poin): Wajib gabung ke Grup WA 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) dan menyelesaikan 3 tugas (video 4 poin, artikel 4 poin, review google maps bintang 5 1 poin) untuk mendapatkan Form Validasi Syarat Perlu (1).",
       pendadaran: "Syarat Pendadaran (SPM Prodi - Min. 25 Poin): Wajib mengumpulkan minimal 25 poin kegiatan prodi (organisasi, seminar, kepanitiaan, sertifikasi, dll.) yang disahkan Kour Kemahasiswaan Prodi dan diaudit Direktorat Kemahasiswaan."
     },
     alurValidasi: [
@@ -346,7 +346,7 @@ export const PANDUAN_FKT = {
       {
         step: 2,
         title: "Gabung Grup WA & Tuntaskan SPM Birokrasi (9 Poin)",
-        desc: "Bergabung pada Grup WhatsApp 'Program Pendampingan Konten SPM' untuk menuntaskan 3 tugas wajib (Video Medsos 3 poin, Artikel 3 poin, Google Review Bintang 5 3 poin) hingga terbit Form Validasi Syarat Perlu (1).",
+        desc: "Bergabung pada Grup WhatsApp 'Program Pendampingan Konten SPM' untuk menuntaskan 3 tugas wajib (Video Medsos 4 poin, Artikel 4 poin, Google Maps Review Bintang 5 1 poin) hingga terbit Form Validasi Syarat Perlu (1).",
         link: "https://bit.ly/klinik-konten-spm",
         waGroup: "https://chat.whatsapp.com/Ddq7wQjJfjQJGKpOhBqzWJ",
         highlight: "Wajib Join Grup WhatsApp",
