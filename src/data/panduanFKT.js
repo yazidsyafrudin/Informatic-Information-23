@@ -322,19 +322,19 @@ export const PANDUAN_FKT = {
         statusWajib: "Wajib Minimal 25 Poin (Syarat Pendadaran)",
         deskripsi: "Akumulasi poin aktivitas kemahasiswaan dan keilmuan yang dilaporkan dan disahkan oleh Kour Kemahasiswaan Prodi Informatika:",
         contohKegiatan: [
-          { kategori: "Partisipasi Seminar / Webinar / Workshop IT", estimasi: "1 – 3 Poin per kegiatan", bukti: "Sertifikat Peserta & Notulensi" },
-          { kategori: "Keaktifan Organisasi (HIMA / BEM / DPM / UKM)", estimasi: "3 – 6 Poin", bukti: "SK Kepengurusan / Sertifikat Pengurus" },
-          { kategori: "Kepanitiaan Kegiatan Kampus / Nasional", estimasi: "1 – 4 Poin", bukti: "SK Panitia / Sertifikat Kepanitiaan" },
-          { kategori: "Program Magang Industri / MBKM", estimasi: "3 – 5 Poin", bukti: "Surat Tugas & Sertifikat Magang" },
-          { kategori: "Sertifikasi Kompetensi Bidang IT (BNSP / Vendor)", estimasi: "5 – 10 Poin", bukti: "Sertifikat Kompetensi resmi" },
-          { kategori: "Juara Lomba / Kompetisi Regional – Nasional", estimasi: "4 – 15 Poin", bukti: "Sertifikat Juara & Surat Tugas" }
+          { kategori: "Program Magang Industri / MBKM", estimasi: "10 Poin", bukti: "Surat Tugas & Sertifikat Magang / Laporan" },
+          { kategori: "MGM (Mahasiswa Get Mahasiswa)", estimasi: "8 Poin", bukti: "Bukti Referral PMB / Verifikasi Admisi" },
+          { kategori: "Ketua HIMA (Himpunan Mahasiswa Informatika)", estimasi: "10 Poin", bukti: "SK Kepengurusan / SK Pelantikan" },
+          { kategori: "Kepala Departemen / Koordinator (Koor HIMA)", estimasi: "8 Poin", bukti: "SK Kepengurusan / Sertifikat Pengurus" },
+          { kategori: "Anggota HIMA Informatika", estimasi: "4 Poin", bukti: "SK Kepengurusan / Sertifikat Keanggotaan" },
+          { kategori: "Kuliah Kerja Nyata (KKN)", estimasi: "10 Poin", bukti: "Sertifikat Kelulusan KKN / Surat Keterangan" }
         ]
       }
     },
     totalAkumulasi: "Total Lengkap: 34 Poin (9 Poin Birokrasi + 25 Poin Prodi)",
     kegunaan: {
       sempro: "Syarat Perlu (SPM Akademik/Birokrasi - 9 Poin): Wajib gabung ke Grup WA 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) dan menyelesaikan 3 tugas (video 4 poin, artikel 4 poin, review google maps bintang 5 1 poin) untuk mendapatkan Form Validasi Syarat Perlu (1).",
-      pendadaran: "Syarat Pendadaran (SPM Prodi - Min. 25 Poin): Wajib mengumpulkan minimal 25 poin kegiatan prodi (organisasi, seminar, kepanitiaan, sertifikasi, dll.) yang disahkan Kour Kemahasiswaan Prodi dan diaudit Direktorat Kemahasiswaan."
+      pendadaran: "Syarat Pendadaran (SPM Prodi - Min. 25 Poin): Wajib mengumpulkan minimal 25 poin kegiatan prodi (Magang 10 P, KKN 10 P, Pengurus/Anggota HIMA 4-10 P, MGM 8 P) yang disahkan Kour Kemahasiswaan Prodi dan diaudit Direktorat Kemahasiswaan."
     },
     alurValidasi: [
       {
@@ -355,7 +355,7 @@ export const PANDUAN_FKT = {
       {
         step: 3,
         title: "Lapor SPM Prodi (25 Poin) ke Kour Prodi",
-        desc: "Melaporkan bukti kegiatan prodi (organisasi, seminar, magang, sertifikasi) melalui tautan lapor dan menghubungi Kour Kemahasiswaan Prodi Informatika untuk mendapatkan Form Validasi Prestasi (2).",
+        desc: "Melaporkan bukti kegiatan prodi (Magang 10 Poin, KKN 10 Poin, HIMA 4–10 Poin, MGM 8 Poin) melalui tautan lapor dan menghubungi Kour Kemahasiswaan Prodi Informatika untuk mendapatkan Form Validasi Prestasi (2).",
         link: "https://bit.ly/tautanlaporSPM",
         catatan: "Narahubung: Kour Kemahasiswaan Prodi Informatika"
       },

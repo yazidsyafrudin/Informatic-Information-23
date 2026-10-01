@@ -150,7 +150,7 @@ export const ROADMAP_PHASES = [
       {
         id: "m-spm-pendadaran",
         title: "Validasi SPM Prodi Minimal 25 Poin (Kour Kemahasiswaan)",
-        desc: "Pastikan seluruh kegiatan prodi (organisasi, seminar/webinar IT, kepanitiaan, magang, sertifikasi) mencapai minimal 25 poin untuk syarat pendaftaran ujian pendadaran.",
+        desc: "Pastikan kegiatan prodi (Magang 10 P, KKN 10 P, HIMA 4–10 P, MGM 8 P) telah mencapai minimal 25 poin untuk syarat pendaftaran ujian pendadaran.",
         tips: "Dapatkan pengesahan Form Validasi Prestasi (2) dari Kour Kemahasiswaan Prodi Informatika lalu unggah ke almaata.ac.id/verifikasi-spm."
       },
       {
