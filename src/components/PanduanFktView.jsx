@@ -17,7 +17,11 @@ import {
   FileText,
   Briefcase,
   CheckCircle2,
-  CalendarCheck
+  CalendarCheck,
+  Award,
+  Star,
+  Video,
+  Share2
 } from 'lucide-react';
 import { PANDUAN_FKT } from '../data/panduanFKT';
 
@@ -64,6 +68,7 @@ export default function PanduanFktView() {
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
           { id: 'ec', label: '5. Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
           { id: 'magang', label: '6. Panduan Magang (KKL) Sem 7', icon: Briefcase },
+          { id: 'spm', label: '7. Skor Prestasi Mahasiswa (SPM)', icon: Award },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSection === tab.id;
@@ -576,6 +581,173 @@ export default function PanduanFktView() {
                 <div key={idx} className="flex items-start space-x-3 p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{rule}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* SECTION 7: SKOR PRESTASI MAHASISWA (SPM) */}
+      {activeSection === 'spm' && (
+        <div className="space-y-8 animate-fadeIn">
+          
+          {/* Header Banner SPM */}
+          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2">
+                <Award className="w-4 h-4 text-accent" />
+                <span>Direktorat Kemahasiswaan UAA</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
+                Skor Prestasi Mahasiswa (SPM) • Min. 25 Poin
+              </h2>
+              <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
+                Ketetapan resmi Universitas Alma Ata: Mahasiswa S1 angkatan 2021 ke atas (termasuk Informatika 2023) 
+                <strong className="text-accent font-bold"> WAJIB memenuhi minimal 25 Poin SPM </strong> dan lolos verifikasi syarat perlu konten media sosial.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row md:flex-col gap-2 flex-shrink-0">
+              <a
+                href="/panduan-skor-prestasi-mahasiswa-spm.pdf"
+                download="Panduan_Skor_Prestasi_Mahasiswa_SPM_UAA.pdf"
+                className="flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md shadow-accent/25 transition-all whitespace-nowrap"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download PDF Panduan SPM</span>
+              </a>
+              <a
+                href={PANDUAN_FKT.skorPrestasiMahasiswa.kontak.portal}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs border border-white/20 transition-all whitespace-nowrap"
+              >
+                <span>Buka Web Kemahasiswaan</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Ketentuan Penting Syarat Sempro vs Syarat Pendadaran */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 sm:p-6 rounded-3xl bg-amber-500 text-slate-950 border-2 border-amber-300 shadow-md">
+              <div className="flex items-center space-x-2 mb-2 font-bold text-xs uppercase tracking-wider text-slate-900">
+                <Video className="w-4 h-4" />
+                <span>Syarat Pendaftaran SEMPRO</span>
+              </div>
+              <h3 className="font-philosopher font-bold text-xl mb-2 text-slate-950">
+                Syarat Perlu (Klinik Konten Medsos)
+              </h3>
+              <p className="text-xs text-slate-900 leading-relaxed font-instrument">
+                {PANDUAN_FKT.skorPrestasiMahasiswa.kegunaan.sempro}
+              </p>
+              <div className="mt-4 pt-3 border-t border-slate-900/20 text-[11px] font-bold text-slate-900 flex items-center justify-between">
+                <span>Form Validasi Syarat Perlu (1)</span>
+                <span className="bg-slate-900 text-white px-2.5 py-0.5 rounded-full text-[10px]">Wajib ACC Admisi</span>
+              </div>
+            </div>
+
+            <div className="p-5 sm:p-6 rounded-3xl bg-primary text-white border-2 border-primary-700 shadow-md">
+              <div className="flex items-center space-x-2 mb-2 font-bold text-xs uppercase tracking-wider text-accent">
+                <Award className="w-4 h-4" />
+                <span>Syarat Ujian PENDADARAN</span>
+              </div>
+              <h3 className="font-philosopher font-bold text-xl mb-2 text-white">
+                Total Akumulasi SPM ≥ 25 Poin
+              </h3>
+              <p className="text-xs text-white/90 leading-relaxed font-instrument">
+                {PANDUAN_FKT.skorPrestasiMahasiswa.kegunaan.pendadaran}
+              </p>
+              <div className="mt-4 pt-3 border-t border-white/20 text-[11px] font-bold text-white flex items-center justify-between">
+                <span>Form Validasi Prestasi (2)</span>
+                <span className="bg-accent text-white px-2.5 py-0.5 rounded-full text-[10px]">Wajib Lolos Kemahasiswaan</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 6 Alur Langkah Pelaporan & Validasi SPM */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+            <div className="mb-6">
+              <span className="text-accent font-philosopher font-semibold text-sm">Alur Resmi Kemahasiswaan</span>
+              <h2 className="text-primary font-philosopher text-2xl sm:text-3xl font-bold">
+                6 Langkah Pengajuan & Validasi SPM
+              </h2>
+              <p className="font-instrument text-slate-600 text-xs sm:text-sm mt-1">
+                Ikuti alur resmi dari pembuatan konten hingga verifikasi status "MEMENUHI":
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {PANDUAN_FKT.skorPrestasiMahasiswa.alurValidasi.map((item) => (
+                <div 
+                  key={item.step} 
+                  className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md flex flex-col justify-between hover:border-accent hover:-translate-y-1 transition-all"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="w-8 h-8 rounded-full bg-accent text-white font-bold text-xs flex items-center justify-center font-philosopher shadow-xs">
+                        {item.step}
+                      </span>
+                      <span className="text-[10px] text-white/70 font-mono">Tahap {item.step}/6</span>
+                    </div>
+                    <h3 className="font-bold font-instrument text-white text-sm mb-2">{item.title}</h3>
+                    <p className="text-xs text-white/90 leading-relaxed font-instrument mb-4">{item.desc}</p>
+                  </div>
+
+                  {item.link && (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-white text-primary font-bold text-xs hover:bg-sky-50 transition-all mt-2 shadow-xs"
+                    >
+                      <span>Buka Form Tautan</span>
+                      <ExternalLink className="w-3 h-3 text-accent" />
+                    </a>
+                  )}
+
+                  {item.kontak && (
+                    <a
+                      href={`https://wa.me/${item.kontak.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-emerald-500 text-white font-bold text-xs hover:bg-emerald-600 transition-all mt-2 shadow-xs"
+                    >
+                      <Phone className="w-3 h-3" />
+                      <span>WA Admin ({item.kontak})</span>
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sumber Poin Cepat SPM untuk Informatika '23 */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+            <h3 className="font-philosopher font-bold text-xl text-primary mb-2 flex items-center space-x-2">
+              <Star className="w-5 h-5 text-accent" />
+              <span>Cara Cepat Mengumpulkan 25 Poin SPM (Informatika 23)</span>
+            </h3>
+            <p className="text-xs text-slate-500 mb-6 font-instrument">
+              Berbagai kegiatan yang dapat kamu konversikan menjadi poin prestasi mahasiswa:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {PANDUAN_FKT.skorPrestasiMahasiswa.sumberPoinUmum.map((sumber, idx) => (
+                <div key={idx} className="p-4 rounded-2xl bg-sky-50 border border-sky-100 flex flex-col justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-primary font-instrument block mb-1">
+                      {sumber.kategori}
+                    </span>
+                    <span className="text-sm font-bold text-accent font-philosopher block mb-2">
+                      {sumber.poin}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 font-instrument border-t border-sky-200/60 pt-2">
+                    <strong className="text-slate-800">Bukti: </strong>{sumber.bukti}
+                  </p>
                 </div>
               ))}
             </div>

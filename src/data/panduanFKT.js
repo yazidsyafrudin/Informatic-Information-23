@@ -284,5 +284,63 @@ export const PANDUAN_FKT = {
       "Wajib menyertakan dokumen pendukung (foto kegiatan atau screenshot hasil kerja)",
       "Wajib dimintakan paraf / tanda tangan Supervisor atau Penanggung Jawab Lapangan"
     ]
+  },
+
+  skorPrestasiMahasiswa: {
+    judul: "Skor Prestasi Mahasiswa (SPM)",
+    syaratMinS1: "Minimal 25 Poin (Angkatan 2021 dan setelahnya / Angkatan 2023)",
+    kegunaan: {
+      sempro: "Syarat Perlu (Klinik Konten Medsos terverifikasi admisi) WAJIB dipenuhi untuk pendaftaran Ujian Seminar Proposal.",
+      pendadaran: "Total Skor SPM Minimal 25 Poin (tervalidasi Direktorat Kemahasiswaan) WAJIB dipenuhi untuk pendaftaran Ujian Pendadaran / Sidang Skripsi."
+    },
+    alurValidasi: [
+      {
+        step: 1,
+        title: "Buat Konten Media Sosial (Syarat Perlu)",
+        desc: "Karya video orisinil 15–60 detik bertema positif menaikkan branding UAA, hashtag #banggauaa #universitasalmaata #pmbalmaata #spmuaa, tag @universitas_almaata, dan cantumkan link afiliasi PMB di bio/story."
+      },
+      {
+        step: 2,
+        title: "Klinik Konten SPM (Form Validasi 1)",
+        desc: "Mengisi formulir klinik konten untuk divalidasi oleh tim admisi/branding universitas dan mendapatkan Form Validasi Syarat Perlu (1).",
+        link: "https://bit.ly/klinik-konten-spm"
+      },
+      {
+        step: 3,
+        title: "Lapor Prestasi Prodi (Form Validasi 2)",
+        desc: "Melaporkan bukti prestasi (akademik, non-akademik, organisasi, magang, sertifikasi) melalui tautan lapor dan menghubungi Kour Kemahasiswaan Prodi untuk mendapatkan Form Validasi Prestasi (2).",
+        link: "https://bit.ly/tautanlaporSPM"
+      },
+      {
+        step: 4,
+        title: "Unggah Form Validasi 1 & 2 ke Web",
+        desc: "Mengunggah Form Validasi Syarat Perlu (1) dan Form Validasi Prestasi (2) ke portal resmi verifikasi SPM universitas.",
+        link: "https://almaata.ac.id/verifikasi-spm"
+      },
+      {
+        step: 5,
+        title: "Verifikasi Direktorat Kemahasiswaan",
+        desc: "Tim Direktorat Kemahasiswaan melakukan audit dan verifikasi berkas akumulasi skor SPM mahasiswa.",
+        kontak: "+62 851-7343-5928"
+      },
+      {
+        step: 6,
+        title: "Penerbitan Status 'MEMENUHI'",
+        desc: "Surat/bukti hasil pelaporan yang telah divalidasi dan diverifikasi 'MEMENUHI' akan dikirimkan ke surel/email mahasiswa dan siap dipakai mendaftar ujian."
+      }
+    ],
+    sumberPoinUmum: [
+      { kategori: "Konten Media Sosial & Ulasan", poin: "4 Poin per video + 1 Poin Google review bintang 5", bukti: "Link konten, bukti share, tangkapan layar ulasan" },
+      { kategori: "Program MBKM / Magang Industri", poin: "3 – 5 Poin", bukti: "Surat Tugas, Laporan Kegiatan, Sertifikat Magang" },
+      { kategori: "Kepengurusan Organisasi (HIMA / BEM / UKM)", poin: "3 – 6 Poin", bukti: "SK Kepengurusan, Sertifikat Jabatan" },
+      { kategori: "Kepanitiaan Kegiatan Kampus / Nasional", poin: "1 – 4 Poin", bukti: "SK / Sertifikat Panitia, Surat Tugas" },
+      { kategori: "Sertifikasi Kompetensi IT (BNSP / Vendor)", poin: "5 – 10 Poin", bukti: "Sertifikat Kompetensi resmi" },
+      { kategori: "Juara Lomba / Kompetisi Regional – Nasional", poin: "4 – 15 Poin", bukti: "Sertifikat Juara, Surat Tugas, Dokumentasi" }
+    ],
+    kontak: {
+      portal: "https://kemahasiswaan.almaata.ac.id/skor-prestasi-mahasiswa/",
+      waAdmin: "+6285173435928",
+      email: "kemahasiswaan@almaata.ac.id"
+    }
   }
 };

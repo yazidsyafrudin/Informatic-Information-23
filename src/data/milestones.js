@@ -63,9 +63,9 @@ export const ROADMAP_PHASES = [
       },
       {
         id: "m-8",
-        title: "Cek Syarat Administrasi (IPK 3.25, LPBA, AAEPT, PERMATA)",
-        desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, dan hadir minimal 5x seminar proposal teman.",
-        tips: "Jika belum hadir 5x sempro, segera pantau jadwal sempro kakak tingkat atau teman sekarang juga!"
+        title: "Cek Syarat Administrasi (IPK 3.25, LPBA, AAEPT, SPM Konten)",
+        desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, hadir min. 5x sempro, dan lolos validasi Syarat Perlu SPM (Klinik Konten Medsos).",
+        tips: "Syarat perlu SPM (video medsos 15-60 detik) wajib divalidasi tim admisi sebelum bisa daftar sempro!"
       },
       {
         id: "m-9",
@@ -146,6 +146,12 @@ export const ROADMAP_PHASES = [
         title: "Seminar Hasil (Semhas) & Turnitin Akhir (≤ 20%)",
         desc: "Presentasikan hasil produk/penelitian di depan dospem dan penguji, serta lolos verifikasi plagiasi final.",
         tips: "Pastikan seluruh bab sudah rapi sesuai format margin 4-4-3-3 dan Times New Roman 12 spasi 2."
+      },
+      {
+        id: "m-spm-pendadaran",
+        title: "Validasi Akhir SPM Minimal 25 Poin (Dir. Kemahasiswaan)",
+        desc: "Pastikan seluruh sertifikat, magang, konten medsos, dan prestasi telah tervalidasi minimal 25 poin untuk syarat pendaftaran ujian pendadaran.",
+        tips: "Unggah Form Validasi 1 & 2 ke almaata.ac.id/verifikasi-spm dan hubungi admin kemahasiswaan (0851-7343-5928)."
       },
       {
         id: "m-17",

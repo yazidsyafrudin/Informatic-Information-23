@@ -44,6 +44,15 @@ export default function DownloadsView() {
       isPrimary: true
     },
     {
+      title: "Buku Panduan Skor Prestasi Mahasiswa (SPM) UAA",
+      code: "Pedoman SPM",
+      category: "Kemahasiswaan",
+      desc: "Panduan resmi pemenuhan minimal 25 poin SPM (syarat pendadaran) & klinik konten medsos (syarat sempro) Universitas Alma Ata.",
+      href: "/panduan-skor-prestasi-mahasiswa-spm.pdf",
+      fileName: "Panduan_Skor_Prestasi_Mahasiswa_SPM_UAA.pdf",
+      isPrimary: true
+    },
+    {
       title: "Formulir Pengajuan Judul Skripsi & Proposal",
       code: "FKT.SPI.01",
       category: "Formulir Prodi",

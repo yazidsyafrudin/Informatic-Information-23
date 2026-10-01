@@ -392,6 +392,11 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 <span className="text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</span>
               </div>
 
+              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm border border-primary/20">
+                <span className="text-[11px] text-slate-500 block font-semibold">Skor Prestasi Mahasiswa (SPM)</span>
+                <span className="text-sm font-bold text-primary">Minimal 25 Poin & Konten Medsos</span>
+              </div>
+
               <div className="p-3.5 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300">
                 <span className="text-[11px] text-slate-900 font-bold block">Kebijakan Baru Dekan (SE 002/2026)</span>
                 <span className="text-xs font-bold text-slate-950">Ethical Clearance Wajib Jeda Min. 3 Bulan</span>
@@ -404,7 +409,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               onClick={() => setActiveTab('panduan')}
               className="w-full py-3 rounded-xl bg-accent hover:bg-accent/90 text-white text-xs font-instrument font-bold flex items-center justify-center space-x-1.5 transition-all shadow-md shadow-accent/20"
             >
-              <span>Pelajari Semua 50 Halaman Panduan</span>
+              <span>Pelajari Panduan FKT, EC, Magang & SPM</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
