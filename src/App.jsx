@@ -25,14 +25,14 @@ export default function App() {
     hadir_sempro_count: 5
   });
   const [progress, setProgress] = useState({
-    'm-1': true,
-    'm-2': true
+    'm-magang-1': true,
+    'm-magang-2': true
   });
   const [isLoading, setIsLoading] = useState(true);
 
   const allMilestoneIds = ROADMAP_PHASES.flatMap(phase => phase.steps.map(s => s.id));
   const totalMilestones = allMilestoneIds.length;
-  const progressCount = Object.keys(progress).filter(id => progress[id]).length;
+  const progressCount = allMilestoneIds.filter(id => progress[id]).length;
 
   useEffect(() => {
     async function loadInitialData() {
