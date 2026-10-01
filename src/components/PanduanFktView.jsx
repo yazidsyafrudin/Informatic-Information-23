@@ -21,7 +21,8 @@ import {
   Award,
   Star,
   Video,
-  Share2
+  Share2,
+  MessageCircle
 } from 'lucide-react';
 import { PANDUAN_FKT } from '../data/panduanFKT';
 
@@ -683,42 +684,85 @@ export default function PanduanFktView() {
               {PANDUAN_FKT.skorPrestasiMahasiswa.alurValidasi.map((item) => (
                 <div 
                   key={item.step} 
-                  className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md flex flex-col justify-between hover:border-accent hover:-translate-y-1 transition-all"
+                  className={`bg-primary text-white rounded-2xl p-5 border-2 shadow-md flex flex-col justify-between hover:-translate-y-1 transition-all ${
+                    item.step === 2 
+                      ? 'border-emerald-400 ring-2 ring-emerald-400/20' 
+                      : 'border-primary-700 hover:border-accent'
+                  }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <span className="w-8 h-8 rounded-full bg-accent text-white font-bold text-xs flex items-center justify-center font-philosopher shadow-xs">
+                      <span className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center font-philosopher shadow-xs ${
+                        item.step === 2 ? 'bg-emerald-500 text-white' : 'bg-accent text-white'
+                      }`}>
                         {item.step}
                       </span>
-                      <span className="text-[10px] text-white/70 font-mono">Tahap {item.step}/6</span>
+                      <div className="flex items-center space-x-1.5">
+                        {item.highlight && (
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30">
+                            {item.highlight}
+                          </span>
+                        )}
+                        <span className="text-[10px] text-white/70 font-mono">Tahap {item.step}/6</span>
+                      </div>
                     </div>
                     <h3 className="font-bold font-instrument text-white text-sm mb-2">{item.title}</h3>
-                    <p className="text-xs text-white/90 leading-relaxed font-instrument mb-4">{item.desc}</p>
+                    <p className="text-xs text-white/90 leading-relaxed font-instrument mb-3">{item.desc}</p>
+                    {item.catatan && (
+                      <p className="text-[11px] text-accent/90 italic font-instrument mb-3 border-l-2 border-accent pl-2">
+                        {item.catatan}
+                      </p>
+                    )}
                   </div>
 
-                  {item.link && (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-white text-primary font-bold text-xs hover:bg-sky-50 transition-all mt-2 shadow-xs"
-                    >
-                      <span>Buka Form Tautan</span>
-                      <ExternalLink className="w-3 h-3 text-accent" />
-                    </a>
-                  )}
+                  <div className="space-y-2 mt-2">
+                    {item.downloadLink && (
+                      <a
+                        href={item.downloadLink}
+                        download="Panduan_Skor_Prestasi_Mahasiswa_SPM_UAA.pdf"
+                        className="w-full inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-accent text-white font-bold text-xs hover:bg-accent/90 transition-all shadow-xs"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Unduh Panduan SPM</span>
+                      </a>
+                    )}
 
-                  {item.kontak && (
-                    <a
-                      href={`https://wa.me/${item.kontak.replace(/[^0-9]/g, '')}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-emerald-500 text-white font-bold text-xs hover:bg-emerald-600 transition-all mt-2 shadow-xs"
-                    >
-                      <Phone className="w-3 h-3" />
-                      <span>WA Admin ({item.kontak})</span>
-                    </a>
-                  )}
+                    {item.waGroup && (
+                      <a
+                        href={item.waGroup}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full inline-flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition-all shadow-md shadow-emerald-950/20"
+                      >
+                        <MessageCircle className="w-4 h-4 fill-white text-emerald-500" />
+                        <span>Join Grup WA Pendampingan Konten</span>
+                      </a>
+                    )}
+
+                    {item.link && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-white text-primary font-bold text-xs hover:bg-sky-50 transition-all shadow-xs"
+                      >
+                        <span>{item.step === 2 ? 'Alternatif: Tautan bit.ly/klinik-konten-spm' : 'Buka Form / Web Resmi'}</span>
+                        <ExternalLink className="w-3 h-3 text-accent" />
+                      </a>
+                    )}
+
+                    {item.kontak && (
+                      <a
+                        href={`https://wa.me/${item.kontak.replace(/[^0-9]/g, '')}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-emerald-500 text-white font-bold text-xs hover:bg-emerald-600 transition-all shadow-xs"
+                      >
+                        <Phone className="w-3 h-3" />
+                        <span>Chat Admin Kemahasiswaan ({item.kontak})</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

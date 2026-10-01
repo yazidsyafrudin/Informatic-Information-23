@@ -65,7 +65,7 @@ export const ROADMAP_PHASES = [
         id: "m-8",
         title: "Cek Syarat Administrasi (IPK 3.25, LPBA, AAEPT, SPM Konten)",
         desc: "Pastikan skor AAEPT ≥ 450, lulus LPBA, PERMATA, hadir min. 5x sempro, dan lolos validasi Syarat Perlu SPM (Klinik Konten Medsos).",
-        tips: "Syarat perlu SPM (video medsos 15-60 detik) wajib divalidasi tim admisi sebelum bisa daftar sempro!"
+        tips: "Syarat perlu SPM: Wajib gabung Grup WhatsApp 'Program Pendampingan Konten SPM' (bit.ly/klinik-konten-spm) & buat video branding UAA untuk dapat Form Validasi (1) sebelum daftar Sempro!"
       },
       {
         id: "m-9",

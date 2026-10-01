@@ -290,26 +290,31 @@ export const PANDUAN_FKT = {
     judul: "Skor Prestasi Mahasiswa (SPM)",
     syaratMinS1: "Minimal 25 Poin (Angkatan 2021 dan setelahnya / Angkatan 2023)",
     kegunaan: {
-      sempro: "Syarat Perlu (Klinik Konten Medsos terverifikasi admisi) WAJIB dipenuhi untuk pendaftaran Ujian Seminar Proposal.",
-      pendadaran: "Total Skor SPM Minimal 25 Poin (tervalidasi Direktorat Kemahasiswaan) WAJIB dipenuhi untuk pendaftaran Ujian Pendadaran / Sidang Skripsi."
+      sempro: "Syarat Perlu: Wajib gabung ke Grup WA 'Program Pendampingan Konten SPM' dan membuat konten video Reels/TikTok untuk mendapatkan Form Validasi Syarat Perlu (1) dari admisi. WAJIB dipenuhi sebelum daftar Seminar Proposal.",
+      pendadaran: "Total Skor SPM Minimal 25 Poin (tervalidasi Kour Kemahasiswaan Prodi & disetujui Direktorat Kemahasiswaan) WAJIB dipenuhi sebelum daftar Ujian Pendadaran / Sidang Skripsi."
     },
     alurValidasi: [
       {
         step: 1,
-        title: "Buat Konten Media Sosial (Syarat Perlu)",
-        desc: "Karya video orisinil 15–60 detik bertema positif menaikkan branding UAA, hashtag #banggauaa #universitasalmaata #pmbalmaata #spmuaa, tag @universitas_almaata, dan cantumkan link afiliasi PMB di bio/story."
+        title: "Pahami Panduan SPM",
+        desc: "Memahami seluruh ketentuan, kriteria, dan bobot kegiatan pada Buku Panduan SPM (Skor Prestasi Mahasiswa) Universitas Alma Ata.",
+        downloadLink: "/panduan-skor-prestasi-mahasiswa-spm.pdf"
       },
       {
         step: 2,
-        title: "Klinik Konten SPM (Form Validasi 1)",
-        desc: "Mengisi formulir klinik konten untuk divalidasi oleh tim admisi/branding universitas dan mendapatkan Form Validasi Syarat Perlu (1).",
-        link: "https://bit.ly/klinik-konten-spm"
+        title: "Gabung Grup WA Pendampingan Konten",
+        desc: "Bergabung pada Grup WhatsApp 'Program Pendampingan Konten SPM' untuk mendapatkan arahan teknis konten branding dan memperoleh Form Validasi Syarat Perlu (1).",
+        link: "https://bit.ly/klinik-konten-spm",
+        waGroup: "https://chat.whatsapp.com/Ddq7wQjJfjQJGKpOhBqzWJ",
+        highlight: "Wajib Join Grup WhatsApp",
+        catatan: "Tautan otomatis mengarahkan ke Grup WA Klinik Konten SPM UAA"
       },
       {
         step: 3,
-        title: "Lapor Prestasi Prodi (Form Validasi 2)",
-        desc: "Melaporkan bukti prestasi (akademik, non-akademik, organisasi, magang, sertifikasi) melalui tautan lapor dan menghubungi Kour Kemahasiswaan Prodi untuk mendapatkan Form Validasi Prestasi (2).",
-        link: "https://bit.ly/tautanlaporSPM"
+        title: "Lapor Prestasi & Hubungi Kour Prodi",
+        desc: "Melakukan Lapor Prestasi online dan menghubungi Kour Kemahasiswaan Prodi Informatika untuk mohon validasi berkas hingga mendapatkan Form Validasi Prestasi (2).",
+        link: "https://bit.ly/tautanlaporSPM",
+        catatan: "Narahubung: Kour Kemahasiswaan Prodi Informatika"
       },
       {
         step: 4,
@@ -320,13 +325,13 @@ export const PANDUAN_FKT = {
       {
         step: 5,
         title: "Verifikasi Direktorat Kemahasiswaan",
-        desc: "Tim Direktorat Kemahasiswaan melakukan audit dan verifikasi berkas akumulasi skor SPM mahasiswa.",
+        desc: "Audit dan verifikasi berkas oleh Direktorat Kemahasiswaan UAA (Narahubung Admin Kemahasiswaan: +62 851-7343-5928).",
         kontak: "+62 851-7343-5928"
       },
       {
         step: 6,
-        title: "Penerbitan Status 'MEMENUHI'",
-        desc: "Surat/bukti hasil pelaporan yang telah divalidasi dan diverifikasi 'MEMENUHI' akan dikirimkan ke surel/email mahasiswa dan siap dipakai mendaftar ujian."
+        title: "Hasil Verifikasi 'MEMENUHI' ke Surel",
+        desc: "Pelaporan yang telah divalidasi dan diverifikasi 'MEMENUHI' akan dikirim langsung ke surel (email) mahasiswa sebagai syarat sah daftar ujian."
       }
     ],
     sumberPoinUmum: [
