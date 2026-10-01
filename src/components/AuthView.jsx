@@ -98,6 +98,26 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
 
   return (
     <div className="max-w-2xl mx-auto py-6 sm:py-10 animate-fadeIn">
+      {/* Guest Mode Friendly Notice */}
+      <div className="mb-4 p-4 rounded-2xl bg-sky-50 border border-sky-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-instrument text-slate-700 shadow-2xs">
+        <div className="flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+            <User className="w-4 h-4" />
+          </div>
+          <div>
+            <p className="font-bold text-slate-900 text-xs sm:text-sm">Kamu Membuka Web dalam Mode Tamu (Publik)</p>
+            <p className="text-[11px] text-slate-500">Semua info timeline, panduan FKT, roadmap 6 fase, dan kalender akademik bebas diakses.</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onContinueAsGuest}
+          className="text-primary hover:text-accent font-bold text-xs underline flex-shrink-0 self-start sm:self-auto cursor-pointer"
+        >
+          Kembali Lihat Info Saja →
+        </button>
+      </div>
+
       {/* Header Banner */}
       <div className="bg-primary text-white p-6 sm:p-8 rounded-3xl border-2 border-primary-700 shadow-xl mb-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
