@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { findMahasiswaIf23, detectUserRole } from '../data/mahasiswaIf23';
 
 // Baca dari env atau localStorage
 const getSavedConfig = () => {
@@ -96,7 +97,15 @@ export const StorageService = {
   getCurrentUser() {
     try {
       const saved = localStorage.getItem('IF23_ACTIVE_USER');
-      return saved ? JSON.parse(saved) : null;
+      if (!saved) return null;
+      const user = JSON.parse(saved);
+      // Koreksi otomatis jika akun Google umum sebelumnya terisi mahasiswa IF23
+      if (user.nim && String(user.nim).startsWith('G-')) {
+        user.peran = 'Umum / Pengunjung';
+      } else if (!user.peran) {
+        user.peran = detectUserRole({ nim: user.nim, email: user.email });
+      }
+      return user;
     } catch {
       return null;
     }
@@ -151,17 +160,27 @@ export const StorageService = {
     return { success: false, message: `NIM "${cleanNim}" belum terdaftar. Silakan buat akun baru terlebih dahulu.` };
   },
 
-  // Daftar akun mahasiswa baru
-  async register({ nim, nama_lengkap, peminatan, pin }) {
-    const cleanNim = String(nim).trim();
-    const cleanNama = String(nama_lengkap).trim();
-    const cleanPeminatan = peminatan || 'Software Engineering';
+  // Daftar akun pengguna baru (Mahasiswa IF23, Mahasiswa Alma Ata, atau Umum)
+  async register({ nim, nama_lengkap, peran, pin }) {
+    let cleanNim = String(nim || '').trim();
+    let cleanNama = String(nama_lengkap || '').trim();
     const cleanPin = String(pin || '123456').trim();
+    let selectedPeran = peran || 'Mahasiswa Informatika 23';
+
+    // Cek kecocokan dengan data resmi 40 Mahasiswa IF23
+    const if23Match = findMahasiswaIf23(cleanNim) || findMahasiswaIf23(cleanNama);
+    if (if23Match) {
+      cleanNama = if23Match.nama; // otomatis gunakan nama resmi dari dokumen PDF
+      cleanNim = cleanNim || if23Match.nim;
+      selectedPeran = 'Mahasiswa Informatika 23';
+    } else if (!cleanNim && selectedPeran === 'Umum / Pengunjung') {
+      cleanNim = `U-${Date.now().toString().slice(-6)}`;
+    }
 
     const newProfile = {
       nim: cleanNim,
       nama_lengkap: cleanNama,
-      peminatan: cleanPeminatan,
+      peran: selectedPeran,
       pin: cleanPin,
       judul_skripsi: '',
       dosen_pembimbing: '',
@@ -344,12 +363,27 @@ export const StorageService = {
         if (session?.user) {
           const user = session.user;
           const email = user.email || '';
-          const fullName = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0];
+          let fullName = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0];
           const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
           
-          // Deteksi NIM dari email jika format nim@almaata.ac.id
-          const emailMatch = email.match(/^(\d{8,12})/);
-          const nim = emailMatch ? emailMatch[1] : (user.user_metadata?.nim || `G-${user.id.slice(0, 8)}`);
+          // Cek apakah email atau nama cocok dengan data 40 mahasiswa IF23 dari PDF
+          const if23Student = findMahasiswaIf23(email) || findMahasiswaIf23(fullName);
+
+          let nim = '';
+          let peran = 'Umum / Pengunjung';
+
+          if (if23Student) {
+            nim = if23Student.nim;
+            fullName = if23Student.nama; // Gunakan nama resmi dari dokumen PDF
+            peran = 'Mahasiswa Informatika 23';
+          } else if (email.toLowerCase().includes('almaata.ac.id')) {
+            const emailMatch = email.match(/^(\d{8,12})/);
+            nim = emailMatch ? emailMatch[1] : `MHS-${user.id.slice(0, 6)}`;
+            peran = 'Mahasiswa Alma Ata';
+          } else {
+            nim = `G-${user.id.slice(0, 8)}`;
+            peran = 'Umum / Pengunjung';
+          }
 
           // Cek profil di database
           let profile = await this.getProfile(nim);
@@ -357,7 +391,7 @@ export const StorageService = {
             profile = {
               nim: nim,
               nama_lengkap: fullName,
-              peminatan: 'Software Engineering',
+              peran: peran,
               judul_skripsi: '',
               dosen_pembimbing: '',
               ipk: 3.50,
@@ -369,9 +403,11 @@ export const StorageService = {
             };
             await this.saveProfile(profile);
           } else {
-            profile.nama_lengkap = profile.nama_lengkap || fullName;
+            profile.nama_lengkap = fullName || profile.nama_lengkap;
             profile.email = email;
+            profile.peran = peran;
             if (avatarUrl) profile.avatar_url = avatarUrl;
+            await this.saveProfile(profile);
           }
 
           localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(profile));

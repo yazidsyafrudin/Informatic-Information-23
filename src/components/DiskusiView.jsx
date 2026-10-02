@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { StorageService, isSupabaseConfigured } from '../lib/supabase';
 import { JADWAL_YUDISIUM_WISUDA } from '../data/kalenderAkademik';
+import { detectUserRole } from '../data/mahasiswaIf23';
 
 // Knowledge base lokal untuk Asisten AI PusingBot
 const AI_KNOWLEDGE_BASE = [
@@ -175,14 +176,12 @@ export default function DiskusiView({ currentUser, profile }) {
 
     if (currentUser) {
       senderName = currentUser.nama_lengkap;
-      senderEmail = `${currentUser.nim}@almaata.ac.id`;
-      senderRole = `Mahasiswa IF23 (${currentUser.peminatan || 'Informatika'})`;
+      senderEmail = currentUser.email || `${currentUser.nim}@almaata.ac.id`;
+      senderRole = currentUser.peran || detectUserRole({ nim: currentUser.nim, email: currentUser.email });
     } else if (guestIdentity.name && guestIdentity.email) {
       senderName = guestIdentity.name;
       senderEmail = guestIdentity.email;
-      senderRole = guestIdentity.email.toLowerCase().includes('almaata.ac.id') 
-        ? 'Civitas Akademika UAA' 
-        : 'Tamu / Umum';
+      senderRole = detectUserRole({ email: guestIdentity.email });
     } else {
       // Jika belum login dan belum set identitas, minta isi dulu
       setTempName(guestIdentity.name || '');
@@ -374,7 +373,9 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                     <span className="font-bold text-primary block text-[11px] leading-tight truncate max-w-[120px]">
                       {currentUser.nama_lengkap}
                     </span>
-                    <span className="text-[9px] text-slate-500 font-mono">{currentUser.nim}</span>
+                    <span className="text-[9px] text-slate-500 font-medium">
+                      {currentUser.peran || currentUser.nim}
+                    </span>
                   </div>
                 </div>
               ) : guestIdentity.name ? (
@@ -469,11 +470,13 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                         </span>
                         {msg.sender_role && (
                           <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold border ${
-                            msg.sender_role.includes('Mahasiswa')
+                            msg.sender_role.includes('Informatika 23') || msg.sender_role.includes('IF23')
                               ? 'bg-blue-50 text-blue-800 border-blue-200'
+                              : msg.sender_role.includes('Alma Ata')
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                               : msg.sender_role.includes('Dosen')
                               ? 'bg-purple-50 text-purple-800 border-purple-200'
-                              : 'bg-slate-100 text-slate-700 border-slate-200'
+                              : 'bg-amber-50 text-amber-800 border-amber-200'
                           }`}>
                             {msg.sender_role}
                           </span>

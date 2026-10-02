@@ -13,8 +13,9 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { StorageService } from '../lib/supabase';
+import { findMahasiswaIf23 } from '../data/mahasiswaIf23';
 
-export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
+export default function AuthView({ onLoginSuccess, onContinueAsGuest, noticeMessage }) {
   const [activeMode, setActiveMode] = useState('login'); // 'login' | 'register'
   
   // Login State
@@ -25,14 +26,41 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
   // Register State
   const [regNim, setRegNim] = useState('');
   const [regNama, setRegNama] = useState('');
-  const [regPeminatan, setRegPeminatan] = useState('Software Engineering');
+  const [regPeran, setRegPeran] = useState('Mahasiswa Informatika 23');
   const [regPin, setRegPin] = useState('');
   const [showRegPin, setShowRegPin] = useState(false);
+  const [detectedIf23, setDetectedIf23] = useState(null);
   
   // Status & Feedback
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  const handleRegNimChange = (val) => {
+    setRegNim(val);
+    if (regPeran === 'Mahasiswa Informatika 23') {
+      const match = findMahasiswaIf23(val);
+      if (match) {
+        setDetectedIf23(match);
+        setRegNama(match.nama); // Otomatis isi nama dari dokumen PDF
+      } else {
+        setDetectedIf23(null);
+      }
+    }
+  };
+
+  const handleRegPeranChange = (val) => {
+    setRegPeran(val);
+    if (val === 'Mahasiswa Informatika 23' && regNim) {
+      const match = findMahasiswaIf23(regNim);
+      if (match) {
+        setDetectedIf23(match);
+        setRegNama(match.nama);
+      }
+    } else {
+      setDetectedIf23(null);
+    }
+  };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +68,7 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
     setSuccessMessage('');
 
     if (!loginNim.trim()) {
-      setErrorMessage('Silakan masukkan NIM kamu!');
+      setErrorMessage('Silakan masukkan NIM atau ID kamu!');
       return;
     }
 
@@ -53,7 +81,7 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
           onLoginSuccess(res.profile);
         }, 600);
       } else {
-        setErrorMessage(res.message || 'Login gagal. Periksa kembali NIM dan PIN kamu.');
+        setErrorMessage(res.message || 'Login gagal. Periksa kembali NIM/ID dan PIN kamu.');
       }
     } catch (err) {
       setErrorMessage('Terjadi kesalahan koneksi.');
@@ -67,17 +95,22 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
     setErrorMessage('');
     setSuccessMessage('');
 
-    if (!regNim.trim() || !regNama.trim()) {
-      setErrorMessage('NIM dan Nama Lengkap wajib diisi!');
+    if (regPeran === 'Mahasiswa Informatika 23' && !regNim.trim()) {
+      setErrorMessage('NIM wajib diisi untuk Mahasiswa Informatika 23!');
+      return;
+    }
+
+    if (!regNama.trim()) {
+      setErrorMessage('Nama Lengkap wajib diisi!');
       return;
     }
 
     setIsLoading(true);
     try {
       const res = await StorageService.register({
-        nim: regNim,
-        nama_lengkap: regNama,
-        peminatan: regPeminatan,
+        nim: regNim.trim() || `U-${Date.now().toString().slice(-6)}`,
+        nama_lengkap: regNama.trim(),
+        peran: regPeran,
         pin: regPin || '123456'
       });
 
@@ -116,6 +149,17 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
 
   return (
     <div className="max-w-2xl mx-auto py-6 sm:py-10 animate-fadeIn">
+      {/* Notice Message if directed from Ruang Diskusi or Tracker */}
+      {noticeMessage && (
+        <div className="mb-4 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-900 flex items-start space-x-3 text-xs sm:text-sm font-instrument shadow-md animate-fadeIn">
+          <Sparkles className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold">Akses Memerlukan Akun</p>
+            <p className="text-xs text-amber-800 mt-0.5">{noticeMessage}</p>
+          </div>
+        </div>
+      )}
+
       {/* Guest Mode Friendly Notice */}
       <div className="mb-4 p-4 rounded-2xl bg-sky-50 border border-sky-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-instrument text-slate-700 shadow-2xs">
         <div className="flex items-center space-x-2.5">
@@ -303,7 +347,26 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
             <form onSubmit={handleRegisterSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 font-instrument">
-                  NIM Mahasiswa
+                  Daftar Sebagai / Status Kategori
+                </label>
+                <select
+                  value={regPeran}
+                  onChange={(e) => handleRegPeranChange(e.target.value)}
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all font-instrument font-medium text-slate-800"
+                >
+                  <option value="Mahasiswa Informatika 23">Mahasiswa Informatika 23</option>
+                  <option value="Mahasiswa Alma Ata">Mahasiswa Alma Ata (Luar IF23)</option>
+                  <option value="Umum / Pengunjung">Umum / Pengunjung</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 font-instrument">
+                  {regPeran === 'Mahasiswa Informatika 23' 
+                    ? 'NIM Mahasiswa IF23' 
+                    : regPeran === 'Mahasiswa Alma Ata' 
+                    ? 'NIM Mahasiswa Alma Ata' 
+                    : 'Nomor ID / Identitas (Opsional)'}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -311,43 +374,43 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest }) {
                   </div>
                   <input
                     type="text"
-                    required
-                    placeholder="Contoh: 230101001"
+                    required={regPeran !== 'Umum / Pengunjung'}
+                    placeholder={
+                      regPeran === 'Mahasiswa Informatika 23'
+                        ? 'Ketik NIM (contoh: 233200299) nama otomatis muncul'
+                        : regPeran === 'Mahasiswa Alma Ata'
+                        ? 'Contoh: 230101...'
+                        : 'Boleh dikosongkan (otomatis diisi ID Tamu)'
+                    }
                     value={regNim}
-                    onChange={(e) => setRegNim(e.target.value)}
+                    onChange={(e) => handleRegNimChange(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
                   />
                 </div>
+
+                {/* Badge Verifikasi Mahasiswa IF23 Resmi dari PDF */}
+                {detectedIf23 && (
+                  <div className="mt-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs flex items-center space-x-2 animate-fadeIn">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                    <span>
+                      Data Terverifikasi Resmi: <strong>{detectedIf23.nama}</strong> (Informatika 2023)
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 font-instrument">
-                  Nama Lengkap Mahasiswa
+                  Nama Lengkap
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Nama sesuai SIAKAD / KTP"
+                  placeholder="Nama Lengkap Kamu"
                   value={regNama}
                   onChange={(e) => setRegNama(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all font-instrument"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all font-instrument font-medium"
                 />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 font-instrument">
-                  Peminatan / Bidang Studi
-                </label>
-                <select
-                  value={regPeminatan}
-                  onChange={(e) => setRegPeminatan(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all font-instrument"
-                >
-                  <option value="Software Engineering">Software Engineering (Web / Mobile)</option>
-                  <option value="Artificial Intelligence">Artificial Intelligence & Data Science</option>
-                  <option value="Network & Cyber Security">Network & Cyber Security</option>
-                  <option value="Internet of Things">Internet of Things (IoT)</option>
-                </select>
               </div>
 
               <div>

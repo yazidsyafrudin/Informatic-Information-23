@@ -163,12 +163,24 @@ export default function App() {
             <AuthView
               onLoginSuccess={handleLoginSuccess}
               onContinueAsGuest={() => setActiveTab('dashboard')}
+              noticeMessage="Silakan masuk atau daftar akun untuk mengakses Dashboard Mahasiswa & menyimpan progres skripsi."
             />
           )
         )}
 
         {activeTab === 'diskusi' && (
-          <DiskusiView currentUser={currentUser} profile={profile} />
+          currentUser ? (
+            <DiskusiView currentUser={currentUser} profile={profile} />
+          ) : (
+            <AuthView
+              onLoginSuccess={(user) => {
+                handleLoginSuccess(user);
+                setActiveTab('diskusi');
+              }}
+              onContinueAsGuest={() => setActiveTab('dashboard')}
+              noticeMessage="Silakan masuk atau daftar akun terlebih dahulu untuk bergabung ke Ruang Diskusi & Forum Komunitas."
+            />
+          )
         )}
 
         {activeTab === 'kalender' && (
