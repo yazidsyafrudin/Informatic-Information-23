@@ -111,7 +111,12 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
                 </div>
 
                 <button
-                  onClick={onLogout}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onLogout();
+                  }}
                   className="p-2 rounded-xl bg-white/10 hover:bg-rose-500 text-white/80 hover:text-white transition-colors cursor-pointer"
                   title="Keluar / Logout Akun"
                 >

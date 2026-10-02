@@ -237,12 +237,12 @@ export const StorageService = {
     return { success: true, profile: newProfile };
   },
 
-  // Logout akun mahasiswa
+  // Logout akun mahasiswa (Instan tanpa delay)
   async logout() {
     localStorage.removeItem('IF23_ACTIVE_USER');
     if (supabase && isSupabaseConfigured) {
       try {
-        await supabase.auth.signOut();
+        await supabase.auth.signOut({ scope: 'local' });
       } catch (e) {
         console.warn('Sign out error:', e);
       }
@@ -429,7 +429,7 @@ export const StorageService = {
           const profile = await this.handleOAuthCallback();
           if (profile && callback) callback(profile);
         } else if (event === 'SIGNED_OUT') {
-          await this.logout();
+          localStorage.removeItem('IF23_ACTIVE_USER');
           if (callback) callback(null);
         }
       });

@@ -89,11 +89,19 @@ export default function App() {
     setActiveTab('tracker');
   };
 
-  const handleLogout = async () => {
-    await StorageService.logout();
+  const handleLogout = () => {
+    // 1. Langsung hapus sesi dari state aplikasi (0 milidetik / instan)
     setCurrentUser(null);
     setProgress({});
     setActiveTab('dashboard');
+
+    // 2. Bersihkan hash OAuth dari URL jika masih ada (#access_token=...)
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+
+    // 3. Jalankan logout storage di background tanpa memblokir browser
+    StorageService.logout().catch(console.warn);
   };
 
   const handleUpdateProfile = async (newProfile) => {
