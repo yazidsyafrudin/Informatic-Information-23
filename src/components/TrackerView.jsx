@@ -371,13 +371,13 @@ export default function TrackerView({
               className={`rounded-3xl border-2 transition-all overflow-hidden ${
                 isExpanded 
                   ? 'border-primary/50 shadow-md ring-2 ring-primary/10 bg-white' 
-                  : 'border-sky-200/90 shadow-xs bg-gradient-to-br from-sky-50/40 via-white to-sky-50/60'
+                  : 'border-sky-200/80 shadow-xs bg-white hover:border-primary/40'
               }`}
             >
               {/* Header Fase - Clickable Dropdown Trigger */}
               <div 
                 onClick={() => togglePhase(phase.phaseId)}
-                className="p-5 sm:p-6 cursor-pointer flex items-center justify-between hover:bg-sky-50/60 transition-colors select-none"
+                className="p-5 sm:p-6 cursor-pointer flex items-center justify-between hover:bg-slate-50/70 transition-colors select-none"
               >
                 <div className="flex items-center space-x-4">
                   <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center font-bold text-white text-base shadow-xs flex-shrink-0 font-philosopher ${
@@ -422,8 +422,8 @@ export default function TrackerView({
 
               {/* Tahap di dalam Fase (Hanya Muncul Jika Dropdown Terbuka) */}
               {isExpanded && (
-                <div className="p-5 sm:p-6 border-t-2 border-sky-100 space-y-3 font-instrument bg-sky-50/30 animate-fadeIn">
-                  <p className="text-[11px] text-slate-500 mb-2">
+                <div className="p-5 sm:p-6 border-t-2 border-sky-100/80 space-y-3 font-instrument bg-sky-50/40 animate-fadeIn">
+                  <p className="text-[11px] font-semibold text-slate-500 mb-2">
                     Centang setiap tahap yang telah kamu selesaikan untuk memperbarui status kelulusanmu:
                   </p>
                   {phase.steps.map((step) => {
@@ -433,27 +433,29 @@ export default function TrackerView({
                       <div
                         key={step.id}
                         onClick={() => handleCheckboxClick(step.id)}
-                        className={`p-4 rounded-2xl border-2 flex items-start space-x-3 cursor-pointer transition-all ${
+                        className={`p-4 rounded-2xl border-2 flex items-start space-x-3.5 cursor-pointer transition-all ${
                           isChecked
                             ? 'bg-emerald-50/90 border-emerald-300 shadow-2xs'
-                            : 'bg-bone border-bone-300 hover:border-primary/50 hover:bg-bone-50 shadow-xs'
+                            : 'bg-white border-slate-200/90 hover:border-primary/60 hover:shadow-md hover:scale-[1.003] shadow-xs'
                         }`}
                       >
-                        <div className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all flex-shrink-0 ${
+                        <div className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
                           isChecked
                             ? 'bg-emerald-600 text-white shadow-xs'
-                            : 'border-2 border-bone-300 bg-white hover:border-primary'
+                            : 'border-2 border-slate-300 bg-white hover:border-primary'
                         }`}>
                           {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                         </div>
 
                         <div className="flex-1">
                           <h4 className={`text-xs sm:text-sm font-bold leading-snug ${
-                            isChecked ? 'text-emerald-800 line-through' : 'text-slate-800'
+                            isChecked ? 'text-emerald-800 line-through' : 'text-slate-900'
                           }`}>
                             {step.title}
                           </h4>
-                          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                          <p className={`text-xs mt-1 leading-relaxed ${
+                            isChecked ? 'text-emerald-700/80' : 'text-slate-600'
+                          }`}>
                             {step.desc}
                           </p>
                         </div>

@@ -209,17 +209,17 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab,
                           className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between ${
                             isDone
                               ? 'bg-emerald-50/90 border-emerald-300 shadow-xs'
-                              : 'bg-bone border-bone-300 hover:border-primary/60 hover:bg-bone-50 hover:shadow-md'
+                              : 'bg-white border-slate-200/90 hover:border-primary/60 hover:shadow-md hover:scale-[1.005] shadow-xs'
                           }`}
                         >
                           <div>
                             <div className="flex items-start justify-between gap-3 mb-2">
                               <div className="flex items-start space-x-3">
                                 <div
-                                  className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all flex-shrink-0 ${
+                                  className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
                                     isDone
                                       ? 'bg-emerald-600 text-white shadow-xs'
-                                      : 'border-2 border-bone-300 bg-white hover:border-primary'
+                                      : 'border-2 border-slate-300 bg-white hover:border-primary'
                                   }`}
                                 >
                                   {isDone && <Check className="w-3.5 h-3.5 stroke-[3]" />}
