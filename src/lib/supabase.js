@@ -589,6 +589,8 @@ export const StorageService = {
       let message = msg.message || '';
       let topic_id = msg.topic_id || 'umum';
 
+      let is_edited = msg.is_edited || false;
+
       if (typeof reply_to === 'string') {
         try {
           reply_to = JSON.parse(reply_to);
@@ -607,6 +609,7 @@ export const StorageService = {
             const meta = JSON.parse(match[1]);
             if (meta.reply_to) reply_to = meta.reply_to;
             if (meta.topic_id) topic_id = meta.topic_id;
+            if (meta.is_edited !== undefined) is_edited = meta.is_edited;
             message = match[2];
           } catch (e) {}
         }
@@ -625,6 +628,7 @@ export const StorageService = {
         ...msg,
         topic_id: topic_id || 'umum',
         reply_to: reply_to || null,
+        is_edited,
         message
       };
     };
@@ -772,7 +776,135 @@ export const StorageService = {
     return newMsg;
   },
 
-  // Subscribe ke pesan realtime
+  // Edit pesan forum komunitas (hanya jika <= 2 menit dari created_at)
+  async editCommunityMessage(messageId, newMessage) {
+    if (!messageId || !newMessage?.trim()) return null;
+
+    const trimmedMsg = newMessage.trim();
+
+    // Simpan ke Supabase jika aktif
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data: existing } = await supabase
+          .from('community_messages')
+          .select('*')
+          .eq('id', messageId)
+          .single();
+
+        if (existing) {
+          // Validasi waktu 2 menit (dengan toleransi 10 detik jaringan)
+          if (existing.created_at) {
+            const createdTime = new Date(existing.created_at).getTime();
+            if (Date.now() - createdTime > 2 * 60 * 1000 + 10000) {
+              throw new Error('Batas waktu edit 2 menit telah berakhir.');
+            }
+          }
+
+          let updatePayload = {
+            message: trimmedMsg,
+            is_edited: true
+          };
+
+          // Jika format menggunakan [IF23_META:...]
+          if (existing.message && existing.message.startsWith('[IF23_META:')) {
+            const match = existing.message.match(/^\[IF23_META:(.*?)\]\s([\s\S]*)$/);
+            if (match) {
+              try {
+                const meta = JSON.parse(match[1]);
+                meta.is_edited = true;
+                updatePayload = {
+                  message: `[IF23_META:${JSON.stringify(meta)}] ${trimmedMsg}`
+                };
+              } catch (e) {}
+            }
+          }
+
+          let { error } = await supabase
+            .from('community_messages')
+            .update(updatePayload)
+            .eq('id', messageId);
+
+          // Jika kolom is_edited belum ada di tabel Supabase pengguna:
+          if (error && error.message && error.message.toLowerCase().includes('is_edited')) {
+            delete updatePayload.is_edited;
+            const metaPayload = {
+              topic_id: existing.topic_id || 'umum',
+              reply_to: existing.reply_to || null,
+              is_edited: true
+            };
+            updatePayload.message = `[IF23_META:${JSON.stringify(metaPayload)}] ${trimmedMsg}`;
+            await supabase
+              .from('community_messages')
+              .update(updatePayload)
+              .eq('id', messageId);
+          }
+        }
+      } catch (err) {
+        console.error('Edit message supabase error:', err);
+        throw err;
+      }
+    }
+
+    // Perbarui cache localStorage
+    try {
+      const saved = localStorage.getItem('IF23_COMMUNITY_MESSAGES');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const updated = parsed.map(m => {
+            if (m.id === messageId) {
+              return {
+                ...m,
+                message: trimmedMsg,
+                is_edited: true
+              };
+            }
+            return m;
+          });
+          localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(updated));
+        }
+      }
+    } catch (e) {}
+
+    return { id: messageId, message: trimmedMsg, is_edited: true };
+  },
+
+  // Hapus pesan forum komunitas
+  async deleteCommunityMessage(messageId) {
+    if (!messageId) return false;
+
+    // Hapus dari Supabase jika aktif
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { error } = await supabase
+          .from('community_messages')
+          .delete()
+          .eq('id', messageId);
+
+        if (error) {
+          console.warn('Supabase delete message error:', error);
+        }
+      } catch (err) {
+        console.error('Delete message error:', err);
+      }
+    }
+
+    // Hapus dari cache localStorage
+    try {
+      const saved = localStorage.getItem('IF23_COMMUNITY_MESSAGES');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const updated = parsed.filter(m => m.id !== messageId);
+          localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(updated));
+        }
+      }
+    } catch (e) {}
+
+    return true;
+  },
+
+  // Subscribe ke pesan realtime (INSERT, UPDATE, DELETE)
   subscribeCommunityMessages(callback) {
     if (supabase && isSupabaseConfigured) {
       const decodeMsg = (msg) => {
@@ -780,6 +912,7 @@ export const StorageService = {
         let reply_to = msg.reply_to;
         let message = msg.message || '';
         let topic_id = msg.topic_id || 'umum';
+        let is_edited = msg.is_edited || false;
 
         if (typeof reply_to === 'string') {
           try {
@@ -798,6 +931,7 @@ export const StorageService = {
               const meta = JSON.parse(match[1]);
               if (meta.reply_to) reply_to = meta.reply_to;
               if (meta.topic_id) topic_id = meta.topic_id;
+              if (meta.is_edited !== undefined) is_edited = meta.is_edited;
               message = match[2];
             } catch (e) {}
           }
@@ -816,6 +950,7 @@ export const StorageService = {
           ...msg,
           topic_id: topic_id || 'umum',
           reply_to: reply_to || null,
+          is_edited,
           message
         };
       };
@@ -824,10 +959,17 @@ export const StorageService = {
         .channel('public:community_messages')
         .on(
           'postgres_changes',
-          { event: 'INSERT', schema: 'public', table: 'community_messages' },
+          { event: '*', schema: 'public', table: 'community_messages' },
           (payload) => {
-            if (payload && payload.new) {
-              callback(decodeMsg(payload.new));
+            if (!payload) return;
+            if (payload.eventType === 'INSERT' && payload.new) {
+              const decoded = decodeMsg(payload.new);
+              callback({ type: 'INSERT', message: decoded, ...decoded });
+            } else if (payload.eventType === 'UPDATE' && payload.new) {
+              const decoded = decodeMsg(payload.new);
+              callback({ type: 'UPDATE', message: decoded, ...decoded });
+            } else if (payload.eventType === 'DELETE' && payload.old) {
+              callback({ type: 'DELETE', id: payload.old.id });
             }
           }
         )

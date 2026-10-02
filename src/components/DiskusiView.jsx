@@ -33,7 +33,9 @@ import {
   Trophy,
   Coffee,
   Megaphone,
-  X
+  X,
+  Edit3,
+  Trash2
 } from 'lucide-react';
 import { StorageService, isSupabaseConfigured } from '../lib/supabase';
 import { JADWAL_YUDISIUM_WISUDA } from '../data/kalenderAkademik';
@@ -172,6 +174,40 @@ export default function DiskusiView({ currentUser, profile }) {
   const [newTopicDesc, setNewTopicDesc] = useState('');
   const [newTopicIcon, setNewTopicIcon] = useState('Briefcase');
   const [isSubmittingTopic, setIsSubmittingTopic] = useState(false);
+
+  // --- STATE EDIT & HAPUS PESAN (BATAS EDIT 2 MENIT) ---
+  const [editingMessageId, setEditingMessageId] = useState(null);
+  const [editInputText, setEditInputText] = useState('');
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  const [mySentMessageIds, setMySentMessageIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('IF23_MY_SENT_MESSAGE_IDS');
+      return new Set(saved ? JSON.parse(saved) : []);
+    } catch (e) {
+      return new Set();
+    }
+  });
+
+  // Timer interval setiap 5 detik agar countdown batas edit 2 menit berjalan realtime
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const recordSentMessageId = (id) => {
+    if (!id) return;
+    setMySentMessageIds(prev => {
+      const next = new Set(prev);
+      next.add(id);
+      try {
+        localStorage.setItem('IF23_MY_SENT_MESSAGE_IDS', JSON.stringify([...next]));
+      } catch (e) {}
+      return next;
+    });
+  };
 
   // Status Like Komentar (Disimpan di LocalStorage)
   const [likedComments, setLikedComments] = useState(() => {
@@ -323,11 +359,25 @@ export default function DiskusiView({ currentUser, profile }) {
       }
 
       // Berlangganan realtime Supabase jika aktif
-      unsubscribe = StorageService.subscribeCommunityMessages((newMsg) => {
-        setMessages(prev => {
-          if (prev.some(m => m.id === newMsg.id)) return prev;
-          return [...prev, newMsg];
-        });
+      unsubscribe = StorageService.subscribeCommunityMessages((event) => {
+        if (!event) return;
+        if (event.type === 'INSERT') {
+          const msg = event.message || event;
+          setMessages(prev => {
+            if (prev.some(m => m.id === msg.id)) return prev;
+            return [...prev, msg];
+          });
+        } else if (event.type === 'UPDATE') {
+          const msg = event.message || event;
+          setMessages(prev => prev.map(m => m.id === msg.id ? { ...m, ...msg } : m));
+        } else if (event.type === 'DELETE') {
+          setMessages(prev => prev.filter(m => m.id !== event.id));
+        } else if (event.id) {
+          setMessages(prev => {
+            if (prev.some(m => m.id === event.id)) return prev;
+            return [...prev, event];
+          });
+        }
       });
     }
 
@@ -399,6 +449,105 @@ export default function DiskusiView({ currentUser, profile }) {
     }
   };
 
+  // --- HELPER KEPEMILIKAN & BATAS WAKTU EDIT PESAN (2 MENIT) ---
+  const isMyMessage = (msg) => {
+    if (!msg) return false;
+    // 1. Cek dari ID pesan yang tersimpan di browser ini
+    if (mySentMessageIds.has(msg.id)) return true;
+
+    // 2. Cek jika pengguna login
+    if (currentUser) {
+      if (currentUser.nim && msg.sender_email?.toLowerCase().includes(currentUser.nim.toLowerCase())) return true;
+      if (currentUser.email && msg.sender_email?.toLowerCase() === currentUser.email.toLowerCase()) return true;
+      if (currentUser.nama_lengkap && msg.sender_name?.toLowerCase() === currentUser.nama_lengkap.toLowerCase()) return true;
+    }
+
+    // 3. Cek jika tamu dengan email sama
+    if (guestIdentity?.email && msg.sender_email?.toLowerCase() === guestIdentity.email.toLowerCase()) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const EDIT_WINDOW_MS = 2 * 60 * 1000; // Batas edit: 2 menit
+
+  // Hanya bisa diedit jika milik sendiri & baru dikirim <= 2 menit
+  const canEditMessage = (msg) => {
+    if (!isMyMessage(msg)) return false;
+    if (!msg.created_at) return false;
+    const createdTime = new Date(msg.created_at).getTime();
+    if (isNaN(createdTime)) return false;
+    return (currentTime - createdTime) <= EDIT_WINDOW_MS;
+  };
+
+  // Bisa dihapus kapan saja asalkan pesan milik sendiri
+  const canDeleteMessage = (msg) => {
+    return isMyMessage(msg);
+  };
+
+  const getRemainingEditTimeStr = (createdAt) => {
+    if (!createdAt) return '';
+    const diff = EDIT_WINDOW_MS - (currentTime - new Date(createdAt).getTime());
+    if (diff <= 0) return '0 dtk';
+    const mins = Math.floor(diff / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    return mins > 0 ? `${mins}m ${secs}d` : `${secs}d`;
+  };
+
+  const handleStartEdit = (msg) => {
+    if (!canEditMessage(msg)) {
+      alert('Batas waktu edit 2 menit telah berakhir. Anda hanya dapat menghapus pesan ini.');
+      return;
+    }
+    setEditingMessageId(msg.id);
+    setEditInputText(msg.message || '');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingMessageId(null);
+    setEditInputText('');
+  };
+
+  const handleSaveEdit = async (msg) => {
+    if (!editInputText.trim()) return;
+    if (!canEditMessage(msg)) {
+      alert('Batas waktu edit 2 menit telah berakhir! Anda hanya dapat menghapus pesan ini.');
+      handleCancelEdit();
+      return;
+    }
+
+    setIsSavingEdit(true);
+    try {
+      const updated = await StorageService.editCommunityMessage(msg.id, editInputText.trim());
+      if (updated) {
+        setMessages(prev => prev.map(m => m.id === msg.id ? { ...m, message: updated.message, is_edited: true } : m));
+      }
+      handleCancelEdit();
+    } catch (err) {
+      alert(err.message || 'Gagal mengubah pesan');
+    } finally {
+      setIsSavingEdit(false);
+    }
+  };
+
+  const handleDeleteMessage = async (messageId) => {
+    if (!window.confirm('Hapus pesan ini dari ruang diskusi? Pesan yang dihapus tidak dapat dipulihkan.')) {
+      return;
+    }
+
+    try {
+      await StorageService.deleteCommunityMessage(messageId);
+      setMessages(prev => prev.filter(m => m.id !== messageId));
+      if (editingMessageId === messageId) {
+        handleCancelEdit();
+      }
+    } catch (err) {
+      console.error('Delete message error:', err);
+      alert('Gagal menghapus pesan.');
+    }
+  };
+
   // Auto scroll AI chat
   useEffect(() => {
     if (activeSubTab === 'ai') {
@@ -455,6 +604,10 @@ export default function DiskusiView({ currentUser, profile }) {
         if (prev.some(m => m.id === sentMsg.id)) return prev;
         return [...prev, sentMsg];
       });
+
+      if (sentMsg && sentMsg.id) {
+        recordSentMessageId(sentMsg.id);
+      }
 
       // Jika membalas pesan, otomatis buka cabang thread tersebut agar balasan langsung terlihat
       if (replyPayload && replyPayload.root_id) {
@@ -796,8 +949,7 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
               </div>
             ) : (
               rootComments.map((root) => {
-                const isRootMe = (currentUser && root.sender_email?.includes(currentUser.nim)) || 
-                                 (!currentUser && guestIdentity.email && root.sender_email === guestIdentity.email);
+                const isRootMe = isMyMessage(root);
                 const isRootLiked = !!likedComments[root.id];
                 const replies = repliesByRoot.get(root.id) || [];
                 const isExpanded = !!expandedThreads[root.id];
@@ -855,14 +1007,54 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                             )}
                           </div>
 
-                          {/* Isi Teks Komentar */}
-                          <p className="text-xs sm:text-sm text-slate-800 mt-1 leading-relaxed break-words whitespace-pre-wrap">
-                            {root.message}
-                          </p>
+                          {/* Isi Teks Komentar atau Mode Edit */}
+                          {editingMessageId === root.id ? (
+                            <div className="mt-2 p-3 bg-amber-50/80 border border-amber-300 rounded-xl space-y-2 shadow-2xs">
+                              <div className="flex items-center justify-between text-[11px]">
+                                <span className="font-bold text-amber-900 flex items-center gap-1.5">
+                                  <Edit3 className="w-3.5 h-3.5 text-amber-700" /> Mode Edit Pesan
+                                </span>
+                                <span className="text-[10px] text-amber-700 font-mono font-semibold bg-white/80 px-2 py-0.5 rounded-full border border-amber-200">
+                                  Sisa: {getRemainingEditTimeStr(root.created_at)}
+                                </span>
+                              </div>
+                              <textarea
+                                value={editInputText}
+                                onChange={(e) => setEditInputText(e.target.value)}
+                                rows={2}
+                                className="w-full text-xs sm:text-sm p-2 rounded-lg border border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white resize-none"
+                                autoFocus
+                              />
+                              <div className="flex items-center justify-end space-x-2">
+                                <button
+                                  type="button"
+                                  onClick={handleCancelEdit}
+                                  className="px-2.5 py-1 text-xs rounded-lg text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer"
+                                >
+                                  Batal
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleSaveEdit(root)}
+                                  disabled={isSavingEdit || !editInputText.trim()}
+                                  className="px-3.5 py-1 text-xs rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold cursor-pointer disabled:opacity-50 transition-colors shadow-2xs"
+                                >
+                                  {isSavingEdit ? 'Menyimpan...' : 'Simpan'}
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <p className="text-xs sm:text-sm text-slate-800 mt-1 leading-relaxed break-words whitespace-pre-wrap">
+                              {root.message}
+                            </p>
+                          )}
 
-                          {/* Bar Aksi (Waktu & Tombol Balas) */}
-                          <div className="flex items-center space-x-3 mt-1.5 text-xs text-slate-400">
+                          {/* Bar Aksi (Waktu, Diedit, Balas, Edit, Hapus) */}
+                          <div className="flex items-center space-x-2.5 sm:space-x-3 mt-1.5 text-xs text-slate-400 flex-wrap">
                             <span className="text-[11px] font-mono">{timeStr}</span>
+                            {root.is_edited && (
+                              <span className="text-[10px] italic text-slate-400 font-sans">(diedit)</span>
+                            )}
                             <button
                               type="button"
                               onClick={() => handleReplyTo(root)}
@@ -870,6 +1062,32 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                             >
                               Balas
                             </button>
+
+                            {/* Tombol Edit - Khusus pesan milik sendiri & berlaku <= 2 menit */}
+                            {canEditMessage(root) && (
+                              <button
+                                type="button"
+                                onClick={() => handleStartEdit(root)}
+                                className="flex items-center space-x-1 font-semibold text-slate-500 hover:text-amber-600 transition-colors cursor-pointer text-xs"
+                                title="Edit pesan ini (berlaku 2 menit setelah kirim)"
+                              >
+                                <Edit3 className="w-3 h-3" />
+                                <span>Edit</span>
+                              </button>
+                            )}
+
+                            {/* Tombol Hapus - Pesan milik sendiri (kapan saja) */}
+                            {canDeleteMessage(root) && (
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteMessage(root.id)}
+                                className="flex items-center space-x-1 font-semibold text-slate-400 hover:text-rose-600 transition-colors cursor-pointer text-xs"
+                                title="Hapus pesan ini"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                                <span>Hapus</span>
+                              </button>
+                            )}
                           </div>
 
                           {/* Cabang Balasan Bersarang ala TikTok (Nested Thread) */}
@@ -890,8 +1108,7 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                                 /* Daftar Balasan yang Terbuka */
                                 <div className="space-y-3.5 pl-3 sm:pl-4 border-l-2 border-slate-200 mt-2">
                                   {replies.map((reply) => {
-                                    const isReplyMe = (currentUser && reply.sender_email?.includes(currentUser.nim)) || 
-                                                      (!currentUser && guestIdentity.email && reply.sender_email === guestIdentity.email);
+                                    const isReplyMe = isMyMessage(reply);
                                     const isReplyLiked = !!likedComments[reply.id];
                                     const replyTime = reply.created_at 
                                       ? new Date(reply.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
@@ -933,19 +1150,59 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                                               )}
                                             </div>
 
-                                            {/* Teks dengan mention ala TikTok (@NamaTarget) */}
-                                            <p className="text-xs text-slate-800 mt-0.5 leading-relaxed break-words">
-                                              {reply.reply_to?.sender_name && (
-                                                <span className="text-primary font-bold mr-1.5 inline-flex items-center">
-                                                  @{reply.reply_to.sender_name}
-                                                </span>
-                                              )}
-                                              {reply.message}
-                                            </p>
+                                            {/* Teks dengan mention ala TikTok (@NamaTarget) atau Mode Edit */}
+                                            {editingMessageId === reply.id ? (
+                                              <div className="mt-1.5 p-2.5 bg-amber-50/80 border border-amber-300 rounded-xl space-y-2 shadow-2xs">
+                                                <div className="flex items-center justify-between text-[10px]">
+                                                  <span className="font-bold text-amber-900 flex items-center gap-1">
+                                                    <Edit3 className="w-3 h-3 text-amber-700" /> Mode Edit Balasan
+                                                  </span>
+                                                  <span className="text-[10px] text-amber-700 font-mono font-semibold bg-white/80 px-1.5 py-0.2 rounded-full border border-amber-200">
+                                                    Sisa: {getRemainingEditTimeStr(reply.created_at)}
+                                                  </span>
+                                                </div>
+                                                <textarea
+                                                  value={editInputText}
+                                                  onChange={(e) => setEditInputText(e.target.value)}
+                                                  rows={2}
+                                                  className="w-full text-xs p-1.5 rounded-lg border border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white resize-none"
+                                                  autoFocus
+                                                />
+                                                <div className="flex items-center justify-end space-x-2">
+                                                  <button
+                                                    type="button"
+                                                    onClick={handleCancelEdit}
+                                                    className="px-2 py-0.5 text-xs rounded-md text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer"
+                                                  >
+                                                    Batal
+                                                  </button>
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => handleSaveEdit(reply)}
+                                                    disabled={isSavingEdit || !editInputText.trim()}
+                                                    className="px-3 py-0.5 text-xs rounded-md bg-amber-600 hover:bg-amber-700 text-white font-bold cursor-pointer disabled:opacity-50 transition-colors shadow-2xs"
+                                                  >
+                                                    {isSavingEdit ? 'Menyimpan...' : 'Simpan'}
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            ) : (
+                                              <p className="text-xs text-slate-800 mt-0.5 leading-relaxed break-words">
+                                                {reply.reply_to?.sender_name && (
+                                                  <span className="text-primary font-bold mr-1.5 inline-flex items-center">
+                                                    @{reply.reply_to.sender_name}
+                                                  </span>
+                                                )}
+                                                {reply.message}
+                                              </p>
+                                            )}
 
-                                            {/* Tombol aksi waktu & Balas */}
-                                            <div className="flex items-center space-x-3 mt-1 text-[11px] text-slate-400">
+                                            {/* Tombol aksi waktu, Diedit, Balas, Edit, Hapus */}
+                                            <div className="flex items-center space-x-2.5 mt-1 text-[11px] text-slate-400 flex-wrap">
                                               <span>{replyTime}</span>
+                                              {reply.is_edited && (
+                                                <span className="text-[10px] italic text-slate-400 font-sans">(diedit)</span>
+                                              )}
                                               <button
                                                 type="button"
                                                 onClick={() => handleReplyTo(reply, root.id)}
@@ -953,6 +1210,32 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                                               >
                                                 Balas
                                               </button>
+
+                                              {/* Tombol Edit Balasan - Berlaku <= 2 menit */}
+                                              {canEditMessage(reply) && (
+                                                <button
+                                                  type="button"
+                                                  onClick={() => handleStartEdit(reply)}
+                                                  className="flex items-center space-x-1 font-semibold text-slate-500 hover:text-amber-600 transition-colors cursor-pointer text-[11px]"
+                                                  title="Edit balasan ini (berlaku 2 menit setelah kirim)"
+                                                >
+                                                  <Edit3 className="w-2.5 h-2.5" />
+                                                  <span>Edit</span>
+                                                </button>
+                                              )}
+
+                                              {/* Tombol Hapus Balasan */}
+                                              {canDeleteMessage(reply) && (
+                                                <button
+                                                  type="button"
+                                                  onClick={() => handleDeleteMessage(reply.id)}
+                                                  className="flex items-center space-x-1 font-semibold text-slate-400 hover:text-rose-600 transition-colors cursor-pointer text-[11px]"
+                                                  title="Hapus balasan ini"
+                                                >
+                                                  <Trash2 className="w-2.5 h-2.5" />
+                                                  <span>Hapus</span>
+                                                </button>
+                                              )}
                                             </div>
                                           </div>
                                         </div>
