@@ -219,8 +219,15 @@ export const StorageService = {
   },
 
   // Logout akun mahasiswa
-  logout() {
+  async logout() {
     localStorage.removeItem('IF23_ACTIVE_USER');
+    if (supabase && isSupabaseConfigured) {
+      try {
+        await supabase.auth.signOut();
+      } catch (e) {
+        console.warn('Sign out error:', e);
+      }
+    }
   },
 
   // Ambil profil
@@ -326,7 +333,73 @@ export const StorageService = {
         return { error: err };
       }
     }
-    return { error: new Error('Supabase belum terkonfigurasi') };
+    return { error: new Error('Supabase belum terkonfigurasi di file .env') };
+  },
+
+  // Tangani callback user yang login dengan Google
+  async handleOAuthCallback() {
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (session?.user) {
+          const user = session.user;
+          const email = user.email || '';
+          const fullName = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0];
+          const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+          
+          // Deteksi NIM dari email jika format nim@almaata.ac.id
+          const emailMatch = email.match(/^(\d{8,12})/);
+          const nim = emailMatch ? emailMatch[1] : (user.user_metadata?.nim || `G-${user.id.slice(0, 8)}`);
+
+          // Cek profil di database
+          let profile = await this.getProfile(nim);
+          if (!profile || profile.nim !== nim) {
+            profile = {
+              nim: nim,
+              nama_lengkap: fullName,
+              peminatan: 'Software Engineering',
+              judul_skripsi: '',
+              dosen_pembimbing: '',
+              ipk: 3.50,
+              skor_aaept: 0,
+              turnitin_persen: 0,
+              hadir_sempro_count: 0,
+              avatar_url: avatarUrl,
+              email: email
+            };
+            await this.saveProfile(profile);
+          } else {
+            profile.nama_lengkap = profile.nama_lengkap || fullName;
+            profile.email = email;
+            if (avatarUrl) profile.avatar_url = avatarUrl;
+          }
+
+          localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(profile));
+          localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(profile));
+          return profile;
+        }
+      } catch (err) {
+        console.error('OAuth callback error:', err);
+      }
+    }
+    return null;
+  },
+
+  // Listener perubahan auth state (misal saat login Google selesai)
+  onAuthStateChange(callback) {
+    if (supabase && isSupabaseConfigured) {
+      const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          const profile = await this.handleOAuthCallback();
+          if (profile && callback) callback(profile);
+        } else if (event === 'SIGNED_OUT') {
+          await this.logout();
+          if (callback) callback(null);
+        }
+      });
+      return authListener?.subscription;
+    }
+    return { unsubscribe: () => {} };
   },
 
   // Ambil daftar pesan forum komunitas

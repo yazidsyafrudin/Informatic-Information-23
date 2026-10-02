@@ -38,7 +38,10 @@ export default function App() {
   useEffect(() => {
     async function loadInitialData() {
       try {
-        const loggedInUser = StorageService.getCurrentUser();
+        // Cek apakah ada sesi Google OAuth dari redirect
+        const oAuthUser = await StorageService.handleOAuthCallback();
+        const loggedInUser = oAuthUser || StorageService.getCurrentUser();
+
         if (loggedInUser) {
           setCurrentUser(loggedInUser);
           setProfile(loggedInUser);
@@ -57,6 +60,25 @@ export default function App() {
       }
     }
     loadInitialData();
+
+    // Berlangganan listener perubahan login Google / logout
+    const subscription = StorageService.onAuthStateChange(async (userProfile) => {
+      if (userProfile) {
+        setCurrentUser(userProfile);
+        setProfile(userProfile);
+        const loadedProgress = await StorageService.getProgress(userProfile.nim);
+        setProgress(loadedProgress || {});
+      } else {
+        setCurrentUser(null);
+        setProgress({});
+      }
+    });
+
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === 'function') {
+        subscription.unsubscribe();
+      }
+    };
   }, []);
 
   const handleLoginSuccess = async (userProfile) => {
@@ -67,8 +89,8 @@ export default function App() {
     setActiveTab('tracker');
   };
 
-  const handleLogout = () => {
-    StorageService.logout();
+  const handleLogout = async () => {
+    await StorageService.logout();
     setCurrentUser(null);
     setProgress({});
     setActiveTab('dashboard');
