@@ -440,17 +440,48 @@ export const StorageService = {
 
   // Ambil daftar pesan forum komunitas
   async getCommunityMessages() {
+    // Helper decode pesan jika metadata tersimpan di database
+    const decodeMsg = (msg) => {
+      if (!msg) return msg;
+      let reply_to = msg.reply_to;
+      let message = msg.message || '';
+
+      if (typeof reply_to === 'string') {
+        try {
+          reply_to = JSON.parse(reply_to);
+        } catch (e) {}
+      }
+
+      // Jika kolom native belum ada, ambil dari metadata awalan teks
+      if (!reply_to && message.startsWith('[IF23_REPLY:')) {
+        const match = message.match(/^\[IF23_REPLY:(.*?)\]\s([\s\S]*)$/);
+        if (match) {
+          try {
+            reply_to = JSON.parse(match[1]);
+            message = match[2];
+          } catch (e) {}
+        }
+      }
+
+      return {
+        ...msg,
+        reply_to: reply_to || null,
+        message
+      };
+    };
+
     if (supabase && isSupabaseConfigured) {
       try {
         const { data, error } = await supabase
           .from('community_messages')
           .select('*')
           .order('created_at', { ascending: true })
-          .limit(100);
+          .limit(200);
 
         if (!error && data) {
-          localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(data));
-          return data;
+          const decoded = data.map(decodeMsg);
+          localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(decoded));
+          return decoded;
         }
       } catch (err) {
         console.warn('Fallback community messages ke localStorage:', err);
@@ -461,7 +492,8 @@ export const StorageService = {
     const saved = localStorage.getItem('IF23_COMMUNITY_MESSAGES');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed.map(decodeMsg) : [];
       } catch (e) {
         console.error(e);
       }
@@ -489,7 +521,7 @@ export const StorageService = {
     ];
   },
 
-  // Kirim pesan baru ke forum komunitas (dengan dukungan balas/reply pesan)
+  // Kirim pesan baru ke forum komunitas (dengan dukungan balas/reply pesan yang tahan banting)
   async sendCommunityMessage({ sender_name, sender_email, sender_avatar, sender_role, message, reply_to = null }) {
     const newMsg = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
@@ -501,15 +533,6 @@ export const StorageService = {
       reply_to: reply_to || null,
       created_at: new Date().toISOString()
     };
-
-    // Simpan lokal terlebih dahulu
-    try {
-      const current = await this.getCommunityMessages();
-      const updated = [...current, newMsg];
-      localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(updated));
-    } catch (e) {
-      console.error('Save message local error:', e);
-    }
 
     // Kirim ke Supabase
     if (supabase && isSupabaseConfigured) {
@@ -528,9 +551,13 @@ export const StorageService = {
           .insert([insertPayload])
           .select();
 
-        // Jika kolom reply_to belum ada di Supabase pengguna, coba kirim tanpa field reply_to
+        // Jika kolom reply_to belum ada di tabel database Supabase pengguna:
+        // Sematkan metadata balasan langsung ke teks pesan agar tetap tersimpan untuk semua orang!
         if (error && error.message && error.message.toLowerCase().includes('reply_to')) {
           delete insertPayload.reply_to;
+          if (newMsg.reply_to) {
+            insertPayload.message = `[IF23_REPLY:${JSON.stringify(newMsg.reply_to)}] ${newMsg.message}`;
+          }
           const retry = await supabase.from('community_messages').insert([insertPayload]).select();
           error = retry.error;
           data = retry.data;
@@ -539,11 +566,24 @@ export const StorageService = {
         if (error) {
           console.warn('Supabase message insert error (menggunakan data lokal):', error);
         } else if (data && data[0]) {
-          return { ...data[0], reply_to: newMsg.reply_to };
+          return {
+            ...data[0],
+            reply_to: newMsg.reply_to,
+            message: newMsg.message
+          };
         }
       } catch (err) {
         console.error('Supabase message error:', err);
       }
+    }
+
+    // Simpan lokal sebagai cache
+    try {
+      const current = await this.getCommunityMessages();
+      const updated = [...current, newMsg];
+      localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(updated));
+    } catch (e) {
+      console.error('Save message local error:', e);
     }
 
     return newMsg;
@@ -552,6 +592,34 @@ export const StorageService = {
   // Subscribe ke pesan realtime
   subscribeCommunityMessages(callback) {
     if (supabase && isSupabaseConfigured) {
+      const decodeMsg = (msg) => {
+        if (!msg) return msg;
+        let reply_to = msg.reply_to;
+        let message = msg.message || '';
+
+        if (typeof reply_to === 'string') {
+          try {
+            reply_to = JSON.parse(reply_to);
+          } catch (e) {}
+        }
+
+        if (!reply_to && message.startsWith('[IF23_REPLY:')) {
+          const match = message.match(/^\[IF23_REPLY:(.*?)\]\s([\s\S]*)$/);
+          if (match) {
+            try {
+              reply_to = JSON.parse(match[1]);
+              message = match[2];
+            } catch (e) {}
+          }
+        }
+
+        return {
+          ...msg,
+          reply_to: reply_to || null,
+          message
+        };
+      };
+
       const channel = supabase
         .channel('public:community_messages')
         .on(
@@ -559,7 +627,7 @@ export const StorageService = {
           { event: 'INSERT', schema: 'public', table: 'community_messages' },
           (payload) => {
             if (payload && payload.new) {
-              callback(payload.new);
+              callback(decodeMsg(payload.new));
             }
           }
         )
