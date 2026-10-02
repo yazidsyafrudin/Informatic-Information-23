@@ -489,8 +489,8 @@ export const StorageService = {
     ];
   },
 
-  // Kirim pesan baru ke forum komunitas
-  async sendCommunityMessage({ sender_name, sender_email, sender_avatar, sender_role, message }) {
+  // Kirim pesan baru ke forum komunitas (dengan dukungan balas/reply pesan)
+  async sendCommunityMessage({ sender_name, sender_email, sender_avatar, sender_role, message, reply_to = null }) {
     const newMsg = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       sender_name: sender_name || 'Anonim',
@@ -498,6 +498,7 @@ export const StorageService = {
       sender_avatar: sender_avatar || null,
       sender_role: sender_role || 'Tamu / Umum',
       message: message.trim(),
+      reply_to: reply_to || null,
       created_at: new Date().toISOString()
     };
 
@@ -513,21 +514,32 @@ export const StorageService = {
     // Kirim ke Supabase
     if (supabase && isSupabaseConfigured) {
       try {
-        const { data, error } = await supabase
+        let insertPayload = {
+          sender_name: newMsg.sender_name,
+          sender_email: newMsg.sender_email,
+          sender_avatar: newMsg.sender_avatar,
+          sender_role: newMsg.sender_role,
+          message: newMsg.message,
+          reply_to: newMsg.reply_to
+        };
+
+        let { data, error } = await supabase
           .from('community_messages')
-          .insert([{
-            sender_name: newMsg.sender_name,
-            sender_email: newMsg.sender_email,
-            sender_avatar: newMsg.sender_avatar,
-            sender_role: newMsg.sender_role,
-            message: newMsg.message
-          }])
+          .insert([insertPayload])
           .select();
+
+        // Jika kolom reply_to belum ada di Supabase pengguna, coba kirim tanpa field reply_to
+        if (error && error.message && error.message.toLowerCase().includes('reply_to')) {
+          delete insertPayload.reply_to;
+          const retry = await supabase.from('community_messages').insert([insertPayload]).select();
+          error = retry.error;
+          data = retry.data;
+        }
 
         if (error) {
           console.warn('Supabase message insert error (menggunakan data lokal):', error);
         } else if (data && data[0]) {
-          return data[0];
+          return { ...data[0], reply_to: newMsg.reply_to };
         }
       } catch (err) {
         console.error('Supabase message error:', err);
