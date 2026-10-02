@@ -55,6 +55,18 @@ function formatIndoDate(dateStr) {
   return `${parseInt(day, 10)} ${INDO_MONTHS[monthIdx]} ${year}`;
 }
 
+const INDO_DAYS = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+// Format 'YYYY-MM-DD' ke teks Indonesia beserta Hari
+function formatIndoDateWithDay(dateStr) {
+  if (!dateStr) return '';
+  const [year, month, day] = dateStr.split('-');
+  const d = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
+  const dayName = INDO_DAYS[d.getDay()];
+  const monthIdx = parseInt(month, 10) - 1;
+  return `${dayName}, ${parseInt(day, 10)} ${INDO_MONTHS[monthIdx]} ${year}`;
+}
+
 export default function StudentCalendarTracker({ profile }) {
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -457,52 +469,60 @@ export default function StudentCalendarTracker({ profile }) {
         </div>
       </div>
 
-      {/* Keterangan Warna / Legenda Blok Warna */}
-      <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] pt-1 pb-1 bg-slate-50/90 p-3 rounded-2xl border border-slate-200">
-        <span className="font-bold text-slate-600 uppercase tracking-wider text-[10px]">Warna Kotak Tanggal:</span>
-        <div className="flex items-center space-x-1.5">
-          <span className="w-3.5 h-3.5 rounded-md bg-blue-100 border border-blue-400 inline-block shadow-2xs" />
-          <span className="text-slate-800 font-semibold">Biru (Magang / KKL)</span>
+      {/* Keterangan Warna / Legenda Blok Warna Modern */}
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200">
+        <span className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Warna Kotak:</span>
+        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-blue-200 shadow-2xs">
+          <span className="w-3 h-3 rounded-full bg-blue-600 inline-block shadow-xs" />
+          <span className="text-slate-800 font-bold text-[11px]">Magang / KKL</span>
         </div>
-        <div className="flex items-center space-x-1.5">
-          <span className="w-3.5 h-3.5 rounded-md bg-purple-100 border border-purple-400 inline-block shadow-2xs" />
-          <span className="text-slate-800 font-semibold">Ungu (Riset & Skripsi)</span>
+        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-purple-200 shadow-2xs">
+          <span className="w-3 h-3 rounded-full bg-purple-600 inline-block shadow-xs" />
+          <span className="text-slate-800 font-bold text-[11px]">Skripsi / Riset</span>
         </div>
-        <div className="flex items-center space-x-1.5">
-          <span className="w-3.5 h-3.5 rounded-md bg-emerald-100 border border-emerald-400 inline-block shadow-2xs" />
-          <span className="text-slate-800 font-semibold">Hijau (Logbook / Target Pribadi)</span>
+        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-emerald-200 shadow-2xs">
+          <span className="w-3 h-3 rounded-full bg-emerald-600 inline-block shadow-xs" />
+          <span className="text-slate-800 font-bold text-[11px]">Target Pribadi</span>
         </div>
-        <div className="flex items-center space-x-1.5">
-          <span className="w-3.5 h-3.5 rounded-md bg-amber-100 border border-amber-400 inline-block shadow-2xs" />
-          <span className="text-slate-800 font-semibold">Kuning/Oranye (Bimbingan / Yudisium)</span>
+        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-amber-200 shadow-2xs">
+          <span className="w-3 h-3 rounded-full bg-amber-600 inline-block shadow-xs" />
+          <span className="text-slate-800 font-bold text-[11px]">Bimbingan / Yudisium</span>
         </div>
-        <div className="flex items-center space-x-1.5">
-          <span className="w-3.5 h-3.5 rounded-md bg-rose-100 border border-rose-400 inline-block shadow-2xs" />
-          <span className="text-slate-800 font-semibold">Merah (Ujian / Batas Akhir)</span>
+        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-rose-200 shadow-2xs">
+          <span className="w-3 h-3 rounded-full bg-rose-600 inline-block shadow-xs" />
+          <span className="text-slate-800 font-bold text-[11px]">Ujian / Batas Pendadaran</span>
         </div>
-        <div className="flex items-center space-x-1.5 ml-auto hidden md:flex">
-          <span className="text-slate-400 text-[10px] italic">Klik tanggal untuk melihat keterangan lengkap di bawah</span>
+        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-yellow-200 shadow-2xs">
+          <span className="w-3 h-3 rounded-full bg-yellow-500 inline-block shadow-xs" />
+          <span className="text-slate-800 font-bold text-[11px]">Wisuda 🎓</span>
         </div>
       </div>
 
-      {/* Grid Kalender Bulanan */}
-      <div className="border border-sky-100 rounded-3xl overflow-hidden shadow-xs">
+      {/* Grid Kalender Bulanan Modern (Card Tiles) */}
+      <div className="bg-sky-50/40 p-3 sm:p-5 rounded-3xl border-2 border-sky-100 shadow-xs space-y-3">
         {/* Nama-nama Hari (Senin - Minggu) */}
-        <div className="grid grid-cols-7 bg-primary text-white text-center font-bold text-xs py-3 font-philosopher">
-          <span>Sen</span>
-          <span>Sel</span>
-          <span>Rab</span>
-          <span>Kam</span>
-          <span>Jum</span>
-          <span className="text-amber-300">Sab</span>
-          <span className="text-rose-300">Min</span>
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-3 text-center">
+          {['Sen', 'Sel', 'Rab', 'Kam', 'Jum'].map((d) => (
+            <div key={d} className="py-2 rounded-xl bg-white border border-sky-100 text-primary font-bold text-xs font-philosopher shadow-2xs">
+              {d}
+            </div>
+          ))}
+          <div className="py-2 rounded-xl bg-amber-500/10 border border-amber-200 text-amber-700 font-bold text-xs font-philosopher shadow-2xs">
+            Sab
+          </div>
+          <div className="py-2 rounded-xl bg-rose-500/10 border border-rose-200 text-rose-700 font-bold text-xs font-philosopher shadow-2xs">
+            Min
+          </div>
         </div>
 
-        {/* Sel-sel Tanggal */}
-        <div className="grid grid-cols-7 divide-x divide-y divide-sky-100 bg-white">
+        {/* Grid Kartu-Kartu Tanggal */}
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-2.5">
           {/* Kotak kosong offset awal bulan */}
           {Array.from({ length: startOffset }).map((_, idx) => (
-            <div key={`offset-${idx}`} className="h-14 sm:h-18 bg-slate-50/40" />
+            <div 
+              key={`offset-${idx}`} 
+              className="min-h-[74px] sm:min-h-[88px] rounded-2xl bg-white/40 border border-dashed border-slate-200/60" 
+            />
           ))}
 
           {/* Tanggal 1 s.d. hari terakhir */}
@@ -524,39 +544,69 @@ export default function StudentCalendarTracker({ profile }) {
             const hasLibur = dayAcadEvents.some(evt => evt.type === 'libur');
             const hasUjian = dayAcadEvents.some(evt => evt.type === 'ujian');
 
-            // Penentuan Warna Blok Kotak Tanggal
-            // Prioritas: Target User (Biru/Ungu/Hijau/Oranye/Merah) -> Batas Pendadaran -> Yudisium -> Wisuda -> Ujian -> Libur -> Netral
-            let cellBlockClass = 'bg-white hover:bg-sky-50/50 text-slate-800';
+            // Penentuan Warna Blok Kartu Tanggal
+            let tileClass = 'bg-white border-slate-200 text-slate-800 shadow-2xs hover:border-primary/50';
+            let badgeLabel = null;
+            let badgeStyle = '';
 
             if (dayUserEvents.length > 0) {
               const primaryCat = dayUserEvents[0].category;
-              const cStyle = categoryStyles[primaryCat] || categoryStyles.magang;
-              cellBlockClass = cStyle.cellBg;
+              if (primaryCat === 'magang') {
+                tileClass = 'bg-gradient-to-br from-sky-50 via-blue-50 to-blue-100/90 border-2 border-blue-400 text-blue-950 shadow-xs';
+                badgeLabel = 'Magang';
+                badgeStyle = 'bg-blue-600 text-white';
+              } else if (primaryCat === 'skripsi') {
+                tileClass = 'bg-gradient-to-br from-purple-50 via-fuchsia-50 to-purple-100/90 border-2 border-purple-400 text-purple-950 shadow-xs';
+                badgeLabel = 'Skripsi';
+                badgeStyle = 'bg-purple-600 text-white';
+              } else if (primaryCat === 'pribadi') {
+                tileClass = 'bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100/90 border-2 border-emerald-400 text-emerald-950 shadow-xs';
+                badgeLabel = 'Target';
+                badgeStyle = 'bg-emerald-600 text-white';
+              } else if (primaryCat === 'bimbingan') {
+                tileClass = 'bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100/90 border-2 border-amber-400 text-amber-950 shadow-xs';
+                badgeLabel = 'Bimbingan';
+                badgeStyle = 'bg-amber-600 text-white';
+              } else if (primaryCat === 'ujian') {
+                tileClass = 'bg-gradient-to-br from-rose-50 via-red-50 to-rose-100/90 border-2 border-rose-400 text-rose-950 shadow-xs';
+                badgeLabel = 'Ujian';
+                badgeStyle = 'bg-rose-600 text-white';
+              }
             } else if (hasPendadaran) {
-              cellBlockClass = 'bg-rose-100/90 hover:bg-rose-200/90 border-rose-300 text-rose-950 font-bold';
+              tileClass = 'bg-gradient-to-br from-rose-50 to-rose-100 border-2 border-rose-400 text-rose-950 shadow-xs';
+              badgeLabel = 'Pendadaran';
+              badgeStyle = 'bg-rose-600 text-white';
             } else if (hasYudisium) {
-              cellBlockClass = 'bg-amber-100/90 hover:bg-amber-200/90 border-amber-300 text-amber-950 font-bold';
+              tileClass = 'bg-gradient-to-br from-amber-50 to-amber-100 border-2 border-amber-400 text-amber-950 shadow-xs';
+              badgeLabel = 'Yudisium';
+              badgeStyle = 'bg-amber-600 text-white';
             } else if (hasWisuda) {
-              cellBlockClass = 'bg-yellow-100/90 hover:bg-yellow-200/90 border-yellow-300 text-yellow-950 font-bold';
+              tileClass = 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-400 text-yellow-950 shadow-xs';
+              badgeLabel = 'Wisuda 🎓';
+              badgeStyle = 'bg-yellow-600 text-white';
             } else if (hasUjian) {
-              cellBlockClass = 'bg-indigo-50/80 hover:bg-indigo-100/70 border-indigo-200 text-indigo-950';
+              tileClass = 'bg-gradient-to-br from-indigo-50 to-indigo-100/90 border-2 border-indigo-300 text-indigo-950';
+              badgeLabel = 'Ujian';
+              badgeStyle = 'bg-indigo-600 text-white';
             } else if (hasLibur) {
-              cellBlockClass = 'bg-red-50/70 hover:bg-red-100/70 border-red-200 text-red-900';
+              tileClass = 'bg-red-50/80 border border-red-200 text-red-900';
+              badgeLabel = 'Libur';
+              badgeStyle = 'bg-red-200 text-red-800';
             }
 
             return (
               <div
                 key={`day-${dayNum}`}
                 onClick={() => setSelectedDate(dateStr)}
-                className={`h-14 sm:h-18 p-1 sm:p-2 transition-all cursor-pointer flex flex-col justify-between relative group ${cellBlockClass} ${
+                className={`min-h-[74px] sm:min-h-[88px] p-2 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between relative group hover:scale-[1.03] hover:shadow-md ${tileClass} ${
                   isSelected
-                    ? 'ring-2 ring-primary ring-inset z-10 shadow-xs'
+                    ? 'ring-2 ring-primary ring-offset-2 z-10 shadow-md scale-[1.02]'
                     : ''
                 }`}
               >
-                {/* Header Angka Hari & Pin jika user menandai */}
+                {/* Header Angka Hari */}
                 <div className="flex items-center justify-between w-full">
-                  <span className={`text-xs sm:text-sm font-mono font-bold w-6 h-6 rounded-full flex items-center justify-center transition-all ${
+                  <span className={`text-xs sm:text-sm font-mono font-bold w-6 h-6 sm:w-7 sm:h-7 rounded-xl flex items-center justify-center transition-all ${
                     isToday
                       ? 'bg-accent text-white shadow-xs font-black'
                       : isSelected
@@ -566,30 +616,23 @@ export default function StudentCalendarTracker({ profile }) {
                     {dayNum}
                   </span>
 
-                  {dayUserEvents.length > 0 && (
-                    <span className="text-[10px] leading-none" title={`${dayUserEvents.length} target progres kamu`}>
-                      📌
+                  {dayUserEvents.length > 1 && (
+                    <span className="text-[9px] font-mono font-bold bg-white/90 border border-slate-200 text-slate-700 px-1 py-0.2 rounded-md shadow-2xs">
+                      +{dayUserEvents.length}
                     </span>
                   )}
                 </div>
 
-                {/* Titik-titik Indikator Rapi di Bagian Bawah Kotak Tanggal (Tanpa Teks Keterangan) */}
-                <div className="flex items-center justify-center space-x-1 pb-0.5">
-                  {dayUserEvents.slice(0, 2).map((ue, i) => {
-                    const cStyle = categoryStyles[ue.category] || categoryStyles.magang;
-                    return (
-                      <span key={`udot-${i}`} className={`w-1.5 h-1.5 rounded-full ${cStyle.dot}`} title={ue.title} />
-                    );
-                  })}
-                  {hasPendadaran && <span className="w-1.5 h-1.5 rounded-full bg-rose-600" title="Batas Ujian Pendadaran" />}
-                  {hasYudisium && <span className="w-1.5 h-1.5 rounded-full bg-amber-600" title="Jadwal Yudisium" />}
-                  {hasWisuda && <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" title="Jadwal Wisuda" />}
-                  {hasUjian && <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" title="Jadwal Ujian" />}
-                  {hasLibur && <span className="w-1.5 h-1.5 rounded-full bg-red-500" title="Hari Libur" />}
-                  {dayAcadEvents.length > 0 && !hasPendadaran && !hasYudisium && !hasWisuda && !hasUjian && !hasLibur && (
-                    <span className="w-1 h-1 rounded-full bg-slate-400" title="Ada agenda akademik" />
-                  )}
-                </div>
+                {/* Badge Label Rapi di Bagian Bawah Kotak Tanggal */}
+                {badgeLabel ? (
+                  <div className="w-full mt-auto pt-1">
+                    <span className={`block w-full text-center px-1 py-0.5 rounded-lg text-[9px] sm:text-[10px] font-bold shadow-2xs truncate ${badgeStyle}`}>
+                      {badgeLabel}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="h-4" />
+                )}
               </div>
             );
           })}
@@ -597,22 +640,27 @@ export default function StudentCalendarTracker({ profile }) {
       </div>
 
       {/* Rincian Agenda & Progres pada Tanggal yang Dipilih */}
-      <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-sky-50/70 via-white to-sky-50/50 border-2 border-sky-100 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-sky-200/80">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              Agenda pada Tanggal:
-            </span>
-            <h4 className="text-base sm:text-lg font-bold font-philosopher text-primary">
-              {formatIndoDate(selectedDate)}
-            </h4>
+      <div className="p-5 sm:p-7 rounded-3xl bg-white border-2 border-sky-100 shadow-md space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-sky-100">
+          <div className="flex items-center space-x-3">
+            <div className="p-3 rounded-2xl bg-sky-50 text-primary border border-sky-200">
+              <CalendarIcon className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Agenda & Progres Terpilih:
+              </span>
+              <h4 className="text-base sm:text-lg font-bold font-philosopher text-primary">
+                {formatIndoDateWithDay(selectedDate)}
+              </h4>
+            </div>
           </div>
 
           <button
             onClick={() => openAddModal(selectedDate)}
-            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-colors self-start sm:self-auto cursor-pointer"
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-accent hover:bg-amber-600 text-white font-bold text-xs shadow-md transition-all self-start sm:self-auto cursor-pointer transform hover:-translate-y-0.5"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4 stroke-[3]" />
             <span>Tandai Progres di Tanggal Ini</span>
           </button>
         </div>
