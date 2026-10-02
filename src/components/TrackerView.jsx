@@ -435,14 +435,14 @@ export default function TrackerView({
                         onClick={() => handleCheckboxClick(step.id)}
                         className={`p-4 rounded-2xl border-2 flex items-start space-x-3 cursor-pointer transition-all ${
                           isChecked
-                            ? 'bg-emerald-50/90 border-emerald-200 shadow-2xs'
-                            : 'bg-white border-sky-100 hover:border-primary/50 hover:bg-white shadow-xs'
+                            ? 'bg-emerald-50/90 border-emerald-300 shadow-2xs'
+                            : 'bg-bone border-bone-300 hover:border-primary/50 hover:bg-bone-50 shadow-xs'
                         }`}
                       >
                         <div className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center transition-all flex-shrink-0 ${
                           isChecked
                             ? 'bg-emerald-600 text-white shadow-xs'
-                            : 'border-2 border-sky-300 bg-white hover:border-primary'
+                            : 'border-2 border-bone-300 bg-white hover:border-primary'
                         }`}>
                           {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                         </div>
