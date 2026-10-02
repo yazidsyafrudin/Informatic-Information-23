@@ -388,26 +388,26 @@ export default function StudentCalendarTracker({ profile }) {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-sky-100 shadow-xl space-y-6 font-instrument">
+    <div className="bg-gradient-to-br from-[#0b5e91] via-[#084d77] to-[#06334f] text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-2xl space-y-6 font-instrument">
       
       {/* Header Bagian Kalender */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-sky-100">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-white/15">
         <div>
-          <div className="flex items-center space-x-2 text-accent mb-1">
-            <CalendarCheck className="w-5 h-5 text-accent" />
+          <div className="flex items-center space-x-2 text-amber-300 mb-1">
+            <CalendarCheck className="w-5 h-5 text-amber-300" />
             <span className="text-xs font-bold uppercase tracking-wider">Jadwal Kelulusan & Target Pribadi</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold font-philosopher text-primary">
+          <h2 className="text-xl sm:text-2xl font-bold font-philosopher text-white">
             Kalender Progres Mahasiswa & Jadwal Akademik
           </h2>
-          <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Pantau tanggal penting kelulusan (Yudisium, Batas Pendadaran, Wisuda) dan <strong>tandai rentang tanggal</strong> untuk progres harianmu (seperti penulisan logbook, bimbingan, atau riset lapangan).
+          <p className="text-xs text-sky-100/90 mt-1 max-w-2xl leading-relaxed">
+            Pantau tanggal penting kelulusan (Yudisium, Batas Pendadaran, Wisuda) dan <strong className="text-white">tandai rentang tanggal</strong> untuk progres harianmu (seperti penulisan logbook, bimbingan, atau riset lapangan).
           </p>
         </div>
 
         <button
           onClick={() => openAddModal(selectedDate)}
-          className="flex items-center space-x-2 px-5 py-3 rounded-2xl bg-accent hover:bg-amber-600 text-white font-bold text-xs shadow-md transition-all self-start md:self-auto flex-shrink-0 cursor-pointer transform hover:-translate-y-0.5"
+          className="flex items-center space-x-2 px-5 py-3 rounded-2xl bg-accent hover:bg-amber-600 text-white font-bold text-xs shadow-lg transition-all self-start md:self-auto flex-shrink-0 cursor-pointer transform hover:-translate-y-0.5"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>Tandai Progres Baru</span>
@@ -415,23 +415,23 @@ export default function StudentCalendarTracker({ profile }) {
       </div>
 
       {/* Kontrol Navigasi Bulan & Dropdown Cepat */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-sky-50/60 p-4 rounded-2xl border border-sky-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-black/20 p-4 rounded-2xl border border-white/15 backdrop-blur-xs">
         <div className="flex items-center space-x-2">
           <button
             onClick={handlePrevMonth}
-            className="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-primary hover:border-primary transition-colors cursor-pointer shadow-2xs"
+            className="p-2 rounded-xl bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors cursor-pointer shadow-2xs"
             title="Bulan Sebelumnya"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          <h3 className="text-base sm:text-lg font-bold font-philosopher text-primary min-w-[170px] text-center">
+          <h3 className="text-base sm:text-lg font-bold font-philosopher text-white min-w-[170px] text-center tracking-wide">
             {INDO_MONTHS[displayMonth]} {displayYear}
           </h3>
 
           <button
             onClick={handleNextMonth}
-            className="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-primary hover:border-primary transition-colors cursor-pointer shadow-2xs"
+            className="p-2 rounded-xl bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors cursor-pointer shadow-2xs"
             title="Bulan Berikutnya"
           >
             <ChevronRight className="w-4 h-4" />
@@ -443,26 +443,26 @@ export default function StudentCalendarTracker({ profile }) {
           <select
             value={displayMonth}
             onChange={(e) => setDisplayMonth(parseInt(e.target.value, 10))}
-            className="bg-white border border-slate-200 text-slate-700 text-xs rounded-xl px-2.5 py-2 font-medium focus:outline-none focus:border-primary shadow-2xs cursor-pointer"
+            className="bg-[#073b5c] border border-white/25 text-white text-xs rounded-xl px-2.5 py-2 font-medium focus:outline-none focus:border-accent shadow-2xs cursor-pointer"
           >
             {INDO_MONTHS.map((m, idx) => (
-              <option key={idx} value={idx}>{m}</option>
+              <option key={idx} value={idx} className="bg-slate-900 text-white">{m}</option>
             ))}
           </select>
 
           <select
             value={displayYear}
             onChange={(e) => setDisplayYear(parseInt(e.target.value, 10))}
-            className="bg-white border border-slate-200 text-slate-700 text-xs rounded-xl px-2.5 py-2 font-mono font-bold focus:outline-none focus:border-primary shadow-2xs cursor-pointer"
+            className="bg-[#073b5c] border border-white/25 text-white text-xs rounded-xl px-2.5 py-2 font-mono font-bold focus:outline-none focus:border-accent shadow-2xs cursor-pointer"
           >
             {[2024, 2025, 2026, 2027].map((yr) => (
-              <option key={yr} value={yr}>{yr}</option>
+              <option key={yr} value={yr} className="bg-slate-900 text-white">{yr}</option>
             ))}
           </select>
 
           <button
             onClick={handleResetToday}
-            className="px-3 py-2 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-700 transition-colors shadow-2xs cursor-pointer"
+            className="px-3 py-2 rounded-xl bg-accent text-white text-xs font-bold hover:bg-amber-600 transition-colors shadow-sm cursor-pointer"
           >
             Hari Ini
           </button>
@@ -470,47 +470,47 @@ export default function StudentCalendarTracker({ profile }) {
       </div>
 
       {/* Keterangan Warna / Legenda Blok Warna Modern */}
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200">
-        <span className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Warna Kotak:</span>
-        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-blue-200 shadow-2xs">
-          <span className="w-3 h-3 rounded-full bg-blue-600 inline-block shadow-xs" />
-          <span className="text-slate-800 font-bold text-[11px]">Magang / KKL</span>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-xs bg-black/20 p-3.5 rounded-2xl border border-white/15 backdrop-blur-xs">
+        <span className="font-bold text-amber-300 uppercase tracking-wider text-[10px]">Warna Kotak:</span>
+        <div className="flex items-center space-x-1.5 bg-blue-950/70 px-2.5 py-1 rounded-xl border border-blue-400/60 shadow-2xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-blue-400 inline-block" />
+          <span className="text-blue-100 font-bold text-[11px]">Magang / KKL</span>
         </div>
-        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-purple-200 shadow-2xs">
-          <span className="w-3 h-3 rounded-full bg-purple-600 inline-block shadow-xs" />
-          <span className="text-slate-800 font-bold text-[11px]">Skripsi / Riset</span>
+        <div className="flex items-center space-x-1.5 bg-purple-950/70 px-2.5 py-1 rounded-xl border border-purple-400/60 shadow-2xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block" />
+          <span className="text-purple-100 font-bold text-[11px]">Skripsi / Riset</span>
         </div>
-        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-emerald-200 shadow-2xs">
-          <span className="w-3 h-3 rounded-full bg-emerald-600 inline-block shadow-xs" />
-          <span className="text-slate-800 font-bold text-[11px]">Target Pribadi</span>
+        <div className="flex items-center space-x-1.5 bg-emerald-950/70 px-2.5 py-1 rounded-xl border border-emerald-400/60 shadow-2xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+          <span className="text-emerald-100 font-bold text-[11px]">Target Pribadi</span>
         </div>
-        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-amber-200 shadow-2xs">
-          <span className="w-3 h-3 rounded-full bg-amber-600 inline-block shadow-xs" />
-          <span className="text-slate-800 font-bold text-[11px]">Bimbingan / Yudisium</span>
+        <div className="flex items-center space-x-1.5 bg-amber-950/70 px-2.5 py-1 rounded-xl border border-amber-400/60 shadow-2xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
+          <span className="text-amber-100 font-bold text-[11px]">Bimbingan / Yudisium</span>
         </div>
-        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-rose-200 shadow-2xs">
-          <span className="w-3 h-3 rounded-full bg-rose-600 inline-block shadow-xs" />
-          <span className="text-slate-800 font-bold text-[11px]">Ujian / Batas Pendadaran</span>
+        <div className="flex items-center space-x-1.5 bg-rose-950/70 px-2.5 py-1 rounded-xl border border-rose-400/60 shadow-2xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block" />
+          <span className="text-rose-100 font-bold text-[11px]">Ujian / Pendadaran</span>
         </div>
-        <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-yellow-200 shadow-2xs">
-          <span className="w-3 h-3 rounded-full bg-yellow-500 inline-block shadow-xs" />
-          <span className="text-slate-800 font-bold text-[11px]">Wisuda 🎓</span>
+        <div className="flex items-center space-x-1.5 bg-yellow-950/70 px-2.5 py-1 rounded-xl border border-yellow-400/60 shadow-2xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 inline-block" />
+          <span className="text-yellow-100 font-bold text-[11px]">Wisuda 🎓</span>
         </div>
       </div>
 
-      {/* Grid Kalender Bulanan Modern (Card Tiles) */}
-      <div className="bg-sky-50/40 p-3 sm:p-5 rounded-3xl border-2 border-sky-100 shadow-xs space-y-3">
+      {/* Grid Kalender Bulanan Modern (Card Tiles di atas Background Biru) */}
+      <div className="bg-black/25 p-3 sm:p-5 rounded-3xl border border-white/15 shadow-inner space-y-3 backdrop-blur-xs">
         {/* Nama-nama Hari (Senin - Minggu) */}
         <div className="grid grid-cols-7 gap-1.5 sm:gap-3 text-center">
           {['Sen', 'Sel', 'Rab', 'Kam', 'Jum'].map((d) => (
-            <div key={d} className="py-2 rounded-xl bg-white border border-sky-100 text-primary font-bold text-xs font-philosopher shadow-2xs">
+            <div key={d} className="py-2 rounded-xl bg-white/15 border border-white/15 text-white font-bold text-xs font-philosopher shadow-2xs">
               {d}
             </div>
           ))}
-          <div className="py-2 rounded-xl bg-amber-500/10 border border-amber-200 text-amber-700 font-bold text-xs font-philosopher shadow-2xs">
+          <div className="py-2 rounded-xl bg-amber-500/25 border border-amber-400/40 text-amber-300 font-bold text-xs font-philosopher shadow-2xs">
             Sab
           </div>
-          <div className="py-2 rounded-xl bg-rose-500/10 border border-rose-200 text-rose-700 font-bold text-xs font-philosopher shadow-2xs">
+          <div className="py-2 rounded-xl bg-rose-500/25 border border-rose-400/40 text-rose-300 font-bold text-xs font-philosopher shadow-2xs">
             Min
           </div>
         </div>
@@ -521,7 +521,7 @@ export default function StudentCalendarTracker({ profile }) {
           {Array.from({ length: startOffset }).map((_, idx) => (
             <div 
               key={`offset-${idx}`} 
-              className="min-h-[74px] sm:min-h-[88px] rounded-2xl bg-white/40 border border-dashed border-slate-200/60" 
+              className="min-h-[74px] sm:min-h-[88px] rounded-2xl bg-white/5 border border-dashed border-white/15" 
             />
           ))}
 
@@ -545,62 +545,62 @@ export default function StudentCalendarTracker({ profile }) {
             const hasUjian = dayAcadEvents.some(evt => evt.type === 'ujian');
 
             // Penentuan Warna Blok Kartu Tanggal
-            let tileClass = 'bg-white border-slate-200 text-slate-800 shadow-2xs hover:border-primary/50';
+            let tileClass = 'bg-white/95 border-white/40 text-slate-800 shadow-md hover:bg-white hover:border-accent';
             let badgeLabel = null;
             let badgeStyle = '';
 
             if (dayUserEvents.length > 0) {
               const primaryCat = dayUserEvents[0].category;
               if (primaryCat === 'magang') {
-                tileClass = 'bg-gradient-to-br from-sky-50 via-blue-50 to-blue-100/90 border-2 border-blue-400 text-blue-950 shadow-xs';
+                tileClass = 'bg-gradient-to-br from-sky-50 via-blue-100 to-blue-200 border-2 border-blue-500 text-blue-950 shadow-md';
                 badgeLabel = 'Magang';
                 badgeStyle = 'bg-blue-600 text-white';
               } else if (primaryCat === 'skripsi') {
-                tileClass = 'bg-gradient-to-br from-purple-50 via-fuchsia-50 to-purple-100/90 border-2 border-purple-400 text-purple-950 shadow-xs';
+                tileClass = 'bg-gradient-to-br from-purple-50 via-fuchsia-100 to-purple-200 border-2 border-purple-500 text-purple-950 shadow-md';
                 badgeLabel = 'Skripsi';
                 badgeStyle = 'bg-purple-600 text-white';
               } else if (primaryCat === 'pribadi') {
-                tileClass = 'bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100/90 border-2 border-emerald-400 text-emerald-950 shadow-xs';
+                tileClass = 'bg-gradient-to-br from-emerald-50 via-teal-100 to-emerald-200 border-2 border-emerald-500 text-emerald-950 shadow-md';
                 badgeLabel = 'Target';
                 badgeStyle = 'bg-emerald-600 text-white';
               } else if (primaryCat === 'bimbingan') {
-                tileClass = 'bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100/90 border-2 border-amber-400 text-amber-950 shadow-xs';
+                tileClass = 'bg-gradient-to-br from-amber-50 via-orange-100 to-amber-200 border-2 border-amber-500 text-amber-950 shadow-md';
                 badgeLabel = 'Bimbingan';
                 badgeStyle = 'bg-amber-600 text-white';
               } else if (primaryCat === 'ujian') {
-                tileClass = 'bg-gradient-to-br from-rose-50 via-red-50 to-rose-100/90 border-2 border-rose-400 text-rose-950 shadow-xs';
+                tileClass = 'bg-gradient-to-br from-rose-50 via-red-100 to-rose-200 border-2 border-rose-500 text-rose-950 shadow-md';
                 badgeLabel = 'Ujian';
                 badgeStyle = 'bg-rose-600 text-white';
               }
             } else if (hasPendadaran) {
-              tileClass = 'bg-gradient-to-br from-rose-50 to-rose-100 border-2 border-rose-400 text-rose-950 shadow-xs';
+              tileClass = 'bg-gradient-to-br from-rose-100 to-red-200 border-2 border-rose-500 text-rose-950 shadow-md';
               badgeLabel = 'Pendadaran';
               badgeStyle = 'bg-rose-600 text-white';
             } else if (hasYudisium) {
-              tileClass = 'bg-gradient-to-br from-amber-50 to-amber-100 border-2 border-amber-400 text-amber-950 shadow-xs';
+              tileClass = 'bg-gradient-to-br from-amber-100 to-orange-200 border-2 border-amber-500 text-amber-950 shadow-md';
               badgeLabel = 'Yudisium';
               badgeStyle = 'bg-amber-600 text-white';
             } else if (hasWisuda) {
-              tileClass = 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-400 text-yellow-950 shadow-xs';
+              tileClass = 'bg-gradient-to-br from-yellow-100 to-amber-200 border-2 border-yellow-500 text-yellow-950 shadow-md';
               badgeLabel = 'Wisuda 🎓';
               badgeStyle = 'bg-yellow-600 text-white';
             } else if (hasUjian) {
-              tileClass = 'bg-gradient-to-br from-indigo-50 to-indigo-100/90 border-2 border-indigo-300 text-indigo-950';
+              tileClass = 'bg-gradient-to-br from-indigo-100 to-blue-200 border-2 border-indigo-400 text-indigo-950 shadow-md';
               badgeLabel = 'Ujian';
               badgeStyle = 'bg-indigo-600 text-white';
             } else if (hasLibur) {
-              tileClass = 'bg-red-50/80 border border-red-200 text-red-900';
+              tileClass = 'bg-red-100/90 border border-red-300 text-red-950 shadow-xs';
               badgeLabel = 'Libur';
-              badgeStyle = 'bg-red-200 text-red-800';
+              badgeStyle = 'bg-red-600 text-white';
             }
 
             return (
               <div
                 key={`day-${dayNum}`}
                 onClick={() => setSelectedDate(dateStr)}
-                className={`min-h-[74px] sm:min-h-[88px] p-2 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between relative group hover:scale-[1.03] hover:shadow-md ${tileClass} ${
+                className={`min-h-[74px] sm:min-h-[88px] p-2 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between relative group hover:scale-[1.03] hover:shadow-lg ${tileClass} ${
                   isSelected
-                    ? 'ring-2 ring-primary ring-offset-2 z-10 shadow-md scale-[1.02]'
+                    ? 'ring-4 ring-accent ring-offset-2 ring-offset-[#073b5c] z-10 shadow-2xl scale-[1.04]'
                     : ''
                 }`}
               >
@@ -608,7 +608,7 @@ export default function StudentCalendarTracker({ profile }) {
                 <div className="flex items-center justify-between w-full">
                   <span className={`text-xs sm:text-sm font-mono font-bold w-6 h-6 sm:w-7 sm:h-7 rounded-xl flex items-center justify-center transition-all ${
                     isToday
-                      ? 'bg-accent text-white shadow-xs font-black'
+                      ? 'bg-accent text-white shadow-md font-black ring-2 ring-amber-300'
                       : isSelected
                       ? 'bg-primary text-white font-black'
                       : ''
@@ -617,7 +617,7 @@ export default function StudentCalendarTracker({ profile }) {
                   </span>
 
                   {dayUserEvents.length > 1 && (
-                    <span className="text-[9px] font-mono font-bold bg-white/90 border border-slate-200 text-slate-700 px-1 py-0.2 rounded-md shadow-2xs">
+                    <span className="text-[9px] font-mono font-bold bg-white/90 border border-slate-300 text-slate-800 px-1 py-0.2 rounded-md shadow-2xs">
                       +{dayUserEvents.length}
                     </span>
                   )}
@@ -639,8 +639,8 @@ export default function StudentCalendarTracker({ profile }) {
         </div>
       </div>
 
-      {/* Rincian Agenda & Progres pada Tanggal yang Dipilih */}
-      <div className="p-5 sm:p-7 rounded-3xl bg-white border-2 border-sky-100 shadow-md space-y-5">
+      {/* Rincian Agenda & Progres pada Tanggal yang Dipilih (Card Putih Bersih di dalam Tema Biru) */}
+      <div className="p-5 sm:p-7 rounded-3xl bg-white text-slate-900 border-2 border-white/20 shadow-2xl space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-sky-100">
           <div className="flex items-center space-x-3">
             <div className="p-3 rounded-2xl bg-sky-50 text-primary border border-sky-200">
