@@ -438,6 +438,122 @@ export const StorageService = {
     return { unsubscribe: () => {} };
   },
 
+  // Daftar topik bawaan forum diskusi angkatan
+  DEFAULT_TOPICS: [
+    {
+      id: 'umum',
+      name: 'Umum & Bebas',
+      description: 'Ruang obrolan santai, perkenalan, dan silaturahmi mahasiswa IF23 serta umum',
+      icon: '💬',
+      creator_name: 'Admin Informatika 23',
+      created_at: '2026-01-01T00:00:00.000Z'
+    },
+    {
+      id: 'magang',
+      name: 'Magang & Karir',
+      description: 'Diskusi lowongan magang, Kampus Merdeka / MSIB, CV, dan info loker IT',
+      icon: '💼',
+      creator_name: 'Admin Informatika 23',
+      created_at: '2026-01-01T00:00:00.000Z'
+    },
+    {
+      id: 'sempro-skripsi',
+      name: 'Sempro & Skripsi',
+      description: 'Diskusi pengajuan judul skripsi FKT, dosen pembimbing, Turnitin, dan ujian',
+      icon: '🎓',
+      creator_name: 'Admin Informatika 23',
+      created_at: '2026-01-01T00:00:00.000Z'
+    },
+    {
+      id: 'krs-akademik',
+      name: 'KRS & Perkuliahan',
+      description: 'Tanya jawab seputar mata kuliah, jadwal kuliah, dosen pengampu, dan praktikum',
+      icon: '📚',
+      creator_name: 'Admin Informatika 23',
+      created_at: '2026-01-01T00:00:00.000Z'
+    }
+  ],
+
+  // Ambil daftar topik diskusi
+  async getDiscussionTopics() {
+    let topics = [...this.DEFAULT_TOPICS];
+
+    // Coba ambil topik dari Supabase jika ada tabel discussion_topics
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('discussion_topics')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (!error && data && data.length > 0) {
+          const customIds = new Set(data.map(d => d.id));
+          const baseTopics = this.DEFAULT_TOPICS.filter(t => !customIds.has(t.id));
+          topics = [...baseTopics, ...data];
+          localStorage.setItem('IF23_DISCUSSION_TOPICS', JSON.stringify(topics));
+          return topics;
+        }
+      } catch (err) {
+        // Fallback jika tabel belum dibuat
+      }
+    }
+
+    // Ambil dari cache lokal
+    const saved = localStorage.getItem('IF23_DISCUSSION_TOPICS');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const customIds = new Set(parsed.map(d => d.id));
+          const baseTopics = this.DEFAULT_TOPICS.filter(t => !customIds.has(t.id));
+          return [...baseTopics, ...parsed.filter(p => !baseTopics.some(b => b.id === p.id))];
+        }
+      } catch (e) {}
+    }
+
+    return topics;
+  },
+
+  // Buat topik diskusi baru
+  async createDiscussionTopic({ name, description, icon, creator_name }) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const newTopic = {
+      id: `topic-${slug || Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      name: name.trim(),
+      description: description ? description.trim() : `Ruang diskusi khusus topik ${name.trim()}`,
+      icon: icon || '💡',
+      creator_name: creator_name || 'Anonim',
+      created_at: new Date().toISOString()
+    };
+
+    // Simpan ke Supabase jika tabel discussion_topics tersedia
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('discussion_topics')
+          .insert([newTopic])
+          .select();
+
+        if (!error && data && data[0]) {
+          newTopic.id = data[0].id;
+        }
+      } catch (err) {
+        // Fallback simpan lokal
+      }
+    }
+
+    // Simpan ke cache lokal
+    try {
+      const current = await this.getDiscussionTopics();
+      if (!current.some(t => t.id === newTopic.id)) {
+        const updated = [...current, newTopic];
+        localStorage.setItem('IF23_DISCUSSION_TOPICS', JSON.stringify(updated));
+      }
+    } catch (e) {}
+
+    return newTopic;
+  },
+
   // Ambil daftar pesan forum komunitas
   async getCommunityMessages() {
     // Helper decode pesan jika metadata tersimpan di database
@@ -445,6 +561,7 @@ export const StorageService = {
       if (!msg) return msg;
       let reply_to = msg.reply_to;
       let message = msg.message || '';
+      let topic_id = msg.topic_id || 'umum';
 
       if (typeof reply_to === 'string') {
         try {
@@ -452,12 +569,27 @@ export const StorageService = {
         } catch (e) {}
       }
 
-      // Jika kolom native belum ada, ambil dari metadata awalan teks
-      if (!reply_to && message.startsWith('[IF23_REPLY:')) {
+      if (reply_to && reply_to.topic_id && (!msg.topic_id || msg.topic_id === 'umum')) {
+        topic_id = reply_to.topic_id;
+      }
+
+      // Jika kolom native belum ada, ambil dari metadata awalan teks [IF23_META:...] atau [IF23_REPLY:...]
+      if (message.startsWith('[IF23_META:')) {
+        const match = message.match(/^\[IF23_META:(.*?)\]\s([\s\S]*)$/);
+        if (match) {
+          try {
+            const meta = JSON.parse(match[1]);
+            if (meta.reply_to) reply_to = meta.reply_to;
+            if (meta.topic_id) topic_id = meta.topic_id;
+            message = match[2];
+          } catch (e) {}
+        }
+      } else if (!reply_to && message.startsWith('[IF23_REPLY:')) {
         const match = message.match(/^\[IF23_REPLY:(.*?)\]\s([\s\S]*)$/);
         if (match) {
           try {
             reply_to = JSON.parse(match[1]);
+            if (reply_to && reply_to.topic_id) topic_id = reply_to.topic_id;
             message = match[2];
           } catch (e) {}
         }
@@ -465,6 +597,7 @@ export const StorageService = {
 
       return {
         ...msg,
+        topic_id: topic_id || 'umum',
         reply_to: reply_to || null,
         message
       };
@@ -476,7 +609,7 @@ export const StorageService = {
           .from('community_messages')
           .select('*')
           .order('created_at', { ascending: true })
-          .limit(200);
+          .limit(300);
 
         if (!error && data) {
           const decoded = data.map(decodeMsg);
@@ -506,6 +639,7 @@ export const StorageService = {
         sender_email: 'informatika23@almaata.ac.id',
         sender_avatar: null,
         sender_role: 'Admin / Pengurus',
+        topic_id: 'umum',
         message: 'Selamat datang di Ruang Diskusi Terbuka Mahasiswa Informatika 23! Forum ini bisa digunakan siapa saja (mahasiswa, dosen, maupun umum) untuk saling bertukar info skripsi, magang, dan akademik.',
         created_at: new Date(Date.now() - 3600000 * 2).toISOString()
       },
@@ -515,22 +649,35 @@ export const StorageService = {
         sender_email: 'dosen.fkt@almaata.ac.id',
         sender_avatar: null,
         sender_role: 'Dosen / Pengajar',
+        topic_id: 'sempro-skripsi',
         message: 'Jangan lupa untuk yang mengajukan judul skripsi perhatikan batas Turnitin maksimal 20% dan wajib ikut sempro minimal 5 kali sebelum mendaftar ujian ya.',
         created_at: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: 'msg-demo-3',
+        sender_name: 'Koordinator Magang',
+        sender_email: 'magang.if@almaata.ac.id',
+        sender_avatar: null,
+        sender_role: 'Pengurus Angkatan',
+        topic_id: 'magang',
+        message: 'Bagi teman-teman yang tertarik magang MSIB Kampus Merdeka atau magang industri di Yogyakarta, silakan diskusikan persyaratannya di topik ini!',
+        created_at: new Date(Date.now() - 3600000 * 1.5).toISOString()
       }
     ];
   },
 
-  // Kirim pesan baru ke forum komunitas (dengan dukungan balas/reply pesan yang tahan banting)
-  async sendCommunityMessage({ sender_name, sender_email, sender_avatar, sender_role, message, reply_to = null }) {
+  // Kirim pesan baru ke forum komunitas (dengan dukungan topik ruangan & balasan)
+  async sendCommunityMessage({ sender_name, sender_email, sender_avatar, sender_role, message, reply_to = null, topic_id = 'umum' }) {
+    const resolvedTopicId = topic_id || (reply_to && reply_to.topic_id) || 'umum';
     const newMsg = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       sender_name: sender_name || 'Anonim',
       sender_email: sender_email || 'guest@gmail.com',
       sender_avatar: sender_avatar || null,
       sender_role: sender_role || 'Tamu / Umum',
+      topic_id: resolvedTopicId,
       message: message.trim(),
-      reply_to: reply_to || null,
+      reply_to: reply_to ? { ...reply_to, topic_id: resolvedTopicId } : null,
       created_at: new Date().toISOString()
     };
 
@@ -543,6 +690,7 @@ export const StorageService = {
           sender_avatar: newMsg.sender_avatar,
           sender_role: newMsg.sender_role,
           message: newMsg.message,
+          topic_id: newMsg.topic_id,
           reply_to: newMsg.reply_to
         };
 
@@ -551,16 +699,24 @@ export const StorageService = {
           .insert([insertPayload])
           .select();
 
-        // Jika kolom reply_to belum ada di tabel database Supabase pengguna:
-        // Sematkan metadata balasan langsung ke teks pesan agar tetap tersimpan untuk semua orang!
-        if (error && error.message && error.message.toLowerCase().includes('reply_to')) {
-          delete insertPayload.reply_to;
-          if (newMsg.reply_to) {
-            insertPayload.message = `[IF23_REPLY:${JSON.stringify(newMsg.reply_to)}] ${newMsg.message}`;
+        // Jika kolom reply_to atau topic_id belum ada di tabel database Supabase pengguna:
+        // Sematkan metadata balasan & topik langsung ke dalam awalan teks pesan
+        if (error && error.message) {
+          const errMsg = error.message.toLowerCase();
+          if (errMsg.includes('reply_to') || errMsg.includes('topic_id')) {
+            delete insertPayload.reply_to;
+            delete insertPayload.topic_id;
+
+            const metaPayload = {
+              topic_id: newMsg.topic_id,
+              reply_to: newMsg.reply_to
+            };
+            insertPayload.message = `[IF23_META:${JSON.stringify(metaPayload)}] ${newMsg.message}`;
+
+            const retry = await supabase.from('community_messages').insert([insertPayload]).select();
+            error = retry.error;
+            data = retry.data;
           }
-          const retry = await supabase.from('community_messages').insert([insertPayload]).select();
-          error = retry.error;
-          data = retry.data;
         }
 
         if (error) {
@@ -568,6 +724,7 @@ export const StorageService = {
         } else if (data && data[0]) {
           return {
             ...data[0],
+            topic_id: newMsg.topic_id,
             reply_to: newMsg.reply_to,
             message: newMsg.message
           };
@@ -596,6 +753,7 @@ export const StorageService = {
         if (!msg) return msg;
         let reply_to = msg.reply_to;
         let message = msg.message || '';
+        let topic_id = msg.topic_id || 'umum';
 
         if (typeof reply_to === 'string') {
           try {
@@ -603,11 +761,26 @@ export const StorageService = {
           } catch (e) {}
         }
 
-        if (!reply_to && message.startsWith('[IF23_REPLY:')) {
+        if (reply_to && reply_to.topic_id && (!msg.topic_id || msg.topic_id === 'umum')) {
+          topic_id = reply_to.topic_id;
+        }
+
+        if (message.startsWith('[IF23_META:')) {
+          const match = message.match(/^\[IF23_META:(.*?)\]\s([\s\S]*)$/);
+          if (match) {
+            try {
+              const meta = JSON.parse(match[1]);
+              if (meta.reply_to) reply_to = meta.reply_to;
+              if (meta.topic_id) topic_id = meta.topic_id;
+              message = match[2];
+            } catch (e) {}
+          }
+        } else if (!reply_to && message.startsWith('[IF23_REPLY:')) {
           const match = message.match(/^\[IF23_REPLY:(.*?)\]\s([\s\S]*)$/);
           if (match) {
             try {
               reply_to = JSON.parse(match[1]);
+              if (reply_to && reply_to.topic_id) topic_id = reply_to.topic_id;
               message = match[2];
             } catch (e) {}
           }
@@ -615,6 +788,7 @@ export const StorageService = {
 
         return {
           ...msg,
+          topic_id: topic_id || 'umum',
           reply_to: reply_to || null,
           message
         };

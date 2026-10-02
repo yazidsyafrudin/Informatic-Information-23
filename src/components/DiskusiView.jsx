@@ -21,6 +21,9 @@ import {
   ChevronUp,
   CornerUpLeft,
   Heart,
+  Plus,
+  Hash,
+  FolderPlus,
   X
 } from 'lucide-react';
 import { StorageService, isSupabaseConfigured } from '../lib/supabase';
@@ -90,7 +93,7 @@ const AI_KNOWLEDGE_BASE = [
 export default function DiskusiView({ currentUser, profile }) {
   const [activeSubTab, setActiveSubTab] = useState('komunitas'); // 'komunitas' | 'ai'
 
-  // --- STATE FORUM KOMUNITAS (TIKTOK STYLE) ---
+  // --- STATE FORUM KOMUNITAS & TOPIK RUANGAN (TIKTOK STYLE) ---
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
@@ -99,6 +102,15 @@ export default function DiskusiView({ currentUser, profile }) {
   const [expandedThreads, setExpandedThreads] = useState({}); // { [rootId]: boolean }
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
+
+  // State Topik Diskusi
+  const [topics, setTopics] = useState(StorageService.DEFAULT_TOPICS || []);
+  const [selectedTopicId, setSelectedTopicId] = useState('umum');
+  const [isCreateTopicModalOpen, setIsCreateTopicModalOpen] = useState(false);
+  const [newTopicName, setNewTopicName] = useState('');
+  const [newTopicDesc, setNewTopicDesc] = useState('');
+  const [newTopicIcon, setNewTopicIcon] = useState('💡');
+  const [isSubmittingTopic, setIsSubmittingTopic] = useState(false);
 
   // Status Like Komentar (Disimpan di LocalStorage)
   const [likedComments, setLikedComments] = useState(() => {
@@ -128,6 +140,26 @@ export default function DiskusiView({ currentUser, profile }) {
     }));
   };
 
+  // Topik yang sedang aktif dipilih
+  const selectedTopic = useMemo(() => {
+    return topics.find(t => t.id === selectedTopicId) || topics[0] || {
+      id: 'umum',
+      name: 'Umum & Bebas',
+      description: 'Ruang obrolan santai mahasiswa IF23',
+      icon: '💬'
+    };
+  }, [topics, selectedTopicId]);
+
+  // Hitung jumlah pesan per topik
+  const topicMessageCounts = useMemo(() => {
+    const counts = {};
+    messages.forEach(m => {
+      const tId = m.topic_id || 'umum';
+      counts[tId] = (counts[tId] || 0) + 1;
+    });
+    return counts;
+  }, [messages]);
+
   // Guest Identity (Nama & Gmail)
   const [guestIdentity, setGuestIdentity] = useState(() => {
     try {
@@ -142,10 +174,12 @@ export default function DiskusiView({ currentUser, profile }) {
   const [tempName, setTempName] = useState('');
   const [tempEmail, setTempEmail] = useState('');
 
-  // --- ORGANISASI PESAN BERJENJANG (TIKTOK-STYLE THREADING) ---
+  // --- ORGANISASI PESAN BERJENJANG PER TOPIK (TIKTOK-STYLE THREADING) ---
   const { rootComments, repliesByRoot, totalCommentsCount } = useMemo(() => {
+    // Filter hanya pesan yang masuk ke kategori/topik yang sedang dibuka
+    const topicMessages = messages.filter(m => (m.topic_id || 'umum') === selectedTopicId);
     const messageMap = new Map();
-    messages.forEach(m => messageMap.set(m.id, m));
+    topicMessages.forEach(m => messageMap.set(m.id, m));
 
     // Mencari ID komentar utama paling atas (Root Parent)
     function findRootId(msg) {
@@ -169,7 +203,7 @@ export default function DiskusiView({ currentUser, profile }) {
     const roots = [];
     const replies = new Map();
 
-    messages.forEach(msg => {
+    topicMessages.forEach(msg => {
       if (!msg.reply_to || !msg.reply_to.id) {
         roots.push(msg);
       } else {
@@ -189,9 +223,9 @@ export default function DiskusiView({ currentUser, profile }) {
     return {
       rootComments: roots,
       repliesByRoot: replies,
-      totalCommentsCount: messages.length
+      totalCommentsCount: topicMessages.length
     };
-  }, [messages]);
+  }, [messages, selectedTopicId]);
 
   // --- STATE ASISTEN AI ---
   const [aiChatMessages, setAiChatMessages] = useState([
@@ -206,17 +240,23 @@ export default function DiskusiView({ currentUser, profile }) {
   const [isAiTyping, setIsAiTyping] = useState(false);
   const aiChatEndRef = useRef(null);
 
-  // 1. Muat pesan forum komunitas
+  // 1. Muat topik dan pesan forum komunitas
   useEffect(() => {
     let unsubscribe = () => {};
 
-    async function loadMessages() {
+    async function loadData() {
       setIsLoadingMessages(true);
       try {
-        const msgs = await StorageService.getCommunityMessages();
+        const [loadedTopics, msgs] = await Promise.all([
+          StorageService.getDiscussionTopics(),
+          StorageService.getCommunityMessages()
+        ]);
+        if (loadedTopics && loadedTopics.length > 0) {
+          setTopics(loadedTopics);
+        }
         setMessages(msgs || []);
       } catch (err) {
-        console.error('Error load community messages:', err);
+        console.error('Error load community data:', err);
       } finally {
         setIsLoadingMessages(false);
       }
@@ -230,7 +270,7 @@ export default function DiskusiView({ currentUser, profile }) {
       });
     }
 
-    loadMessages();
+    loadData();
 
     return () => {
       unsubscribe();
@@ -243,6 +283,43 @@ export default function DiskusiView({ currentUser, profile }) {
       // messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages.length, activeSubTab]);
+
+  // Buat topik diskusi baru
+  const handleCreateTopic = async (e) => {
+    e.preventDefault();
+    if (!newTopicName.trim()) return;
+
+    let creatorName = 'Anonim';
+    if (currentUser) {
+      creatorName = currentUser.nama_lengkap;
+    } else if (guestIdentity.name) {
+      creatorName = guestIdentity.name;
+    }
+
+    setIsSubmittingTopic(true);
+    try {
+      const created = await StorageService.createDiscussionTopic({
+        name: newTopicName.trim(),
+        description: newTopicDesc.trim(),
+        icon: newTopicIcon || '💡',
+        creator_name: creatorName
+      });
+
+      setTopics(prev => {
+        if (prev.some(t => t.id === created.id)) return prev;
+        return [...prev, created];
+      });
+      setSelectedTopicId(created.id);
+      setIsCreateTopicModalOpen(false);
+      setNewTopicName('');
+      setNewTopicDesc('');
+      setNewTopicIcon('💡');
+    } catch (err) {
+      console.error('Create topic error:', err);
+    } finally {
+      setIsSubmittingTopic(false);
+    }
+  };
 
   // Auto scroll AI chat
   useEffect(() => {
@@ -291,6 +368,7 @@ export default function DiskusiView({ currentUser, profile }) {
         sender_email: senderEmail,
         sender_avatar: null,
         sender_role: senderRole,
+        topic_id: selectedTopicId,
         message: inputText.trim(),
         reply_to: replyPayload
       });
@@ -480,24 +558,24 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
       {activeSubTab === 'komunitas' && (
         <div className="bg-white rounded-3xl border-2 border-slate-200 shadow-xl overflow-hidden flex flex-col h-[650px]">
           
-          {/* Header Bar Ruang Obrolan */}
+          {/* Header Bar Ruang Obrolan & Topik */}
           <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold flex-shrink-0">
-                <Users className="w-5 h-5 text-primary" />
+              <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-xl flex-shrink-0">
+                {selectedTopic.icon || '💬'}
               </div>
               <div>
                 <div className="flex items-center space-x-2">
                   <h3 className="font-bold text-slate-900 font-philosopher text-base">
-                    Room Diskusi Umum Informatika 2023
+                    Room: {selectedTopic.name}
                   </h3>
                   <span className="flex items-center text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse mr-1" />
                     Live
                   </span>
                 </div>
-                <p className="text-xs text-slate-500">
-                  Terbuka untuk mahasiswa, dosen, maupun umum yang membuka web ini.
+                <p className="text-xs text-slate-500 truncate max-w-md">
+                  {selectedTopic.description}
                 </p>
               </div>
             </div>
@@ -564,6 +642,53 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
             </div>
           </div>
 
+          {/* Bar Pilihan Topik Diskusi & Tombol Buat Topik */}
+          <div className="bg-slate-100/90 px-3 sm:px-4 py-2 border-b border-slate-200 flex items-center justify-between gap-2 overflow-hidden">
+            {/* List Topik Scrollable */}
+            <div className="flex items-center space-x-1.5 sm:space-x-2 overflow-x-auto py-0.5 flex-1 min-w-0 no-scrollbar">
+              {topics.map((topic) => {
+                const isSelected = topic.id === selectedTopicId;
+                const count = topicMessageCounts[topic.id] || 0;
+
+                return (
+                  <button
+                    key={topic.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedTopicId(topic.id);
+                      setReplyingTo(null);
+                    }}
+                    className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex-shrink-0 select-none ${
+                      isSelected
+                        ? 'bg-primary text-white shadow-xs ring-2 ring-primary/20 scale-[1.02]'
+                        : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 hover:border-slate-300'
+                    }`}
+                    title={topic.description}
+                  >
+                    <span>{topic.icon || '💬'}</span>
+                    <span>{topic.name}</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-semibold ${
+                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                    }`}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Tombol Buat Topik Baru */}
+            <button
+              type="button"
+              onClick={() => setIsCreateTopicModalOpen(true)}
+              className="flex items-center space-x-1 px-3 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-700 border border-dashed border-amber-300 font-bold text-xs shadow-2xs hover:shadow-xs transition-all cursor-pointer flex-shrink-0"
+              title="Buat topik diskusi baru"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Buat Topik</span>
+            </button>
+          </div>
+
           {/* Area Komentar & Balasan Bersarang ala TikTok */}
           <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-white divide-y divide-slate-100">
             {isLoadingMessages ? (
@@ -574,8 +699,8 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
             ) : rootComments.length === 0 ? (
               <div className="text-center py-16 text-slate-400 space-y-2">
                 <MessageSquare className="w-10 h-10 mx-auto opacity-30" />
-                <p className="text-sm font-semibold">Belum ada komentar.</p>
-                <p className="text-xs">Jadilah yang pertama memulai topik diskusi atau menyapa angkatan 23!</p>
+                <p className="text-sm font-semibold">Belum ada obrolan di topik {selectedTopic.name}.</p>
+                <p className="text-xs">Jadilah yang pertama memulai diskusi atau bertanya di topik ini!</p>
               </div>
             ) : (
               rootComments.map((root) => {
@@ -828,8 +953,8 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={
                   replyingTo 
-                    ? `Balas @${replyingTo.sender_name}...` 
-                    : "Tambahkan komentar untuk angkatan 23..."
+                    ? `Balas @${replyingTo.sender_name} di topik ${selectedTopic.name}...` 
+                    : `Tulis komentar di topik ${selectedTopic.name}...`
                 }
                 className="flex-1 px-4 py-3 bg-slate-100 hover:bg-slate-50 focus:bg-white border border-slate-200 focus:border-primary rounded-full text-xs sm:text-sm focus:outline-none transition-all text-slate-800 shadow-inner"
               />
@@ -1073,6 +1198,111 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                   className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
                 >
                   Simpan & Lanjutkan Chat
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL BUAT TOPIK DISKUSI BARU */}
+      {/* ========================================================= */}
+      {isCreateTopicModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-3xl border-2 border-primary/20 shadow-2xl p-6 sm:p-7 max-w-md w-full relative animate-scaleUp">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="p-2.5 rounded-2xl bg-amber-50 text-amber-600 border border-amber-200">
+                  <FolderPlus className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 font-philosopher">
+                    Buat Topik Diskusi Baru
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    Ruang ini akan terbuka untuk semua mahasiswa & pengunjung
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsCreateTopicModalOpen(false)}
+                className="p-1 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateTopic} className="space-y-4 text-xs">
+              {/* Pilihan Ikon Emoji */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1.5">
+                  Pilih Ikon Topik
+                </label>
+                <div className="flex items-center space-x-2 overflow-x-auto py-1 no-scrollbar">
+                  {['💼', '🎓', '📚', '💻', '💡', '🚀', '🏆', '☕', '📢', '🔥'].map((ico) => (
+                    <button
+                      key={ico}
+                      type="button"
+                      onClick={() => setNewTopicIcon(ico)}
+                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg transition-all cursor-pointer flex-shrink-0 ${
+                        newTopicIcon === ico 
+                          ? 'bg-primary text-white ring-2 ring-primary ring-offset-2' 
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                      }`}
+                    >
+                      {ico}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Nama Topik */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1.5">
+                  Nama Topik <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newTopicName}
+                  onChange={(e) => setNewTopicName(e.target.value)}
+                  placeholder="Contoh: Info Lowongan Magang MSIB"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold focus:outline-none focus:border-primary focus:bg-white transition-all text-slate-900"
+                />
+              </div>
+
+              {/* Deskripsi Topik */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1.5">
+                  Deskripsi Singkat (Opsional)
+                </label>
+                <textarea
+                  rows="2"
+                  value={newTopicDesc}
+                  onChange={(e) => setNewTopicDesc(e.target.value)}
+                  placeholder="Contoh: Wadah diskusi lowongan, sharing CV, dan tips lolos interview"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-primary focus:bg-white transition-all text-slate-900"
+                />
+              </div>
+
+              {/* Tombol Aksi */}
+              <div className="flex items-center justify-end space-x-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateTopicModalOpen(false)}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 font-bold text-xs text-slate-600 transition-colors cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingTopic || !newTopicName.trim()}
+                  className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-700 disabled:opacity-50 text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>{isSubmittingTopic ? 'Membuat...' : 'Buat Topik Sekarang'}</span>
                 </button>
               </div>
             </form>
