@@ -463,14 +463,6 @@ export const StorageService = {
       icon: 'GraduationCap',
       creator_name: 'Admin Informatika 23',
       created_at: '2026-01-01T00:00:00.000Z'
-    },
-    {
-      id: 'krs-akademik',
-      name: 'KRS & Perkuliahan',
-      description: 'Tanya jawab seputar mata kuliah, jadwal kuliah, dosen pengampu, dan praktikum',
-      icon: 'BookOpen',
-      creator_name: 'Admin Informatika 23',
-      created_at: '2026-01-01T00:00:00.000Z'
     }
   ],
 
@@ -486,10 +478,21 @@ export const StorageService = {
           .select('*')
           .order('created_at', { ascending: true });
 
+        // Jika tabel ada tapi masih kosong, masukkan default topics secara otomatis
+        if (!error && data && data.length === 0) {
+          try {
+            await supabase.from('discussion_topics').insert(this.DEFAULT_TOPICS);
+            localStorage.setItem('IF23_DISCUSSION_TOPICS', JSON.stringify(this.DEFAULT_TOPICS));
+            return this.DEFAULT_TOPICS;
+          } catch (e) {}
+        }
+
         if (!error && data && data.length > 0) {
-          const customIds = new Set(data.map(d => d.id));
+          // Filter agar krs-akademik tidak muncul lagi
+          const validData = data.filter(d => d.id !== 'krs-akademik');
+          const customIds = new Set(validData.map(d => d.id));
           const baseTopics = this.DEFAULT_TOPICS.filter(t => !customIds.has(t.id));
-          topics = [...baseTopics, ...data];
+          topics = [...baseTopics, ...validData];
           localStorage.setItem('IF23_DISCUSSION_TOPICS', JSON.stringify(topics));
           return topics;
         }
@@ -504,14 +507,37 @@ export const StorageService = {
       try {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const customIds = new Set(parsed.map(d => d.id));
+          const validSaved = parsed.filter(p => p.id !== 'krs-akademik');
+          const customIds = new Set(validSaved.map(d => d.id));
           const baseTopics = this.DEFAULT_TOPICS.filter(t => !customIds.has(t.id));
-          return [...baseTopics, ...parsed.filter(p => !baseTopics.some(b => b.id === p.id))];
+          const result = [...baseTopics, ...validSaved.filter(p => !baseTopics.some(b => b.id === p.id))];
+          localStorage.setItem('IF23_DISCUSSION_TOPICS', JSON.stringify(result));
+          return result;
         }
       } catch (e) {}
     }
 
     return topics;
+  },
+
+  // Hapus topik diskusi
+  async deleteDiscussionTopic(topicId) {
+    if (topicId === 'umum') return false; // Jangan hapus room umum
+
+    if (supabase && isSupabaseConfigured) {
+      try {
+        await supabase.from('discussion_topics').delete().eq('id', topicId);
+      } catch (err) {}
+    }
+
+    try {
+      const current = await this.getDiscussionTopics();
+      const updated = current.filter(t => t.id !== topicId);
+      localStorage.setItem('IF23_DISCUSSION_TOPICS', JSON.stringify(updated));
+      return updated;
+    } catch (e) {
+      return [];
+    }
   },
 
   // Buat topik diskusi baru

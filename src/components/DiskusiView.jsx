@@ -382,6 +382,23 @@ export default function DiskusiView({ currentUser, profile }) {
     }
   };
 
+  // Hapus topik diskusi
+  const handleDeleteTopic = async (e, topicId) => {
+    e.stopPropagation();
+    if (topicId === 'umum') return;
+    if (!window.confirm('Hapus topik diskusi ini?')) return;
+
+    try {
+      const updated = await StorageService.deleteDiscussionTopic(topicId);
+      setTopics(updated);
+      if (selectedTopicId === topicId) {
+        setSelectedTopicId('umum');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Auto scroll AI chat
   useEffect(() => {
     if (activeSubTab === 'ai') {
@@ -733,6 +750,18 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                     }`}>
                       {count}
                     </span>
+                    {topic.id !== 'umum' && (
+                      <span
+                        role="button"
+                        onClick={(e) => handleDeleteTopic(e, topic.id)}
+                        className={`ml-0.5 p-0.5 rounded-full transition-colors cursor-pointer ${
+                          isSelected ? 'hover:bg-white/20 text-white/80 hover:text-white' : 'hover:bg-slate-200 text-slate-400 hover:text-rose-500'
+                        }`}
+                        title={`Hapus topik ${topic.name}`}
+                      >
+                        <X className="w-3 h-3" />
+                      </span>
+                    )}
                   </button>
                 );
               })}
