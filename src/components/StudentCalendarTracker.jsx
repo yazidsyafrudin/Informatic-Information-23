@@ -326,13 +326,53 @@ export default function StudentCalendarTracker({ profile }) {
     return result;
   }, [selectedDate, academicEvents, userEvents]);
 
-  // Kategori styling untuk progres user
+  // Kategori styling & warna blok kotak untuk progres user
   const categoryStyles = {
-    magang: { label: 'Magang / KKL', color: 'bg-cyan-600 text-white', border: 'border-cyan-300', bgSoft: 'bg-cyan-50' },
-    skripsi: { label: 'Riset & Skripsi', color: 'bg-indigo-600 text-white', border: 'border-indigo-300', bgSoft: 'bg-indigo-50' },
-    bimbingan: { label: 'Bimbingan Dospem', color: 'bg-amber-600 text-white', border: 'border-amber-300', bgSoft: 'bg-amber-50' },
-    ujian: { label: 'Ujian / Revisi', color: 'bg-rose-600 text-white', border: 'border-rose-300', bgSoft: 'bg-rose-50' },
-    pribadi: { label: 'Target Pribadi', color: 'bg-emerald-600 text-white', border: 'border-emerald-300', bgSoft: 'bg-emerald-50' }
+    magang: { 
+      label: 'Magang / KKL', 
+      name: 'Blok Biru (Magang / KKL / Logbook)',
+      color: 'bg-blue-600 text-white', 
+      border: 'border-blue-300', 
+      bgSoft: 'bg-blue-50',
+      cellBg: 'bg-blue-100 hover:bg-blue-200/90 border-blue-300 text-blue-950 font-bold',
+      dot: 'bg-blue-600'
+    },
+    skripsi: { 
+      label: 'Riset & Skripsi', 
+      name: 'Blok Ungu (Riset & Skripsi)',
+      color: 'bg-purple-600 text-white', 
+      border: 'border-purple-300', 
+      bgSoft: 'bg-purple-50',
+      cellBg: 'bg-purple-100 hover:bg-purple-200/90 border-purple-300 text-purple-950 font-bold',
+      dot: 'bg-purple-600'
+    },
+    pribadi: { 
+      label: 'Target Pribadi', 
+      name: 'Blok Hijau (Target Pribadi / Tugas)',
+      color: 'bg-emerald-600 text-white', 
+      border: 'border-emerald-300', 
+      bgSoft: 'bg-emerald-50',
+      cellBg: 'bg-emerald-100 hover:bg-emerald-200/90 border-emerald-300 text-emerald-950 font-bold',
+      dot: 'bg-emerald-600'
+    },
+    bimbingan: { 
+      label: 'Bimbingan Dospem', 
+      name: 'Blok Kuning / Oranye (Bimbingan)',
+      color: 'bg-amber-600 text-white', 
+      border: 'border-amber-300', 
+      bgSoft: 'bg-amber-50',
+      cellBg: 'bg-amber-100 hover:bg-amber-200/90 border-amber-300 text-amber-950 font-bold',
+      dot: 'bg-amber-600'
+    },
+    ujian: { 
+      label: 'Ujian / Revisi', 
+      name: 'Blok Merah (Ujian / Sempro / Pendadaran)',
+      color: 'bg-rose-600 text-white', 
+      border: 'border-rose-300', 
+      bgSoft: 'bg-rose-50',
+      cellBg: 'bg-rose-100 hover:bg-rose-200/90 border-rose-300 text-rose-950 font-bold',
+      dot: 'bg-rose-600'
+    }
   };
 
   return (
@@ -417,28 +457,31 @@ export default function StudentCalendarTracker({ profile }) {
         </div>
       </div>
 
-      {/* Keterangan Warna / Legenda */}
-      <div className="flex flex-wrap items-center gap-3 text-[11px] pt-1 pb-1">
-        <span className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Legenda:</span>
+      {/* Keterangan Warna / Legenda Blok Warna */}
+      <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] pt-1 pb-1 bg-slate-50/90 p-3 rounded-2xl border border-slate-200">
+        <span className="font-bold text-slate-600 uppercase tracking-wider text-[10px]">Warna Kotak Tanggal:</span>
         <div className="flex items-center space-x-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-          <span className="text-slate-700 font-semibold">Batas Pendadaran</span>
+          <span className="w-3.5 h-3.5 rounded-md bg-blue-100 border border-blue-400 inline-block shadow-2xs" />
+          <span className="text-slate-800 font-semibold">Biru (Magang / KKL)</span>
         </div>
         <div className="flex items-center space-x-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-600 inline-block" />
-          <span className="text-slate-700 font-semibold">Yudisium</span>
+          <span className="w-3.5 h-3.5 rounded-md bg-purple-100 border border-purple-400 inline-block shadow-2xs" />
+          <span className="text-slate-800 font-semibold">Ungu (Riset & Skripsi)</span>
         </div>
         <div className="flex items-center space-x-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-accent inline-block" />
-          <span className="text-slate-700 font-semibold">Wisuda</span>
+          <span className="w-3.5 h-3.5 rounded-md bg-emerald-100 border border-emerald-400 inline-block shadow-2xs" />
+          <span className="text-slate-800 font-semibold">Hijau (Logbook / Target Pribadi)</span>
         </div>
         <div className="flex items-center space-x-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 inline-block" />
-          <span className="text-slate-700 font-semibold">Ujian / Akademik</span>
+          <span className="w-3.5 h-3.5 rounded-md bg-amber-100 border border-amber-400 inline-block shadow-2xs" />
+          <span className="text-slate-800 font-semibold">Kuning/Oranye (Bimbingan / Yudisium)</span>
         </div>
         <div className="flex items-center space-x-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-cyan-600 inline-block ring-2 ring-cyan-200" />
-          <span className="text-slate-700 font-semibold">Progres Mahasiswa (Kamu)</span>
+          <span className="w-3.5 h-3.5 rounded-md bg-rose-100 border border-rose-400 inline-block shadow-2xs" />
+          <span className="text-slate-800 font-semibold">Merah (Ujian / Batas Akhir)</span>
+        </div>
+        <div className="flex items-center space-x-1.5 ml-auto hidden md:flex">
+          <span className="text-slate-400 text-[10px] italic">Klik tanggal untuk melihat keterangan lengkap di bawah</span>
         </div>
       </div>
 
@@ -459,7 +502,7 @@ export default function StudentCalendarTracker({ profile }) {
         <div className="grid grid-cols-7 divide-x divide-y divide-sky-100 bg-white">
           {/* Kotak kosong offset awal bulan */}
           {Array.from({ length: startOffset }).map((_, idx) => (
-            <div key={`offset-${idx}`} className="h-24 sm:h-28 bg-slate-50/50 p-1.5 sm:p-2" />
+            <div key={`offset-${idx}`} className="h-14 sm:h-18 bg-slate-50/40" />
           ))}
 
           {/* Tanggal 1 s.d. hari terakhir */}
@@ -474,71 +517,78 @@ export default function StudentCalendarTracker({ profile }) {
             // Cari event progres user pada tanggal ini
             const dayUserEvents = userEvents.filter(evt => isDateInRange(dateStr, evt.startDate, evt.endDate));
 
+            // Cek kategori event kelulusan penting (milestone)
+            const hasPendadaran = dayAcadEvents.some(evt => evt.type === 'pendadaran');
+            const hasYudisium = dayAcadEvents.some(evt => evt.type === 'yudisium');
+            const hasWisuda = dayAcadEvents.some(evt => evt.type === 'wisuda');
+            const hasLibur = dayAcadEvents.some(evt => evt.type === 'libur');
+            const hasUjian = dayAcadEvents.some(evt => evt.type === 'ujian');
+
+            // Penentuan Warna Blok Kotak Tanggal
+            // Prioritas: Target User (Biru/Ungu/Hijau/Oranye/Merah) -> Batas Pendadaran -> Yudisium -> Wisuda -> Ujian -> Libur -> Netral
+            let cellBlockClass = 'bg-white hover:bg-sky-50/50 text-slate-800';
+
+            if (dayUserEvents.length > 0) {
+              const primaryCat = dayUserEvents[0].category;
+              const cStyle = categoryStyles[primaryCat] || categoryStyles.magang;
+              cellBlockClass = cStyle.cellBg;
+            } else if (hasPendadaran) {
+              cellBlockClass = 'bg-rose-100/90 hover:bg-rose-200/90 border-rose-300 text-rose-950 font-bold';
+            } else if (hasYudisium) {
+              cellBlockClass = 'bg-amber-100/90 hover:bg-amber-200/90 border-amber-300 text-amber-950 font-bold';
+            } else if (hasWisuda) {
+              cellBlockClass = 'bg-yellow-100/90 hover:bg-yellow-200/90 border-yellow-300 text-yellow-950 font-bold';
+            } else if (hasUjian) {
+              cellBlockClass = 'bg-indigo-50/80 hover:bg-indigo-100/70 border-indigo-200 text-indigo-950';
+            } else if (hasLibur) {
+              cellBlockClass = 'bg-red-50/70 hover:bg-red-100/70 border-red-200 text-red-900';
+            }
+
             return (
               <div
                 key={`day-${dayNum}`}
                 onClick={() => setSelectedDate(dateStr)}
-                className={`h-24 sm:h-28 p-1.5 sm:p-2 transition-all cursor-pointer flex flex-col justify-between relative group ${
+                className={`h-14 sm:h-18 p-1 sm:p-2 transition-all cursor-pointer flex flex-col justify-between relative group ${cellBlockClass} ${
                   isSelected
-                    ? 'bg-sky-50/90 ring-2 ring-primary ring-inset z-10'
-                    : 'hover:bg-sky-50/40'
+                    ? 'ring-2 ring-primary ring-inset z-10 shadow-xs'
+                    : ''
                 }`}
               >
-                {/* Header Angka Hari & Status Hari Ini */}
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs font-mono font-bold w-6 h-6 rounded-full flex items-center justify-center ${
+                {/* Header Angka Hari & Pin jika user menandai */}
+                <div className="flex items-center justify-between w-full">
+                  <span className={`text-xs sm:text-sm font-mono font-bold w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                     isToday
-                      ? 'bg-accent text-white shadow-xs'
+                      ? 'bg-accent text-white shadow-xs font-black'
                       : isSelected
-                      ? 'bg-primary text-white'
-                      : 'text-slate-700'
+                      ? 'bg-primary text-white font-black'
+                      : ''
                   }`}>
                     {dayNum}
                   </span>
 
                   {dayUserEvents.length > 0 && (
-                    <span className="w-2 h-2 rounded-full bg-cyan-600 ring-2 ring-cyan-200" title="Ada progres yang kamu tandai" />
-                  )}
-                </div>
-
-                {/* Badges / Indikator Event di dalam Sel Tanggal */}
-                <div className="space-y-1 overflow-hidden">
-                  {/* Event Akademik */}
-                  {dayAcadEvents.slice(0, 1).map((evt) => (
-                    <div 
-                      key={evt.id}
-                      className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded truncate leading-tight ${evt.badgeColor}`}
-                      title={evt.title}
-                    >
-                      {evt.label}: {evt.title}
-                    </div>
-                  ))}
-
-                  {/* Progres Mahasiswa */}
-                  {dayUserEvents.slice(0, 1).map((ue) => {
-                    const cStyle = categoryStyles[ue.category] || categoryStyles.magang;
-                    return (
-                      <div
-                        key={ue.id}
-                        className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded truncate leading-tight ${cStyle.color}`}
-                        title={ue.title}
-                      >
-                        📌 {ue.title}
-                      </div>
-                    );
-                  })}
-
-                  {/* Indikator Jika Ada Lebih Banyak Event */}
-                  {dayAcadEvents.length + dayUserEvents.length > 2 && (
-                    <span className="text-[9px] font-bold text-primary block leading-none pl-0.5">
-                      +{dayAcadEvents.length + dayUserEvents.length - 2} agenda lagi
+                    <span className="text-[10px] leading-none" title={`${dayUserEvents.length} target progres kamu`}>
+                      📌
                     </span>
                   )}
                 </div>
 
-                {/* Subtle Hover Action */}
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-primary font-bold text-right hidden sm:block">
-                  Klik detail
+                {/* Titik-titik Indikator Rapi di Bagian Bawah Kotak Tanggal (Tanpa Teks Keterangan) */}
+                <div className="flex items-center justify-center space-x-1 pb-0.5">
+                  {dayUserEvents.slice(0, 2).map((ue, i) => {
+                    const cStyle = categoryStyles[ue.category] || categoryStyles.magang;
+                    return (
+                      <span key={`udot-${i}`} className={`w-1.5 h-1.5 rounded-full ${cStyle.dot}`} title={ue.title} />
+                    );
+                  })}
+                  {hasPendadaran && <span className="w-1.5 h-1.5 rounded-full bg-rose-600" title="Batas Ujian Pendadaran" />}
+                  {hasYudisium && <span className="w-1.5 h-1.5 rounded-full bg-amber-600" title="Jadwal Yudisium" />}
+                  {hasWisuda && <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" title="Jadwal Wisuda" />}
+                  {hasUjian && <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" title="Jadwal Ujian" />}
+                  {hasLibur && <span className="w-1.5 h-1.5 rounded-full bg-red-500" title="Hari Libur" />}
+                  {dayAcadEvents.length > 0 && !hasPendadaran && !hasYudisium && !hasWisuda && !hasUjian && !hasLibur && (
+                    <span className="w-1 h-1 rounded-full bg-slate-400" title="Ada agenda akademik" />
+                  )}
                 </div>
               </div>
             );
@@ -714,19 +764,28 @@ export default function StudentCalendarTracker({ profile }) {
 
               <div>
                 <label className="block font-bold text-slate-700 mb-1.5">
-                  Kategori Kegiatan
+                  Pilih Warna Kotak & Kategori Progres
                 </label>
-                <select
-                  value={formCategory}
-                  onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:border-primary transition-all cursor-pointer"
-                >
-                  <option value="magang">Magang / KKL (Penulisan Logbook, Laporan)</option>
-                  <option value="skripsi">Riset & Skripsi (Coding, Pengujian, Bab 1-5)</option>
-                  <option value="bimbingan">Bimbingan Dospem (Konsultasi, ACC Proposal)</option>
-                  <option value="ujian">Ujian / Revisi (Sempro, Semhas, Pendadaran)</option>
-                  <option value="pribadi">Target Pribadi Lainnya</option>
-                </select>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {Object.entries(categoryStyles).map(([catKey, catVal]) => {
+                    const isSelectedCat = formCategory === catKey;
+                    return (
+                      <button
+                        key={catKey}
+                        type="button"
+                        onClick={() => setFormCategory(catKey)}
+                        className={`flex items-center space-x-2.5 p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                          isSelectedCat
+                            ? `${catVal.cellBg} ring-2 ring-primary border-primary`
+                            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+                        }`}
+                      >
+                        <span className={`w-3.5 h-3.5 rounded-full ${catVal.dot} flex-shrink-0`} />
+                        <span className="text-[11px] font-bold">{catVal.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div>
