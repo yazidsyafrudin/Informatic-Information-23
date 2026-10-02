@@ -15,6 +15,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
+import StudentCalendarTracker from './StudentCalendarTracker';
 
 export default function TrackerView({ 
   profile, 
@@ -342,6 +343,9 @@ export default function TrackerView({
 
         </div>
       </div>
+
+      {/* Kalender Interaktif Akademik & Tracker Progres Mahasiswa */}
+      <StudentCalendarTracker profile={profile} />
 
       {/* Checklist Keseluruhan Milestone dengan Dropdown / Accordion per Fase */}
       <div className="space-y-4">
