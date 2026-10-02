@@ -24,11 +24,72 @@ import {
   Plus,
   Hash,
   FolderPlus,
+  Briefcase,
+  GraduationCap,
+  Code2,
+  Laptop,
+  Lightbulb,
+  Rocket,
+  Trophy,
+  Coffee,
+  Megaphone,
   X
 } from 'lucide-react';
 import { StorageService, isSupabaseConfigured } from '../lib/supabase';
 import { JADWAL_YUDISIUM_WISUDA } from '../data/kalenderAkademik';
 import { detectUserRole } from '../data/mahasiswaIf23';
+
+// Mapping Ikon SVG Lucide untuk Topik Diskusi
+const TOPIC_ICON_MAP = {
+  'MessageSquare': MessageSquare,
+  'Briefcase': Briefcase,
+  'GraduationCap': GraduationCap,
+  'BookOpen': BookOpen,
+  'Code2': Code2,
+  'Laptop': Laptop,
+  'Lightbulb': Lightbulb,
+  'Rocket': Rocket,
+  'Trophy': Trophy,
+  'Coffee': Coffee,
+  'Megaphone': Megaphone,
+  'Users': Users,
+  'HelpCircle': HelpCircle,
+  'Flame': Flame,
+  'Sparkles': Sparkles,
+  // Backward compatibility jika ada topik lama dari database berupa emoji
+  '💬': MessageSquare,
+  '💼': Briefcase,
+  '🎓': GraduationCap,
+  '📚': BookOpen,
+  '💻': Laptop,
+  '💡': Lightbulb,
+  '🚀': Rocket,
+  '🏆': Trophy,
+  '☕': Coffee,
+  '📢': Megaphone,
+  '🔥': Flame
+};
+
+// Pilihan Ikon SVG Profesional untuk Form Pembuatan Topik Baru
+const AVAILABLE_TOPIC_ICONS = [
+  { key: 'MessageSquare', label: 'Umum & Chat', icon: MessageSquare, color: 'text-sky-600 bg-sky-50' },
+  { key: 'Briefcase', label: 'Magang & Karir', icon: Briefcase, color: 'text-amber-600 bg-amber-50' },
+  { key: 'GraduationCap', label: 'Sempro & Skripsi', icon: GraduationCap, color: 'text-purple-600 bg-purple-50' },
+  { key: 'BookOpen', label: 'Kuliah & Tugas', icon: BookOpen, color: 'text-blue-600 bg-blue-50' },
+  { key: 'Code2', label: 'Koding & App', icon: Code2, color: 'text-emerald-600 bg-emerald-50' },
+  { key: 'Laptop', label: 'IT & Hardware', icon: Laptop, color: 'text-indigo-600 bg-indigo-50' },
+  { key: 'Lightbulb', label: 'Ide & Proyek', icon: Lightbulb, color: 'text-yellow-600 bg-yellow-50' },
+  { key: 'Rocket', label: 'Inovasi & Riset', icon: Rocket, color: 'text-rose-600 bg-rose-50' },
+  { key: 'Trophy', label: 'Lomba & Prestasi', icon: Trophy, color: 'text-amber-700 bg-amber-100' },
+  { key: 'Megaphone', label: 'Pengumuman', icon: Megaphone, color: 'text-red-600 bg-red-50' },
+  { key: 'Users', label: 'Hima & Angkatan', icon: Users, color: 'text-teal-600 bg-teal-50' },
+  { key: 'Coffee', label: 'Santai & Ngopi', icon: Coffee, color: 'text-orange-600 bg-orange-50' }
+];
+
+function TopicIcon({ iconKey, className = "w-4 h-4" }) {
+  const IconComp = TOPIC_ICON_MAP[iconKey] || MessageSquare;
+  return <IconComp className={className} />;
+}
 
 // Knowledge base lokal untuk Asisten AI PusingBot
 const AI_KNOWLEDGE_BASE = [
@@ -109,7 +170,7 @@ export default function DiskusiView({ currentUser, profile }) {
   const [isCreateTopicModalOpen, setIsCreateTopicModalOpen] = useState(false);
   const [newTopicName, setNewTopicName] = useState('');
   const [newTopicDesc, setNewTopicDesc] = useState('');
-  const [newTopicIcon, setNewTopicIcon] = useState('💡');
+  const [newTopicIcon, setNewTopicIcon] = useState('Briefcase');
   const [isSubmittingTopic, setIsSubmittingTopic] = useState(false);
 
   // Status Like Komentar (Disimpan di LocalStorage)
@@ -146,7 +207,7 @@ export default function DiskusiView({ currentUser, profile }) {
       id: 'umum',
       name: 'Umum & Bebas',
       description: 'Ruang obrolan santai mahasiswa IF23',
-      icon: '💬'
+      icon: 'MessageSquare'
     };
   }, [topics, selectedTopicId]);
 
@@ -301,7 +362,7 @@ export default function DiskusiView({ currentUser, profile }) {
       const created = await StorageService.createDiscussionTopic({
         name: newTopicName.trim(),
         description: newTopicDesc.trim(),
-        icon: newTopicIcon || '💡',
+        icon: newTopicIcon || 'Briefcase',
         creator_name: creatorName
       });
 
@@ -313,7 +374,7 @@ export default function DiskusiView({ currentUser, profile }) {
       setIsCreateTopicModalOpen(false);
       setNewTopicName('');
       setNewTopicDesc('');
-      setNewTopicIcon('💡');
+      setNewTopicIcon('Briefcase');
     } catch (err) {
       console.error('Create topic error:', err);
     } finally {
@@ -561,8 +622,8 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
           {/* Header Bar Ruang Obrolan & Topik */}
           <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-xl flex-shrink-0">
-                {selectedTopic.icon || '💬'}
+              <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold flex-shrink-0">
+                <TopicIcon iconKey={selectedTopic.icon} className="w-5 h-5 text-primary" />
               </div>
               <div>
                 <div className="flex items-center space-x-2">
@@ -665,7 +726,7 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                     }`}
                     title={topic.description}
                   >
-                    <span>{topic.icon || '💬'}</span>
+                    <TopicIcon iconKey={topic.icon} className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-white' : 'text-primary'}`} />
                     <span>{topic.name}</span>
                     <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-semibold ${
                       isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
@@ -698,7 +759,9 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
               </div>
             ) : rootComments.length === 0 ? (
               <div className="text-center py-16 text-slate-400 space-y-2">
-                <MessageSquare className="w-10 h-10 mx-auto opacity-30" />
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-2">
+                  <TopicIcon iconKey={selectedTopic.icon} className="w-6 h-6 text-primary" />
+                </div>
                 <p className="text-sm font-semibold">Belum ada obrolan di topik {selectedTopic.name}.</p>
                 <p className="text-xs">Jadilah yang pertama memulai diskusi atau bertanya di topik ini!</p>
               </div>
@@ -1235,26 +1298,35 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
             </div>
 
             <form onSubmit={handleCreateTopic} className="space-y-4 text-xs">
-              {/* Pilihan Ikon Emoji */}
+              {/* Pilihan Ikon SVG Profesional */}
               <div>
                 <label className="block font-bold text-slate-700 mb-1.5">
                   Pilih Ikon Topik
                 </label>
-                <div className="flex items-center space-x-2 overflow-x-auto py-1 no-scrollbar">
-                  {['💼', '🎓', '📚', '💻', '💡', '🚀', '🏆', '☕', '📢', '🔥'].map((ico) => (
-                    <button
-                      key={ico}
-                      type="button"
-                      onClick={() => setNewTopicIcon(ico)}
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg transition-all cursor-pointer flex-shrink-0 ${
-                        newTopicIcon === ico 
-                          ? 'bg-primary text-white ring-2 ring-primary ring-offset-2' 
-                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                      }`}
-                    >
-                      {ico}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-1.5 border border-slate-200/80 rounded-2xl bg-slate-50/70 no-scrollbar">
+                  {AVAILABLE_TOPIC_ICONS.map((item) => {
+                    const isSelected = newTopicIcon === item.key;
+                    const IconComp = item.icon;
+                    return (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={() => setNewTopicIcon(item.key)}
+                        className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all cursor-pointer text-center ${
+                          isSelected
+                            ? 'bg-primary text-white border-primary shadow-xs ring-2 ring-primary/20 scale-[1.02]'
+                            : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700'
+                        }`}
+                      >
+                        <div className={`p-1.5 rounded-lg mb-1 ${isSelected ? 'bg-white/20 text-white' : item.color}`}>
+                          <IconComp className="w-4 h-4" />
+                        </div>
+                        <span className="text-[10px] font-semibold leading-tight line-clamp-1">
+                          {item.label}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

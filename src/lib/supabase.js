@@ -438,13 +438,13 @@ export const StorageService = {
     return { unsubscribe: () => {} };
   },
 
-  // Daftar topik bawaan forum diskusi angkatan
+  // Daftar topik bawaan forum diskusi angkatan (menggunakan nama ikon SVG/Lucide)
   DEFAULT_TOPICS: [
     {
       id: 'umum',
       name: 'Umum & Bebas',
       description: 'Ruang obrolan santai, perkenalan, dan silaturahmi mahasiswa IF23 serta umum',
-      icon: '💬',
+      icon: 'MessageSquare',
       creator_name: 'Admin Informatika 23',
       created_at: '2026-01-01T00:00:00.000Z'
     },
@@ -452,7 +452,7 @@ export const StorageService = {
       id: 'magang',
       name: 'Magang & Karir',
       description: 'Diskusi lowongan magang, Kampus Merdeka / MSIB, CV, dan info loker IT',
-      icon: '💼',
+      icon: 'Briefcase',
       creator_name: 'Admin Informatika 23',
       created_at: '2026-01-01T00:00:00.000Z'
     },
@@ -460,7 +460,7 @@ export const StorageService = {
       id: 'sempro-skripsi',
       name: 'Sempro & Skripsi',
       description: 'Diskusi pengajuan judul skripsi FKT, dosen pembimbing, Turnitin, dan ujian',
-      icon: '🎓',
+      icon: 'GraduationCap',
       creator_name: 'Admin Informatika 23',
       created_at: '2026-01-01T00:00:00.000Z'
     },
@@ -468,7 +468,7 @@ export const StorageService = {
       id: 'krs-akademik',
       name: 'KRS & Perkuliahan',
       description: 'Tanya jawab seputar mata kuliah, jadwal kuliah, dosen pengampu, dan praktikum',
-      icon: '📚',
+      icon: 'BookOpen',
       creator_name: 'Admin Informatika 23',
       created_at: '2026-01-01T00:00:00.000Z'
     }
@@ -521,7 +521,7 @@ export const StorageService = {
       id: `topic-${slug || Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       name: name.trim(),
       description: description ? description.trim() : `Ruang diskusi khusus topik ${name.trim()}`,
-      icon: icon || '💡',
+      icon: icon || 'Lightbulb',
       creator_name: creator_name || 'Anonim',
       created_at: new Date().toISOString()
     };
