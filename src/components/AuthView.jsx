@@ -187,16 +187,22 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest, noticeMess
         <div className="flex items-center space-x-2 text-accent mb-2">
           <Sparkles className="w-5 h-5 text-accent" />
           <span className="text-xs font-bold uppercase tracking-wider font-instrument text-accent">
-            Akses Dashboard Mahasiswa
+            Akses Masuk & Pendaftaran Akun
           </span>
         </div>
         
         <h1 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
-          Ruang Kendali Pribadi Mahasiswa
+          Ruang Kendali & Partisipasi Pengguna
         </h1>
-        <p className="text-xs sm:text-sm font-instrument text-white/90 mt-2 leading-relaxed">
-          Silakan masuk atau daftarkan akunmu agar progres checklist kelulusan, judul skripsi, IPK, dan data bimbingan tersimpan aman di database cloud Supabase.
-        </p>
+        
+        <div className="mt-3 space-y-2 text-xs sm:text-sm font-instrument text-white/90 leading-relaxed">
+          <p>
+            🎓 <strong>Khusus Mahasiswa Informatika 2023</strong>: Lebih disarankan masuk menggunakan <strong>email kampus (@almaata.ac.id)</strong> atau NIM resmi agar nama lengkap dan progres kelulusanmu otomatis tervalidasi.
+          </p>
+          <p className="text-sky-100/80 text-[11px] sm:text-xs">
+            🌐 <strong>Pengunjung Umum & Mahasiswa Lain</strong>: Siapa pun di luar Informatika 23 sangat dipersilakan mendaftar atau login cepat via Google untuk melihat, berdiskusi, dan mencoba seluruh fitur interaktif di web kami!
+          </p>
+        </div>
       </div>
 
       {/* Auth Card */}
