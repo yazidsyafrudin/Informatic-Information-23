@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   MessageSquare, 
   Bot, 
@@ -17,7 +17,10 @@ import {
   Flame,
   ShieldCheck,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   CornerUpLeft,
+  Heart,
   X
 } from 'lucide-react';
 import { StorageService, isSupabaseConfigured } from '../lib/supabase';
@@ -87,14 +90,43 @@ const AI_KNOWLEDGE_BASE = [
 export default function DiskusiView({ currentUser, profile }) {
   const [activeSubTab, setActiveSubTab] = useState('komunitas'); // 'komunitas' | 'ai'
 
-  // --- STATE FORUM KOMUNITAS ---
+  // --- STATE FORUM KOMUNITAS (TIKTOK STYLE) ---
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
   const [isSending, setIsSending] = useState(false);
-  const [replyingTo, setReplyingTo] = useState(null); // { id, sender_name, message }
+  const [replyingTo, setReplyingTo] = useState(null); // { id, sender_name, root_id, message }
+  const [expandedThreads, setExpandedThreads] = useState({}); // { [rootId]: boolean }
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
+
+  // Status Like Komentar (Disimpan di LocalStorage)
+  const [likedComments, setLikedComments] = useState(() => {
+    try {
+      const saved = localStorage.getItem('IF23_LIKED_COMMENTS');
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+
+  const handleToggleLike = (msgId) => {
+    setLikedComments(prev => {
+      const updated = { ...prev, [msgId]: !prev[msgId] };
+      try {
+        localStorage.setItem('IF23_LIKED_COMMENTS', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  // Toggle buka/tutup balasan ala TikTok
+  const toggleThread = (rootId) => {
+    setExpandedThreads(prev => ({
+      ...prev,
+      [rootId]: !prev[rootId]
+    }));
+  };
 
   // Guest Identity (Nama & Gmail)
   const [guestIdentity, setGuestIdentity] = useState(() => {
@@ -109,6 +141,57 @@ export default function DiskusiView({ currentUser, profile }) {
   const [isIdentityModalOpen, setIsIdentityModalOpen] = useState(false);
   const [tempName, setTempName] = useState('');
   const [tempEmail, setTempEmail] = useState('');
+
+  // --- ORGANISASI PESAN BERJENJANG (TIKTOK-STYLE THREADING) ---
+  const { rootComments, repliesByRoot, totalCommentsCount } = useMemo(() => {
+    const messageMap = new Map();
+    messages.forEach(m => messageMap.set(m.id, m));
+
+    // Mencari ID komentar utama paling atas (Root Parent)
+    function findRootId(msg) {
+      let current = msg;
+      let depth = 0;
+      while (current && current.reply_to && current.reply_to.id && depth < 10) {
+        if (current.reply_to.root_id) {
+          return current.reply_to.root_id;
+        }
+        const parent = messageMap.get(current.reply_to.id);
+        if (!parent) return current.reply_to.id;
+        if (!parent.reply_to || !parent.reply_to.id) {
+          return parent.id;
+        }
+        current = parent;
+        depth++;
+      }
+      return current ? current.id : null;
+    }
+
+    const roots = [];
+    const replies = new Map();
+
+    messages.forEach(msg => {
+      if (!msg.reply_to || !msg.reply_to.id) {
+        roots.push(msg);
+      } else {
+        const rootId = msg.reply_to.root_id || findRootId(msg);
+        if (messageMap.has(rootId)) {
+          if (!replies.has(rootId)) {
+            replies.set(rootId, []);
+          }
+          replies.get(rootId).push(msg);
+        } else {
+          // Jika parent tidak ditemukan di memori, jadikan komentar utama
+          roots.push(msg);
+        }
+      }
+    });
+
+    return {
+      rootComments: roots,
+      repliesByRoot: replies,
+      totalCommentsCount: messages.length
+    };
+  }, [messages]);
 
   // --- STATE ASISTEN AI ---
   const [aiChatMessages, setAiChatMessages] = useState([
@@ -154,12 +237,12 @@ export default function DiskusiView({ currentUser, profile }) {
     };
   }, []);
 
-  // Auto scroll forum pesan
+  // Auto scroll forum pesan hanya saat pertama atau jika tidak sedang membaca
   useEffect(() => {
-    if (activeSubTab === 'komunitas') {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (activeSubTab === 'komunitas' && messages.length > 0) {
+      // messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, activeSubTab]);
+  }, [messages.length, activeSubTab]);
 
   // Auto scroll AI chat
   useEffect(() => {
@@ -194,6 +277,13 @@ export default function DiskusiView({ currentUser, profile }) {
       return;
     }
 
+    const replyPayload = replyingTo ? {
+      id: replyingTo.id,
+      sender_name: replyingTo.sender_name,
+      root_id: replyingTo.root_id || replyingTo.id,
+      message: replyingTo.message ? replyingTo.message.slice(0, 100) : ''
+    } : null;
+
     setIsSending(true);
     try {
       const sentMsg = await StorageService.sendCommunityMessage({
@@ -202,17 +292,22 @@ export default function DiskusiView({ currentUser, profile }) {
         sender_avatar: null,
         sender_role: senderRole,
         message: inputText.trim(),
-        reply_to: replyingTo ? {
-          id: replyingTo.id,
-          sender_name: replyingTo.sender_name,
-          message: replyingTo.message.slice(0, 120)
-        } : null
+        reply_to: replyPayload
       });
 
       setMessages(prev => {
         if (prev.some(m => m.id === sentMsg.id)) return prev;
         return [...prev, sentMsg];
       });
+
+      // Jika membalas pesan, otomatis buka cabang thread tersebut agar balasan langsung terlihat
+      if (replyPayload && replyPayload.root_id) {
+        setExpandedThreads(prev => ({
+          ...prev,
+          [replyPayload.root_id]: true
+        }));
+      }
+
       setInputText('');
       setReplyingTo(null);
     } catch (err) {
@@ -222,11 +317,13 @@ export default function DiskusiView({ currentUser, profile }) {
     }
   };
 
-  // Balas pesan tertentu
-  const handleReplyTo = (msg) => {
+  // Balas pesan tertentu (bisa komentar utama maupun balasan sub-komentar)
+  const handleReplyTo = (msg, rootId = null) => {
+    const targetRootId = rootId || msg.reply_to?.root_id || msg.id;
     setReplyingTo({
       id: msg.id,
       sender_name: msg.sender_name,
+      root_id: targetRootId,
       message: msg.message
     });
     setTimeout(() => {
@@ -467,113 +564,227 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
             </div>
           </div>
 
-          {/* Area Obrolan Pesan (Thread) */}
-          <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-slate-50/50">
+          {/* Area Komentar & Balasan Bersarang ala TikTok */}
+          <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-white divide-y divide-slate-100">
             {isLoadingMessages ? (
               <div className="flex items-center justify-center h-full text-slate-400 text-xs">
                 <RefreshCw className="w-5 h-5 animate-spin mr-2" />
-                <span>Memuat riwayat obrolan...</span>
+                <span>Memuat komentar forum...</span>
               </div>
-            ) : messages.length === 0 ? (
+            ) : rootComments.length === 0 ? (
               <div className="text-center py-16 text-slate-400 space-y-2">
                 <MessageSquare className="w-10 h-10 mx-auto opacity-30" />
-                <p className="text-sm font-semibold">Belum ada obrolan.</p>
-                <p className="text-xs">Jadilah yang pertama mengirim pesan atau menyapa teman-teman!</p>
+                <p className="text-sm font-semibold">Belum ada komentar.</p>
+                <p className="text-xs">Jadilah yang pertama memulai topik diskusi atau menyapa angkatan 23!</p>
               </div>
             ) : (
-              messages.map((msg) => {
-                const isMe = (currentUser && msg.sender_email?.includes(currentUser.nim)) || 
-                             (!currentUser && guestIdentity.email && msg.sender_email === guestIdentity.email);
-
-                const timeStr = msg.created_at 
-                  ? new Date(msg.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+              rootComments.map((root) => {
+                const isRootMe = (currentUser && root.sender_email?.includes(currentUser.nim)) || 
+                                 (!currentUser && guestIdentity.email && root.sender_email === guestIdentity.email);
+                const isRootLiked = !!likedComments[root.id];
+                const replies = repliesByRoot.get(root.id) || [];
+                const isExpanded = !!expandedThreads[root.id];
+                const timeStr = root.created_at 
+                  ? new Date(root.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
                   : '';
 
                 return (
                   <div 
-                    key={msg.id} 
-                    id={`community-msg-${msg.id}`}
-                    className={`flex items-start space-x-3 transition-all duration-300 rounded-2xl p-1 ${isMe ? 'flex-row-reverse space-x-reverse' : ''}`}
+                    key={root.id} 
+                    id={`community-msg-${root.id}`}
+                    className="pt-3 pb-2 transition-all duration-300 rounded-2xl"
                   >
-                    {/* Avatar Pengirim */}
-                    <div className={`w-9 h-9 rounded-2xl flex items-center justify-center text-xs font-bold text-white shadow-xs flex-shrink-0 font-philosopher ${
-                      isMe 
-                        ? 'bg-accent' 
-                        : msg.sender_role?.includes('Dosen')
-                        ? 'bg-indigo-600'
-                        : 'bg-primary'
-                    }`}>
-                      {msg.sender_name ? msg.sender_name.charAt(0).toUpperCase() : 'U'}
-                    </div>
-
-                    {/* Bubble Pesan */}
-                    <div className={`max-w-[85%] sm:max-w-[70%] space-y-1 ${isMe ? 'items-end text-right' : ''}`}>
-                      <div className={`flex flex-wrap items-center gap-1.5 sm:gap-2 ${isMe ? 'justify-end' : ''}`}>
-                        <span className="font-bold text-xs text-slate-800">
-                          {msg.sender_name}
-                        </span>
-                        {msg.sender_role && (
-                          <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold border ${
-                            msg.sender_role.includes('Informatika 23') || msg.sender_role.includes('IF23')
-                              ? 'bg-blue-50 text-blue-800 border-blue-200'
-                              : msg.sender_role.includes('Alma Ata')
-                              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                              : msg.sender_role.includes('Dosen')
-                              ? 'bg-purple-50 text-purple-800 border-purple-200'
-                              : 'bg-amber-50 text-amber-800 border-amber-200'
-                          }`}>
-                            {msg.sender_role}
-                          </span>
-                        )}
-                        <span className="text-[10px] text-slate-400 font-mono">
-                          {timeStr}
-                        </span>
-
-                        {/* Tombol Balas / Tanggapi */}
-                        <button
-                          type="button"
-                          onClick={() => handleReplyTo(msg)}
-                          className="inline-flex items-center space-x-1 text-[10px] font-semibold text-slate-400 hover:text-primary hover:bg-slate-200/60 px-1.5 py-0.5 rounded-md transition-colors cursor-pointer"
-                          title={`Balas pesan dari ${msg.sender_name}`}
-                        >
-                          <CornerUpLeft className="w-3 h-3" />
-                          <span>Balas</span>
-                        </button>
-                      </div>
-
-                      {/* Kutipan Pesan yang Dibalas (Jika Ada) */}
-                      {msg.reply_to && (
-                        <div 
-                          onClick={() => scrollToMessage(msg.reply_to.id)}
-                          className={`mb-1.5 p-2 rounded-xl border-l-4 cursor-pointer text-left text-xs transition-opacity hover:opacity-90 shadow-2xs ${
-                            isMe
-                              ? 'bg-sky-950/20 border-amber-300 text-sky-100'
-                              : 'bg-slate-100/90 border-primary text-slate-700'
-                          }`}
-                          title="Klik untuk melihat pesan yang dibalas"
-                        >
-                          <div className="flex items-center space-x-1 text-[10px] font-bold opacity-80 mb-0.5">
-                            <CornerUpLeft className="w-3 h-3" />
-                            <span>Membalas {msg.reply_to.sender_name}</span>
-                          </div>
-                          <p className="text-[11px] truncate italic opacity-95">
-                            "{msg.reply_to.message}"
-                          </p>
+                    {/* Komentar Utama (Level 1) */}
+                    <div className="flex items-start justify-between space-x-3">
+                      {/* Avatar & Konten Komentar */}
+                      <div className="flex items-start space-x-3 flex-1 min-w-0">
+                        {/* Avatar Bulat ala TikTok */}
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-2xs flex-shrink-0 font-philosopher ${
+                          isRootMe 
+                            ? 'bg-amber-600' 
+                            : root.sender_role?.includes('Dosen')
+                            ? 'bg-indigo-600'
+                            : root.sender_role?.includes('Alma Ata')
+                            ? 'bg-emerald-600'
+                            : 'bg-primary'
+                        }`}>
+                          {root.sender_name ? root.sender_name.charAt(0).toUpperCase() : 'U'}
                         </div>
-                      )}
 
-                      <div className={`p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap text-left ${
-                        isMe
-                          ? 'bg-primary text-white rounded-tr-xs shadow-md'
-                          : 'bg-white text-slate-800 border border-slate-200/90 rounded-tl-xs shadow-xs'
-                      }`}>
-                        {msg.message}
+                        {/* Kolom Informasi & Teks Komentar */}
+                        <div className="flex-1 min-w-0">
+                          {/* Header Komentar: Nama & Badge */}
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-bold text-xs sm:text-sm text-slate-900 truncate">
+                              {root.sender_name}
+                            </span>
+                            {root.sender_role && (
+                              <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold border ${
+                                root.sender_role.includes('Informatika 23') || root.sender_role.includes('IF23')
+                                  ? 'bg-amber-50 text-amber-800 border-amber-200'
+                                  : root.sender_role.includes('Alma Ata')
+                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                                  : root.sender_role.includes('Dosen')
+                                  ? 'bg-purple-50 text-purple-800 border-purple-200'
+                                  : 'bg-blue-50 text-blue-800 border-blue-200'
+                              }`}>
+                                {root.sender_role}
+                              </span>
+                            )}
+                            {isRootMe && (
+                              <span className="text-[9px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200">
+                                Anda
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Isi Teks Komentar */}
+                          <p className="text-xs sm:text-sm text-slate-800 mt-1 leading-relaxed break-words whitespace-pre-wrap">
+                            {root.message}
+                          </p>
+
+                          {/* Bar Aksi (Waktu & Tombol Balas) */}
+                          <div className="flex items-center space-x-3 mt-1.5 text-xs text-slate-400">
+                            <span className="text-[11px] font-mono">{timeStr}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleReplyTo(root)}
+                              className="font-bold text-slate-500 hover:text-primary transition-colors cursor-pointer text-xs"
+                            >
+                              Balas
+                            </button>
+                          </div>
+
+                          {/* Cabang Balasan Bersarang ala TikTok (Nested Thread) */}
+                          {replies.length > 0 && (
+                            <div className="mt-2.5">
+                              {!isExpanded ? (
+                                /* Tombol Buka Balasan ("Lihat X balasan ⌵") */
+                                <button
+                                  type="button"
+                                  onClick={() => toggleThread(root.id)}
+                                  className="flex items-center space-x-2 text-xs font-bold text-slate-500 hover:text-primary transition-colors cursor-pointer group select-none"
+                                >
+                                  <div className="w-6 h-[1.5px] bg-slate-300 group-hover:bg-primary transition-colors" />
+                                  <span>Lihat {replies.length} balasan</span>
+                                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-primary transition-colors" />
+                                </button>
+                              ) : (
+                                /* Daftar Balasan yang Terbuka */
+                                <div className="space-y-3.5 pl-3 sm:pl-4 border-l-2 border-slate-200 mt-2">
+                                  {replies.map((reply) => {
+                                    const isReplyMe = (currentUser && reply.sender_email?.includes(currentUser.nim)) || 
+                                                      (!currentUser && guestIdentity.email && reply.sender_email === guestIdentity.email);
+                                    const isReplyLiked = !!likedComments[reply.id];
+                                    const replyTime = reply.created_at 
+                                      ? new Date(reply.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+                                      : '';
+
+                                    return (
+                                      <div 
+                                        key={reply.id} 
+                                        id={`community-msg-${reply.id}`}
+                                        className="flex items-start justify-between space-x-2.5 group pt-1"
+                                      >
+                                        <div className="flex items-start space-x-2.5 flex-1 min-w-0">
+                                          {/* Avatar Sub-Komentar */}
+                                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-2xs flex-shrink-0 font-philosopher ${
+                                            isReplyMe 
+                                              ? 'bg-amber-600' 
+                                              : reply.sender_role?.includes('Dosen')
+                                              ? 'bg-indigo-600'
+                                              : 'bg-primary'
+                                          }`}>
+                                            {reply.sender_name ? reply.sender_name.charAt(0).toUpperCase() : 'U'}
+                                          </div>
+
+                                          {/* Isi Balasan */}
+                                          <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-1.5 flex-wrap">
+                                              <span className="font-bold text-xs text-slate-900 truncate">
+                                                {reply.sender_name}
+                                              </span>
+                                              {reply.sender_role && (
+                                                <span className="text-[9px] px-1.5 py-0.2 rounded-full font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                                                  {reply.sender_role}
+                                                </span>
+                                              )}
+                                              {isReplyMe && (
+                                                <span className="text-[9px] font-semibold text-amber-700 bg-amber-50 px-1 rounded">
+                                                  Anda
+                                                </span>
+                                              )}
+                                            </div>
+
+                                            {/* Teks dengan mention ala TikTok (@NamaTarget) */}
+                                            <p className="text-xs text-slate-800 mt-0.5 leading-relaxed break-words">
+                                              {reply.reply_to?.sender_name && (
+                                                <span className="text-primary font-bold mr-1.5 inline-flex items-center">
+                                                  @{reply.reply_to.sender_name}
+                                                </span>
+                                              )}
+                                              {reply.message}
+                                            </p>
+
+                                            {/* Tombol aksi waktu & Balas */}
+                                            <div className="flex items-center space-x-3 mt-1 text-[11px] text-slate-400">
+                                              <span>{replyTime}</span>
+                                              <button
+                                                type="button"
+                                                onClick={() => handleReplyTo(reply, root.id)}
+                                                className="font-bold text-slate-500 hover:text-primary transition-colors cursor-pointer"
+                                              >
+                                                Balas
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        {/* Tombol Like Balasan */}
+                                        <button
+                                          type="button"
+                                          onClick={() => handleToggleLike(reply.id)}
+                                          className="flex flex-col items-center p-1 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer flex-shrink-0"
+                                          title="Sukai balasan ini"
+                                        >
+                                          <Heart className={`w-3.5 h-3.5 transition-transform active:scale-125 ${
+                                            isReplyLiked ? 'fill-rose-500 text-rose-500' : 'text-slate-300 hover:text-rose-400'
+                                          }`} />
+                                          {isReplyLiked && <span className="text-[9px] font-bold text-rose-500 mt-0.5">1</span>}
+                                        </button>
+                                      </div>
+                                    );
+                                  })}
+
+                                  {/* Tombol Sembunyikan Balasan ("Sembunyikan balasan ⌃") */}
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleThread(root.id)}
+                                    className="flex items-center space-x-2 text-xs font-bold text-slate-500 hover:text-primary transition-colors cursor-pointer pt-2 group select-none"
+                                  >
+                                    <div className="w-6 h-[1.5px] bg-slate-300 group-hover:bg-primary transition-colors" />
+                                    <span>Sembunyikan balasan</span>
+                                    <ChevronUp className="w-3.5 h-3.5 text-slate-400 group-hover:text-primary transition-colors" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
 
-                      {/* Info Email Pengirim */}
-                      <span className="text-[9px] text-slate-400 block px-1">
-                        {msg.sender_email}
-                      </span>
+                      {/* Tombol Like Komentar Utama ala TikTok (Di Sebelah Kanan) */}
+                      <button
+                        type="button"
+                        onClick={() => handleToggleLike(root.id)}
+                        className="flex flex-col items-center p-1 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer flex-shrink-0 ml-1"
+                        title="Sukai komentar ini"
+                      >
+                        <Heart className={`w-4 h-4 transition-transform active:scale-125 ${
+                          isRootLiked ? 'fill-rose-500 text-rose-500' : 'text-slate-300 hover:text-rose-400'
+                        }`} />
+                        {isRootLiked && <span className="text-[10px] font-bold text-rose-500 mt-0.5">1</span>}
+                      </button>
                     </div>
                   </div>
                 );
@@ -582,27 +793,23 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Form Input Kirim Pesan dengan Banner Balasan */}
+          {/* Form Input Komentar ala TikTok dengan Banner Balasan */}
           <div className="border-t border-slate-200 bg-white">
-            {/* Banner Preview Membalas Pesan */}
+            {/* Banner Preview Membalas Komentar */}
             {replyingTo && (
-              <div className="px-4 py-2 bg-sky-50/90 border-b border-sky-100 flex items-center justify-between text-xs animate-fadeIn">
-                <div className="flex items-center space-x-2 truncate">
-                  <div className="p-1 rounded-lg bg-primary/10 text-primary flex-shrink-0">
-                    <CornerUpLeft className="w-3.5 h-3.5" />
-                  </div>
-                  <div className="truncate">
-                    <span className="text-[11px] text-slate-500">Membalas </span>
-                    <strong className="text-primary">{replyingTo.sender_name}</strong>:
-                    <span className="text-slate-500 text-[11px] ml-1.5 italic truncate">
-                      "{replyingTo.message.slice(0, 60)}{replyingTo.message.length > 60 ? '...' : ''}"
-                    </span>
-                  </div>
+              <div className="px-4 py-2 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between text-xs animate-fadeIn">
+                <div className="flex items-center space-x-2 text-slate-600 truncate">
+                  <CornerUpLeft className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                  <span className="text-slate-500 text-xs">Membalas</span>
+                  <strong className="text-primary font-bold">@{replyingTo.sender_name}</strong>
+                  <span className="text-slate-400 text-[11px] truncate italic hidden sm:inline">
+                    "{replyingTo.message.slice(0, 50)}..."
+                  </span>
                 </div>
                 <button
                   type="button"
                   onClick={handleCancelReply}
-                  className="p-1 rounded-lg hover:bg-slate-200 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer flex-shrink-0"
+                  className="text-slate-400 hover:text-slate-700 p-1 hover:bg-slate-200 rounded-md transition-colors cursor-pointer flex-shrink-0"
                   title="Batalkan Balasan"
                 >
                   <X className="w-4 h-4" />
@@ -621,15 +828,15 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={
                   replyingTo 
-                    ? `Ketik balasan untuk ${replyingTo.sender_name}...` 
-                    : "Tulis pesan atau masukan untuk angkatan 23..."
+                    ? `Balas @${replyingTo.sender_name}...` 
+                    : "Tambahkan komentar untuk angkatan 23..."
                 }
-                className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:border-primary focus:bg-white transition-all shadow-inner text-slate-900"
+                className="flex-1 px-4 py-3 bg-slate-100 hover:bg-slate-50 focus:bg-white border border-slate-200 focus:border-primary rounded-full text-xs sm:text-sm focus:outline-none transition-all text-slate-800 shadow-inner"
               />
               <button
                 type="submit"
                 disabled={isSending || !inputText.trim()}
-                className="flex items-center space-x-1.5 px-5 py-3 rounded-2xl bg-primary hover:bg-primary-700 disabled:opacity-50 text-white font-bold text-xs shadow-md transition-all cursor-pointer flex-shrink-0 active:scale-95"
+                className="flex items-center space-x-1.5 px-5 py-3 rounded-full bg-primary hover:bg-primary-700 disabled:opacity-40 text-white font-bold text-xs shadow-md transition-all cursor-pointer flex-shrink-0 active:scale-95"
               >
                 <Send className="w-4 h-4" />
                 <span className="hidden sm:inline">Kirim</span>
