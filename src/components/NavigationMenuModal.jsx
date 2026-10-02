@@ -9,7 +9,8 @@ import {
   DownloadCloud, 
   Calendar,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  MessageSquare
 } from 'lucide-react';
 
 export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSelectTab, currentUser }) {
@@ -32,6 +33,11 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
       id: 'tracker',
       title: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard',
       icon: CheckSquare,
+    },
+    {
+      id: 'diskusi',
+      title: 'Ruang Diskusi',
+      icon: MessageSquare,
     },
     {
       id: 'kalender',

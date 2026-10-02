@@ -7,6 +7,7 @@ import AuthView from './components/AuthView';
 import PanduanFktView from './components/PanduanFktView';
 import DownloadsView from './components/DownloadsView';
 import KalenderAkademikView from './components/KalenderAkademikView';
+import DiskusiView from './components/DiskusiView';
 import NavigationMenuModal from './components/NavigationMenuModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
@@ -142,6 +143,10 @@ export default function App() {
               onContinueAsGuest={() => setActiveTab('dashboard')}
             />
           )
+        )}
+
+        {activeTab === 'diskusi' && (
+          <DiskusiView currentUser={currentUser} profile={profile} />
         )}
 
         {activeTab === 'kalender' && (

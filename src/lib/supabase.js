@@ -58,6 +58,23 @@ ALTER TABLE public.student_progress ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Public Profiles Access" ON public.profiles FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Public Progress Access" ON public.student_progress FOR ALL USING (true) WITH CHECK (true);
+
+-- 4. Tabel Chat Forum Komunitas IF23
+CREATE TABLE IF NOT EXISTS public.community_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  sender_name VARCHAR(150) NOT NULL,
+  sender_email VARCHAR(200) NOT NULL,
+  sender_avatar TEXT,
+  sender_role VARCHAR(50) DEFAULT 'Mahasiswa IF23',
+  message TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.community_messages ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Messages Access" ON public.community_messages FOR ALL USING (true) WITH CHECK (true);
+
+-- Aktifkan Realtime Replication untuk community_messages (Opsional jika ingin realtime instant)
+-- ALTER PUBLICATION supabase_realtime ADD TABLE public.community_messages;
 `;
 
 // Default profile lokal
@@ -291,5 +308,146 @@ export const StorageService = {
       }
     }
     return current;
+  },
+
+  // Login menggunakan Google OAuth via Supabase
+  async signInWithGoogle() {
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin
+          }
+        });
+        return { data, error };
+      } catch (err) {
+        console.error('Google Sign-in error:', err);
+        return { error: err };
+      }
+    }
+    return { error: new Error('Supabase belum terkonfigurasi') };
+  },
+
+  // Ambil daftar pesan forum komunitas
+  async getCommunityMessages() {
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('community_messages')
+          .select('*')
+          .order('created_at', { ascending: true })
+          .limit(100);
+
+        if (!error && data) {
+          localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(data));
+          return data;
+        }
+      } catch (err) {
+        console.warn('Fallback community messages ke localStorage:', err);
+      }
+    }
+
+    // Default pesan komunitas awal jika belum ada data di database
+    const saved = localStorage.getItem('IF23_COMMUNITY_MESSAGES');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    return [
+      {
+        id: 'msg-demo-1',
+        sender_name: 'Admin Informatika 23',
+        sender_email: 'informatika23@almaata.ac.id',
+        sender_avatar: null,
+        sender_role: 'Admin / Pengurus',
+        message: 'Selamat datang di Ruang Diskusi Terbuka Mahasiswa Informatika 23! Forum ini bisa digunakan siapa saja (mahasiswa, dosen, maupun umum) untuk saling bertukar info skripsi, magang, dan akademik.',
+        created_at: new Date(Date.now() - 3600000 * 2).toISOString()
+      },
+      {
+        id: 'msg-demo-2',
+        sender_name: 'Dosen Pembimbing FKT',
+        sender_email: 'dosen.fkt@almaata.ac.id',
+        sender_avatar: null,
+        sender_role: 'Dosen / Pengajar',
+        message: 'Jangan lupa untuk yang mengajukan judul skripsi perhatikan batas Turnitin maksimal 20% dan wajib ikut sempro minimal 5 kali sebelum mendaftar ujian ya.',
+        created_at: new Date(Date.now() - 3600000).toISOString()
+      }
+    ];
+  },
+
+  // Kirim pesan baru ke forum komunitas
+  async sendCommunityMessage({ sender_name, sender_email, sender_avatar, sender_role, message }) {
+    const newMsg = {
+      id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      sender_name: sender_name || 'Anonim',
+      sender_email: sender_email || 'guest@gmail.com',
+      sender_avatar: sender_avatar || null,
+      sender_role: sender_role || 'Tamu / Umum',
+      message: message.trim(),
+      created_at: new Date().toISOString()
+    };
+
+    // Simpan lokal terlebih dahulu
+    try {
+      const current = await this.getCommunityMessages();
+      const updated = [...current, newMsg];
+      localStorage.setItem('IF23_COMMUNITY_MESSAGES', JSON.stringify(updated));
+    } catch (e) {
+      console.error('Save message local error:', e);
+    }
+
+    // Kirim ke Supabase
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('community_messages')
+          .insert([{
+            sender_name: newMsg.sender_name,
+            sender_email: newMsg.sender_email,
+            sender_avatar: newMsg.sender_avatar,
+            sender_role: newMsg.sender_role,
+            message: newMsg.message
+          }])
+          .select();
+
+        if (error) {
+          console.warn('Supabase message insert error (menggunakan data lokal):', error);
+        } else if (data && data[0]) {
+          return data[0];
+        }
+      } catch (err) {
+        console.error('Supabase message error:', err);
+      }
+    }
+
+    return newMsg;
+  },
+
+  // Subscribe ke pesan realtime
+  subscribeCommunityMessages(callback) {
+    if (supabase && isSupabaseConfigured) {
+      const channel = supabase
+        .channel('public:community_messages')
+        .on(
+          'postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'community_messages' },
+          (payload) => {
+            if (payload && payload.new) {
+              callback(payload.new);
+            }
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+    return () => {};
   }
 };

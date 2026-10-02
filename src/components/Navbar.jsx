@@ -6,7 +6,8 @@ import {
   BookOpen, 
   LayoutGrid, 
   LogIn,
-  LogOut
+  LogOut,
+  MessageSquare
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout, onOpenMenuModal }) {
@@ -14,6 +15,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
     { id: 'dashboard', label: 'Beranda & Timeline', icon: LayoutDashboard },
     { id: 'roadmap', label: 'Roadmap Kelulusan', icon: Map },
     { id: 'tracker', label: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard', icon: CheckSquare },
+    { id: 'diskusi', label: 'Ruang Diskusi', icon: MessageSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
   ];
 
