@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { 
   Users, 
   GraduationCap, 
@@ -23,9 +23,11 @@ import {
   HelpCircle,
   Building2,
   BookCheck,
-  Flame
+  Flame,
+  Check
 } from 'lucide-react';
 import { MAHASISWA_IF23_LIST } from '../data/mahasiswaIf23';
+import { StorageService } from '../lib/supabase';
 
 // Ikon Media Sosial untuk Kartu Direktori Mahasiswa
 function InstagramIcon({ className = "w-3 h-3" }) {
@@ -108,9 +110,22 @@ function StudentCard({ mhs }) {
     <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-300 flex items-start gap-3 group relative">
       {/* 1. Foto / Avatar Mahasiswa (Kiri) */}
       <div className="relative w-18 h-22 sm:w-20 sm:h-26 rounded-2xl overflow-hidden bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 flex-shrink-0 border border-sky-200/60 shadow-inner flex items-center justify-center">
-        {!imgError ? (
+        {/* Jika belum daftar akun: Tampilkan Logo Pusing Coding sesuai permintaan user */}
+        {!mhs.isRegistered ? (
+          <div className="w-full h-full bg-gradient-to-b from-sky-50 to-blue-50/70 p-2.5 flex flex-col items-center justify-center relative select-none">
+            <img 
+              src="/logo pusing coding.png" 
+              alt="Logo Pusing Coding" 
+              onError={(e) => { e.currentTarget.src = '/puscod23.png'; }}
+              className="w-full h-full object-contain filter drop-shadow-2xs group-hover:scale-105 transition-transform duration-300"
+            />
+            <span className="absolute bottom-1 px-1.5 py-0.2 rounded-md bg-slate-900/80 text-white font-mono text-[7.5px] font-semibold tracking-wider">
+              BELUM DAFTAR
+            </span>
+          </div>
+        ) : !imgError && mhs.foto ? (
           <img 
-            src={mhs.foto || `/mahasiswa/${mhs.nim}.jpg`}
+            src={mhs.foto}
             alt={mhs.nama}
             onError={() => setImgError(true)}
             className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
@@ -151,12 +166,17 @@ function StudentCard({ mhs }) {
           </div>
 
           {/* Nama Mahasiswa */}
-          <h3 
-            className="font-bold text-slate-900 text-xs sm:text-[13.5px] leading-snug mt-1.5 truncate group-hover:text-primary transition-colors"
-            title={mhs.nama}
-          >
-            {mhs.nama}
-          </h3>
+          <div className="flex items-center gap-1.5 mt-1.5">
+            <h3 
+              className="font-bold text-slate-900 text-xs sm:text-[13.5px] leading-snug truncate group-hover:text-primary transition-colors"
+              title={mhs.nama}
+            >
+              {mhs.nama}
+            </h3>
+            {mhs.isRegistered && (
+              <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" title="Mahasiswa terdaftar & aktif"></span>
+            )}
+          </div>
 
           {/* NIM & Angkatan */}
           <div className="flex items-center gap-1 text-[11px] font-medium text-slate-500 mt-0.5">
@@ -165,9 +185,9 @@ function StudentCard({ mhs }) {
             <span className="text-primary font-semibold">IF '23</span>
           </div>
 
-          {/* Motto / Quote */}
+          {/* Motto / Quote (Max 50 karakter) */}
           <p className="text-[10.5px] sm:text-[11px] text-slate-600 line-clamp-2 mt-1 leading-snug italic font-normal">
-            {mhs.quote}
+            "{mhs.quote}"
           </p>
         </div>
 
@@ -188,22 +208,30 @@ function StudentCard({ mhs }) {
 
           {/* Instagram */}
           <a 
-            href={mhs.socials?.instagram !== '#' ? mhs.socials.instagram : undefined} 
+            href={mhs.socials?.instagram && mhs.socials.instagram !== '#' ? mhs.socials.instagram : undefined} 
             target="_blank" 
             rel="noopener noreferrer" 
-            title={`Instagram ${mhs.nama}`}
-            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+            title={mhs.socials?.instagram && mhs.socials.instagram !== '#' ? `Buka Instagram ${mhs.nama}` : 'Instagram belum diatur'}
+            className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center transition-transform ${
+              mhs.socials?.instagram && mhs.socials.instagram !== '#'
+                ? 'bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white hover:scale-115 hover:shadow-xs cursor-pointer'
+                : 'bg-slate-100 text-slate-300 cursor-default'
+            }`}
           >
             <InstagramIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
           </a>
 
           {/* GitHub */}
           <a 
-            href={mhs.socials?.github !== '#' ? mhs.socials.github : undefined} 
+            href={mhs.socials?.github && mhs.socials.github !== '#' ? mhs.socials.github : undefined} 
             target="_blank" 
             rel="noopener noreferrer" 
-            title={`GitHub ${mhs.nama}`}
-            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+            title={mhs.socials?.github && mhs.socials.github !== '#' ? `Buka GitHub ${mhs.nama}` : 'GitHub belum diatur'}
+            className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center transition-transform ${
+              mhs.socials?.github && mhs.socials.github !== '#'
+                ? 'bg-slate-900 text-white hover:scale-115 hover:shadow-xs cursor-pointer'
+                : 'bg-slate-100 text-slate-300 cursor-default'
+            }`}
           >
             <GithubIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
           </a>
@@ -221,11 +249,15 @@ function StudentCard({ mhs }) {
             </a>
           ) : (
             <a 
-              href={mhs.socials?.linkedin !== '#' ? mhs.socials.linkedin : undefined} 
+              href={mhs.socials?.linkedin && mhs.socials.linkedin !== '#' ? mhs.socials.linkedin : undefined} 
               target="_blank" 
               rel="noopener noreferrer" 
-              title={`LinkedIn ${mhs.nama}`}
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#0a66c2] text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+              title={mhs.socials?.linkedin && mhs.socials.linkedin !== '#' ? `Buka LinkedIn ${mhs.nama}` : 'LinkedIn belum diatur'}
+              className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center transition-transform ${
+                mhs.socials?.linkedin && mhs.socials.linkedin !== '#'
+                  ? 'bg-[#0a66c2] text-white hover:scale-115 hover:shadow-xs cursor-pointer'
+                  : 'bg-slate-100 text-slate-300 cursor-default'
+              }`}
             >
               <LinkedinIcon className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
             </a>
@@ -233,11 +265,15 @@ function StudentCard({ mhs }) {
 
           {/* Portfolio / Website */}
           <a 
-            href={mhs.socials?.web !== '#' ? mhs.socials.web : undefined} 
+            href={mhs.socials?.web && mhs.socials.web !== '#' ? mhs.socials.web : undefined} 
             target="_blank" 
             rel="noopener noreferrer" 
-            title={`Portfolio / Tautan ${mhs.nama}`}
-            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-100 border border-slate-200 text-slate-600 hover:text-primary hover:border-primary/40 flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+            title={mhs.socials?.web && mhs.socials.web !== '#' ? `Buka Portfolio ${mhs.nama}` : 'Website belum diatur'}
+            className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border flex items-center justify-center transition-transform ${
+              mhs.socials?.web && mhs.socials.web !== '#'
+                ? 'bg-slate-100 border-slate-200 text-slate-600 hover:text-primary hover:border-primary/40 hover:scale-115 hover:shadow-xs cursor-pointer'
+                : 'bg-slate-50 border-slate-100 text-slate-300 cursor-default'
+            }`}
           >
             <WebIcon className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
           </a>
@@ -250,19 +286,80 @@ function StudentCard({ mhs }) {
 export default function AboutView({ setActiveTab }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('Semua');
+  const [registeredMap, setRegisteredMap] = useState({});
+
+  // Ambil daftar profil dari Supabase (dan dengarkan event update)
+  const fetchProfiles = useCallback(async () => {
+    try {
+      const list = await StorageService.getAllRegisteredProfiles();
+      if (Array.isArray(list)) {
+        const map = {};
+        list.forEach(p => {
+          if (p.nim) {
+            map[String(p.nim).trim()] = p;
+          }
+        });
+        setRegisteredMap(map);
+      }
+    } catch (err) {
+      console.warn('Gagal memuat profil terdaftar:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProfiles();
+
+    const onProfileUpdated = () => {
+      fetchProfiles();
+    };
+    window.addEventListener('if23-profile-updated', onProfileUpdated);
+    return () => {
+      window.removeEventListener('if23-profile-updated', onProfileUpdated);
+    };
+  }, [fetchProfiles]);
+
+  // Gabungkan data resmi 33 mahasiswa dengan profil kustom dari database Supabase
+  const combinedStudents = useMemo(() => {
+    return MAHASISWA_IF23_LIST.map(mhs => {
+      const reg = registeredMap[mhs.nim];
+      if (reg) {
+        // Jika MAHASISWA SUDAH DAFTAR: ambil foto, quote, dan link medsos dari database
+        return {
+          ...mhs,
+          isRegistered: true,
+          foto: reg.avatar_url || mhs.foto,
+          quote: reg.quote || mhs.quote,
+          socials: {
+            instagram: reg.instagram || mhs.socials?.instagram || '#',
+            linkedin: reg.linkedin || mhs.socials?.linkedin || '#',
+            github: reg.github || mhs.socials?.github || '#',
+            web: reg.website || mhs.socials?.web || '#',
+            x: mhs.socials?.x,
+            youtube: mhs.socials?.youtube
+          }
+        };
+      }
+      // Jika BELUM DAFTAR: gunakan foto Logo Pusing Coding sesuai permintaan
+      return {
+        ...mhs,
+        isRegistered: false,
+        foto: '/logo pusing coding.png'
+      };
+    });
+  }, [registeredMap]);
 
   // Hitung jumlah mahasiswa berdasarkan status
   const statusCounts = useMemo(() => {
-    const counts = { Semua: MAHASISWA_IF23_LIST.length, Aktif: 0, Magang: 0, Skripsi: 0, Cuti: 0 };
-    MAHASISWA_IF23_LIST.forEach(m => {
+    const counts = { Semua: combinedStudents.length, Aktif: 0, Magang: 0, Skripsi: 0, Cuti: 0 };
+    combinedStudents.forEach(m => {
       if (counts[m.status] !== undefined) counts[m.status]++;
     });
     return counts;
-  }, []);
+  }, [combinedStudents]);
 
-  // Filter Mahasiswa Aktif berdasarkan pencarian nama atau NIM & status
+  // Filter Mahasiswa berdasarkan pencarian nama atau NIM & status
   const filteredStudents = useMemo(() => {
-    return MAHASISWA_IF23_LIST.filter(m => {
+    return combinedStudents.filter(m => {
       const matchQuery = !searchQuery.trim() || 
         m.nama.toLowerCase().includes(searchQuery.toLowerCase().trim()) || 
         m.nim.toLowerCase().includes(searchQuery.toLowerCase().trim());
@@ -271,7 +368,7 @@ export default function AboutView({ setActiveTab }) {
 
       return matchQuery && matchStatus;
     });
-  }, [searchQuery, statusFilter]);
+  }, [combinedStudents, searchQuery, statusFilter]);
 
   return (
     <div className="space-y-12 animate-fadeIn pb-12 font-instrument text-slate-800">

@@ -35,12 +35,24 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   turnitin_persen INTEGER DEFAULT 15,
   hadir_sempro_count INTEGER DEFAULT 5,
   pin VARCHAR(100) DEFAULT '123456',
+  avatar_url TEXT,
+  quote VARCHAR(50),
+  instagram TEXT,
+  linkedin TEXT,
+  github TEXT,
+  website TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Tambah kolom PIN jika tabel profiles sudah dibuat sebelumnya
+-- Tambah kolom tambahan jika tabel profiles sudah dibuat sebelumnya
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS pin VARCHAR(100) DEFAULT '123456';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS quote VARCHAR(50);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS instagram TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS linkedin TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS github TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS website TEXT;
 
 -- 2. Tabel Checklist Progress Milestone
 CREATE TABLE IF NOT EXISTS public.student_progress (
@@ -274,7 +286,26 @@ export const StorageService = {
     // Perbarui active user juga jika yang diedit adalah user yang sedang login
     const activeUser = this.getCurrentUser();
     if (activeUser && activeUser.nim === profileData.nim) {
-      localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(profileData));
+      localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify({ ...activeUser, ...profileData }));
+    }
+
+    // Perbarui cache daftar profil terdaftar
+    try {
+      const cached = JSON.parse(localStorage.getItem('IF23_REGISTERED_PROFILES_CACHE') || '[]');
+      const index = cached.findIndex(p => p.nim === profileData.nim);
+      if (index >= 0) {
+        cached[index] = { ...cached[index], ...profileData };
+      } else {
+        cached.push(profileData);
+      }
+      localStorage.setItem('IF23_REGISTERED_PROFILES_CACHE', JSON.stringify(cached));
+    } catch {
+      // ignore
+    }
+
+    // Beritahu komponen lain (seperti AboutView) bahwa profil telah diperbarui
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('if23-profile-updated', { detail: profileData }));
     }
 
     if (supabase && isSupabaseConfigured) {
@@ -288,6 +319,31 @@ export const StorageService = {
       }
     }
     return profileData;
+  },
+
+  // Ambil semua profil mahasiswa yang terdaftar di Supabase
+  async getAllRegisteredProfiles() {
+    if (supabase && isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('nim, nama_lengkap, avatar_url, quote, instagram, linkedin, github, website, peminatan');
+        if (!error && Array.isArray(data)) {
+          localStorage.setItem('IF23_REGISTERED_PROFILES_CACHE', JSON.stringify(data));
+          return data;
+        }
+      } catch (err) {
+        console.warn('Gagal fetch profiles dari Supabase, fallback ke cache:', err);
+      }
+    }
+    try {
+      const cached = localStorage.getItem('IF23_REGISTERED_PROFILES_CACHE');
+      if (cached) return JSON.parse(cached);
+    } catch {
+      // ignore
+    }
+    const active = this.getCurrentUser();
+    return active && active.nim ? [active] : [];
   },
 
   // Ambil progres milestone

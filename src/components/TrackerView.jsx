@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { 
   CheckSquare, 
@@ -8,11 +8,12 @@ import {
   Save, 
   Check, 
   AlertTriangle, 
-  Sparkles,
-  Trophy,
-  Flame,
-  ChevronDown,
-  ChevronUp
+  Sparkles, 
+  Trophy, 
+  Flame, 
+  ChevronDown, 
+  ChevronUp,
+  Camera
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
 import StudentCalendarTracker from './StudentCalendarTracker';
@@ -26,8 +27,14 @@ export default function TrackerView({
   totalMilestones 
 }) {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [formProfile, setFormProfile] = useState(profile);
+  const [formProfile, setFormProfile] = useState(profile || {});
   const [expandedPhase, setExpandedPhase] = useState(1);
+
+  useEffect(() => {
+    if (profile) {
+      setFormProfile(profile);
+    }
+  }, [profile]);
 
   const togglePhase = (phaseId) => {
     setExpandedPhase(expandedPhase === phaseId ? null : phaseId);
@@ -44,6 +51,47 @@ export default function TrackerView({
 
   const badge = getBadgeLevel(percent);
   const BadgeIcon = badge.icon;
+
+  // Kompres dan baca foto profil ke Base64 (maks 400x400)
+  const handlePhotoChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Ukuran foto terlalu besar. Silakan pilih foto dengan ukuran di bawah 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDim = 400; // Optimal untuk kartu profil
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        setFormProfile(prev => ({ ...prev, avatar_url: compressedDataUrl }));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleSaveProfile = (e) => {
     e.preventDefault();
@@ -74,8 +122,16 @@ export default function TrackerView({
           
           {/* User Info */}
           <div className="flex items-start space-x-4">
-            <div className="w-16 h-16 rounded-2xl bg-white text-primary flex items-center justify-center font-extrabold text-2xl shadow-md flex-shrink-0 font-philosopher">
-              {profile?.nama_lengkap?.charAt(0) || 'M'}
+            <div className="w-16 h-16 rounded-2xl bg-white text-primary overflow-hidden flex items-center justify-center font-extrabold text-2xl shadow-md flex-shrink-0 font-philosopher border-2 border-white/40">
+              {profile?.avatar_url ? (
+                <img 
+                  src={profile.avatar_url} 
+                  alt={profile.nama_lengkap} 
+                  className="w-full h-full object-cover object-top" 
+                />
+              ) : (
+                profile?.nama_lengkap?.charAt(0) || 'M'
+              )}
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-1">
@@ -93,9 +149,9 @@ export default function TrackerView({
               <p className="text-xs font-instrument text-white/80">
                 Dosen Pembimbing: <strong className="text-white">{profile?.dosen_pembimbing || 'Belum Ditentukan / Sedang Pengajuan'}</strong>
               </p>
-              {profile?.judul_skripsi && (
+              {profile?.quote && (
                 <p className="text-xs font-instrument text-accent mt-1 italic font-medium">
-                  "{profile.judul_skripsi}"
+                  "{profile.quote}"
                 </p>
               )}
             </div>
@@ -115,8 +171,8 @@ export default function TrackerView({
 
             <button
               onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="p-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/20 shadow-2xs transition-colors"
-              title="Edit Data Mahasiswa"
+              className="p-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/20 shadow-2xs transition-colors cursor-pointer"
+              title="Edit Data & Profil Publik Mahasiswa"
             >
               <Edit3 className="w-4 h-4" />
             </button>
@@ -126,81 +182,225 @@ export default function TrackerView({
 
         {/* Edit Profile Form */}
         {isEditingProfile && (
-          <form onSubmit={handleSaveProfile} className="mt-6 pt-6 border-t-2 border-sky-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fadeIn font-instrument">
+          <form onSubmit={handleSaveProfile} className="mt-6 pt-6 border-t-2 border-white/20 space-y-6 animate-fadeIn font-instrument">
+            {/* Bagian 1: Data Akademik */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap</label>
-              <input
-                type="text"
-                value={formProfile.nama_lengkap || ''}
-                onChange={(e) => setFormProfile({ ...formProfile, nama_lengkap: e.target.value })}
-                className="w-full bg-white border-2 border-sky-100 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary shadow-2xs"
-                placeholder="Contoh: Yazid Syafrudin"
-                required
-              />
+              <div className="flex items-center space-x-2 text-white font-bold text-xs uppercase tracking-wider mb-3">
+                <ShieldCheck className="w-4 h-4 text-accent" />
+                <span>1. Data Akademik & Skripsi</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-white/90 mb-1">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    value={formProfile.nama_lengkap || ''}
+                    onChange={(e) => setFormProfile({ ...formProfile, nama_lengkap: e.target.value })}
+                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                    placeholder="Contoh: Yazid Syafrudin"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-white/90 mb-1">NIM Mahasiswa</label>
+                  <input
+                    type="text"
+                    value={formProfile.nim || ''}
+                    onChange={(e) => setFormProfile({ ...formProfile, nim: e.target.value })}
+                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                    placeholder="Contoh: 233200299"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-white/90 mb-1">Peminatan</label>
+                  <select
+                    value={formProfile.peminatan || 'Software Engineering'}
+                    onChange={(e) => setFormProfile({ ...formProfile, peminatan: e.target.value })}
+                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                  >
+                    <option value="Software Engineering">Software Engineering / Web / Mobile</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence / Data Science</option>
+                    <option value="Networking & Security">Networking & Cyber Security</option>
+                    <option value="Internet of Things">Internet of Things (IoT) & Hardware</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-white/90 mb-1">Dosen Pembimbing</label>
+                  <input
+                    type="text"
+                    value={formProfile.dosen_pembimbing || ''}
+                    onChange={(e) => setFormProfile({ ...formProfile, dosen_pembimbing: e.target.value })}
+                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                    placeholder="Nama Dosen Pembimbing"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 lg:col-span-4">
+                  <label className="block text-xs font-bold text-white/90 mb-1">Rencana / Draf Judul Skripsi</label>
+                  <input
+                    type="text"
+                    value={formProfile.judul_skripsi || ''}
+                    onChange={(e) => setFormProfile({ ...formProfile, judul_skripsi: e.target.value })}
+                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                    placeholder="Rencana judul skripsi kamu"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">NIM Mahasiswa</label>
-              <input
-                type="text"
-                value={formProfile.nim || ''}
-                onChange={(e) => setFormProfile({ ...formProfile, nim: e.target.value })}
-                className="w-full bg-white border-2 border-sky-100 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary shadow-2xs"
-                placeholder="Contoh: 230101001"
-                required
-              />
+            {/* Bagian 2: Profil Publik Direktori Angkatan IF23 */}
+            <div className="pt-4 border-t border-white/15 bg-white/10 p-4 sm:p-5 rounded-2xl">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="flex items-center space-x-2 text-white font-bold text-xs uppercase tracking-wider">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                  <span>2. Profil Publik Direktori IF23 (Halaman Tentang Kami)</span>
+                </div>
+                <span className="text-[11px] text-accent font-semibold bg-accent/20 px-2.5 py-0.5 rounded-full border border-accent/30">
+                  Tampil di Kartu Angkatan
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                {/* Upload Foto Profil */}
+                <div className="lg:col-span-4 flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl border border-white/20 text-center">
+                  <div className="relative w-24 h-32 rounded-2xl overflow-hidden bg-sky-100 border-2 border-white/60 shadow-md mb-3 flex items-center justify-center">
+                    {formProfile.avatar_url ? (
+                      <img 
+                        src={formProfile.avatar_url} 
+                        alt="Preview Foto" 
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="text-center p-2">
+                        <img src="/logo pusing coding.png" alt="Logo Pusing Coding" className="w-12 h-12 mx-auto object-contain mb-1 opacity-80" />
+                        <span className="text-[10px] text-primary font-bold block">Logo Pusing Coding</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-primary text-xs font-bold hover:bg-sky-50 shadow-xs transition-transform hover:scale-102">
+                    <Camera className="w-3.5 h-3.5" />
+                    <span>{formProfile.avatar_url ? 'Ganti Foto' : 'Upload Foto Profil'}</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={handlePhotoChange}
+                      className="hidden" 
+                    />
+                  </label>
+                  
+                  {formProfile.avatar_url && (
+                    <button
+                      type="button"
+                      onClick={() => setFormProfile(prev => ({ ...prev, avatar_url: '' }))}
+                      className="mt-1.5 text-[11px] text-rose-200 hover:text-white underline cursor-pointer"
+                    >
+                      Hapus foto (kembali ke logo)
+                    </button>
+                  )}
+                  <span className="text-[10px] text-white/70 mt-1 block">Otomatis di-resize & hemat data</span>
+                </div>
+
+                {/* Input Quote & Medsos */}
+                <div className="lg:col-span-8 space-y-3.5">
+                  {/* Kata-kata / Motto (Max 50 karakter) */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-white/90">
+                        Kata-kata / Motto Singkat <span className="text-accent">*</span>
+                      </label>
+                      <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-md ${
+                        (formProfile.quote || '').length >= 50
+                          ? 'bg-rose-500/80 text-white'
+                          : (formProfile.quote || '').length >= 40
+                          ? 'bg-amber-500/80 text-white'
+                          : 'bg-white/20 text-white'
+                      }`}>
+                        {(formProfile.quote || '').length} / 50 huruf
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      maxLength={50}
+                      value={formProfile.quote || ''}
+                      onChange={(e) => setFormProfile({ ...formProfile, quote: e.target.value })}
+                      className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                      placeholder="Contoh: Coding hari ini, solusi esok nanti. (Maksimal 50 huruf)"
+                    />
+                    <p className="text-[11px] text-white/70 mt-1">
+                      Maksimal 50 karakter agar pas dan rapi saat ditampilkan di kartu direktori angkatan.
+                    </p>
+                  </div>
+
+                  {/* 4 Link Medsos */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-bold text-white/90 mb-1">Link Instagram</label>
+                      <input
+                        type="text"
+                        value={formProfile.instagram || ''}
+                        onChange={(e) => setFormProfile({ ...formProfile, instagram: e.target.value })}
+                        className="w-full bg-white border border-white/30 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                        placeholder="https://instagram.com/username"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-white/90 mb-1">Link LinkedIn</label>
+                      <input
+                        type="text"
+                        value={formProfile.linkedin || ''}
+                        onChange={(e) => setFormProfile({ ...formProfile, linkedin: e.target.value })}
+                        className="w-full bg-white border border-white/30 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                        placeholder="https://linkedin.com/in/username"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-white/90 mb-1">Link GitHub</label>
+                      <input
+                        type="text"
+                        value={formProfile.github || ''}
+                        onChange={(e) => setFormProfile({ ...formProfile, github: e.target.value })}
+                        className="w-full bg-white border border-white/30 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                        placeholder="https://github.com/username"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-white/90 mb-1">Link Website / Portfolio</label>
+                      <input
+                        type="text"
+                        value={formProfile.website || ''}
+                        onChange={(e) => setFormProfile({ ...formProfile, website: e.target.value })}
+                        className="w-full bg-white border border-white/30 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
+                        placeholder="https://porto-kamu.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Peminatan</label>
-              <select
-                value={formProfile.peminatan || 'Software Engineering'}
-                onChange={(e) => setFormProfile({ ...formProfile, peminatan: e.target.value })}
-                className="w-full bg-white border-2 border-sky-100 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary shadow-2xs"
-              >
-                <option value="Software Engineering">Software Engineering / Web / Mobile</option>
-                <option value="Artificial Intelligence">Artificial Intelligence / Data Science</option>
-                <option value="Networking & Security">Networking & Cyber Security</option>
-                <option value="Internet of Things">Internet of Things (IoT) & Hardware</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Dosen Pembimbing</label>
-              <input
-                type="text"
-                value={formProfile.dosen_pembimbing || ''}
-                onChange={(e) => setFormProfile({ ...formProfile, dosen_pembimbing: e.target.value })}
-                className="w-full bg-white border-2 border-sky-100 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary shadow-2xs"
-                placeholder="Nama Dosen Pembimbing"
-              />
-            </div>
-
-            <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-slate-700 mb-1">Rencana / Draf Judul Skripsi</label>
-              <input
-                type="text"
-                value={formProfile.judul_skripsi || ''}
-                onChange={(e) => setFormProfile({ ...formProfile, judul_skripsi: e.target.value })}
-                className="w-full bg-white border-2 border-sky-100 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary shadow-2xs"
-                placeholder="Rencana judul skripsi kamu"
-              />
-            </div>
-
-            <div className="flex items-end space-x-2">
-              <button
-                type="submit"
-                className="flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold shadow-md shadow-primary/20 transition-colors"
-              >
-                <Save className="w-3.5 h-3.5" />
-                <span>Simpan Profil</span>
-              </button>
+            {/* Tombol Simpan & Batal */}
+            <div className="flex items-center justify-end space-x-3 pt-2">
               <button
                 type="button"
                 onClick={() => setIsEditingProfile(false)}
-                className="px-3 py-2.5 rounded-xl bg-slate-100 text-slate-600 hover:text-slate-900 text-xs font-semibold"
+                className="px-4 py-2.5 rounded-xl bg-white/15 text-white hover:bg-white/25 text-xs font-semibold cursor-pointer transition-colors"
               >
                 Batal
+              </button>
+              <button
+                type="submit"
+                className="flex items-center space-x-2 px-6 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white text-xs font-bold shadow-md shadow-accent/25 transition-all cursor-pointer"
+              >
+                <Save className="w-4 h-4" />
+                <span>Simpan Perubahan Profil</span>
               </button>
             </div>
           </form>
