@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Sparkles, Send, X, Maximize2, Trash2, ArrowRight, User } from 'lucide-react';
+import { Sparkles, Send, X, Maximize2, Trash2, ArrowRight } from 'lucide-react';
 import { getAiAnswer } from '../data/aiKnowledgeBase';
 
 export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
@@ -93,13 +93,18 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-auto">
       {/* POPUP CHATBOX KETIKA TERBUKA */}
       {isOpen && (
-        <div className="w-[92vw] sm:w-[400px] h-[520px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border-2 border-primary/25 flex flex-col overflow-hidden mb-3 animate-scaleUp font-instrument text-slate-800 transition-all">
+        <div className="w-[92vw] sm:w-[400px] h-[540px] max-h-[84vh] bg-white rounded-3xl shadow-2xl border-2 border-primary/25 flex flex-col overflow-hidden mb-3 animate-scaleUp font-instrument text-slate-800 transition-all">
           
           {/* Header Popup Chat */}
           <div className="bg-gradient-to-r from-primary via-primary-800 to-slate-900 text-white p-3.5 sm:p-4 flex items-center justify-between border-b border-primary-700/60 shadow-sm flex-shrink-0">
             <div className="flex items-center space-x-3 min-w-0">
-              <div className="relative w-9 h-9 rounded-2xl bg-accent text-white flex items-center justify-center font-bold shadow-md flex-shrink-0">
-                <Bot className="w-5 h-5 text-white" />
+              {/* Avatar Bot 3D */}
+              <div className="relative w-10 h-10 rounded-2xl bg-white/15 p-1 border border-white/20 flex items-center justify-center shadow-md flex-shrink-0">
+                <img
+                  src="/bot-ai-avatar.png"
+                  alt="PusingBot AI"
+                  className="w-full h-full object-contain drop-shadow-xs"
+                />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-primary absolute -top-0.5 -right-0.5 animate-pulse" />
               </div>
               <div className="min-w-0">
@@ -169,6 +174,25 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
 
           {/* Chat Messages Area */}
           <div className="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3 bg-[#fcfbfa]/80">
+            {/* Banner Karakter Bot Sambutan */}
+            {messages.length === 1 && (
+              <div className="p-3 bg-gradient-to-r from-sky-50 via-blue-50/50 to-indigo-50/40 border border-sky-200/80 rounded-2xl flex items-center space-x-3 mb-2 animate-fadeIn shadow-2xs">
+                <img
+                  src="/bot-ai.png"
+                  alt="PusingBot Robot Mascot"
+                  className="w-14 h-20 object-contain flex-shrink-0 drop-shadow-md animate-bounce [animation-duration:3s]"
+                />
+                <div className="text-xs">
+                  <p className="font-bold text-slate-800 font-philosopher text-sm">
+                    Halo! Ada yang bisa saya bantu?
+                  </p>
+                  <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">
+                    Tanyakan apa saja seputar panduan skripsi FKT, cek Turnitin, bimbingan dosen, atau syarat yudisium.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {messages.map((msg) => {
               const isBot = msg.sender === 'bot';
               return (
@@ -178,12 +202,16 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
                 >
                   {/* Avatar Pesan */}
                   <div
-                    className={`relative w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold shadow-xs flex-shrink-0 overflow-hidden ${
-                      isBot ? 'bg-accent text-white' : 'bg-primary text-white'
+                    className={`relative w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold shadow-xs flex-shrink-0 overflow-hidden ${
+                      isBot ? 'bg-sky-50 border border-sky-200 p-0.5' : 'bg-primary text-white'
                     }`}
                   >
                     {isBot ? (
-                      <Bot className="w-4 h-4" />
+                      <img
+                        src="/bot-ai-avatar.png"
+                        alt="PusingBot"
+                        className="w-full h-full object-contain"
+                      />
                     ) : currentUser?.avatar_url || currentUser?.foto ? (
                       <img
                         src={currentUser.avatar_url || currentUser.foto}
@@ -220,8 +248,12 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
             {/* Indikator Mengetik */}
             {isTyping && (
               <div className="flex items-center space-x-2">
-                <div className="w-7 h-7 rounded-xl bg-accent text-white flex items-center justify-center text-xs shadow-xs">
-                  <Bot className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-xl bg-sky-50 border border-sky-200 p-0.5 flex items-center justify-center text-xs shadow-xs flex-shrink-0">
+                  <img
+                    src="/bot-ai-avatar.png"
+                    alt="PusingBot"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <div className="bg-white border border-slate-200 px-3.5 py-2 rounded-2xl rounded-tl-xs shadow-xs flex items-center space-x-1.5">
                   <span className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
@@ -277,18 +309,22 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
         </div>
       )}
 
-      {/* FLOATING TRIGGER BUTTON DI POJOK BAWAH */}
+      {/* FLOATING TRIGGER BUTTON DI POJOK BAWAH DENGAN ROBOT 3D TRANSPARAN */}
       {!isOpen && (
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group flex items-center space-x-2.5 pl-3.5 pr-4 py-2.5 rounded-full bg-gradient-to-r from-primary via-primary-800 to-slate-900 border-2 border-white/25 shadow-2xl hover:shadow-primary/40 transform hover:-translate-y-1 transition-all duration-300 cursor-pointer animate-fadeIn"
+          className="group relative flex items-center space-x-3 pl-2.5 pr-4 py-2 rounded-full bg-gradient-to-r from-primary via-primary-800 to-slate-900 border-2 border-white/30 shadow-2xl hover:shadow-primary/50 transform hover:-translate-y-1 transition-all duration-300 cursor-pointer animate-fadeIn"
           title="Butuh bantuan? Tanya Asisten AI PusingBot"
         >
-          {/* Logo AI Bulat dengan Efek Berkedip & Pulse */}
-          <div className="relative w-8 h-8 rounded-full bg-gradient-to-tr from-accent to-amber-500 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
-            <Bot className="w-4 h-4 text-white" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-primary absolute -top-0.5 -right-0.5 animate-pulse" />
+          {/* Karakter Robot 3D Animasi Tanpa Background */}
+          <div className="relative w-10 h-10 flex-shrink-0 flex items-center justify-center">
+            <img
+              src="/bot-ai-avatar.png"
+              alt="PusingBot AI"
+              className="w-12 h-12 max-w-none object-contain drop-shadow-md group-hover:scale-115 transition-transform duration-300 -mt-1"
+            />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-primary absolute top-0 right-0 animate-pulse" />
           </div>
 
           {/* Teks Label Tombol */}

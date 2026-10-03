@@ -1312,8 +1312,13 @@ export default function DiskusiView({ currentUser, profile }) {
           {/* Header Asisten AI */}
           <div className="p-4 sm:p-5 border-b border-slate-200 bg-gradient-to-r from-sky-50 via-white to-amber-50/50 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-accent text-white flex items-center justify-center font-bold shadow-md flex-shrink-0">
-                <Bot className="w-5 h-5 text-white" />
+              <div className="relative w-11 h-11 rounded-2xl bg-white border border-sky-200/80 p-0.5 flex items-center justify-center shadow-sm flex-shrink-0">
+                <img
+                  src="/bot-ai-avatar.png"
+                  alt="PusingBot AI"
+                  className="w-full h-full object-contain"
+                />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white absolute -top-0.5 -right-0.5 animate-pulse" />
               </div>
               <div>
                 <div className="flex items-center space-x-2">
@@ -1377,10 +1382,27 @@ export default function DiskusiView({ currentUser, profile }) {
                   key={msg.id} 
                   className={`flex items-start space-x-3 ${isBot ? '' : 'flex-row-reverse space-x-reverse'}`}
                 >
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold shadow-xs flex-shrink-0 ${
-                    isBot ? 'bg-accent text-white' : 'bg-primary text-white'
+                  <div className={`relative w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold shadow-xs flex-shrink-0 overflow-hidden ${
+                    isBot ? 'bg-sky-50 border border-sky-200 p-0.5' : 'bg-primary text-white'
                   }`}>
-                    {isBot ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
+                    {isBot ? (
+                      <img
+                        src="/bot-ai-avatar.png"
+                        alt="PusingBot"
+                        className="w-full h-full object-contain"
+                      />
+                    ) : currentUser?.avatar_url || currentUser?.foto ? (
+                      <img
+                        src={currentUser.avatar_url || currentUser.foto}
+                        alt="User"
+                        className="w-full h-full object-cover object-top"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <span>{currentUser?.nama_lengkap ? currentUser.nama_lengkap.charAt(0).toUpperCase() : 'M'}</span>
+                    )}
                   </div>
 
                   <div className={`max-w-[85%] sm:max-w-[75%] space-y-1 ${isBot ? '' : 'text-right'}`}>
