@@ -27,37 +27,251 @@ import {
 } from 'lucide-react';
 import { MAHASISWA_IF23_LIST } from '../data/mahasiswaIf23';
 
+// Ikon Media Sosial untuk Kartu Direktori Mahasiswa
+function InstagramIcon({ className = "w-3 h-3" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+    </svg>
+  );
+}
+
+function GithubIcon({ className = "w-3 h-3" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+    </svg>
+  );
+}
+
+function LinkedinIcon({ className = "w-2.5 h-2.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.27a1.62 1.62 0 0 0-1.62 1.62c0 .89.73 1.62 1.62 1.62a1.62 1.62 0 0 0 1.62-1.62c0-.89-.73-1.62-1.62-1.62z"/>
+    </svg>
+  );
+}
+
+function WebIcon({ className = "w-2.5 h-2.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+    </svg>
+  );
+}
+
+function XIcon({ className = "w-2.5 h-2.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  );
+}
+
+function YoutubeIcon({ className = "w-2.5 h-2.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    </svg>
+  );
+}
+
+// Komponen Kartu Mahasiswa Sesuai Desain Modern Pusing Coding
+function StudentCard({ mhs }) {
+  const [imgError, setImgError] = useState(false);
+
+  const statusConfig = {
+    Aktif: {
+      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+      dot: 'bg-emerald-500'
+    },
+    Cuti: {
+      bg: 'bg-amber-50 text-amber-700 border-amber-200/80',
+      dot: 'bg-amber-500'
+    },
+    Skripsi: {
+      bg: 'bg-blue-50 text-blue-700 border-blue-200/80',
+      dot: 'bg-blue-500'
+    },
+    Magang: {
+      bg: 'bg-purple-50 text-purple-700 border-purple-200/80',
+      dot: 'bg-purple-500'
+    }
+  };
+
+  const statusStyle = statusConfig[mhs.status] || statusConfig.Aktif;
+
+  return (
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-300 flex items-start gap-3 group relative">
+      {/* 1. Foto / Avatar Mahasiswa (Kiri) */}
+      <div className="relative w-18 h-22 sm:w-20 sm:h-26 rounded-2xl overflow-hidden bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 flex-shrink-0 border border-sky-200/60 shadow-inner flex items-center justify-center">
+        {!imgError ? (
+          <img 
+            src={mhs.foto || `/mahasiswa/${mhs.nim}.jpg`}
+            alt={mhs.nama}
+            onError={() => setImgError(true)}
+            className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          /* Fallback Avatar Mahasiswa IF UAA */
+          <div className="w-full h-full flex flex-col items-center justify-end relative select-none">
+            <div className="absolute top-2 w-10 h-10 rounded-full bg-white/70 blur-xs"></div>
+            <div className="relative z-10 w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-primary-700 text-white font-bold text-sm flex items-center justify-center shadow-xs border-2 border-white mb-0.5 font-philosopher">
+              {mhs.nama.charAt(0).toUpperCase()}
+            </div>
+            {/* Siluet Jas Almamater Alma Ata */}
+            <div className="relative z-10 w-16 h-7 bg-primary rounded-t-xl border-t border-sky-300/40 flex items-center justify-center">
+              <div className="w-4 h-full bg-white/90 flex items-center justify-center">
+                <div className="w-1.5 h-full bg-accent"></div>
+              </div>
+            </div>
+            <div className="absolute top-1.5 left-1.5 text-[8px] font-bold font-mono px-1 py-0.2 rounded bg-white/90 text-primary border border-primary/20 shadow-2xs">
+              IF'23
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 2. Informasi Mahasiswa (Kanan) */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+        <div>
+          {/* Baris Status & Nomor Urut */}
+          <div className="flex items-center justify-between gap-1.5">
+            <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold border ${statusStyle.bg}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${statusStyle.dot} ${mhs.status === 'Aktif' ? 'animate-pulse' : ''}`}></span>
+              {mhs.status}
+            </span>
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-400 px-1.5 py-0.5 rounded-md border border-slate-200/80 bg-slate-50/70">
+              #{mhs.no}
+            </span>
+          </div>
+
+          {/* Nama Mahasiswa */}
+          <h3 
+            className="font-bold text-slate-900 text-xs sm:text-[13.5px] leading-snug mt-1.5 truncate group-hover:text-primary transition-colors"
+            title={mhs.nama}
+          >
+            {mhs.nama}
+          </h3>
+
+          {/* NIM & Angkatan */}
+          <div className="flex items-center gap-1 text-[11px] font-medium text-slate-500 mt-0.5">
+            <span className="font-mono font-semibold">{mhs.nim}</span>
+            <span>•</span>
+            <span className="text-primary font-semibold">IF '23</span>
+          </div>
+
+          {/* Motto / Quote */}
+          <p className="text-[10.5px] sm:text-[11px] text-slate-600 line-clamp-2 mt-1 leading-snug italic font-normal">
+            {mhs.quote}
+          </p>
+        </div>
+
+        {/* Baris Ikon Sosial Media */}
+        <div className="flex items-center gap-1.5 sm:gap-2 mt-2 pt-1.5 border-t border-slate-100">
+          {/* X / Twitter (jika ada) */}
+          {mhs.socials?.x && (
+            <a 
+              href={mhs.socials.x !== '#' ? mhs.socials.x : undefined} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="X (Twitter)"
+              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+            >
+              <XIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+            </a>
+          )}
+
+          {/* Instagram */}
+          <a 
+            href={mhs.socials?.instagram !== '#' ? mhs.socials.instagram : undefined} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            title={`Instagram ${mhs.nama}`}
+            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+          >
+            <InstagramIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+          </a>
+
+          {/* GitHub */}
+          <a 
+            href={mhs.socials?.github !== '#' ? mhs.socials.github : undefined} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            title={`GitHub ${mhs.nama}`}
+            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+          >
+            <GithubIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+          </a>
+
+          {/* LinkedIn atau YouTube */}
+          {mhs.socials?.youtube ? (
+            <a 
+              href={mhs.socials.youtube !== '#' ? mhs.socials.youtube : undefined} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title={`YouTube ${mhs.nama}`}
+              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+            >
+              <YoutubeIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+            </a>
+          ) : (
+            <a 
+              href={mhs.socials?.linkedin !== '#' ? mhs.socials.linkedin : undefined} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title={`LinkedIn ${mhs.nama}`}
+              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#0a66c2] text-white flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+            >
+              <LinkedinIcon className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
+            </a>
+          )}
+
+          {/* Portfolio / Website */}
+          <a 
+            href={mhs.socials?.web !== '#' ? mhs.socials.web : undefined} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            title={`Portfolio / Tautan ${mhs.nama}`}
+            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-100 border border-slate-200 text-slate-600 hover:text-primary hover:border-primary/40 flex items-center justify-center hover:scale-115 hover:shadow-xs transition-transform cursor-pointer"
+          >
+            <WebIcon className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AboutView({ setActiveTab }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('Semua');
 
-  // Filter Mahasiswa Aktif berdasarkan pencarian nama atau NIM
+  // Hitung jumlah mahasiswa berdasarkan status
+  const statusCounts = useMemo(() => {
+    const counts = { Semua: MAHASISWA_IF23_LIST.length, Aktif: 0, Magang: 0, Skripsi: 0, Cuti: 0 };
+    MAHASISWA_IF23_LIST.forEach(m => {
+      if (counts[m.status] !== undefined) counts[m.status]++;
+    });
+    return counts;
+  }, []);
+
+  // Filter Mahasiswa Aktif berdasarkan pencarian nama atau NIM & status
   const filteredStudents = useMemo(() => {
-    if (!searchQuery.trim()) return MAHASISWA_IF23_LIST;
-    const query = searchQuery.toLowerCase().trim();
-    return MAHASISWA_IF23_LIST.filter(m => 
-      m.nama.toLowerCase().includes(query) || 
-      m.nim.toLowerCase().includes(query)
-    );
-  }, [searchQuery]);
+    return MAHASISWA_IF23_LIST.filter(m => {
+      const matchQuery = !searchQuery.trim() || 
+        m.nama.toLowerCase().includes(searchQuery.toLowerCase().trim()) || 
+        m.nim.toLowerCase().includes(searchQuery.toLowerCase().trim());
+      
+      const matchStatus = statusFilter === 'Semua' || m.status === statusFilter;
 
-  // Palet warna acak konsisten untuk avatar inisial
-  const getAvatarBg = (name) => {
-    const colors = [
-      'bg-primary',
-      'bg-accent',
-      'bg-emerald-600',
-      'bg-indigo-600',
-      'bg-rose-600',
-      'bg-amber-600',
-      'bg-cyan-600',
-      'bg-purple-600'
-    ];
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return colors[Math.abs(hash) % colors.length];
-  };
+      return matchQuery && matchStatus;
+    });
+  }, [searchQuery, statusFilter]);
 
   return (
     <div className="space-y-12 animate-fadeIn pb-12 font-instrument text-slate-800">
@@ -276,51 +490,65 @@ export default function AboutView({ setActiveTab }) {
           </div>
         </div>
 
-        {/* Counter Info */}
-        <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
-          <span>Menampilkan <strong className="text-primary font-bold">{filteredStudents.length}</strong> dari {MAHASISWA_IF23_LIST.length} mahasiswa aktif</span>
-          <span className="text-[11px] font-mono">Sumber: Dokumen NIM IF23 UAA</span>
+        {/* Filter Status & Counter Info */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          {/* Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {[
+              { id: 'Semua', label: 'Semua', count: statusCounts.Semua },
+              { id: 'Aktif', label: 'Aktif', count: statusCounts.Aktif, dot: 'bg-emerald-500' },
+              { id: 'Magang', label: 'Magang', count: statusCounts.Magang, dot: 'bg-purple-500' },
+              { id: 'Skripsi', label: 'Skripsi', count: statusCounts.Skripsi, dot: 'bg-blue-500' },
+              { id: 'Cuti', label: 'Cuti', count: statusCounts.Cuti, dot: 'bg-amber-500' }
+            ].map(tab => {
+              const isActive = statusFilter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setStatusFilter(tab.id)}
+                  className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-primary text-white border-primary shadow-xs'
+                      : 'bg-slate-50 text-slate-600 border-slate-200/90 hover:bg-slate-100 hover:text-slate-900'
+                  }`}
+                >
+                  {tab.dot && <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-white' : tab.dot}`}></span>}
+                  <span>{tab.label}</span>
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
+                    isActive ? 'bg-white/20 text-white' : 'bg-slate-200/80 text-slate-600'
+                  }`}>
+                    {tab.count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center justify-between sm:justify-end gap-3 text-xs text-slate-500">
+            <span>Menampilkan <strong className="text-primary font-bold">{filteredStudents.length}</strong> dari {MAHASISWA_IF23_LIST.length} mahasiswa</span>
+            <span className="text-[11px] font-mono hidden md:inline">IF23 UAA</span>
+          </div>
         </div>
 
-        {/* Grid Mahasiswa */}
+        {/* Grid Kartu Mahasiswa Sesuai Desain Modern */}
         {filteredStudents.length === 0 ? (
-          <div className="text-center py-12 text-slate-400 space-y-2">
+          <div className="text-center py-12 text-slate-400 space-y-2 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
             <HelpCircle className="w-8 h-8 mx-auto text-slate-300" />
-            <p className="text-sm font-semibold">Mahasiswa tidak ditemukan</p>
-            <p className="text-xs">Coba cari dengan kata kunci nama depan atau nomor NIM yang sesuai.</p>
+            <p className="text-sm font-semibold text-slate-700">Mahasiswa tidak ditemukan</p>
+            <p className="text-xs text-slate-500">Coba ganti filter status atau cari dengan nama / NIM lainnya.</p>
+            {(searchQuery || statusFilter !== 'Semua') && (
+              <button 
+                onClick={() => { setSearchQuery(''); setStatusFilter('Semua'); }}
+                className="mt-2 text-xs font-bold text-primary hover:underline cursor-pointer"
+              >
+                Reset Semua Filter
+              </button>
+            )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4">
             {filteredStudents.map((mhs) => (
-              <div 
-                key={mhs.nim}
-                className="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/50 hover:bg-white hover:border-primary/40 hover:shadow-md transition-all duration-200 flex items-center space-x-3 group"
-              >
-                {/* Avatar Inisial */}
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-xs flex-shrink-0 font-philosopher ${getAvatarBg(mhs.nama)} group-hover:scale-105 transition-transform`}>
-                  {mhs.nama.charAt(0).toUpperCase()}
-                </div>
-
-                {/* Info Mahasiswa */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1">
-                    <span className="text-xs font-bold text-slate-900 truncate group-hover:text-primary transition-colors">
-                      {mhs.nama}
-                    </span>
-                    <span className="text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded bg-white border border-slate-200 text-slate-500">
-                      #{mhs.no}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-1.5 mt-0.5">
-                    <span className="font-mono text-[11px] text-slate-500 font-semibold">
-                      {mhs.nim}
-                    </span>
-                    <span className="text-[10px] text-primary/70 font-semibold">
-                      • IF '23
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <StudentCard key={mhs.nim} mhs={mhs} />
             ))}
           </div>
         )}
