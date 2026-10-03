@@ -41,7 +41,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
     <div className="space-y-10 animate-fadeIn">
 
       {/* Hero Section - Solid Blue Card UAA (Tidak Transparan) */}
-      <div className="relative overflow-hidden rounded-3xl bg-primary text-white p-8 sm:p-12 text-center shadow-xl border-2 border-primary-700">
+      <div className="relative overflow-hidden rounded-3xl bg-primary text-white p-6 sm:p-10 lg:p-12 text-center shadow-xl border-2 border-primary-700">
 
         {/* Subtle Decorative Elements */}
         <div className="absolute -top-16 -right-16 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -50,30 +50,30 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
 
           {/* Badge Unggul / Akreditasi ASIIN */}
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/15 text-white border border-white/25 text-xs font-instrument font-bold shadow-xs mb-5 backdrop-blur-xs">
-            <Award className="w-4 h-4 text-accent" />
-            <span>S1 Informatika UAA • Akreditasi Internasional ASIIN</span>
+          <div className="inline-flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/15 text-white border border-white/25 text-[11px] sm:text-xs font-instrument font-bold shadow-xs mb-4 sm:mb-5 backdrop-blur-xs">
+            <Award className="w-4 h-4 text-accent flex-shrink-0" />
+            <span className="truncate">S1 Informatika UAA • Akreditasi Internasional ASIIN</span>
           </div>
 
           {/* Heading - Font Philosopher */}
-          <h1 className="font-philosopher font-bold text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight mb-4">
-            <span className="text-accent block text-2xl sm:text-4xl mb-1.5 font-bold">
+          <h1 className="font-philosopher font-bold text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight mb-3 sm:mb-4">
+            <span className="text-accent block text-xl sm:text-3xl mb-1 sm:mb-1.5 font-bold">
               The Globe Inspiring Generation
             </span>
             Satu Angkatan, Lulus Bareng '23!
           </h1>
 
-          <p className="font-instrument text-white/90 text-sm sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
+          <p className="font-instrument text-white/90 text-xs sm:text-base max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed font-normal">
             Portal komando terpadu mahasiswa Informatika 2023 Universitas Alma Ata.
-            Dari program magang 3 bulan saat ini, penyusunan draf proposal,
+            Dari program magang saat ini, penyusunan draf proposal,
             <strong className="text-accent font-bold"> Seminar Proposal Bersama (Januari)</strong>,
             hingga wisuda sarjana komputer (S.Kom) bersama!
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             <button
               onClick={() => setActiveTab('roadmap')}
-              className="bg-white hover:bg-sky-50 text-primary font-instrument rounded-xl px-6 py-3.5 font-bold text-sm shadow-md transition-all duration-300 flex items-center space-x-2 transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto bg-white hover:bg-sky-50 text-primary font-instrument rounded-xl px-5 sm:px-6 py-3 sm:py-3.5 font-bold text-xs sm:text-sm shadow-md transition-all duration-300 flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 cursor-pointer"
             >
               <Rocket className="w-4 h-4 text-primary" />
               <span>Lihat Roadmap Skripsi</span>
@@ -82,7 +82,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
             <button
               onClick={() => setActiveTab('tracker')}
-              className="bg-accent hover:bg-accent/90 text-white font-instrument rounded-xl px-6 py-3.5 font-bold text-sm shadow-md shadow-accent/25 transition-all duration-300 flex items-center space-x-2 transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white font-instrument rounded-xl px-5 sm:px-6 py-3 sm:py-3.5 font-bold text-xs sm:text-sm shadow-md shadow-accent/25 transition-all duration-300 flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 cursor-pointer"
             >
               <CheckCircle2 className="w-4 h-4 text-white" />
               <span>{currentUser ? `Dashboard Saya (${percentComplete}%)` : 'Masuk Dashboard Mahasiswa'}</span>
@@ -90,7 +90,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
             <button
               onClick={() => setActiveTab('panduan')}
-              className="border-2 border-white text-white hover:bg-white/15 font-instrument rounded-xl px-5 py-3.5 text-sm font-bold transition-all duration-300 flex items-center space-x-2"
+              className="w-full sm:w-auto border-2 border-white text-white hover:bg-white/15 font-instrument rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-xs sm:text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 cursor-pointer"
             >
               <FileText className="w-4 h-4" />
               <span>Panduan FKT (PDF)</span>
@@ -246,10 +246,10 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-4.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5 sm:gap-4">
 
           {/* Langkah 1 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
@@ -260,7 +260,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   Magang & Kasus
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors min-h-[2.5rem] flex items-center">
                 Selesaikan Magang & Ambil Masalah Nyata
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
@@ -281,7 +281,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 2 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
@@ -292,7 +292,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   Literatur & Metode
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors min-h-[2.5rem] flex items-center">
                 Koleksi 5–10 Jurnal SINTA / Scopus
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
@@ -313,7 +313,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 3 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
@@ -324,7 +324,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   Draf & Bimbingan
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors min-h-[2.5rem] flex items-center">
                 Susun Bab 1–3 & Bimbingan Dospem
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
@@ -345,7 +345,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 4 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
@@ -356,8 +356,8 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   Syarat & Kaji Etik
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
-                Cicil 5x Sempro, AAEPT
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors min-h-[2.5rem] flex items-center">
+                Cicil 5x Sempro & AAEPT
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Cicil bukti hadir 5x sempro kawan di kartu kendali, pastikan tes AAEPT (min. 450) & LPBA siap, serta siapkan protokol Kaji Etik KEPK jika riset ada responden.
@@ -377,7 +377,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 5: Poin SPM Akademik & Prodi */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
@@ -388,7 +388,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   Krusial • SPM
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors min-h-[2.5rem] flex items-center">
                 Lengkapi Poin SPM Akademik & Prodi
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
@@ -411,8 +411,8 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
         </div>
 
         {/* Rekomendasi Urutan Terbaik Memulai */}
-        <div className="mt-6 p-4.5 rounded-2xl bg-gradient-to-r from-amber-50 via-sky-50/50 to-amber-50/70 border border-amber-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
-          <div className="flex items-center space-x-3 text-left">
+        <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-sky-50/50 to-amber-50/70 border border-amber-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
+          <div className="flex items-start sm:items-center space-x-3 text-left w-full sm:w-auto">
             <div className="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center flex-shrink-0 shadow-xs">
               <Sparkles className="w-5 h-5" />
             </div>
@@ -426,17 +426,17 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 flex-shrink-0 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 flex-shrink-0 w-full sm:w-auto">
             <button
               onClick={() => setActiveTab('roadmap')}
-              className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-700 text-white font-philosopher font-bold text-xs transition-all shadow-xs flex items-center justify-center space-x-1.5 cursor-pointer transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-700 text-white font-philosopher font-bold text-xs transition-all shadow-xs flex items-center justify-center space-x-1.5 cursor-pointer transform hover:-translate-y-0.5"
             >
               <span>Buka Roadmap Lengkap</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setActiveTab('panduan')}
-              className="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-primary border border-primary/20 font-philosopher font-bold text-xs transition-colors shadow-2xs flex items-center justify-center cursor-pointer"
+              className="w-full sm:w-auto px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-primary border border-primary/20 font-philosopher font-bold text-xs transition-colors shadow-2xs flex items-center justify-center cursor-pointer"
             >
               <span>Format FKT (PDF)</span>
             </button>
@@ -445,10 +445,10 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
       </section>
 
       {/* Grid: Timeline Angkatan & Sorotan Aturan FKT */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* Timeline Angkatan (2 Cols) */}
-        <div className="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
+        {/* Timeline Angkatan (7 Cols di Laptop lg, 8 Cols di xl) */}
+        <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-3xl p-4 sm:p-6 lg:p-8 border-2 border-primary/20 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-2 border-b border-primary/10">
             <div>
               <h2 className="text-xl font-bold font-philosopher text-primary">
@@ -487,12 +487,12 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
             </div>
           </div>
 
-          <div className="relative pl-6 space-y-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-primary/30">
+          <div className="relative pl-5 sm:pl-7 space-y-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-primary/30">
             {TIMELINE_EVENTS.map((event, idx) => {
               const isOpen = !!expandedTimeline[idx];
               return (
                 <div key={idx} className="relative group">
-                  <div className={`absolute -left-[27px] top-4 w-4 h-4 rounded-full border-2 transition-all ${event.status === 'current'
+                  <div className={`absolute -left-[24px] sm:-left-[27px] top-4 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 transition-all ${event.status === 'current'
                     ? 'bg-primary border-white ring-4 ring-sky-200'
                     : event.status === 'highlight'
                       ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
@@ -503,14 +503,16 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
                   <div
                     onClick={() => toggleTimelineEvent(idx)}
-                    className={`bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 transition-all shadow-md cursor-pointer select-none ${isOpen ? 'border-accent shadow-lg' : 'border-primary-700 hover:border-accent/80'
+                    className={`bg-primary text-white p-3.5 sm:p-5 rounded-2xl border-2 transition-all shadow-md cursor-pointer select-none ${isOpen ? 'border-accent shadow-lg' : 'border-primary-700 hover:border-accent/80'
                       }`}
                   >
                     {/* Header: Tanggal & Badge Kategori + Tombol Dropdown */}
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                      <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
-                      <div className="flex items-center space-x-2">
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${event.status === 'highlight'
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="text-[11px] sm:text-xs font-mono font-bold text-accent truncate">
+                        {event.date}
+                      </span>
+                      <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
+                        <span className={`px-2 sm:px-2.5 py-0.5 rounded-full text-[9.5px] sm:text-[10px] font-bold font-instrument ${event.status === 'highlight'
                           ? 'bg-accent text-white shadow-xs'
                           : event.status === 'current'
                             ? 'bg-white text-primary shadow-xs'
@@ -523,18 +525,18 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                             }`}
                           title={isOpen ? 'Tutup detail' : 'Buka detail'}
                         >
-                          <ChevronDown className="w-4 h-4" />
+                          <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </div>
                       </div>
                     </div>
 
                     {/* Judul Kegiatan (Selalu Terlihat) */}
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-bold text-white font-philosopher text-base leading-snug">
+                      <h3 className="font-bold text-white font-philosopher text-sm sm:text-base leading-snug">
                         {event.title}
                       </h3>
                       {!isOpen && (
-                        <span className="text-[10px] text-accent/90 font-instrument font-semibold hidden sm:inline-block flex-shrink-0">
+                        <span className="text-[10px] text-accent/90 font-instrument font-semibold hidden md:inline-block flex-shrink-0">
                           Buka Detail ↓
                         </span>
                       )}
@@ -550,7 +552,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                         {event.highlights && event.highlights.length > 0 && (
                           <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-wrap gap-1.5">
                             {event.highlights.map((tag, hIdx) => (
-                              <span key={hIdx} className="inline-flex items-center text-[10.5px] bg-white/10 text-sky-100 px-2 py-0.5 rounded-md font-instrument">
+                              <span key={hIdx} className="inline-flex items-center text-[10px] sm:text-[10.5px] bg-white/10 text-sky-100 px-2 py-0.5 rounded-md font-instrument">
                                 ✓ {tag}
                               </span>
                             ))}
@@ -565,13 +567,13 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
         </div>
 
-        {/* Sorotan Ketentuan Skripsi FKT Alma Ata (1 Col) - Solid Blue Card */}
-        <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-md flex flex-col justify-between">
+        {/* Sorotan Ketentuan Skripsi FKT Alma Ata (5 Cols di Laptop lg, 4 Cols di xl) */}
+        <div className="lg:col-span-5 xl:col-span-4 bg-primary text-white rounded-3xl p-4 sm:p-6 lg:p-8 border-2 border-primary-700 shadow-md flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center space-x-2 text-white">
                 <BookMarked className="w-5 h-5 text-accent" />
-                <h2 className="font-bold font-philosopher text-white text-xl">Syarat Kunci FKT UAA</h2>
+                <h2 className="font-bold font-philosopher text-white text-lg sm:text-xl">Syarat Kunci FKT UAA</h2>
               </div>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-accent/20 text-accent border border-accent/40 font-instrument whitespace-nowrap">
                 11 Poin Lengkap
@@ -581,115 +583,115 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               Aturan resmi berdasarkan SK Rektor No. 182/A/SK/UAA/IX/2021 & SE Dekan No. 002/2026:
             </p>
 
-            <div className="space-y-2.5 font-instrument max-h-[560px] overflow-y-auto pr-1.5 custom-scrollbar">
+            <div className="space-y-2.5 font-instrument max-h-[580px] overflow-y-auto pr-1.5 custom-scrollbar">
               {/* 1. IPK */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Indeks Prestasi Kumulatif</span>
-                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">Akademik</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">Akademik</span>
                 </div>
-                <div className="text-sm font-bold text-primary">Minimal IPK 3.25</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Wajib dipertahankan sejak pengajuan judul hingga yudisium kelulusan.</p>
+                <div className="text-xs sm:text-sm font-bold text-primary">Minimal IPK 3.25</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Wajib dipertahankan sejak pengajuan judul hingga yudisium kelulusan.</p>
               </div>
 
               {/* 2. SKS */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Beban SKS Lulus</span>
-                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">Akademik</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">Akademik</span>
                 </div>
-                <div className="text-sm font-bold text-primary">Minimal 75% Total SKS</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Telah menyelesaikan dan lulus minimal 75% beban SKS kurikulum prodi.</p>
+                <div className="text-xs sm:text-sm font-bold text-primary">Minimal 75% Total SKS</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Telah menyelesaikan dan lulus minimal 75% beban SKS kurikulum prodi.</p>
               </div>
 
               {/* 3. Ketentuan Nilai Matkul */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-amber-200/60 hover:border-amber-400 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-amber-200/60 hover:border-amber-400 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Standar Nilai Mata Kuliah</span>
-                  <span className="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">Penting</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">Penting</span>
                 </div>
-                <div className="text-sm font-bold text-slate-900">Bebas Nilai E & Maks. 1 Nilai D</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Nilai Matkul Metodologi Penelitian & seluruh MKU wajib minimal C.</p>
+                <div className="text-xs sm:text-sm font-bold text-slate-900">Bebas Nilai E & Maks. 1 Nilai D</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Nilai Matkul Metodologi Penelitian & seluruh MKU wajib minimal C.</p>
               </div>
 
               {/* 4. Bahasa Inggris (AAEPT) */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Kemampuan Bahasa Asing</span>
-                  <span className="text-[10px] bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded font-bold">Pusat Bahasa</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded font-bold">Pusat Bahasa</span>
                 </div>
-                <div className="text-sm font-bold text-slate-900">Skor AAEPT Minimal 450</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Alma Ata English Proficiency Test resmi dari Pusat Bahasa UAA.</p>
+                <div className="text-xs sm:text-sm font-bold text-slate-900">Skor AAEPT Minimal 450</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Alma Ata English Proficiency Test resmi dari Pusat Bahasa UAA.</p>
               </div>
 
               {/* 5. Keagamaan & Karakter */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Keagamaan & Kemahasiswaan</span>
-                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">Wajib UAA</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">Wajib UAA</span>
                 </div>
-                <div className="text-sm font-bold text-slate-900">Lulus LPBA & Sertifikat PERMATA</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Tashih baca Al-Qur'an, praktik Sholat & Masa Ta'aruf UAA.</p>
+                <div className="text-xs sm:text-sm font-bold text-slate-900">Lulus LPBA & Sertifikat PERMATA</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Tashih baca Al-Qur'an, praktik Sholat & Masa Ta'aruf UAA.</p>
               </div>
 
               {/* 6. Audiens Sempro */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Presensi Seminar Proposal</span>
-                  <span className="text-[10px] bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-bold">Prasyarat</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-bold">Prasyarat</span>
                 </div>
-                <div className="text-sm font-bold text-slate-900">Wajib Hadir Min. 5x Sempro Teman</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Dibuktikan dengan Kartu Kendali ber-ACC Dosen Pembimbing/Penguji.</p>
+                <div className="text-xs sm:text-sm font-bold text-slate-900">Wajib Hadir Min. 5x Sempro Teman</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Dibuktikan dengan Kartu Kendali ber-ACC Dosen Pembimbing/Penguji.</p>
               </div>
 
               {/* 7. Frekuensi Bimbingan */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Frekuensi Bimbingan Dospem</span>
-                  <span className="text-[10px] bg-violet-100 text-violet-800 px-1.5 py-0.5 rounded font-bold">Logbook</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-violet-100 text-violet-800 px-1.5 py-0.5 rounded font-bold">Logbook</span>
                 </div>
-                <div className="text-sm font-bold text-slate-900">Minimal 8x Bimbingan per Dospem</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Min. 4x sebelum Sempro & 4x sebelum Ujian Sidang Pendadaran.</p>
+                <div className="text-xs sm:text-sm font-bold text-slate-900">Minimal 8x Bimbingan per Dospem</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Min. 4x sebelum Sempro & 4x sebelum Ujian Sidang Pendadaran.</p>
               </div>
 
               {/* 8. Turnitin */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-accent/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-accent/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Uji Bebas Plagiarisme</span>
-                  <span className="text-[10px] bg-amber-100 text-accent px-1.5 py-0.5 rounded font-bold">Turnitin</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-amber-100 text-accent px-1.5 py-0.5 rounded font-bold">Turnitin</span>
                 </div>
-                <div className="text-sm font-bold text-accent">Maksimal 20% (≤ 20%) Similaritas</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Berlaku untuk draf naskah Proposal maupun Naskah Akhir Skripsi.</p>
+                <div className="text-xs sm:text-sm font-bold text-accent">Maksimal 20% (≤ 20%) Similaritas</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Berlaku untuk draf naskah Proposal maupun Naskah Akhir Skripsi.</p>
               </div>
 
               {/* 9. Format Penulisan */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Format Layout Naskah</span>
-                  <span className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-bold">Standar FKT</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-bold">Standar FKT</span>
                 </div>
-                <div className="text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Dilarang bullet points (wajib penomoran bertingkat 1, 2 / a, b). Cover Biru Laut.</p>
+                <div className="text-xs sm:text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</div>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Dilarang bullet points (wajib penomoran bertingkat 1, 2 / a, b). Cover Biru Laut.</p>
               </div>
 
               {/* 10. SPM (2 Jalur) */}
-              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-primary/25 hover:border-primary transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-primary/25 hover:border-primary transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-500 font-semibold mb-0.5">
                   <span>Skor Prestasi Mahasiswa (SPM)</span>
-                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">2 Jalur</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">2 Jalur</span>
                 </div>
                 <div className="text-xs font-bold text-primary">Birokrasi 9 Poin & Prodi 25 Poin</div>
-                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Konten video/artikel medsos terverifikasi kampus + kegiatan prodi.</p>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-500 mt-0.5 leading-tight">Konten video/artikel medsos terverifikasi kampus + kegiatan prodi.</p>
               </div>
 
               {/* 11. Ethical Clearance (SE Dekan) */}
-              <div className="p-3 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300 hover:bg-amber-300 transition-colors">
-                <div className="flex items-center justify-between text-[11px] text-slate-900 font-bold mb-0.5">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300 hover:bg-amber-300 transition-colors">
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-900 font-bold mb-0.5">
                   <span>Kebijakan Baru Dekan (SE 002/2026)</span>
-                  <span className="text-[10px] bg-amber-500/30 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">KEPK UAA</span>
+                  <span className="text-[9.5px] sm:text-[10px] bg-amber-500/30 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">KEPK UAA</span>
                 </div>
                 <div className="text-xs font-extrabold text-slate-950">Ethical Clearance Wajib Jeda Min. 3 Bulan</div>
-                <p className="text-[10.5px] text-slate-900/90 mt-0.5 leading-tight font-medium">Jeda minimal 3 bulan kalender antara terbit EC dan pendaftaran Ujian Semhas.</p>
+                <p className="text-[10px] sm:text-[10.5px] text-slate-900/90 mt-0.5 leading-tight font-medium">Jeda minimal 3 bulan kalender antara terbit EC dan pendaftaran Ujian Semhas.</p>
               </div>
             </div>
           </div>
