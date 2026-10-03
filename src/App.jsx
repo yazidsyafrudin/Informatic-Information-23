@@ -8,6 +8,7 @@ import PanduanFktView from './components/PanduanFktView';
 import DownloadsView from './components/DownloadsView';
 import KalenderAkademikView from './components/KalenderAkademikView';
 import DiskusiView from './components/DiskusiView';
+import AboutView from './components/AboutView';
 import NavigationMenuModal from './components/NavigationMenuModal';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
@@ -202,6 +203,10 @@ export default function App() {
         {activeTab === 'downloads' && (
           <DownloadsView />
         )}
+
+        {activeTab === 'about' && (
+          <AboutView setActiveTab={setActiveTab} />
+        )}
       </main>
 
       {/* Navigation Command Palette Modal (Persis Referensi Raycast / Cmd+K) */}
@@ -239,10 +244,31 @@ export default function App() {
             </div>
           </div>
 
-          <div className="text-center sm:text-left">
-            <span className="text-white/70 block text-xs">Satu Angkatan, Satu Visi:</span>
-            <strong className="text-accent font-philosopher text-lg tracking-wide">
-              Lulus Bareng 2025!
+          <div className="text-center sm:text-left space-y-1">
+            <div className="flex items-center justify-center sm:justify-start space-x-3 text-xs">
+              <button
+                onClick={() => setActiveTab('about')}
+                className="hover:text-accent font-semibold transition-colors cursor-pointer text-white underline underline-offset-4 decoration-accent"
+              >
+                Tentang Kami
+              </button>
+              <span className="text-white/40">•</span>
+              <button
+                onClick={() => setActiveTab('roadmap')}
+                className="hover:text-accent transition-colors cursor-pointer"
+              >
+                Roadmap
+              </button>
+              <span className="text-white/40">•</span>
+              <button
+                onClick={() => setActiveTab('panduan')}
+                className="hover:text-accent transition-colors cursor-pointer"
+              >
+                Panduan PDF
+              </button>
+            </div>
+            <strong className="text-accent font-philosopher text-base tracking-wide block">
+              Satu Angkatan, Lulus Bareng 2025!
             </strong>
           </div>
 

@@ -10,7 +10,8 @@ import {
   Calendar,
   Sparkles,
   ArrowRight,
-  MessageSquare
+  MessageSquare,
+  Info
 } from 'lucide-react';
 
 export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSelectTab, currentUser }) {
@@ -53,6 +54,11 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
       id: 'downloads',
       title: 'Pusat Berkas',
       icon: DownloadCloud,
+    },
+    {
+      id: 'about',
+      title: 'Tentang Kami (Pusing Coding)',
+      icon: Info,
     }
   ];
 
