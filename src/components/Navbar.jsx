@@ -18,8 +18,6 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
     { id: 'tracker', label: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard', icon: CheckSquare },
     { id: 'diskusi', label: 'Ruang Diskusi', icon: MessageSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
-    // Tentang Kami hanya ditampilkan di navbar untuk user yang login agar tidak memadati navbar tamu
-    ...(currentUser ? [{ id: 'about', label: 'Tentang Kami', icon: Info }] : []),
   ];
 
   return (
@@ -79,15 +77,15 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
             <button
               onClick={onOpenMenuModal}
               className={`flex items-center space-x-2 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-xl text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
-                ['kalender', 'downloads'].includes(activeTab) || (!currentUser && activeTab === 'about')
+                ['kalender', 'downloads', 'about'].includes(activeTab)
                   ? 'bg-accent text-white font-bold shadow-md'
                   : 'text-white hover:text-accent hover:bg-white/10'
               }`}
-              title="Buka Menu & Navigasi Lengkap (Kalender Akademik, Pusat Berkas, Tentang Kami, dll.)"
+              title="Buka Menu & Navigasi Lengkap (Tentang Kami, Kalender Akademik, Pusat Berkas, dll.)"
             >
               <LayoutGrid className="w-4 h-4 flex-shrink-0" />
               <span className="whitespace-nowrap">
-                {activeTab === 'kalender' ? 'Kalender Akademik' : activeTab === 'downloads' ? 'Pusat Berkas' : (!currentUser && activeTab === 'about') ? 'Tentang Kami' : 'Menu'}
+                {activeTab === 'about' ? 'Tentang Kami' : activeTab === 'kalender' ? 'Kalender Akademik' : activeTab === 'downloads' ? 'Pusat Berkas' : 'Menu'}
               </span>
             </button>
           </nav>
@@ -96,16 +94,16 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
           <div className="flex items-center flex-shrink-0">
             {currentUser ? (
               /* User SUDAH Login: Tampilkan Avatar, Nama, NIM & Tombol Logout */
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 flex-shrink-0">
                 <div 
                   onClick={() => setActiveTab('tracker')}
-                  className="flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 cursor-pointer group transition-all"
+                  className="flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 cursor-pointer group transition-all flex-shrink-0"
                   title="Buka Dashboard Pribadi"
                 >
                   <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-xs group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0">
                     {currentUser.nama_lengkap ? currentUser.nama_lengkap.charAt(0).toUpperCase() : 'M'}
                   </div>
-                  <div className="hidden sm:block text-left">
+                  <div className="text-left flex-shrink-0">
                     <p className="text-xs font-bold text-white font-instrument group-hover:text-accent transition-colors truncate max-w-[130px]">
                       {currentUser.nama_lengkap}
                     </p>
@@ -120,7 +118,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
                     e.stopPropagation();
                     onLogout();
                   }}
-                  className="p-2 rounded-xl bg-white/10 hover:bg-rose-500 text-white/80 hover:text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-xl bg-white/10 hover:bg-rose-500 text-white/80 hover:text-white transition-colors cursor-pointer flex-shrink-0"
                   title="Keluar / Logout Akun"
                 >
                   <LogOut className="w-4 h-4" />
@@ -165,13 +163,13 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
           <button
             onClick={onOpenMenuModal}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-philosopher font-semibold whitespace-nowrap transition-colors ${
-              ['kalender', 'downloads'].includes(activeTab) || (!currentUser && activeTab === 'about')
+              ['kalender', 'downloads', 'about'].includes(activeTab)
                 ? 'bg-accent text-white font-bold'
                 : 'text-white/90 hover:text-accent bg-white/10'
             }`}
           >
             <LayoutGrid className="w-3.5 h-3.5" />
-            <span>{(!currentUser && activeTab === 'about') ? 'Tentang Kami' : 'Menu'}</span>
+            <span>{activeTab === 'about' ? 'Tentang Kami' : 'Menu'}</span>
           </button>
         </div>
       </div>
