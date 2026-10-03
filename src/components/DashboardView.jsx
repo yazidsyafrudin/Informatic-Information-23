@@ -471,7 +471,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   }`} />
 
                 <div className="bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 border-primary-700 group-hover:border-accent transition-all shadow-md">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                     <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${event.status === 'highlight'
                         ? 'bg-accent text-white shadow-xs'
@@ -483,7 +483,17 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                     </span>
                   </div>
                   <h3 className="font-bold text-white font-philosopher text-base">{event.title}</h3>
-                  <p className="text-xs text-white/90 mt-1 font-instrument leading-relaxed">{event.desc}</p>
+                  <p className="text-xs text-white/90 mt-1.5 font-instrument leading-relaxed">{event.desc}</p>
+
+                  {event.highlights && event.highlights.length > 0 && (
+                    <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-wrap gap-1.5">
+                      {event.highlights.map((tag, hIdx) => (
+                        <span key={hIdx} className="inline-flex items-center text-[10.5px] bg-white/10 text-sky-100 px-2 py-0.5 rounded-md font-instrument">
+                          ✓ {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

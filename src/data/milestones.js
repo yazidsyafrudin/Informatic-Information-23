@@ -5,7 +5,7 @@ export const ROADMAP_PHASES = [
     phaseId: 1,
     title: "Fase 1: Magang Industri (KKL)",
     shortTitle: "Magang",
-    period: "Agustus – November 2024 (Semester 7)",
+    period: "Agustus – November 2026 (Semester 7)",
     status: "Fase Awal",
     color: "from-blue-600 to-cyan-500",
     description: "Program Kuliah Kerja Lapangan (KKL) / Magang Industri 3 SKS sebagai fondasi pengalaman industri dan studi kasus skripsi.",
@@ -46,7 +46,7 @@ export const ROADMAP_PHASES = [
     phaseId: 2,
     title: "Fase 2: Seminar Proposal (Sempro)",
     shortTitle: "Sempro",
-    period: "Semester 7 Akhir – Januari 2025",
+    period: "Semester 7 Akhir – Januari 2027",
     status: "Milestone Penentu",
     color: "from-indigo-600 to-purple-500",
     description: "Dari penentuan topik & judul, bimbingan Bab 1-3, Turnitin ≤ 20%, SPM Birokrasi (9 Poin), hingga Seminar Proposal bersama.",
@@ -111,7 +111,7 @@ export const ROADMAP_PHASES = [
     phaseId: 3,
     title: "Fase 3: Ethical Clearance (EC) & Masa Jeda Riset",
     shortTitle: "Ethical Clearance",
-    period: "Februari – April 2025 (Wajib Jeda Min. 3 Bulan)",
+    period: "Februari – April 2027 (Wajib Jeda Min. 3 Bulan)",
     status: "Syarat Kunci Riset",
     color: "from-amber-500 to-orange-500",
     description: "Pengurusan lolos kaji etik di Komisi Etik UAA segera setelah Sempro dan menjalani masa jeda riset lapangan wajib min. 3 bulan (SE Dekan 002/2026).",
@@ -158,7 +158,7 @@ export const ROADMAP_PHASES = [
     phaseId: 4,
     title: "Fase 4: Seminar Hasil (Semhas) & Riset Skripsi",
     shortTitle: "Semhas",
-    period: "Mei – Juni 2025 (Semester 8)",
+    period: "Mei – Juni 2027 (Semester 8)",
     status: "Uji Produk & Hasil",
     color: "from-sky-600 to-indigo-600",
     description: "Pengembangan software/AI, pengujian sistem, penulisan Bab 4-5, Turnitin ≤ 20%, bimbingan intensif, hingga ujian Seminar Hasil.",
@@ -217,7 +217,7 @@ export const ROADMAP_PHASES = [
     phaseId: 5,
     title: "Fase 5: Yudisium (Pendadaran & Kelulusan)",
     shortTitle: "Yudisium",
-    period: "Juni – Juli 2025",
+    period: "Juni – Juli 2027",
     status: "Sidang & Kelulusan",
     color: "from-emerald-600 to-teal-500",
     description: "Validasi SPM Prodi (25 Poin), ujian pendadaran di depan Dewan Penguji, revisi, jilid hardcover biru laut, dan penetapan gelar S.Kom.",
@@ -264,7 +264,7 @@ export const ROADMAP_PHASES = [
     phaseId: 6,
     title: "Fase 6: Wisuda Sarjana Komputer (S.Kom)",
     shortTitle: "Wisuda",
-    period: "Agustus – September 2025",
+    period: "Agustus – September 2027",
     status: "Puncak Perayaan",
     color: "from-amber-600 to-yellow-500",
     description: "Momen puncak perayaan kelulusan resmi sarjana Informatika 2023 di Universitas Alma Ata, penyerahan ijazah asli, transkrip, dan SKPI.",
@@ -303,48 +303,70 @@ export const ROADMAP_PHASES = [
   }
 ];
 
-// Timeline Angkatan Informatika 2023
+// Timeline Angkatan Informatika 2023 (Tahun Akademik 2026/2027)
 export const TIMELINE_EVENTS = [
   {
-    date: "Agustus – November 2024",
-    title: "Pelaksanaan Magang Industri 3 Bulan",
+    date: "Agustus – November 2026",
+    title: "Pelaksanaan Magang Industri & Studi Kasus (KKL)",
     category: "Magang",
     status: "current",
-    desc: "Mahasiswa angkatan 2023 menyelesaikan tugas magang dan mencari fenomena studi kasus untuk proposal skripsi."
+    desc: "Mahasiswa angkatan 2023 melaksanakan magang industri (3 SKS), rutin mengisi logbook 16 minggu, dan memetakan fenomena masalah nyata sebagai objek penelitian proposal skripsi.",
+    highlights: ["Magang Industri 3 SKS", "Logbook 16 Minggu Terparaf", "Laporan Min. 25 Hal (Format 4-3-3-3)", "Temukan Masalah Skripsi"]
   },
   {
-    date: "November – Desember 2024",
-    title: "Penulisan Intensif Proposal Bab 1–3",
+    date: "November – Desember 2026",
+    title: "Pengajuan Judul, SK Dospem & Penulisan Bab 1–3",
     category: "Proposal",
     status: "upcoming",
-    desc: "Bimbingan aktif bersama dospem, penyelesaian draf proposal, pengurusan syarat LPBA, AAEPT, dan hadir sempro 5x."
+    desc: "Pengajuan judul penelitian (Form FKT.SPI.01), penerbitan SK Dosen Pembimbing I & II, bimbingan intensif Bab 1–3 (min. 4x), uji Turnitin proposal ≤ 20%, skor AAEPT ≥ 450, lulus LPBA, dan hadir 5x sempro kawan.",
+    highlights: ["SK Dospem I & II", "Bimbingan Min. 4x", "Turnitin Proposal ≤ 20%", "Hadir Min. 5x Sempro", "AAEPT ≥ 450 & LPBA"]
   },
   {
-    date: "Januari 2025",
-    title: "SEMINAR PROPOSAL BERSAMA INFORMATIKA 23",
+    date: "Januari 2027",
+    title: "SEMINAR PROPOSAL (SEMPRO) BERSAMA INFORMATIKA '23",
     category: "Sempro",
     status: "highlight",
-    desc: "Momen bersejarah seminar proposal bersama satu angkatan untuk menguji kelayakan riset skripsi."
+    desc: "Momen bersejarah ujian seminar proposal serentak satu angkatan di hadapan dewan penguji. Presentasi kelayakan metodologi riset, penyelesaian revisi sempro, dan penandatanganan lembar pengesahan.",
+    highlights: ["Presentasi Ujian 15 Menit", "ACC Revisi Dewan Penguji", "Serentak Angkatan 2023", "Pengesahan Naskah"]
   },
   {
-    date: "Februari – Mei 2025",
-    title: "Penelitian, Coding & Analisis Bab 4-5",
-    category: "Riset",
+    date: "Februari – April 2027",
+    title: "Pengajuan Ethical Clearance (EC) & Wajib Jeda Min. 3 Bulan",
+    category: "Kaji Etik",
     status: "future",
-    desc: "Pengembangan software, deployment, pengambilan data lapangan, dan pengujian sistem."
+    desc: "Pengurusan berkas kaji etik ke Komisi Etik (KEPK) UAA segera setelah revisi Sempro dan wajib menjalani masa jeda riset lapangan minimal 3 bulan kalender penuh sebelum mendaftar Semhas (SE Dekan 002/2026).",
+    highlights: ["Surat EC KEPK UAA", "Wajib Jeda Min. 3 Bulan Penuh", "Regulasi SE Dekan No. 002/2026", "Subjek Responden/Kesehatan"]
   },
   {
-    date: "Juni – Juli 2025",
-    title: "Seminar Hasil & Sidang Pendadaran Akhir",
-    category: "Sidang",
+    date: "Februari – Mei 2027",
+    title: "Riset Lapangan, Coding Sistem & Cicil 9 Poin SPM",
+    category: "Riset & SPM",
     status: "future",
-    desc: "Sidang tugas akhir, pengesahan dekan & jilid hardcover biru laut tinta emas."
+    desc: "Pengembangan software/AI, deployment sistem, pengujian Blackbox & UAT, penulisan Bab 4–5, serta penuntasan 9 poin SPM birokrasi (konten video/artikel medsos terverifikasi kampus) dan 25 poin SPM prodi.",
+    highlights: ["Coding & Model AI", "Pengujian UAT & Blackbox", "Naskah Bab 4-5", "9 Poin Wajib SPM Akademik", "25 Poin SPM Prodi"]
   },
   {
-    date: "Agustus / September 2025",
-    title: "Wisuda Sarjana Komputer (S.Kom) Bareng!",
+    date: "Juni 2027",
+    title: "Seminar Hasil (Semhas) & Live Demo Produk Sistem",
+    category: "Semhas",
+    status: "future",
+    desc: "Presentasi naskah hasil riset dan live demo produk sistem/aplikasi di hadapan penguji, verifikasi jeda 3 bulan surat EC oleh akademik, Turnitin naskah lengkap ≤ 20%, dan penyelesaian revisi semhas.",
+    highlights: ["Live Demo Software/AI", "Verifikasi Jeda EC 3 Bulan", "Turnitin Bab 1-5 ≤ 20%", "ACC Penguji Semhas"]
+  },
+  {
+    date: "Juli 2027",
+    title: "Ujian Sidang Pendadaran Akhir & Penjilidan Hardcover",
+    category: "Pendadaran",
+    status: "future",
+    desc: "Ujian komprehensif penentu kelulusan sarjana di depan dewan penguji, validasi SPM prodi 25 poin, pengurusan surat bebas perpus/lab/keuangan, dan penjilidan hardcover naskah skripsi Biru Laut tinta emas.",
+    highlights: ["Ujian Sidang Komprehensif", "Validasi SPM 25 Poin", "Bebas Perpus, Lab & SPP", "Hardcover Biru Laut Tinta Emas"]
+  },
+  {
+    date: "Agustus – September 2027",
+    title: "Yudisium & Wisuda Akbar Sarjana Komputer (S.Kom) Bersama!",
     category: "Wisuda",
     status: "goal",
-    desc: "Target bersama: Seluruh mahasiswa Informatika 23 memakai toga dan lulus tepat waktu 4 tahun!"
+    desc: "Momen puncak perayaan kelulusan resmi: Penetapan SK Yudisium Sarjana Komputer (S.Kom), pemindahan tali toga bersama keluarga & sahabat Informatika '23, serta penyerahan ijazah asli, transkrip, & SKPI!",
+    highlights: ["Gelar Resmi Sarjana Komputer (S.Kom)", "Wisuda Periode TA 2026/2027", "Ijazah Asli, Transkrip & SKPI", "Lulus Tepat Waktu 4 Tahun!"]
   }
 ];

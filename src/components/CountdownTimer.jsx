@@ -6,8 +6,8 @@ export default function CountdownTimer() {
   const [timeLeftMagang, setTimeLeftMagang] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const targetSempro = new Date('2025-01-15T09:00:00');
-    const targetMagang = new Date('2024-11-30T17:00:00');
+    const targetSempro = new Date('2027-01-15T09:00:00');
+    const targetMagang = new Date('2026-11-30T17:00:00');
 
     const updateTimers = () => {
       const now = new Date();
@@ -59,7 +59,7 @@ export default function CountdownTimer() {
           </div>
           <span className="px-3.5 py-1 rounded-full text-xs font-bold font-instrument bg-accent text-white shadow-sm flex items-center">
             <Sparkles className="w-3.5 h-3.5 mr-1 text-white" />
-            Januari 2025
+            Januari 2027
           </span>
         </div>
 
