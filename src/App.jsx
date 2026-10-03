@@ -40,16 +40,24 @@ export default function App() {
     async function loadInitialData() {
       try {
         // Cek apakah ada sesi Google OAuth dari redirect
-        const oAuthUser = await StorageService.handleOAuthCallback();
+        const isOAuthRedirect = typeof window !== 'undefined' && 
+          (window.location.hash.includes('access_token') || window.location.search.includes('code='));
+        const oAuthUser = isOAuthRedirect ? await StorageService.handleOAuthCallback() : null;
         const loggedInUser = oAuthUser || StorageService.getCurrentUser();
 
-        if (loggedInUser) {
-          setCurrentUser(loggedInUser);
-          setProfile(loggedInUser);
+        if (loggedInUser && loggedInUser.nim) {
+          // Ambil profil paling fresh dari database / storage
+          const freshProfile = await StorageService.getProfile(loggedInUser.nim);
+          const merged = { ...loggedInUser, ...(freshProfile || {}) };
+          setCurrentUser(merged);
+          setProfile(merged);
           const loadedProgress = await StorageService.getProgress(loggedInUser.nim);
           if (loadedProgress) {
             setProgress(loadedProgress);
           }
+        } else if (loggedInUser) {
+          setCurrentUser(loggedInUser);
+          setProfile(loggedInUser);
         } else {
           setCurrentUser(null);
           setProgress({});

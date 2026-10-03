@@ -263,6 +263,14 @@ export const StorageService = {
 
   // Ambil profil
   async getProfile(nim = null) {
+    let localSaved = null;
+    try {
+      const saved = localStorage.getItem('IF23_ACTIVE_PROFILE');
+      if (saved) localSaved = JSON.parse(saved);
+    } catch (e) {
+      // ignore
+    }
+
     if (supabase && isSupabaseConfigured && nim) {
       try {
         const { data, error } = await supabase
@@ -270,52 +278,101 @@ export const StorageService = {
           .select('*')
           .eq('nim', nim)
           .maybeSingle();
-        if (!error && data) return data;
+
+        if (!error && data) {
+          // Gabungkan data Supabase dengan data lokal jika kolom Supabase masih kosong / belum ada
+          const merged = {
+            ...(localSaved || {}),
+            ...data,
+            avatar_url: data.avatar_url || localSaved?.avatar_url || null,
+            quote: (data.quote !== undefined && data.quote !== null && data.quote !== '') 
+              ? data.quote 
+              : (localSaved?.quote || ''),
+            instagram: data.instagram || localSaved?.instagram || '',
+            linkedin: data.linkedin || localSaved?.linkedin || '',
+            github: data.github || localSaved?.github || '',
+            website: data.website || localSaved?.website || ''
+          };
+          localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(merged));
+          return merged;
+        }
       } catch (err) {
         console.warn('Gagal fetch dari Supabase, fallback ke local storage:', err);
       }
     }
-    const saved = localStorage.getItem('IF23_ACTIVE_PROFILE');
-    return saved ? JSON.parse(saved) : DEFAULT_LOCAL_PROFILE;
+    return localSaved ? localSaved : DEFAULT_LOCAL_PROFILE;
   },
 
   // Simpan profil
   async saveProfile(profileData) {
+    if (!profileData || !profileData.nim) return profileData;
+
+    // 1. Simpan ke LocalStorage segera
     localStorage.setItem('IF23_ACTIVE_PROFILE', JSON.stringify(profileData));
     
-    // Perbarui active user juga jika yang diedit adalah user yang sedang login
+    // Perbarui active user juga
     const activeUser = this.getCurrentUser();
-    if (activeUser && activeUser.nim === profileData.nim) {
-      localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify({ ...activeUser, ...profileData }));
-    }
+    const updatedUser = { ...(activeUser || {}), ...profileData };
+    localStorage.setItem('IF23_ACTIVE_USER', JSON.stringify(updatedUser));
 
-    // Perbarui cache daftar profil terdaftar
+    // 2. Perbarui cache daftar profil terdaftar
     try {
       const cached = JSON.parse(localStorage.getItem('IF23_REGISTERED_PROFILES_CACHE') || '[]');
-      const index = cached.findIndex(p => p.nim === profileData.nim);
+      const index = cached.findIndex(p => String(p.nim).trim() === String(profileData.nim).trim());
       if (index >= 0) {
         cached[index] = { ...cached[index], ...profileData };
       } else {
         cached.push(profileData);
       }
       localStorage.setItem('IF23_REGISTERED_PROFILES_CACHE', JSON.stringify(cached));
-    } catch {
-      // ignore
+    } catch (e) {
+      console.warn('Cache error:', e);
     }
 
-    // Beritahu komponen lain (seperti AboutView) bahwa profil telah diperbarui
+    // 3. Beritahu komponen lain (seperti AboutView) bahwa profil telah diperbarui
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('if23-profile-updated', { detail: profileData }));
     }
 
+    // 4. Sinkronkan ke Supabase jika terhubung
     if (supabase && isSupabaseConfigured) {
       try {
+        const allowedColumns = [
+          'id', 'nim', 'nama_lengkap', 'peminatan', 'judul_skripsi',
+          'dosen_pembimbing', 'ipk', 'skor_aaept', 'turnitin_persen',
+          'hadir_sempro_count', 'pin', 'avatar_url', 'quote',
+          'instagram', 'linkedin', 'github', 'website'
+        ];
+        const dbPayload = {};
+        allowedColumns.forEach(col => {
+          if (profileData[col] !== undefined) {
+            dbPayload[col] = profileData[col];
+          }
+        });
+        dbPayload.updated_at = new Date().toISOString();
+
         const { error } = await supabase
           .from('profiles')
-          .upsert(profileData, { onConflict: 'nim' });
-        if (error) console.error('Supabase profile upsert error:', error);
+          .upsert(dbPayload, { onConflict: 'nim' });
+          
+        if (error) {
+          console.warn('Supabase upsert warning:', error.message);
+          // Fallback ke kolom inti jika tabel di Supabase belum ditambah kolom baru
+          if (error.message && (error.message.includes('column') || error.message.includes('schema cache'))) {
+            const coreColumns = [
+              'nim', 'nama_lengkap', 'peminatan', 'judul_skripsi',
+              'dosen_pembimbing', 'ipk', 'skor_aaept', 'turnitin_persen',
+              'hadir_sempro_count', 'pin'
+            ];
+            const fallbackPayload = {};
+            coreColumns.forEach(col => {
+              if (profileData[col] !== undefined) fallbackPayload[col] = profileData[col];
+            });
+            await supabase.from('profiles').upsert(fallbackPayload, { onConflict: 'nim' });
+          }
+        }
       } catch (err) {
-        console.error('Supabase error:', err);
+        console.error('Supabase save error:', err);
       }
     }
     return profileData;
@@ -329,8 +386,28 @@ export const StorageService = {
           .from('profiles')
           .select('nim, nama_lengkap, avatar_url, quote, instagram, linkedin, github, website, peminatan');
         if (!error && Array.isArray(data)) {
-          localStorage.setItem('IF23_REGISTERED_PROFILES_CACHE', JSON.stringify(data));
-          return data;
+          // Gabungkan dengan cache lokal agar data terbaru lokal tidak hilang jika Supabase belum update
+          const cached = JSON.parse(localStorage.getItem('IF23_REGISTERED_PROFILES_CACHE') || '[]');
+          const mergedList = data.map(item => {
+            const matchLocal = cached.find(c => String(c.nim).trim() === String(item.nim).trim());
+            if (matchLocal) {
+              return {
+                ...matchLocal,
+                ...item,
+                avatar_url: item.avatar_url || matchLocal.avatar_url || null,
+                quote: (item.quote !== undefined && item.quote !== null && item.quote !== '') 
+                  ? item.quote 
+                  : (matchLocal.quote || ''),
+                instagram: item.instagram || matchLocal.instagram || '',
+                linkedin: item.linkedin || matchLocal.linkedin || '',
+                github: item.github || matchLocal.github || '',
+                website: item.website || matchLocal.website || ''
+              };
+            }
+            return item;
+          });
+          localStorage.setItem('IF23_REGISTERED_PROFILES_CACHE', JSON.stringify(mergedList));
+          return mergedList;
         }
       } catch (err) {
         console.warn('Gagal fetch profiles dari Supabase, fallback ke cache:', err);
@@ -462,7 +539,10 @@ export const StorageService = {
             profile.nama_lengkap = fullName || profile.nama_lengkap;
             profile.email = email;
             profile.peran = peran;
-            if (avatarUrl) profile.avatar_url = avatarUrl;
+            // Jangan timpa avatar jika user sudah pernah mengupload foto sendiri
+            if (avatarUrl && !profile.avatar_url) {
+              profile.avatar_url = avatarUrl;
+            }
             await this.saveProfile(profile);
           }
 

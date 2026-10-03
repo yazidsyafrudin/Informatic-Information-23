@@ -93,10 +93,25 @@ export default function TrackerView({
     reader.readAsDataURL(file);
   };
 
-  const handleSaveProfile = (e) => {
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveToast, setSaveToast] = useState(false);
+
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    onUpdateProfile(formProfile);
-    setIsEditingProfile(false);
+    setIsSaving(true);
+    try {
+      await onUpdateProfile(formProfile);
+      setSaveToast(true);
+      setTimeout(() => {
+        setSaveToast(false);
+        setIsEditingProfile(false);
+      }, 700);
+    } catch (err) {
+      console.error('Save profile error:', err);
+      setIsEditingProfile(false);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCheckboxClick = (id) => {
@@ -397,10 +412,25 @@ export default function TrackerView({
               </button>
               <button
                 type="submit"
-                className="flex items-center space-x-2 px-6 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white text-xs font-bold shadow-md shadow-accent/25 transition-all cursor-pointer"
+                disabled={isSaving}
+                className="flex items-center space-x-2 px-6 py-2.5 rounded-xl bg-accent hover:bg-accent/90 disabled:opacity-60 text-white text-xs font-bold shadow-md shadow-accent/25 transition-all cursor-pointer"
               >
-                <Save className="w-4 h-4" />
-                <span>Simpan Perubahan Profil</span>
+                {isSaving ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Menyimpan...</span>
+                  </>
+                ) : saveToast ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-300" />
+                    <span>Perubahan Berhasil Disimpan!</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4" />
+                    <span>Simpan Perubahan Profil</span>
+                  </>
+                )}
               </button>
             </div>
           </form>

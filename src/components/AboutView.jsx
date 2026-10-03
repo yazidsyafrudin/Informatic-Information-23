@@ -320,15 +320,23 @@ export default function AboutView({ setActiveTab }) {
 
   // Gabungkan data resmi 33 mahasiswa dengan profil kustom dari database Supabase
   const combinedStudents = useMemo(() => {
+    const activeUser = StorageService.getCurrentUser();
+    const activeNim = activeUser?.nim ? String(activeUser.nim).trim() : null;
+
     return MAHASISWA_IF23_LIST.map(mhs => {
-      const reg = registeredMap[mhs.nim];
+      const nimStr = String(mhs.nim).trim();
+      const isCurrentActive = activeNim && activeNim === nimStr;
+      const reg = isCurrentActive 
+        ? { ...(registeredMap[nimStr] || {}), ...activeUser } 
+        : registeredMap[nimStr];
+
       if (reg) {
         // Jika MAHASISWA SUDAH DAFTAR: ambil foto, quote, dan link medsos dari database
         return {
           ...mhs,
           isRegistered: true,
           foto: reg.avatar_url || mhs.foto,
-          quote: reg.quote || mhs.quote,
+          quote: (reg.quote !== undefined && reg.quote !== null && reg.quote !== '') ? reg.quote : mhs.quote,
           socials: {
             instagram: reg.instagram || mhs.socials?.instagram || '#',
             linkedin: reg.linkedin || mhs.socials?.linkedin || '#',
