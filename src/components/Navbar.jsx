@@ -13,7 +13,7 @@ import {
 
 export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout, onOpenMenuModal }) {
   const primaryNavItems = [
-    { id: 'dashboard', label: 'Beranda & Timeline', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Beranda', icon: LayoutDashboard },
     { id: 'roadmap', label: 'Roadmap Kelulusan', icon: Map },
     { id: 'tracker', label: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard', icon: CheckSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
