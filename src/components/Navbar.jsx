@@ -18,7 +18,8 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
     { id: 'tracker', label: currentUser ? 'Dashboard Mahasiswa' : 'Dashboard', icon: CheckSquare },
     { id: 'diskusi', label: 'Ruang Diskusi', icon: MessageSquare },
     { id: 'panduan', label: 'Panduan FKT (PDF)', icon: BookOpen },
-    { id: 'about', label: 'Tentang Kami', icon: Info },
+    // Tentang Kami hanya ditampilkan di navbar untuk user yang login agar tidak memadati navbar tamu
+    ...(currentUser ? [{ id: 'about', label: 'Tentang Kami', icon: Info }] : []),
   ];
 
   return (
@@ -78,15 +79,15 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
             <button
               onClick={onOpenMenuModal}
               className={`flex items-center space-x-2 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-xl text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
-                ['kalender', 'downloads'].includes(activeTab)
+                ['kalender', 'downloads'].includes(activeTab) || (!currentUser && activeTab === 'about')
                   ? 'bg-accent text-white font-bold shadow-md'
                   : 'text-white hover:text-accent hover:bg-white/10'
               }`}
-              title="Buka Menu & Navigasi Lengkap (Kalender Akademik, Pusat Berkas, dll.)"
+              title="Buka Menu & Navigasi Lengkap (Kalender Akademik, Pusat Berkas, Tentang Kami, dll.)"
             >
               <LayoutGrid className="w-4 h-4 flex-shrink-0" />
               <span className="whitespace-nowrap">
-                {activeTab === 'kalender' ? 'Kalender Akademik' : activeTab === 'downloads' ? 'Pusat Berkas' : 'Menu'}
+                {activeTab === 'kalender' ? 'Kalender Akademik' : activeTab === 'downloads' ? 'Pusat Berkas' : (!currentUser && activeTab === 'about') ? 'Tentang Kami' : 'Menu'}
               </span>
             </button>
           </nav>
@@ -164,13 +165,13 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
           <button
             onClick={onOpenMenuModal}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-philosopher font-semibold whitespace-nowrap transition-colors ${
-              ['kalender', 'downloads'].includes(activeTab)
+              ['kalender', 'downloads'].includes(activeTab) || (!currentUser && activeTab === 'about')
                 ? 'bg-accent text-white font-bold'
                 : 'text-white/90 hover:text-accent bg-white/10'
             }`}
           >
             <LayoutGrid className="w-3.5 h-3.5" />
-            <span>Menu</span>
+            <span>{(!currentUser && activeTab === 'about') ? 'Tentang Kami' : 'Menu'}</span>
           </button>
         </div>
       </div>
