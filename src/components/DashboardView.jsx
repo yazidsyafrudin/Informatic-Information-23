@@ -133,7 +133,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               </div>
 
               <h2 className="font-philosopher font-bold text-2xl sm:text-3xl text-primary leading-tight mb-3">
-                Satu Visi, Satu Frekuensi, Lulus Bareng!
+                Satu Visi, Satu Frekuensi, Lulus Bareng Anjay!
               </h2>
 
               <p className="font-instrument text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
@@ -493,36 +493,34 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               return (
                 <div key={idx} className="relative group">
                   <div className={`absolute -left-[27px] top-4 w-4 h-4 rounded-full border-2 transition-all ${event.status === 'current'
-                      ? 'bg-primary border-white ring-4 ring-sky-200'
-                      : event.status === 'highlight'
-                        ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
-                        : event.status === 'goal'
-                          ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
-                          : 'bg-slate-300 border-white'
+                    ? 'bg-primary border-white ring-4 ring-sky-200'
+                    : event.status === 'highlight'
+                      ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
+                      : event.status === 'goal'
+                        ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
+                        : 'bg-slate-300 border-white'
                     }`} />
 
-                  <div 
+                  <div
                     onClick={() => toggleTimelineEvent(idx)}
-                    className={`bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 transition-all shadow-md cursor-pointer select-none ${
-                      isOpen ? 'border-accent shadow-lg' : 'border-primary-700 hover:border-accent/80'
-                    }`}
+                    className={`bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 transition-all shadow-md cursor-pointer select-none ${isOpen ? 'border-accent shadow-lg' : 'border-primary-700 hover:border-accent/80'
+                      }`}
                   >
                     {/* Header: Tanggal & Badge Kategori + Tombol Dropdown */}
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                       <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
                       <div className="flex items-center space-x-2">
                         <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${event.status === 'highlight'
-                            ? 'bg-accent text-white shadow-xs'
-                            : event.status === 'current'
-                              ? 'bg-white text-primary shadow-xs'
-                              : 'bg-white/20 text-white'
+                          ? 'bg-accent text-white shadow-xs'
+                          : event.status === 'current'
+                            ? 'bg-white text-primary shadow-xs'
+                            : 'bg-white/20 text-white'
                           }`}>
                           {event.category}
                         </span>
-                        <div 
-                          className={`p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all duration-300 ${
-                            isOpen ? 'rotate-180 bg-accent text-white shadow-xs' : ''
-                          }`}
+                        <div
+                          className={`p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all duration-300 ${isOpen ? 'rotate-180 bg-accent text-white shadow-xs' : ''
+                            }`}
                           title={isOpen ? 'Tutup detail' : 'Buka detail'}
                         >
                           <ChevronDown className="w-4 h-4" />

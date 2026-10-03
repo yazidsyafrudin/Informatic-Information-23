@@ -7,7 +7,7 @@ export default function CountdownTimer() {
 
   useEffect(() => {
     const targetSempro = new Date('2027-01-15T09:00:00');
-    const targetMagang = new Date('2026-11-30T17:00:00');
+    const targetMagang = new Date('2026-12-31T23:59:59');
 
     const updateTimers = () => {
       const now = new Date();
@@ -25,7 +25,7 @@ export default function CountdownTimer() {
         setTimeLeftSempro({ days: 75, hours: 14, minutes: 22, seconds: 40 });
       }
 
-      // Magang
+      // Magang (Agustus - Desember)
       const diffMagang = targetMagang - now;
       if (diffMagang > 0) {
         setTimeLeftMagang({
@@ -35,7 +35,7 @@ export default function CountdownTimer() {
           seconds: Math.floor((diffMagang / 1000) % 60)
         });
       } else {
-        setTimeLeftMagang({ days: 38, hours: 6, minutes: 15, seconds: 10 });
+        setTimeLeftMagang({ days: 88, hours: 6, minutes: 15, seconds: 10 });
       }
     };
 
@@ -108,7 +108,7 @@ export default function CountdownTimer() {
             </h3>
           </div>
           <span className="px-3.5 py-1 rounded-full text-xs font-bold font-instrument bg-white/20 text-white border border-white/30">
-            Fase Magang 3 Bulan
+            Agustus – Desember 2026
           </span>
         </div>
 

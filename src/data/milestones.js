@@ -5,7 +5,7 @@ export const ROADMAP_PHASES = [
     phaseId: 1,
     title: "Fase 1: Magang Industri (KKL)",
     shortTitle: "Magang",
-    period: "Agustus – November 2026 (Semester 7)",
+    period: "Agustus – Desember 2026 (Semester 7)",
     status: "Fase Awal",
     color: "from-blue-600 to-cyan-500",
     description: "Program Kuliah Kerja Lapangan (KKL) / Magang Industri 3 SKS sebagai fondasi pengalaman industri dan studi kasus skripsi.",
@@ -306,7 +306,7 @@ export const ROADMAP_PHASES = [
 // Timeline Angkatan Informatika 2023 (Tahun Akademik 2026/2027)
 export const TIMELINE_EVENTS = [
   {
-    date: "Agustus – November 2026",
+    date: "Agustus – Desember 2026",
     title: "Pelaksanaan Magang Industri & Studi Kasus (KKL)",
     category: "Magang",
     status: "current",
@@ -314,7 +314,7 @@ export const TIMELINE_EVENTS = [
     highlights: ["Magang Industri 3 SKS", "Logbook 16 Minggu Terparaf", "Laporan Min. 25 Hal (Format 4-3-3-3)", "Temukan Masalah Skripsi"]
   },
   {
-    date: "November – Desember 2026",
+    date: "Desember 2026 – Januari 2027",
     title: "Pengajuan Judul, SK Dospem & Penulisan Bab 1–3",
     category: "Proposal",
     status: "upcoming",
