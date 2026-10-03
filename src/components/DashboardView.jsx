@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Rocket, 
-  ArrowRight, 
-  CheckCircle2, 
-  FileText, 
-  BookMarked, 
+import {
+  Rocket,
+  ArrowRight,
+  CheckCircle2,
+  FileText,
+  BookMarked,
   ChevronRight,
   Award,
   Users,
@@ -26,16 +26,16 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
   return (
     <div className="space-y-10 animate-fadeIn">
-      
+
       {/* Hero Section - Solid Blue Card UAA (Tidak Transparan) */}
       <div className="relative overflow-hidden rounded-3xl bg-primary text-white p-8 sm:p-12 text-center shadow-xl border-2 border-primary-700">
-        
+
         {/* Subtle Decorative Elements */}
         <div className="absolute -top-16 -right-16 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-16 -left-16 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-          
+
           {/* Badge Unggul / Akreditasi ASIIN */}
           <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/15 text-white border border-white/25 text-xs font-instrument font-bold shadow-xs mb-5 backdrop-blur-xs">
             <Award className="w-4 h-4 text-accent" />
@@ -51,9 +51,9 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </h1>
 
           <p className="font-instrument text-white/90 text-sm sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
-            Portal komando terpadu mahasiswa Informatika 2023 Universitas Alma Ata. 
-            Dari program magang 3 bulan saat ini, penyusunan draf proposal, 
-            <strong className="text-accent font-bold"> Seminar Proposal Bersama (Januari)</strong>, 
+            Portal komando terpadu mahasiswa Informatika 2023 Universitas Alma Ata.
+            Dari program magang 3 bulan saat ini, penyusunan draf proposal,
+            <strong className="text-accent font-bold"> Seminar Proposal Bersama (Januari)</strong>,
             hingga wisuda sarjana komputer (S.Kom) bersama!
           </p>
 
@@ -90,15 +90,15 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
       {/* Showcase Solidaritas & Foto Angkatan '23 */}
       <section className="bg-white rounded-3xl overflow-hidden border-2 border-primary/20 shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          
+
           {/* Kolom Foto Angkatan */}
-          <div 
+          <div
             onClick={() => setShowPhotoModal(true)}
             className="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto min-h-[320px] overflow-hidden group cursor-pointer bg-slate-900"
             title="Klik untuk memperbesar foto angkatan"
           >
-            <img 
-              src="/puscod23.png" 
+            <img
+              src="/puscod23.png"
               alt="Keluarga Besar Informatika Angkatan 2023 Universitas Alma Ata"
               className="w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-700"
             />
@@ -118,7 +118,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 <Users className="w-3.5 h-3.5 text-accent" />
                 <span>Informatika Angkatan 2023</span>
               </div>
-              
+
               <h2 className="font-philosopher font-bold text-2xl sm:text-3xl text-primary leading-tight mb-3">
                 Satu Visi, Satu Frekuensi, Lulus Bareng!
               </h2>
@@ -145,11 +145,11 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
       {/* Lightbox Modal Foto Angkatan Full-Screen */}
       {showPhotoModal && (
-        <div 
+        <div
           className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
           onClick={() => setShowPhotoModal(false)}
         >
-          <div 
+          <div
             className="relative max-w-5xl w-full max-h-[90vh] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/20 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
@@ -160,7 +160,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                   Keluarga Besar Informatika '23 • Universitas Alma Ata
                 </span>
               </div>
-              <button 
+              <button
                 onClick={() => setShowPhotoModal(false)}
                 className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
               >
@@ -168,9 +168,9 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               </button>
             </div>
             <div className="overflow-auto p-2 flex items-center justify-center bg-black/60">
-              <img 
-                src="/puscod23.png" 
-                alt="Foto Angkatan Informatika 2023 UAA" 
+              <img
+                src="/puscod23.png"
+                alt="Foto Angkatan Informatika 2023 UAA"
                 className="max-h-[75vh] w-auto object-contain rounded-xl shadow-lg"
               />
             </div>
@@ -198,7 +198,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               Wajib Jeda Minimal 3 Bulan Kalender Antara Terbitnya EC & Ujian Seminar Hasil!
             </h3>
             <p className="text-xs text-white/90 font-instrument mt-1 max-w-2xl leading-relaxed">
-              Segera ajukan berkas Ethical Clearance setelah Sempro. Mahasiswa yang tidak memenuhi jeda waktu 3 bulan 
+              Segera ajukan berkas Ethical Clearance setelah Sempro. Mahasiswa yang tidak memenuhi jeda waktu 3 bulan
               <strong className="text-amber-300 font-bold"> TIDAK DIPERKENANKAN </strong> mendaftar Ujian Seminar Hasil.
             </p>
           </div>
@@ -234,7 +234,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-4.5">
-          
+
           {/* Langkah 1 */}
           <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
             <div className="space-y-2.5">
@@ -254,7 +254,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 Tuntaskan logbook 16 minggu & laporan KKL. Ambil kendala sistem atau proses bisnis manual di tempat magang sebagai studi kasus skripsi kamu.
               </p>
             </div>
-            
+
             <div className="mt-3.5 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
               <div className="flex items-center gap-1.5">
                 <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
@@ -344,7 +344,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 </span>
               </div>
               <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
-                Cicil 5x Sempro, AAEPT & Surat EC
+                Cicil 5x Sempro, AAEPT
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Cicil bukti hadir 5x sempro kawan di kartu kendali, pastikan tes AAEPT (min. 450) & LPBA siap, serta siapkan protokol Kaji Etik KEPK jika riset ada responden.
@@ -433,7 +433,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
       {/* Grid: Timeline Angkatan & Sorotan Aturan FKT */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Timeline Angkatan (2 Cols) */}
         <div className="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
           <div className="flex items-center justify-between mb-6">
@@ -445,7 +445,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 Peta jalan waktu dari magang hingga wisuda sarjana komputer Universitas Alma Ata
               </p>
             </div>
-            <button 
+            <button
               onClick={() => setActiveTab('roadmap')}
               className="text-xs font-instrument font-bold text-primary hover:text-primary/80 flex items-center space-x-1"
             >
@@ -457,26 +457,24 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           <div className="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-primary/30">
             {TIMELINE_EVENTS.map((event, idx) => (
               <div key={idx} className="relative group">
-                <div className={`absolute -left-[27px] top-1.5 w-4 h-4 rounded-full border-2 transition-all ${
-                  event.status === 'current'
+                <div className={`absolute -left-[27px] top-1.5 w-4 h-4 rounded-full border-2 transition-all ${event.status === 'current'
                     ? 'bg-primary border-white ring-4 ring-sky-200'
                     : event.status === 'highlight'
-                    ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
-                    : event.status === 'goal'
-                    ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
-                    : 'bg-slate-300 border-white'
-                }`} />
+                      ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
+                      : event.status === 'goal'
+                        ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
+                        : 'bg-slate-300 border-white'
+                  }`} />
 
                 <div className="bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 border-primary-700 group-hover:border-accent transition-all shadow-md">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
                     <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${
-                      event.status === 'highlight'
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${event.status === 'highlight'
                         ? 'bg-accent text-white shadow-xs'
                         : event.status === 'current'
-                        ? 'bg-white text-primary shadow-xs'
-                        : 'bg-white/20 text-white'
-                    }`}>
+                          ? 'bg-white text-primary shadow-xs'
+                          : 'bg-white/20 text-white'
+                      }`}>
                       {event.category}
                     </span>
                   </div>
