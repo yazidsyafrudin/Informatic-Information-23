@@ -15,7 +15,11 @@ import {
   BookOpen,
   ShieldCheck,
   Sparkles,
-  Check
+  Check,
+  AlertTriangle,
+  GraduationCap,
+  Clock,
+  Languages
 } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import { TIMELINE_EVENTS } from '../data/milestones';
@@ -489,49 +493,128 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
         {/* Sorotan Ketentuan Skripsi FKT Alma Ata (1 Col) - Solid Blue Card */}
         <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-md flex flex-col justify-between">
           <div>
-            <div className="flex items-center space-x-2 text-white mb-2">
-              <BookMarked className="w-5 h-5 text-accent" />
-              <h2 className="font-bold font-philosopher text-white text-xl">Syarat Kunci FKT UAA</h2>
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <div className="flex items-center space-x-2 text-white">
+                <BookMarked className="w-5 h-5 text-accent" />
+                <h2 className="font-bold font-philosopher text-white text-xl">Syarat Kunci FKT UAA</h2>
+              </div>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-accent/20 text-accent border border-accent/40 font-instrument whitespace-nowrap">
+                11 Poin Lengkap
+              </span>
             </div>
-            <p className="text-xs font-instrument text-white/80 mb-5">
-              Aturan resmi berdasarkan SK Rektor No. 182/A/SK/UAA/IX/2021:
+            <p className="text-xs font-instrument text-white/80 mb-4">
+              Aturan resmi berdasarkan SK Rektor No. 182/A/SK/UAA/IX/2021 & SE Dekan No. 002/2026:
             </p>
 
-            <div className="space-y-3 font-instrument">
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Indeks Prestasi Kumulatif</span>
-                <span className="text-sm font-bold text-primary">Minimal IPK 3.25</span>
+            <div className="space-y-2.5 font-instrument max-h-[560px] overflow-y-auto pr-1.5 custom-scrollbar">
+              {/* 1. IPK */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Indeks Prestasi Kumulatif</span>
+                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">Akademik</span>
+                </div>
+                <div className="text-sm font-bold text-primary">Minimal IPK 3.25</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Wajib dipertahankan sejak pengajuan judul hingga yudisium kelulusan.</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">SKS Lulus</span>
-                <span className="text-sm font-bold text-primary">Minimal 75% Total SKS</span>
+              {/* 2. SKS */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Beban SKS Lulus</span>
+                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">Akademik</span>
+                </div>
+                <div className="text-sm font-bold text-primary">Minimal 75% Total SKS</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Telah menyelesaikan dan lulus minimal 75% beban SKS kurikulum prodi.</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Bahasa Inggris & Keagamaan</span>
-                <span className="text-sm font-bold text-slate-900">AAEPT ≥ 450 & Lulus LPBA</span>
+              {/* 3. Ketentuan Nilai Matkul */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-amber-200/60 hover:border-amber-400 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Standar Nilai Mata Kuliah</span>
+                  <span className="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">Penting</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900">Bebas Nilai E & Maks. 1 Nilai D</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Nilai Matkul Metodologi Penelitian & seluruh MKU wajib minimal C.</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Maksimal Similaritas Turnitin</span>
-                <span className="text-sm font-bold text-accent">Maksimal 20% (≤ 20%)</span>
+              {/* 4. Bahasa Inggris (AAEPT) */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Kemampuan Bahasa Asing</span>
+                  <span className="text-[10px] bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded font-bold">Pusat Bahasa</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900">Skor AAEPT Minimal 450</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Alma Ata English Proficiency Test resmi dari Pusat Bahasa UAA.</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm">
-                <span className="text-[11px] text-slate-500 block font-semibold">Format Layout Naskah</span>
-                <span className="text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</span>
+              {/* 5. Keagamaan & Karakter */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Keagamaan & Kemahasiswaan</span>
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">Wajib UAA</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900">Lulus LPBA & Sertifikat PERMATA</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Tashih baca Al-Qur'an, praktik Sholat & Masa Ta'aruf UAA.</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white text-slate-900 shadow-sm border border-primary/20">
-                <span className="text-[11px] text-slate-500 block font-semibold">2 Syarat Wajib Skor Prestasi (SPM)</span>
-                <span className="text-xs font-bold text-primary block">Birokrasi 9 Poin & Prodi 25 Poin</span>
-                <span className="text-[10px] text-slate-500 mt-0.5 block">Video, Artikel, Review Bintang 5 + Kegiatan Prodi</span>
+              {/* 6. Audiens Sempro */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Presensi Seminar Proposal</span>
+                  <span className="text-[10px] bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-bold">Prasyarat</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900">Wajib Hadir Min. 5x Sempro Teman</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Dibuktikan dengan Kartu Kendali ber-ACC Dosen Pembimbing/Penguji.</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300">
-                <span className="text-[11px] text-slate-900 font-bold block">Kebijakan Baru Dekan (SE 002/2026)</span>
-                <span className="text-xs font-bold text-slate-950">Ethical Clearance Wajib Jeda Min. 3 Bulan</span>
+              {/* 7. Frekuensi Bimbingan */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Frekuensi Bimbingan Dospem</span>
+                  <span className="text-[10px] bg-violet-100 text-violet-800 px-1.5 py-0.5 rounded font-bold">Logbook</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900">Minimal 8x Bimbingan per Dospem</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Min. 4x sebelum Sempro & 4x sebelum Ujian Sidang Pendadaran.</p>
+              </div>
+
+              {/* 8. Turnitin */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-accent/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Uji Bebas Plagiarisme</span>
+                  <span className="text-[10px] bg-amber-100 text-accent px-1.5 py-0.5 rounded font-bold">Turnitin</span>
+                </div>
+                <div className="text-sm font-bold text-accent">Maksimal 20% (≤ 20%) Similaritas</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Berlaku untuk draf naskah Proposal maupun Naskah Akhir Skripsi.</p>
+              </div>
+
+              {/* 9. Format Penulisan */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Format Layout Naskah</span>
+                  <span className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-bold">Standar FKT</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900">Margin 4-4-3-3 & TNR 12 (Spasi 2)</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Dilarang bullet points (wajib penomoran bertingkat 1, 2 / a, b). Cover Biru Laut.</p>
+              </div>
+
+              {/* 10. SPM (2 Jalur) */}
+              <div className="p-3 rounded-2xl bg-white text-slate-900 shadow-sm border border-primary/25 hover:border-primary transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-0.5">
+                  <span>Skor Prestasi Mahasiswa (SPM)</span>
+                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">2 Jalur</span>
+                </div>
+                <div className="text-xs font-bold text-primary">Birokrasi 9 Poin & Prodi 25 Poin</div>
+                <p className="text-[10.5px] text-slate-500 mt-0.5 leading-tight">Konten video/artikel medsos terverifikasi kampus + kegiatan prodi.</p>
+              </div>
+
+              {/* 11. Ethical Clearance (SE Dekan) */}
+              <div className="p-3 rounded-2xl bg-amber-400 text-slate-900 shadow-sm border border-amber-300 hover:bg-amber-300 transition-colors">
+                <div className="flex items-center justify-between text-[11px] text-slate-900 font-bold mb-0.5">
+                  <span>Kebijakan Baru Dekan (SE 002/2026)</span>
+                  <span className="text-[10px] bg-amber-500/30 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">KEPK UAA</span>
+                </div>
+                <div className="text-xs font-extrabold text-slate-950">Ethical Clearance Wajib Jeda Min. 3 Bulan</div>
+                <p className="text-[10.5px] text-slate-900/90 mt-0.5 leading-tight font-medium">Jeda minimal 3 bulan kalender antara terbit EC dan pendaftaran Ujian Semhas.</p>
               </div>
             </div>
           </div>
