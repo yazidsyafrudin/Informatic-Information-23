@@ -100,7 +100,7 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-lg bg-white border-2 border-primary/20 rounded-3xl shadow-2xl overflow-hidden font-instrument text-slate-800 flex flex-col max-h-[85vh] animate-scaleUp"
+        className="w-full max-w-lg bg-[#f9f6ee] border-2 border-primary/20 rounded-3xl shadow-2xl overflow-hidden font-instrument text-slate-800 flex flex-col max-h-[85vh] animate-scaleUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* User Status Bar Sederhana */}
@@ -134,7 +134,7 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
         </div>
 
         {/* Search Header */}
-        <div className="relative flex items-center px-5 py-3 border-b border-sky-100 bg-sky-50/40">
+        <div className="relative flex items-center px-5 py-3 border-b border-[#e2d9c8] bg-[#f2ebd9]/50">
           <Search className="w-4 h-4 text-primary mr-3 flex-shrink-0" />
           <input
             ref={inputRef}
@@ -176,14 +176,14 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all text-left cursor-pointer group border ${
                     isActive
                       ? 'bg-primary text-white border-primary-700 shadow-md ring-2 ring-accent/40'
-                      : 'bg-white border-transparent hover:border-sky-200 hover:bg-sky-50 text-slate-800'
+                      : 'bg-white/95 border-[#e8dfcf] hover:border-primary/40 hover:bg-white text-slate-800 shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center space-x-3.5 min-w-0">
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
                       isActive 
                         ? 'bg-white/15 text-accent shadow-xs' 
-                        : 'bg-sky-50 text-primary group-hover:bg-primary group-hover:text-white'
+                        : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
                     }`}>
                       <Icon className="w-4 h-4" />
                     </div>
@@ -208,7 +208,7 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
         </div>
 
         {/* Modal Footer Sederhana */}
-        <div className="px-5 py-2.5 bg-sky-50/70 border-t border-sky-100 flex items-center justify-between text-[11px] text-slate-400 font-instrument">
+        <div className="px-5 py-2.5 bg-[#f2ebd9]/70 border-t border-[#e2d9c8] flex items-center justify-between text-[11px] text-slate-500 font-instrument">
           <div className="flex items-center space-x-1.5">
             <Sparkles className="w-3.5 h-3.5 text-accent" />
             <span>Target Lulus Bareng 2025</span>
