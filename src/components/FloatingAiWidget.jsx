@@ -335,14 +335,10 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
             {/* Konten Teks Kartu */}
             <div className="flex-1 min-w-0 text-left">
               {/* Badges Bar */}
-              <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
-                <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 leading-none">
+              <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 leading-none">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 animate-ping" />
                   Online
-                </span>
-                <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30 leading-none">
-                  <Sparkles className="w-2.5 h-2.5 mr-1" />
-                  AI 24/7
                 </span>
               </div>
 
@@ -350,8 +346,8 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
               <h4 className="text-white font-philosopher font-bold text-xs sm:text-sm leading-tight group-hover:text-amber-200 transition-colors truncate">
                 Halo! Butuh bantuan?
               </h4>
-              <p className="text-[10px] sm:text-[11px] text-sky-100/80 leading-snug mt-0.5 line-clamp-1">
-                Tanya skripsi, turnitin, & jadwal
+              <p className="text-[10px] sm:text-[11px] text-sky-100/90 leading-snug mt-0.5">
+                Tanya yg berkaitan dg kelulusan kita
               </p>
 
               {/* Tombol Aksi Kecil */}
