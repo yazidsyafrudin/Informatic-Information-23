@@ -100,8 +100,18 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
                   className="flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 cursor-pointer group transition-all flex-shrink-0"
                   title="Buka Dashboard Pribadi"
                 >
-                  <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-xs group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0">
-                    {currentUser.nama_lengkap ? currentUser.nama_lengkap.charAt(0).toUpperCase() : 'M'}
+                  <div className="relative w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-xs group-hover:ring-2 ring-white transition-all font-philosopher flex-shrink-0 overflow-hidden">
+                    <span>{currentUser.nama_lengkap ? currentUser.nama_lengkap.charAt(0).toUpperCase() : 'M'}</span>
+                    {(currentUser.avatar_url || currentUser.foto || currentUser.picture) && (
+                      <img
+                        src={currentUser.avatar_url || currentUser.foto || currentUser.picture}
+                        alt={currentUser.nama_lengkap || 'Foto Profil'}
+                        className="absolute inset-0 w-full h-full object-cover object-top"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    )}
                   </div>
                   <div className="text-left flex-shrink-0">
                     <p className="text-xs font-bold text-white font-instrument group-hover:text-accent transition-colors truncate max-w-[130px]">

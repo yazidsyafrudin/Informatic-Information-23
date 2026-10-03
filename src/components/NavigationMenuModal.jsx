@@ -107,8 +107,18 @@ export default function NavigationMenuModal({ isOpen, onClose, activeTab, onSele
         <div className="px-5 py-3 bg-gradient-to-r from-primary to-primary-800 text-white flex items-center justify-between text-xs">
           {currentUser ? (
             <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 rounded-full bg-accent text-white flex items-center justify-center text-[10px] font-bold font-philosopher">
-                {currentUser.nama_lengkap?.charAt(0) || 'M'}
+              <div className="relative w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-[10px] font-bold font-philosopher overflow-hidden flex-shrink-0">
+                <span>{currentUser.nama_lengkap?.charAt(0) || 'M'}</span>
+                {(currentUser.avatar_url || currentUser.foto || currentUser.picture) && (
+                  <img
+                    src={currentUser.avatar_url || currentUser.foto || currentUser.picture}
+                    alt={currentUser.nama_lengkap || 'Foto Profil'}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
               </div>
               <span className="font-semibold truncate max-w-[240px]">
                 {currentUser.nama_lengkap} ({currentUser.nim})

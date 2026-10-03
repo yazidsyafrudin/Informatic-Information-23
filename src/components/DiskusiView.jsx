@@ -593,7 +593,7 @@ export default function DiskusiView({ currentUser, profile }) {
       const sentMsg = await StorageService.sendCommunityMessage({
         sender_name: senderName,
         sender_email: senderEmail,
-        sender_avatar: null,
+        sender_avatar: currentUser?.avatar_url || profile?.avatar_url || currentUser?.foto || null,
         sender_role: senderRole,
         topic_id: selectedTopicId,
         message: inputText.trim(),
@@ -815,8 +815,18 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
             <div className="flex items-center space-x-2 self-start sm:self-auto">
               {currentUser ? (
                 <div className="flex items-center space-x-2 bg-sky-50 px-3 py-1.5 rounded-xl border border-sky-200 text-xs">
-                  <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-[10px]">
-                    {currentUser.nama_lengkap.charAt(0).toUpperCase()}
+                  <div className="relative w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-[10px] overflow-hidden flex-shrink-0">
+                    <span>{currentUser.nama_lengkap.charAt(0).toUpperCase()}</span>
+                    {(currentUser.avatar_url || currentUser.foto || currentUser.picture) && (
+                      <img
+                        src={currentUser.avatar_url || currentUser.foto || currentUser.picture}
+                        alt={currentUser.nama_lengkap || 'Foto Profil'}
+                        className="absolute inset-0 w-full h-full object-cover object-top"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    )}
                   </div>
                   <div>
                     <span className="font-bold text-primary block text-[11px] leading-tight truncate max-w-[120px]">
@@ -968,7 +978,7 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                       {/* Avatar & Konten Komentar */}
                       <div className="flex items-start space-x-3 flex-1 min-w-0">
                         {/* Avatar Bulat ala TikTok */}
-                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-2xs flex-shrink-0 font-philosopher ${
+                        <div className={`relative w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-2xs flex-shrink-0 font-philosopher overflow-hidden ${
                           isRootMe 
                             ? 'bg-amber-600' 
                             : root.sender_role?.includes('Dosen')
@@ -977,7 +987,17 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                             ? 'bg-emerald-600'
                             : 'bg-primary'
                         }`}>
-                          {root.sender_name ? root.sender_name.charAt(0).toUpperCase() : 'U'}
+                          <span>{root.sender_name ? root.sender_name.charAt(0).toUpperCase() : 'U'}</span>
+                          {root.sender_avatar && (
+                            <img
+                              src={root.sender_avatar}
+                              alt={root.sender_name || 'Foto'}
+                              className="absolute inset-0 w-full h-full object-cover object-top"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          )}
                         </div>
 
                         {/* Kolom Informasi & Teks Komentar */}
@@ -1122,14 +1142,24 @@ Berdasarkan panduan FKT Informatika Universitas Alma Ata:
                                       >
                                         <div className="flex items-start space-x-2.5 flex-1 min-w-0">
                                           {/* Avatar Sub-Komentar */}
-                                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-2xs flex-shrink-0 font-philosopher ${
+                                          <div className={`relative w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-2xs flex-shrink-0 font-philosopher overflow-hidden ${
                                             isReplyMe 
                                               ? 'bg-amber-600' 
                                               : reply.sender_role?.includes('Dosen')
                                               ? 'bg-indigo-600'
                                               : 'bg-primary'
                                           }`}>
-                                            {reply.sender_name ? reply.sender_name.charAt(0).toUpperCase() : 'U'}
+                                            <span>{reply.sender_name ? reply.sender_name.charAt(0).toUpperCase() : 'U'}</span>
+                                            {reply.sender_avatar && (
+                                              <img
+                                                src={reply.sender_avatar}
+                                                alt={reply.sender_name || 'Foto'}
+                                                className="absolute inset-0 w-full h-full object-cover object-top"
+                                                onError={(e) => {
+                                                  e.currentTarget.style.display = 'none';
+                                                }}
+                                              />
+                                            )}
                                           </div>
 
                                           {/* Isi Balasan */}

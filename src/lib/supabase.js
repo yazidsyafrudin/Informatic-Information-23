@@ -111,6 +111,21 @@ export const StorageService = {
       const saved = localStorage.getItem('IF23_ACTIVE_USER');
       if (!saved) return null;
       const user = JSON.parse(saved);
+      // Sinkronkan avatar_url jika belum ada di ACTIVE_USER tapi sudah ada di ACTIVE_PROFILE
+      if (!user.avatar_url) {
+        try {
+          const profileSaved = localStorage.getItem('IF23_ACTIVE_PROFILE');
+          if (profileSaved) {
+            const parsedProf = JSON.parse(profileSaved);
+            if (parsedProf.avatar_url && (!parsedProf.nim || String(parsedProf.nim) === String(user.nim))) {
+              user.avatar_url = parsedProf.avatar_url;
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
+
       // Koreksi otomatis jika akun Google umum sebelumnya terisi mahasiswa IF23
       if (user.nim && String(user.nim).startsWith('G-')) {
         user.peran = 'Umum / Pengunjung';
