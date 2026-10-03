@@ -30,7 +30,7 @@ import { MAHASISWA_IF23_LIST } from '../data/mahasiswaIf23';
 export default function AboutView({ setActiveTab }) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter 40 Mahasiswa berdasarkan pencarian nama atau NIM
+  // Filter Mahasiswa Aktif berdasarkan pencarian nama atau NIM
   const filteredStudents = useMemo(() => {
     if (!searchQuery.trim()) return MAHASISWA_IF23_LIST;
     const query = searchQuery.toLowerCase().trim();
@@ -92,7 +92,7 @@ export default function AboutView({ setActiveTab }) {
           </h1>
 
           <p className="text-white/90 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
-            Portal terpadu, ruang perjuangan, dan wadah solidaritas 40 mahasiswa 
+            Portal terpadu, ruang perjuangan, dan wadah solidaritas {MAHASISWA_IF23_LIST.length} mahasiswa aktif 
             <strong className="text-white font-bold"> Informatika Angkatan 2023</strong>. 
             Dari hari pertama masuk kelas, pusing debugging error bareng, hingga melangkah serentak ke panggung wisuda Sarjana Komputer!
           </p>
@@ -100,8 +100,8 @@ export default function AboutView({ setActiveTab }) {
           {/* Quick Metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full max-w-3xl pt-2">
             <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center backdrop-blur-xs">
-              <span className="block font-philosopher text-2xl sm:text-3xl font-bold text-accent">40</span>
-              <span className="text-xs text-white/80 font-medium">Mahasiswa Seangkatan</span>
+              <span className="block font-philosopher text-2xl sm:text-3xl font-bold text-accent">{MAHASISWA_IF23_LIST.length}</span>
+              <span className="text-xs text-white/80 font-medium">Mahasiswa Aktif</span>
             </div>
             <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center backdrop-blur-xs">
               <span className="block font-philosopher text-2xl sm:text-3xl font-bold text-white">ASIIN</span>
@@ -237,7 +237,7 @@ export default function AboutView({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 4. DIREKTORI 40 MAHASISWA INFORMATIKA ANGKATAN 2023 */}
+      {/* 4. DIREKTORI MAHASISWA AKTIF INFORMATIKA ANGKATAN 2023 */}
       <section className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-primary/20 shadow-md space-y-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
@@ -249,7 +249,7 @@ export default function AboutView({ setActiveTab }) {
               Keluarga Besar Informatika 2023
             </h2>
             <p className="text-xs sm:text-sm text-slate-600">
-              Terdiri dari 40 mahasiswa yang tercatat resmi menempuh program studi S1 Informatika UAA.
+              Terdiri dari {MAHASISWA_IF23_LIST.length} mahasiswa aktif yang tercatat resmi menempuh program studi S1 Informatika UAA.
             </p>
           </div>
 
@@ -278,11 +278,11 @@ export default function AboutView({ setActiveTab }) {
 
         {/* Counter Info */}
         <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
-          <span>Menampilkan <strong className="text-primary font-bold">{filteredStudents.length}</strong> dari 40 mahasiswa</span>
+          <span>Menampilkan <strong className="text-primary font-bold">{filteredStudents.length}</strong> dari {MAHASISWA_IF23_LIST.length} mahasiswa aktif</span>
           <span className="text-[11px] font-mono">Sumber: Dokumen NIM IF23 UAA</span>
         </div>
 
-        {/* Grid 40 Mahasiswa */}
+        {/* Grid Mahasiswa */}
         {filteredStudents.length === 0 ? (
           <div className="text-center py-12 text-slate-400 space-y-2">
             <HelpCircle className="w-8 h-8 mx-auto text-slate-300" />
