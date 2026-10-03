@@ -10,6 +10,7 @@ import KalenderAkademikView from './components/KalenderAkademikView';
 import DiskusiView from './components/DiskusiView';
 import AboutView from './components/AboutView';
 import NavigationMenuModal from './components/NavigationMenuModal';
+import FloatingAiWidget from './components/FloatingAiWidget';
 import { StorageService } from './lib/supabase';
 import { ROADMAP_PHASES } from './data/milestones';
 
@@ -225,6 +226,14 @@ export default function App() {
         onSelectTab={(tabId) => setActiveTab(tabId)}
         currentUser={currentUser}
       />
+
+      {/* Floating AI Assistant Widget di Pojok Layar Bawah */}
+      {activeTab !== 'diskusi' && (
+        <FloatingAiWidget
+          currentUser={currentUser}
+          onOpenFullAi={() => setActiveTab('diskusi')}
+        />
+      )}
 
       {/* Footer UAA */}
       <footer className="border-t border-primary-700/60 bg-primary py-10 px-4 sm:px-6 lg:px-8 text-xs text-white/80 font-instrument shadow-inner">
