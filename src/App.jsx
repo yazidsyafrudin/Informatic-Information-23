@@ -261,6 +261,13 @@ export default function App() {
               </button>
               <span className="text-white/40">•</span>
               <button
+                onClick={() => setActiveTab('diskusi')}
+                className="hover:text-accent transition-colors cursor-pointer"
+              >
+                Ruang Diskusi
+              </button>
+              <span className="text-white/40">•</span>
+              <button
                 onClick={() => setActiveTab('panduan')}
                 className="hover:text-accent transition-colors cursor-pointer"
               >
