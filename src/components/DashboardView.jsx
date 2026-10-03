@@ -6,6 +6,7 @@ import {
   FileText,
   BookMarked,
   ChevronRight,
+  ChevronDown,
   Award,
   Users,
   Maximize2,
@@ -26,7 +27,15 @@ import { TIMELINE_EVENTS } from '../data/milestones';
 
 export default function DashboardView({ setActiveTab, profile, progressCount, totalMilestones, currentUser }) {
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [expandedTimeline, setExpandedTimeline] = useState({ 0: true }); // Default kartu 1 (sedang berjalan) terbuka
   const percentComplete = Math.round((progressCount / totalMilestones) * 100) || 0;
+
+  const toggleTimelineEvent = (idx) => {
+    setExpandedTimeline(prev => ({
+      ...prev,
+      [idx]: !prev[idx]
+    }));
+  };
 
   return (
     <div className="space-y-10 animate-fadeIn">
@@ -440,63 +449,121 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
 
         {/* Timeline Angkatan (2 Cols) */}
         <div className="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-2 border-b border-primary/10">
             <div>
               <h2 className="text-xl font-bold font-philosopher text-primary">
                 Timeline Perjalanan Angkatan '23
               </h2>
               <p className="text-xs font-instrument text-slate-500">
-                Peta jalan waktu dari magang hingga wisuda sarjana komputer Universitas Alma Ata
+                Peta jalan waktu dari magang hingga wisuda sarjana komputer (Klik kartu untuk buka/tutup detail)
               </p>
             </div>
-            <button
-              onClick={() => setActiveTab('roadmap')}
-              className="text-xs font-instrument font-bold text-primary hover:text-primary/80 flex items-center space-x-1"
-            >
-              <span>Detail Tahapan</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex items-center space-x-3 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => {
+                  const allOpen = Object.keys(expandedTimeline).length === TIMELINE_EVENTS.length && Object.values(expandedTimeline).every(Boolean);
+                  if (allOpen) {
+                    setExpandedTimeline({});
+                  } else {
+                    const next = {};
+                    TIMELINE_EVENTS.forEach((_, i) => { next[i] = true; });
+                    setExpandedTimeline(next);
+                  }
+                }}
+                className="text-xs font-instrument font-bold text-accent hover:text-amber-600 transition-colors px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200"
+              >
+                {Object.keys(expandedTimeline).length === TIMELINE_EVENTS.length && Object.values(expandedTimeline).every(Boolean)
+                  ? 'Tutup Semua'
+                  : 'Buka Semua'}
+              </button>
+              <button
+                onClick={() => setActiveTab('roadmap')}
+                className="text-xs font-instrument font-bold text-primary hover:text-primary/80 flex items-center space-x-1"
+              >
+                <span>Detail Tahapan</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
-          <div className="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-primary/30">
-            {TIMELINE_EVENTS.map((event, idx) => (
-              <div key={idx} className="relative group">
-                <div className={`absolute -left-[27px] top-1.5 w-4 h-4 rounded-full border-2 transition-all ${event.status === 'current'
-                    ? 'bg-primary border-white ring-4 ring-sky-200'
-                    : event.status === 'highlight'
-                      ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
-                      : event.status === 'goal'
-                        ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
-                        : 'bg-slate-300 border-white'
-                  }`} />
+          <div className="relative pl-6 space-y-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-primary/30">
+            {TIMELINE_EVENTS.map((event, idx) => {
+              const isOpen = !!expandedTimeline[idx];
+              return (
+                <div key={idx} className="relative group">
+                  <div className={`absolute -left-[27px] top-4 w-4 h-4 rounded-full border-2 transition-all ${event.status === 'current'
+                      ? 'bg-primary border-white ring-4 ring-sky-200'
+                      : event.status === 'highlight'
+                        ? 'bg-accent border-white ring-4 ring-amber-200 animate-pulse'
+                        : event.status === 'goal'
+                          ? 'bg-emerald-500 border-white ring-4 ring-emerald-200'
+                          : 'bg-slate-300 border-white'
+                    }`} />
 
-                <div className="bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 border-primary-700 group-hover:border-accent transition-all shadow-md">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${event.status === 'highlight'
-                        ? 'bg-accent text-white shadow-xs'
-                        : event.status === 'current'
-                          ? 'bg-white text-primary shadow-xs'
-                          : 'bg-white/20 text-white'
-                      }`}>
-                      {event.category}
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-white font-philosopher text-base">{event.title}</h3>
-                  <p className="text-xs text-white/90 mt-1.5 font-instrument leading-relaxed">{event.desc}</p>
-
-                  {event.highlights && event.highlights.length > 0 && (
-                    <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-wrap gap-1.5">
-                      {event.highlights.map((tag, hIdx) => (
-                        <span key={hIdx} className="inline-flex items-center text-[10.5px] bg-white/10 text-sky-100 px-2 py-0.5 rounded-md font-instrument">
-                          ✓ {tag}
+                  <div 
+                    onClick={() => toggleTimelineEvent(idx)}
+                    className={`bg-primary text-white p-4 sm:p-5 rounded-2xl border-2 transition-all shadow-md cursor-pointer select-none ${
+                      isOpen ? 'border-accent shadow-lg' : 'border-primary-700 hover:border-accent/80'
+                    }`}
+                  >
+                    {/* Header: Tanggal & Badge Kategori + Tombol Dropdown */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <span className="text-xs font-mono font-bold text-accent">{event.date}</span>
+                      <div className="flex items-center space-x-2">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument ${event.status === 'highlight'
+                            ? 'bg-accent text-white shadow-xs'
+                            : event.status === 'current'
+                              ? 'bg-white text-primary shadow-xs'
+                              : 'bg-white/20 text-white'
+                          }`}>
+                          {event.category}
                         </span>
-                      ))}
+                        <div 
+                          className={`p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all duration-300 ${
+                            isOpen ? 'rotate-180 bg-accent text-white shadow-xs' : ''
+                          }`}
+                          title={isOpen ? 'Tutup detail' : 'Buka detail'}
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </div>
+                      </div>
                     </div>
-                  )}
+
+                    {/* Judul Kegiatan (Selalu Terlihat) */}
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-bold text-white font-philosopher text-base leading-snug">
+                        {event.title}
+                      </h3>
+                      {!isOpen && (
+                        <span className="text-[10px] text-accent/90 font-instrument font-semibold hidden sm:inline-block flex-shrink-0">
+                          Buka Detail ↓
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Konten Dropdown (Keterangan Paragraf & Checklist) */}
+                    {isOpen && (
+                      <div className="mt-3 pt-3 border-t border-white/15 animate-fadeIn">
+                        <p className="text-xs text-white/90 font-instrument leading-relaxed">
+                          {event.desc}
+                        </p>
+
+                        {event.highlights && event.highlights.length > 0 && (
+                          <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-wrap gap-1.5">
+                            {event.highlights.map((tag, hIdx) => (
+                              <span key={hIdx} className="inline-flex items-center text-[10.5px] bg-white/10 text-sky-100 px-2 py-0.5 rounded-md font-instrument">
+                                ✓ {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
