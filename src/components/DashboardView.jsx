@@ -229,33 +229,33 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
             Bingung Harus Mulai dari Mana Sekarang?
           </h2>
           <p className="font-instrument text-slate-600 text-xs sm:text-sm mt-1.5 leading-relaxed">
-            Berdasarkan Buku Panduan Skripsi FKT, Laporan Magang KKL, dan Surat Edaran EC, inilah 4 tahapan paling terarah untuk memulainya:
+            Berdasarkan Buku Panduan Skripsi FKT, Laporan Magang KKL, SPM 9 Poin, dan Surat Edaran EC, inilah 5 langkah paling krusial untuk dicicil dan dipersiapkan:
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-4.5">
           
           {/* Langkah 1 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
-            <div className="space-y-3">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
                   01
                 </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-black/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-300 bg-black/20 px-2 py-0.5 rounded-full border border-amber-400/30">
                   <Briefcase className="w-3 h-3" />
                   Magang & Kasus
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
                 Selesaikan Magang & Ambil Masalah Nyata
               </h3>
-              <p className="font-instrument text-xs text-white/90 leading-relaxed">
+              <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Tuntaskan logbook 16 minggu & laporan KKL. Ambil kendala sistem atau proses bisnis manual di tempat magang sebagai studi kasus skripsi kamu.
               </p>
             </div>
             
-            <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
+            <div className="mt-3.5 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
               <div className="flex items-center gap-1.5">
                 <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                 <span>Logbook 16 Mgg & Laporan KKL</span>
@@ -268,26 +268,26 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 2 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
-            <div className="space-y-3">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
                   02
                 </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-black/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-300 bg-black/20 px-2 py-0.5 rounded-full border border-amber-400/30">
                   <BookOpen className="w-3 h-3" />
                   Literatur & Metode
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
                 Koleksi 5–10 Jurnal SINTA / Scopus
               </h3>
-              <p className="font-instrument text-xs text-white/90 leading-relaxed">
+              <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Kunci peminatan (SE / AI / Jaringan). Cari 5–10 jurnal terakreditasi 3–5 tahun terakhir untuk rujukan metode penyelesaian (misal: CNN, Scrum, IoT).
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
+            <div className="mt-3.5 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
               <div className="flex items-center gap-1.5">
                 <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                 <span>Minimal 5 Jurnal SINTA/IEEE</span>
@@ -300,26 +300,26 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 3 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
-            <div className="space-y-3">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
                   03
                 </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-black/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-300 bg-black/20 px-2 py-0.5 rounded-full border border-amber-400/30">
                   <FileText className="w-3 h-3" />
                   Draf & Bimbingan
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
                 Susun Bab 1–3 & Bimbingan Dospem
               </h3>
-              <p className="font-instrument text-xs text-white/90 leading-relaxed">
+              <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Tulis proposal format 4-4-3-3 (TNR 12, spasi 1.5). Bimbingan rutin ke Pembimbing I & II (min. 4x sebelum sempro) dan pastikan Turnitin proposal ≤ 20%.
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
+            <div className="mt-3.5 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
               <div className="flex items-center gap-1.5">
                 <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                 <span>Format 4-4-3-3 & Turnitin ≤ 20%</span>
@@ -332,26 +332,26 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
           </div>
 
           {/* Langkah 4 */}
-          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
-            <div className="space-y-3">
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
                   04
                 </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-black/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-300 bg-black/20 px-2 py-0.5 rounded-full border border-amber-400/30">
                   <ShieldCheck className="w-3 h-3" />
                   Syarat & Kaji Etik
                 </span>
               </div>
-              <h3 className="font-philosopher font-bold text-white text-base leading-snug group-hover:text-amber-200 transition-colors">
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
                 Cicil 5x Sempro, AAEPT & Surat EC
               </h3>
-              <p className="font-instrument text-xs text-white/90 leading-relaxed">
+              <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Cicil bukti hadir 5x sempro kawan di kartu kendali, pastikan tes AAEPT (min. 450) & LPBA siap, serta siapkan protokol Kaji Etik KEPK jika riset ada responden.
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
+            <div className="mt-3.5 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
               <div className="flex items-center gap-1.5">
                 <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                 <span>Kartu Hadir 5x Sempro Kawan</span>
@@ -359,6 +359,38 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
               <div className="flex items-center gap-1.5">
                 <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                 <span>Skor AAEPT ≥ 450 & Surat EC</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Langkah 5: Poin SPM Akademik & Prodi */}
+          <div className="bg-gradient-to-b from-[#0b5e91] to-[#074265] text-white rounded-2xl p-4.5 sm:p-5 border-2 border-primary-600/60 hover:border-amber-400 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 shadow-md group">
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-white/15 border border-white/20 text-white flex items-center justify-center font-instrument text-xs font-bold shadow-xs group-hover:bg-accent group-hover:border-accent transition-colors">
+                  05
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-300 bg-black/20 px-2 py-0.5 rounded-full border border-amber-400/30">
+                  <Award className="w-3 h-3" />
+                  Krusial • SPM
+                </span>
+              </div>
+              <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors">
+                Lengkapi Poin SPM Akademik & Prodi
+              </h3>
+              <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
+                Penuhi 9 poin SPM Akademik & Prodi. Wajib dicicil dari sekarang, terutama tugas membuat konten edukasi yang butuh waktu review & konfirmasi kesesuaian dari kampus.
+              </p>
+            </div>
+
+            <div className="mt-3.5 pt-3 border-t border-white/10 space-y-1.5 text-[10px] text-sky-100 font-instrument">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                <span>9 Poin Krusial SPM Akademik</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                <span>Cicil & Konfirmasi Konten Kampus</span>
               </div>
             </div>
           </div>
@@ -376,7 +408,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 Urutan Paling Direkomendasikan untuk Memulai:
               </p>
               <p className="text-[11px] sm:text-xs text-slate-600 font-instrument leading-snug mt-0.5">
-                Mulai dari <strong>Langkah 1 (masalah nyata di tempat magang)</strong> agar tidak pusing mencari objek riset. Setelah topik di-ACC dospem, langsung tulis Bab 1–3 sambil mencicil kehadiran 5x sempro kawan!
+                Mulai dari <strong>Langkah 1 (masalah nyata di tempat magang)</strong> agar objek riset jelas. Sembari menyusun Bab 1–3, <strong>cicil segera 9 poin SPM (terutama pembuatan konten kampus)</strong> dan kehadiran 5x sempro kawan agar berkas kelulusan aman tanpa kendala di akhir!
               </p>
             </div>
           </div>
