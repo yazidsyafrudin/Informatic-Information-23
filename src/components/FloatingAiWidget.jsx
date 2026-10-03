@@ -309,35 +309,60 @@ export default function FloatingAiWidget({ currentUser, onOpenFullAi }) {
         </div>
       )}
 
-      {/* FLOATING TRIGGER BUTTON DI POJOK BAWAH DENGAN ROBOT 3D TRANSPARAN */}
+      {/* FLOATING TRIGGER: KARTU PERSEGI PANJANG ELEGAN DENGAN ROBOT 3D */}
       {!isOpen && (
-        <button
-          type="button"
+        <div
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center space-x-3 pl-2.5 pr-4 py-2 rounded-full bg-gradient-to-r from-primary via-primary-800 to-slate-900 border-2 border-white/30 shadow-2xl hover:shadow-primary/50 transform hover:-translate-y-1 transition-all duration-300 cursor-pointer animate-fadeIn"
-          title="Butuh bantuan? Tanya Asisten AI PusingBot"
+          className="group relative cursor-pointer animate-fadeIn transition-all duration-300 transform hover:-translate-y-1 select-none"
+          title="Klik untuk membuka obrolan dengan PusingBot AI"
         >
-          {/* Karakter Robot 3D Animasi Tanpa Background */}
-          <div className="relative w-10 h-10 flex-shrink-0 flex items-center justify-center">
-            <img
-              src="/bot-ai-avatar.png"
-              alt="PusingBot AI"
-              className="w-12 h-12 max-w-none object-contain drop-shadow-md group-hover:scale-115 transition-transform duration-300 -mt-1"
-            />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-primary absolute top-0 right-0 animate-pulse" />
-          </div>
+          {/* Efek Ambient Glow Halus */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-sky-400/25 via-primary/35 to-amber-400/25 rounded-3xl blur-md opacity-70 group-hover:opacity-100 transition duration-500" />
 
-          {/* Teks Label Tombol */}
-          <div className="text-left flex flex-col justify-center">
-            <span className="text-[10px] uppercase tracking-wider font-extrabold text-amber-300 flex items-center leading-none">
-              <Sparkles className="w-3 h-3 mr-1 text-amber-300 animate-spin [animation-duration:4s]" />
-              Butuh Bantuan?
-            </span>
-            <span className="text-xs sm:text-sm font-bold font-philosopher text-white group-hover:text-amber-200 transition-colors leading-tight">
-              Tanya AI
-            </span>
+          {/* Kartu Persegi Panjang */}
+          <div className="relative flex items-center gap-3 sm:gap-3.5 pl-2 pr-4 py-2.5 sm:py-3 rounded-2xl bg-gradient-to-br from-[#0c4a6e]/95 via-[#0b5e91]/95 to-[#073656]/95 backdrop-blur-xl border-2 border-white/30 hover:border-amber-400/60 shadow-[0_12px_36px_-8px_rgba(11,94,145,0.45)] group-hover:shadow-[0_18px_45px_-6px_rgba(11,94,145,0.6)] transition-all max-w-[330px] sm:max-w-[360px]">
+            
+            {/* Karakter Robot 3D Full-Body */}
+            <div className="relative flex-shrink-0 -my-2">
+              <img
+                src="/bot-ai.png"
+                alt="PusingBot Mascot"
+                className="w-16 h-20 sm:w-18 sm:h-22 object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)] group-hover:scale-108 transition-transform duration-300"
+              />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white absolute bottom-1 right-1 shadow-xs animate-pulse" />
+            </div>
+
+            {/* Konten Teks Kartu */}
+            <div className="flex-1 min-w-0 text-left">
+              {/* Badges Bar */}
+              <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 leading-none">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 animate-ping" />
+                  Online
+                </span>
+                <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30 leading-none">
+                  <Sparkles className="w-2.5 h-2.5 mr-1" />
+                  AI 24/7
+                </span>
+              </div>
+
+              {/* Judul Kartu */}
+              <h4 className="text-white font-philosopher font-bold text-xs sm:text-sm leading-tight group-hover:text-amber-200 transition-colors truncate">
+                Halo! Butuh bantuan?
+              </h4>
+              <p className="text-[10px] sm:text-[11px] text-sky-100/80 leading-snug mt-0.5 line-clamp-1">
+                Tanya skripsi, turnitin, & jadwal
+              </p>
+
+              {/* Tombol Aksi Kecil */}
+              <div className="mt-1.5 flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-300 group-hover:text-amber-100 transition-colors">
+                <span>Tanya AI Sekarang</span>
+                <ArrowRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+
           </div>
-        </button>
+        </div>
       )}
     </div>
   );
