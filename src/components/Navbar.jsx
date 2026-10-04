@@ -21,7 +21,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-primary shadow-md w-full">
+    <header className="sticky top-0 z-50 bg-primary/95 backdrop-blur-md shadow-md w-full">
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-2 sm:gap-4">
           

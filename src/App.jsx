@@ -134,7 +134,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9F6EE] text-slate-800 font-instrument selection:bg-primary selection:text-white overflow-x-hidden w-full max-w-full">
+    <div className="min-h-screen flex flex-col bg-[#F9F6EE] text-slate-800 font-instrument selection:bg-primary selection:text-white overflow-x-clip w-full max-w-full">
       {/* Navbar Resmi Biru UAA */}
       <Navbar
         activeTab={activeTab}
