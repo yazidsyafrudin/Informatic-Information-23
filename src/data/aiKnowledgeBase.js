@@ -85,10 +85,11 @@ export const AI_KNOWLEDGE_BASE = [
 • Mata Kuliah Metodologi Penelitian & MKU wajib minimal nilai C.`
   },
   {
-    keywords: ['magang', 'kkl', 'kerja praktik', 'kp', 'laporan magang'],
-    answer: `Panduan Magang / Praktik Kerja Lapangan (KKL):
-• Magang adalah salah satu prasyarat fase awal sebelum naskah skripsi.
-• Berkas format panduan laporan magang dapat diunduh di menu **Unduhan PDF** di website ini (file: panduan-laporan-magang-kkl.pdf).`
+    keywords: ['magang', 'kkl', 'kerja praktik', 'kp', 'laporan magang', 'template magang', 'format magang', 'kerangka magang', 'logbook magang'],
+    answer: `Panduan & Template Laporan Magang (KKL) Informatika 2026:
+• **Buku Panduan KKL 2026**: Pedoman resmi versi Bahasa Indonesia dapat diunduh di menu **Panduan FKT** (sub-tab Panduan Magang) atau di menu **Pusat Berkas (Downloads)**.
+• **Template Word (.docx)**: Tersedia file *Format_Kerangka_Laporan_Magang_2026.docx* siap pakai lengkap dengan cover kreasi tema magang, lembar pengesahan (Supervisor & DPL), sistematika Bab 1–4, dan format logbook harian/mingguan!
+• Laporan memiliki margin 4-3-3-3 cm, huruf Times New Roman 12pt (spasi 1.5), dan tebal minimal 25 halaman.`
   }
 ];
 

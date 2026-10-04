@@ -48,13 +48,23 @@ export default function DownloadsView() {
       isPrimary: true
     },
     {
-      title: "Buku Panduan Laporan Magang (KKL) Informatika UAA",
-      code: "Pedoman Magang",
+      title: "Format Kerangka Laporan Magang (KKL) 2026 (DOCX)",
+      code: "Template Word 2026",
       category: "Magang & KKL",
-      desc: "Panduan resmi penyusunan laporan magang minimal 25 halaman, format margin 4-3-3-3, format logbook 16 minggu, dan tata cara pengumpulan.",
+      desc: "Template resmi dokumen Microsoft Word penulisan laporan magang S1 Informatika lengkap dengan cover, lembar pengesahan, Bab 1–4, dan format logbook harian.",
+      href: "/Format_Kerangka_Laporan_Magang_2026.docx",
+      fileName: "Format_Kerangka_Laporan_Magang_2026.docx",
+      buttonText: "Download Template Word (.docx) • 3 MB",
+      isPrimary: true
+    },
+    {
+      title: "Buku Panduan KKL (Magang) Informatika 2026 - Bahasa Indonesia",
+      code: "Buku Panduan KKL",
+      category: "Magang & KKL",
+      desc: "Buku pedoman resmi pelaksanaan dan penyusunan laporan Kuliah Kerja Lapangan (KKL) 2026 versi Bahasa Indonesia.",
       href: "/panduan-laporan-magang-kkl.pdf",
-      fileName: "Panduan_Laporan_Magang_KKL_Informatika_UAA.pdf",
-      buttonText: "Download Panduan Magang (PDF)",
+      fileName: "Buku_Panduan_KKL_Informatika_2026.pdf",
+      buttonText: "Download Panduan KKL (PDF) • 496 KB",
       isPrimary: true
     },
     {

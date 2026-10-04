@@ -518,29 +518,38 @@ export default function PanduanFktView() {
         <div className="space-y-8 animate-fadeIn">
           
           {/* Header Banner Magang */}
-          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
               <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2">
                 <Briefcase className="w-4 h-4 text-accent" />
                 <span>Mata Kuliah Wajib Semester 7 • 3 SKS</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
-                Panduan Laporan Kuliah Kerja Lapangan (KKL / Magang)
+                Panduan & Template Laporan KKL (Magang) 2026
               </h2>
               <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
-                Pedoman resmi penyusunan laporan magang mahasiswa S1 Informatika Universitas Alma Ata, 
-                format penulisan standar, logbook 16 minggu, serta pengumpulan softcopy ke email prodi.
+                Buku panduan resmi KKL Informatika 2026 (versi Bahasa Indonesia) serta template Word (.docx) siap pakai lengkap dengan cover, lembar pengesahan, sistematika Bab 1–4, dan format logbook.
               </p>
             </div>
 
-            <a
-              href="/panduan-laporan-magang-kkl.pdf"
-              download="Panduan_Laporan_Magang_KKL_Informatika_UAA.pdf"
-              className="flex items-center space-x-2 px-5 py-3.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md shadow-accent/25 transition-all self-start md:self-auto flex-shrink-0"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download PDF Panduan Magang</span>
-            </a>
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 flex-shrink-0 self-start lg:self-auto">
+              <a
+                href="/Format_Kerangka_Laporan_Magang_2026.docx"
+                download="Format_Kerangka_Laporan_Magang_2026.docx"
+                className="flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-accent hover:bg-amber-600 text-white font-bold text-xs shadow-md shadow-accent/25 transition-all whitespace-nowrap"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download Template Word (.docx)</span>
+              </a>
+              <a
+                href="/panduan-laporan-magang-kkl.pdf"
+                download="Buku_Panduan_KKL_Informatika_2026.pdf"
+                className="flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-white/15 hover:bg-white/20 border border-white/25 text-white font-bold text-xs shadow-xs transition-all whitespace-nowrap"
+              >
+                <Download className="w-4 h-4 text-accent" />
+                <span>Download PDF Panduan (B. Indonesia)</span>
+              </a>
+            </div>
           </div>
 
           {/* Aturan Format Penulisan Laporan */}
