@@ -1007,30 +1007,30 @@ export default function PanduanFktView() {
       {activeSection === 'dokumen' && (
         <div className="space-y-6 animate-fadeIn">
           
-          {/* Header Banner - Clean & Soft Styling */}
-          <div className="bg-gradient-to-r from-sky-50 via-white to-sky-50/80 p-6 sm:p-7 rounded-3xl border border-sky-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          {/* Header Banner Section 8 - Solid Blue UAA */}
+          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div className="flex items-center space-x-2 text-primary text-xs font-bold uppercase tracking-wider mb-1 font-instrument">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2 font-instrument">
                 <FolderDown className="w-4 h-4 text-accent" />
-                <span>Pusat Berkas & Template Resmi</span>
+                <span>Repository Terpadu • Berkas Resmi Siap Unduh</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold font-philosopher text-slate-800">
+              <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
                 Pusat Dokumen & Formulir (PDF / DOCX)
               </h2>
-              <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed font-instrument">
+              <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed font-instrument">
                 Akses cepat seluruh format dokumen resmi, template naskah Microsoft Word (.docx), dan buku panduan PDF untuk keperluan magang serta skripsi angkatan 2023.
               </p>
             </div>
 
             {/* Quick Filter Tabs */}
-            <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 self-start md:self-auto flex-shrink-0">
+            <div className="flex items-center gap-1.5 bg-white/10 p-1.5 rounded-2xl border border-white/20 self-start md:self-auto flex-shrink-0 backdrop-blur-xs">
               <button
                 type="button"
                 onClick={() => setDocFilter('all')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
                   docFilter === 'all'
                     ? 'bg-white text-primary shadow-xs'
-                    : 'text-slate-600 hover:text-primary'
+                    : 'text-white/80 hover:text-white'
                 }`}
               >
                 Semua ({repositoryDokumen.length})
@@ -1040,8 +1040,8 @@ export default function PanduanFktView() {
                 onClick={() => setDocFilter('word')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
                   docFilter === 'word'
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-blue-600'
+                    ? 'bg-accent text-white shadow-xs'
+                    : 'text-white/80 hover:text-white'
                 }`}
               >
                 Template Word ({repositoryDokumen.filter(d => d.isWord).length})
@@ -1051,8 +1051,8 @@ export default function PanduanFktView() {
                 onClick={() => setDocFilter('pdf')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
                   docFilter === 'pdf'
-                    ? 'bg-primary text-white shadow-xs'
-                    : 'text-slate-600 hover:text-primary'
+                    ? 'bg-white text-primary shadow-xs'
+                    : 'text-white/80 hover:text-white'
                 }`}
               >
                 Panduan PDF ({repositoryDokumen.filter(d => !d.isWord).length})
@@ -1060,93 +1060,80 @@ export default function PanduanFktView() {
             </div>
           </div>
 
-          {/* Grid Dokumen Siap Unduh - Clean White Cards */}
+          {/* Grid Dokumen Siap Unduh - Solid Blue Cards (Judul Saja, Tanpa Deskripsi) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredDocs.map((doc, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl border border-slate-200/90 hover:border-primary/50 hover:shadow-md transition-all p-5 sm:p-6 flex flex-col justify-between group"
+                className="bg-primary text-white p-5 sm:p-6 rounded-2xl border-2 border-primary-700 hover:border-accent shadow-md transition-all flex flex-col justify-between group"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center space-x-2">
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold ${
-                        doc.isWord
-                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                          : 'bg-rose-50 text-rose-700 border border-rose-200'
-                      }`}>
-                        {doc.format}
-                      </span>
-                      <span className="text-[11px] font-mono text-slate-400">
-                        {doc.size}
-                      </span>
-                    </div>
-                    <span className="text-[11px] font-semibold text-slate-500 font-instrument bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-100">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/15 text-white border border-white/20">
+                      {doc.format} • {doc.size}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-accent text-white shadow-xs">
                       {doc.category}
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-sm sm:text-base text-slate-800 mb-1.5 font-philosopher group-hover:text-primary transition-colors leading-snug">
+                  <h3 className="font-bold text-base sm:text-lg text-white my-2.5 font-philosopher leading-snug group-hover:text-accent transition-colors">
                     {doc.title}
                   </h3>
-
-                  <p className="text-xs text-slate-500 leading-relaxed font-instrument line-clamp-2">
-                    {doc.desc}
-                  </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                  <span className="text-[11px] font-medium text-slate-400 font-instrument">
+                <div className="pt-3.5 mt-2 border-t border-white/20 flex items-center justify-between gap-3">
+                  <span className="text-[11px] font-instrument text-white/70">
                     {doc.badge}
                   </span>
                   <a
                     href={doc.href}
                     download={doc.fileName}
-                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-colors font-instrument ${
+                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${
                       doc.isWord
-                        ? 'bg-accent hover:bg-amber-600 text-white shadow-xs'
-                        : 'bg-primary hover:bg-primary-700 text-white shadow-xs'
+                        ? 'bg-accent hover:bg-amber-600 text-white'
+                        : 'bg-white hover:bg-sky-50 text-primary'
                     }`}
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>{doc.isWord ? 'Unduh Word (.docx)' : 'Unduh PDF'}</span>
+                    <span>{doc.isWord ? 'Download Word (.docx)' : 'Download PDF'}</span>
                   </a>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Box Informasi Formulir Lampiran Buku Panduan - Clean & Minimalist */}
-          <div className="bg-slate-50/80 p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
-            <h3 className="font-bold text-slate-800 font-philosopher text-sm sm:text-base mb-1">
+          {/* Box Informasi Formulir Lampiran Buku Panduan */}
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border-2 border-sky-100 shadow-xs">
+            <h3 className="font-bold text-primary font-philosopher text-base mb-1">
               Formulir Tambahan di Lampiran Buku Panduan FKT
             </h3>
-            <p className="text-xs text-slate-500 mb-3.5 font-instrument">
+            <p className="text-xs text-slate-600 mb-4 font-instrument">
               Selain file di atas, formulir administratif berikut dapat Anda fotokopi langsung dari bagian <strong>Lampiran Buku Panduan Skripsi FKT</strong>:
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs font-instrument">
-              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                 <span className="font-bold text-primary block">Form FKT.SPI.01:</span>
                 Pengajuan Judul Skripsi & Dospem (Lampiran 1)
               </div>
-              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                 <span className="font-bold text-primary block">Form FKT.SPI.04:</span>
                 Kartu Bimbingan Proposal Skripsi (Lampiran 10)
               </div>
-              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                 <span className="font-bold text-primary block">Form FKT.SPI.05:</span>
                 Kartu Bimbingan Skripsi Akhir (Lampiran 11)
               </div>
-              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                 <span className="font-bold text-primary block">Lampiran 4:</span>
                 Formulir Persetujuan Seminar Proposal (ACC Dosen)
               </div>
-              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                 <span className="font-bold text-primary block">Lampiran 12:</span>
                 Surat Pernyataan Keaslian Riset Bermaterai Rp10.000
               </div>
-              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
                 <span className="font-bold text-primary block">Lampiran 15:</span>
                 Format Surat Keterangan Lolos Uji Turnitin ≤ 20%
               </div>
