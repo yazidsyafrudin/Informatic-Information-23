@@ -280,7 +280,7 @@ export default function PanduanFktView() {
       {/* Navigation Sub-Tabs */}
       <div className="flex flex-wrap gap-2 border-b-2 border-primary-200 pb-3">
         {[
-          { id: 'syarat', label: '1. Persyaratan Akademik', icon: FileCheck2 },
+          { id: 'syarat', label: 'Persyaratan Akademik', icon: FileCheck2 },
           { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
           { id: 'sistematika', label: '3. Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
@@ -297,8 +297,8 @@ export default function PanduanFktView() {
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
               className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${isActive
-                  ? 'bg-primary text-white shadow-xs'
-                  : 'bg-white text-slate-600 border-2 border-slate-200 hover:text-primary hover:bg-white'
+                ? 'bg-primary text-white shadow-xs'
+                : 'bg-white text-slate-600 border-2 border-slate-200 hover:text-primary hover:bg-white'
                 }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -1038,8 +1038,8 @@ export default function PanduanFktView() {
                 <div
                   key={item.step}
                   className={`bg-primary text-white rounded-2xl p-5 border-2 shadow-md flex flex-col justify-between hover:-translate-y-1 transition-all ${item.step === 2
-                      ? 'border-emerald-400 ring-2 ring-emerald-400/20'
-                      : 'border-primary-700 hover:border-accent'
+                    ? 'border-emerald-400 ring-2 ring-emerald-400/20'
+                    : 'border-primary-700 hover:border-accent'
                     }`}
                 >
                   <div>
@@ -1125,7 +1125,7 @@ export default function PanduanFktView() {
       {/* SECTION 8: PUSAT DOKUMEN (PDF/DOCX) */}
       {activeSection === 'dokumen' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           {/* Header Banner Section 8 - Solid Blue UAA */}
           <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
@@ -1146,33 +1146,30 @@ export default function PanduanFktView() {
               <button
                 type="button"
                 onClick={() => setDocFilter('all')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
-                  docFilter === 'all'
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${docFilter === 'all'
                     ? 'bg-white text-primary shadow-xs'
                     : 'text-white/80 hover:text-white'
-                }`}
+                  }`}
               >
                 Semua ({repositoryDokumen.length})
               </button>
               <button
                 type="button"
                 onClick={() => setDocFilter('word')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
-                  docFilter === 'word'
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${docFilter === 'word'
                     ? 'bg-accent text-white shadow-xs'
                     : 'text-white/80 hover:text-white'
-                }`}
+                  }`}
               >
                 Template Word ({repositoryDokumen.filter(d => d.isWord).length})
               </button>
               <button
                 type="button"
                 onClick={() => setDocFilter('pdf')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
-                  docFilter === 'pdf'
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${docFilter === 'pdf'
                     ? 'bg-white text-primary shadow-xs'
                     : 'text-white/80 hover:text-white'
-                }`}
+                  }`}
               >
                 Panduan PDF ({repositoryDokumen.filter(d => !d.isWord).length})
               </button>
@@ -1208,11 +1205,10 @@ export default function PanduanFktView() {
                   <a
                     href={doc.href}
                     download={doc.fileName}
-                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${
-                      doc.isWord
+                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${doc.isWord
                         ? 'bg-accent hover:bg-amber-600 text-white'
                         : 'bg-white hover:bg-sky-50 text-primary'
-                    }`}
+                      }`}
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>{doc.isWord ? 'Download Word (.docx)' : 'Download PDF'}</span>
@@ -1295,11 +1291,10 @@ export default function PanduanFktView() {
                   key={filterBtn.id}
                   type="button"
                   onClick={() => setTautanFilter(filterBtn.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
-                    tautanFilter === filterBtn.id
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${tautanFilter === filterBtn.id
                       ? 'bg-white text-primary shadow-xs'
                       : 'text-white/80 hover:text-white'
-                  }`}
+                    }`}
                 >
                   {filterBtn.label} ({filterBtn.count})
                 </button>
@@ -1337,13 +1332,12 @@ export default function PanduanFktView() {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${
-                      item.type === 'wa'
+                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${item.type === 'wa'
                         ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
                         : item.type === 'email'
-                        ? 'bg-accent hover:bg-amber-600 text-white'
-                        : 'bg-white hover:bg-sky-50 text-primary'
-                    }`}
+                          ? 'bg-accent hover:bg-amber-600 text-white'
+                          : 'bg-white hover:bg-sky-50 text-primary'
+                      }`}
                   >
                     {item.type === 'wa' ? (
                       <MessageCircle className="w-3.5 h-3.5" />
