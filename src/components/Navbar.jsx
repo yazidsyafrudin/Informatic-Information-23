@@ -46,7 +46,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
                   UAA
                 </span>
               </div>
-              <p className="hidden xl:block text-[11px] font-instrument text-white/80 whitespace-nowrap">
+              <p className="hidden 2xl:block text-[11px] font-instrument text-white/80 whitespace-nowrap">
                 Informatika angkatan 23 • Target Lulus Bareng
               </p>
             </div>
@@ -61,15 +61,15 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center space-x-1.5 xl:space-x-2 px-2.5 py-2 xl:px-3.5 xl:py-2.5 rounded-xl text-xs xl:text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
+                  className={`flex items-center space-x-1.5 xl:space-x-2 px-2.5 py-2 xl:px-3 xl:py-2.5 rounded-xl text-xs xl:text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
                     isActive 
                       ? 'bg-white text-primary font-bold shadow-md' 
                       : 'text-white hover:text-accent hover:bg-white/10'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5 xl:w-4 xl:h-4 flex-shrink-0" />
-                  <span className="lg:inline xl:hidden">{item.shortLabel}</span>
-                  <span className="hidden xl:inline">{item.label}</span>
+                  <span className="lg:inline 2xl:hidden">{item.shortLabel}</span>
+                  <span className="hidden 2xl:inline">{item.label}</span>
                 </button>
               );
             })}
@@ -77,7 +77,7 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
             {/* Tombol Menu - Membuka Command Palette / Modal Navigasi Lengkap */}
             <button
               onClick={onOpenMenuModal}
-              className={`flex items-center space-x-1.5 xl:space-x-2 px-2.5 py-2 xl:px-3.5 xl:py-2.5 rounded-xl text-xs xl:text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
+              className={`flex items-center space-x-1.5 xl:space-x-2 px-2.5 py-2 xl:px-3 xl:py-2.5 rounded-xl text-xs xl:text-sm font-philosopher font-medium whitespace-nowrap transition-all duration-300 ${
                 ['kalender', 'downloads', 'diskusi'].includes(activeTab)
                   ? 'bg-accent text-white font-bold shadow-md'
                   : 'text-white hover:text-accent hover:bg-white/10'
@@ -85,8 +85,8 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout,
               title="Buka Menu & Navigasi Lengkap (Ruang Diskusi, Kalender Akademik, Pusat Berkas, dll.)"
             >
               <LayoutGrid className="w-3.5 h-3.5 xl:w-4 xl:h-4 flex-shrink-0" />
-              <span className="lg:inline xl:hidden">Menu</span>
-              <span className="hidden xl:inline">
+              <span className="lg:inline 2xl:hidden">Menu</span>
+              <span className="hidden 2xl:inline">
                 {activeTab === 'diskusi' ? 'Ruang Diskusi' : activeTab === 'kalender' ? 'Kalender Akademik' : activeTab === 'downloads' ? 'Pusat Berkas' : 'Menu'}
               </span>
             </button>
