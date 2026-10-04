@@ -10,6 +10,11 @@
 }
 
 @layer base {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     background-color: #f9f6ee;
     @apply text-slate-800 font-instrument min-h-screen selection:bg-primary selection:text-white;
