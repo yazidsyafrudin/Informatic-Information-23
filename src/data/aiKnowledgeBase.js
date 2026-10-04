@@ -90,6 +90,17 @@ export const AI_KNOWLEDGE_BASE = [
 • **Buku Panduan KKL 2026**: Pedoman resmi versi Bahasa Indonesia dapat diunduh di menu **Panduan FKT** (sub-tab Panduan Magang) atau di menu **Pusat Berkas (Downloads)**.
 • **Template Word (.docx)**: Tersedia file *Format_Kerangka_Laporan_Magang_2026.docx* siap pakai lengkap dengan cover kreasi tema magang, lembar pengesahan (Supervisor & DPL), sistematika Bab 1–4, dan format logbook harian/mingguan!
 • Laporan memiliki margin 4-3-3-3 cm, huruf Times New Roman 12pt (spasi 1.5), dan tebal minimal 25 halaman.`
+  },
+  {
+    keywords: ['tautan', 'link', 'pusat tautan', 'website resmi', 'siakad', 'lms', 'portal', 'url', 'web resmi'],
+    answer: `Pusat Tautan & Portal Resmi Universitas Alma Ata untuk Informatika 23:
+• **SIAKAD UAA**: https://siakad.almaata.ac.id/ (KRS, KHS, Transkrip Nilai)
+• **LMS E-Learning**: https://kuliah.almaata.ac.id/ (Kuliah Online & Tugas)
+• **Portal Validasi SPM**: https://almaata.ac.id/verifikasi-spm (Unggah Form 1 & 2 Syarat Ujian)
+• **Klinik Konten SPM (9 Poin Sempro)**: https://bit.ly/klinik-konten-spm & WA Group https://chat.whatsapp.com/Ddq7wQjJfjQJGKpOhBqzWJ
+• **Komisi Etik (KEPK)**: https://lppm.almaata.ac.id/komisi-etik/dokumen-komisi-etik-alma-ata/ | Surel: komisietik@almaata.ac.id | WA: 0857-2948-4269 (Bu Ela)
+• **Email Prodi Informatika**: informatika@almaata.ac.id (Pengumpulan Laporan KKL & Draf Judul)
+• Kunjungi menu **Panduan FKT** (sub-tab **9. Pusat Tautan Resmi**) untuk membuka langsung seluruh portal resmi dengan 1-klik!`
   }
 ];
 

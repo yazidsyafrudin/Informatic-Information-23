@@ -23,13 +23,147 @@ import {
   Video,
   Share2,
   MessageCircle,
-  FolderDown
+  FolderDown,
+  Globe,
+  Link2
 } from 'lucide-react';
 import { PANDUAN_FKT } from '../data/panduanFKT';
 
 export default function PanduanFktView() {
   const [activeSection, setActiveSection] = useState('syarat');
   const [docFilter, setDocFilter] = useState('all');
+  const [tautanFilter, setTautanFilter] = useState('all');
+
+  const repositoryTautan = [
+    {
+      title: "Website Resmi Universitas Alma Ata",
+      category: "Portal Kampus",
+      badge: "Portal Utama UAA",
+      href: "https://almaata.ac.id/",
+      type: "web",
+      actionText: "Kunjungi Web"
+    },
+    {
+      title: "SIAKAD Universitas Alma Ata (KRS & KHS)",
+      category: "Portal Kampus",
+      badge: "Sistem Informasi Akademik",
+      href: "https://siakad.almaata.ac.id/",
+      type: "web",
+      actionText: "Buka SIAKAD"
+    },
+    {
+      title: "E-Learning LMS Alma Ata (Kuliah Online)",
+      category: "Portal Kampus",
+      badge: "LMS Perkuliahan",
+      href: "https://kuliah.almaata.ac.id/",
+      type: "web",
+      actionText: "Buka LMS"
+    },
+    {
+      title: "Perpustakaan UAA & Layanan Uji Turnitin",
+      category: "Portal Kampus",
+      badge: "Cek Plagiasi ≤ 20%",
+      href: "https://perpustakaan.almaata.ac.id/",
+      type: "web",
+      actionText: "Buka Perpustakaan"
+    },
+    {
+      title: "Pusat Bahasa UAA (Sertifikasi AAEPT / TOEFL)",
+      category: "Portal Kampus",
+      badge: "Syarat Pendadaran ≥ 450",
+      href: "https://pusatbahasa.almaata.ac.id/",
+      type: "web",
+      actionText: "Buka Pusat Bahasa"
+    },
+    {
+      title: "Portal Resmi Skor Prestasi Mahasiswa (SPM)",
+      category: "Kemahasiswaan & SPM",
+      badge: "Pedoman Poin SPM",
+      href: "https://kemahasiswaan.almaata.ac.id/skor-prestasi-mahasiswa/",
+      type: "web",
+      actionText: "Buka Portal SPM"
+    },
+    {
+      title: "Portal Verifikasi SPM UAA (Unggah Validasi)",
+      category: "Kemahasiswaan & SPM",
+      badge: "Upload Form 1 & 2",
+      href: "https://almaata.ac.id/verifikasi-spm",
+      type: "web",
+      actionText: "Buka Verifikasi"
+    },
+    {
+      title: "Pendaftaran Klinik Konten SPM (9 Poin Sempro)",
+      category: "Kemahasiswaan & SPM",
+      badge: "Syarat Perlu Sempro",
+      href: "https://bit.ly/klinik-konten-spm",
+      type: "web",
+      actionText: "Buka Form Klinik"
+    },
+    {
+      title: "Grup WhatsApp Pendampingan Konten SPM",
+      category: "Kemahasiswaan & SPM",
+      badge: "Bimbingan Konten Medsos",
+      href: "https://chat.whatsapp.com/Ddq7wQjJfjQJGKpOhBqzWJ",
+      type: "wa",
+      actionText: "Gabung Grup WA"
+    },
+    {
+      title: "Tautan Pelaporan Kegiatan & Prestasi SPM Prodi",
+      category: "Kemahasiswaan & SPM",
+      badge: "Klaim 25 Poin Prodi",
+      href: "https://bit.ly/tautanlaporSPM",
+      type: "web",
+      actionText: "Lapor SPM Prodi"
+    },
+    {
+      title: "Dokumen & SOP Komisi Etik Penelitian (KEPK) UAA",
+      category: "Komisi Etik (KEPK)",
+      badge: "Protokol Telaah Etik",
+      href: "https://lppm.almaata.ac.id/komisi-etik/dokumen-komisi-etik-alma-ata/",
+      type: "web",
+      actionText: "Unduh Berkas EC"
+    },
+    {
+      title: "Email Resmi Pengajuan Ethical Clearance UAA",
+      category: "Komisi Etik (KEPK)",
+      badge: "Kirim Softfile PDF",
+      href: "mailto:komisietik@almaata.ac.id",
+      type: "email",
+      actionText: "Kirim Email EC"
+    },
+    {
+      title: "WhatsApp Layanan KEPK (Bu Ela - Mal Layanan)",
+      category: "Komisi Etik (KEPK)",
+      badge: "Konsultasi & Konfirmasi",
+      href: "https://wa.me/6285729484269",
+      type: "wa",
+      actionText: "Chat Bu Ela"
+    },
+    {
+      title: "Email Resmi Program Studi S1 Informatika",
+      category: "Prodi & Komunitas",
+      badge: "Laporan Magang & Skripsi",
+      href: "mailto:informatika@almaata.ac.id",
+      type: "email",
+      actionText: "Kirim Email Prodi"
+    },
+    {
+      title: "Portal Komunitas Pusing Coding Informatika 23",
+      category: "Prodi & Komunitas",
+      badge: "Wadah Belajar Angkatan 23",
+      href: "https://www.pusingcoding.web.id/",
+      type: "web",
+      actionText: "Kunjungi Komunitas"
+    }
+  ];
+
+  const filteredTautan = repositoryTautan.filter(item => {
+    if (tautanFilter === 'kampus') return item.category === 'Portal Kampus';
+    if (tautanFilter === 'spm') return item.category === 'Kemahasiswaan & SPM';
+    if (tautanFilter === 'etik') return item.category === 'Komisi Etik (KEPK)';
+    if (tautanFilter === 'prodi') return item.category === 'Prodi & Komunitas';
+    return true;
+  });
 
   const repositoryDokumen = [
     {
@@ -154,6 +288,7 @@ export default function PanduanFktView() {
           { id: 'magang', label: '6. Panduan Magang (KKL) Sem 7', icon: Briefcase },
           { id: 'spm', label: '7. Skor Prestasi Mahasiswa (SPM)', icon: Award },
           { id: 'dokumen', label: '8. Pusat Dokumen (PDF/DOCX)', icon: FolderDown },
+          { id: 'tautan', label: '9. Pusat Tautan Resmi', icon: ExternalLink },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSection === tab.id;
@@ -1124,6 +1259,132 @@ export default function PanduanFktView() {
             </div>
           </div>
 
+        </div>
+      )}
+
+      {/* SECTION 9: PUSAT TAUTAN RESMI */}
+      {activeSection === 'tautan' && (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Header Banner Card - Solid Blue UAA */}
+          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center space-x-2 text-accent mb-2">
+                <Globe className="w-5 h-5 text-accent" />
+                <span className="text-xs font-bold uppercase tracking-wider font-instrument text-accent">
+                  Portal & Layanan Resmi UAA
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
+                Pusat Tautan Resmi Universitas Alma Ata
+              </h2>
+              <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed font-instrument">
+                Kumpulan tautan web resmi, sistem informasi akademik, portal validasi kemahasiswaan, dan kontak pelayanan langsung untuk mahasiswa Informatika 23.
+              </p>
+            </div>
+
+            {/* Quick Filter Tabs */}
+            <div className="flex flex-wrap items-center gap-1.5 bg-white/10 p-1.5 rounded-2xl border border-white/20 self-start md:self-auto flex-shrink-0 backdrop-blur-xs">
+              {[
+                { id: 'all', label: 'Semua', count: repositoryTautan.length },
+                { id: 'kampus', label: 'Portal Kampus', count: repositoryTautan.filter(t => t.category === 'Portal Kampus').length },
+                { id: 'spm', label: 'Kemahasiswaan & SPM', count: repositoryTautan.filter(t => t.category === 'Kemahasiswaan & SPM').length },
+                { id: 'etik', label: 'Komisi Etik (KEPK)', count: repositoryTautan.filter(t => t.category === 'Komisi Etik (KEPK)').length },
+                { id: 'prodi', label: 'Prodi & Komunitas', count: repositoryTautan.filter(t => t.category === 'Prodi & Komunitas').length },
+              ].map(filterBtn => (
+                <button
+                  key={filterBtn.id}
+                  type="button"
+                  onClick={() => setTautanFilter(filterBtn.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
+                    tautanFilter === filterBtn.id
+                      ? 'bg-white text-primary shadow-xs'
+                      : 'text-white/80 hover:text-white'
+                  }`}
+                >
+                  {filterBtn.label} ({filterBtn.count})
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Grid Tautan Resmi - Solid Blue Cards (Judul Saja, Tanpa Deskripsi Panjang) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredTautan.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-primary text-white p-5 sm:p-6 rounded-2xl border-2 border-primary-700 hover:border-accent shadow-md transition-all flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/15 text-white border border-white/20">
+                      {item.category}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-accent text-white shadow-xs">
+                      {item.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="font-bold text-base sm:text-lg text-white my-3 font-philosopher leading-snug group-hover:text-accent transition-colors">
+                    {item.title}
+                  </h3>
+                </div>
+
+                <div className="pt-3.5 mt-2 border-t border-white/20 flex items-center justify-between gap-3">
+                  <span className="text-[11px] font-mono text-white/70 truncate max-w-[130px]">
+                    {item.type === 'email' ? 'Surel Resmi' : item.type === 'wa' ? 'WhatsApp' : 'Website'}
+                  </span>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${
+                      item.type === 'wa'
+                        ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                        : item.type === 'email'
+                        ? 'bg-accent hover:bg-amber-600 text-white'
+                        : 'bg-white hover:bg-sky-50 text-primary'
+                    }`}
+                  >
+                    {item.type === 'wa' ? (
+                      <MessageCircle className="w-3.5 h-3.5" />
+                    ) : item.type === 'email' ? (
+                      <Mail className="w-3.5 h-3.5" />
+                    ) : (
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    )}
+                    <span>{item.actionText}</span>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Tips / Info Box */}
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border-2 border-sky-100 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start space-x-3.5">
+              <div className="p-2.5 rounded-2xl bg-sky-100 text-primary flex-shrink-0">
+                <Link2 className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-primary font-philosopher text-base">
+                  Perlu Akses Layanan Kampus Lainnya?
+                </h4>
+                <p className="text-xs text-slate-600 mt-0.5 font-instrument leading-relaxed">
+                  Semua portal di atas telah divalidasi sesuai domain resmi <strong>almaata.ac.id</strong> dan narahubung resmi kepengurusan FSET Universitas Alma Ata.
+                </p>
+              </div>
+            </div>
+
+            <a
+              href="https://almaata.ac.id/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-xs self-start md:self-auto flex-shrink-0 font-instrument"
+            >
+              <span>Portal Pusat UAA</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
       )}
 
