@@ -281,7 +281,7 @@ export default function PanduanFktView() {
       <div className="flex flex-wrap gap-2 border-b-2 border-primary-200 pb-3">
         {[
           { id: 'syarat', label: 'Persyaratan Akademik', icon: FileCheck2 },
-          { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
+          { id: 'format', label: 'Format Naskah (Margin 4-4-3-3)', icon: Layout },
           { id: 'sistematika', label: '3. Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
           { id: 'ec', label: '5. Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
@@ -1147,8 +1147,8 @@ export default function PanduanFktView() {
                 type="button"
                 onClick={() => setDocFilter('all')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${docFilter === 'all'
-                    ? 'bg-white text-primary shadow-xs'
-                    : 'text-white/80 hover:text-white'
+                  ? 'bg-white text-primary shadow-xs'
+                  : 'text-white/80 hover:text-white'
                   }`}
               >
                 Semua ({repositoryDokumen.length})
@@ -1157,8 +1157,8 @@ export default function PanduanFktView() {
                 type="button"
                 onClick={() => setDocFilter('word')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${docFilter === 'word'
-                    ? 'bg-accent text-white shadow-xs'
-                    : 'text-white/80 hover:text-white'
+                  ? 'bg-accent text-white shadow-xs'
+                  : 'text-white/80 hover:text-white'
                   }`}
               >
                 Template Word ({repositoryDokumen.filter(d => d.isWord).length})
@@ -1167,8 +1167,8 @@ export default function PanduanFktView() {
                 type="button"
                 onClick={() => setDocFilter('pdf')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${docFilter === 'pdf'
-                    ? 'bg-white text-primary shadow-xs'
-                    : 'text-white/80 hover:text-white'
+                  ? 'bg-white text-primary shadow-xs'
+                  : 'text-white/80 hover:text-white'
                   }`}
               >
                 Panduan PDF ({repositoryDokumen.filter(d => !d.isWord).length})
@@ -1206,8 +1206,8 @@ export default function PanduanFktView() {
                     href={doc.href}
                     download={doc.fileName}
                     className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${doc.isWord
-                        ? 'bg-accent hover:bg-amber-600 text-white'
-                        : 'bg-white hover:bg-sky-50 text-primary'
+                      ? 'bg-accent hover:bg-amber-600 text-white'
+                      : 'bg-white hover:bg-sky-50 text-primary'
                       }`}
                   >
                     <Download className="w-3.5 h-3.5" />
@@ -1292,8 +1292,8 @@ export default function PanduanFktView() {
                   type="button"
                   onClick={() => setTautanFilter(filterBtn.id)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${tautanFilter === filterBtn.id
-                      ? 'bg-white text-primary shadow-xs'
-                      : 'text-white/80 hover:text-white'
+                    ? 'bg-white text-primary shadow-xs'
+                    : 'text-white/80 hover:text-white'
                     }`}
                 >
                   {filterBtn.label} ({filterBtn.count})
@@ -1333,10 +1333,10 @@ export default function PanduanFktView() {
                     target="_blank"
                     rel="noreferrer"
                     className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-all transform hover:-translate-y-0.5 font-instrument shadow-xs ${item.type === 'wa'
-                        ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                        : item.type === 'email'
-                          ? 'bg-accent hover:bg-amber-600 text-white'
-                          : 'bg-white hover:bg-sky-50 text-primary'
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                      : item.type === 'email'
+                        ? 'bg-accent hover:bg-amber-600 text-white'
+                        : 'bg-white hover:bg-sky-50 text-primary'
                       }`}
                   >
                     {item.type === 'wa' ? (
