@@ -262,7 +262,7 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 6,
-    title: "Fase 6: Wisuda Sarjana Komputer (S.Kom)",
+    title: "Wisuda Sarjana Komputer (S.Kom)",
     shortTitle: "Wisuda",
     period: "Agustus – September 2027",
     status: "Puncak Perayaan",
