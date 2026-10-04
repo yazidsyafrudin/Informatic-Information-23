@@ -3,7 +3,7 @@
 export const ROADMAP_PHASES = [
   {
     phaseId: 1,
-    title: "Fase 1: Magang Industri (KKL)",
+    title: "Magang Industri (KKL)",
     shortTitle: "Magang",
     period: "Agustus – Desember 2026 (Semester 7)",
     status: "Fase Awal",
