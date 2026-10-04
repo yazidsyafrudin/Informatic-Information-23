@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { 
-  BookOpen, 
-  Download, 
-  Layers, 
-  Layout, 
+import {
+  BookOpen,
+  Download,
+  Layers,
+  Layout,
   FileCheck2,
   AlertCircle,
   ShieldAlert,
@@ -22,16 +22,100 @@ import {
   Star,
   Video,
   Share2,
-  MessageCircle
+  MessageCircle,
+  FolderDown
 } from 'lucide-react';
 import { PANDUAN_FKT } from '../data/panduanFKT';
 
 export default function PanduanFktView() {
   const [activeSection, setActiveSection] = useState('syarat');
 
+  const repositoryDokumen = [
+    {
+      title: "Format Kerangka Laporan Magang (KKL) 2026",
+      code: "DOCX • 3.0 MB",
+      badge: "Template Word Siap Pakai",
+      category: "Magang (KKL)",
+      desc: "Template resmi dokumen Microsoft Word penulisan laporan magang S1 Informatika lengkap dengan format cover, lembar pengesahan (Supervisor & DPL), Bab I–IV, dan logbook harian (Hari 1–40).",
+      href: "/Format_Kerangka_Laporan_Magang_2026.docx",
+      fileName: "Format_Kerangka_Laporan_Magang_2026.docx",
+      isWord: true
+    },
+    {
+      title: "Formulir Kehadiran Mahasiswa Mengikuti Seminar Proposal",
+      code: "FKOM.SPI.05 • 38 KB",
+      badge: "Formulir Word Siap Cetak",
+      category: "Presensi Sempro",
+      desc: "Lembar bukti kehadiran resmi (Student Attendance at the Proposal Seminar) untuk mencatat nama mahasiswa yang diuji, judul proposal, serta tanda tangan Ketua Dewan Penguji dan DPA.",
+      href: "/Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
+      fileName: "Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
+      isWord: true
+    },
+    {
+      title: "Buku Panduan KKL (Magang) Informatika 2026",
+      code: "PDF • 496 KB",
+      badge: "Bahasa Indonesia",
+      category: "Pedoman Magang",
+      desc: "Pedoman resmi pelaksanaan magang industri, format laporan minimal 25 halaman, margin 4-3-3-3 cm, logbook 16 minggu, serta tata cara pengumpulan softfile ke email prodi.",
+      href: "/panduan-laporan-magang-kkl.pdf",
+      fileName: "Buku_Panduan_KKL_Informatika_2026.pdf",
+      isWord: false
+    },
+    {
+      title: "Buku Panduan Skripsi FKT 2021–2025 (50 Halaman)",
+      code: "SK Rektor 182/2021 • 3.6 MB",
+      badge: "Buku Panduan Utama",
+      category: "Pedoman Skripsi",
+      desc: "Buku panduan lengkap skripsi Fakultas Komputer dan Teknik Universitas Alma Ata yang memuat aturan penulisan Bab 1–5, margin 4-4-3-3, lampiran, dan sistematika naskah.",
+      href: "/panduan-skripsi-fkt-almaata.pdf",
+      fileName: "Buku_Panduan_Skripsi_FKT_Alma_Ata.pdf",
+      isWord: false
+    },
+    {
+      title: "Surat Edaran Dekan: Wajib Jeda 3 Bulan Ethical Clearance",
+      code: "SE 002/2026 • 322 KB",
+      badge: "Kebijakan Dekan",
+      category: "Etika Penelitian",
+      desc: "Surat edaran resmi Dekan FSET No. 002/A/ED/FSET/2026 yang mewajibkan jeda waktu minimal 3 bulan kalender antara tanggal terbit EC dan pelaksanaan Ujian Sidang/Seminar Hasil.",
+      href: "/surat-edaran-dekan-ec.pdf",
+      fileName: "Surat_Edaran_Dekan_Perihal_EC.pdf",
+      isWord: false
+    },
+    {
+      title: "Infografis Alur Pengajuan Ethical Clearance Komisi Etik",
+      code: "SOP KEPK • 159 KB",
+      badge: "SOP Resmi KEPK",
+      category: "Etika Penelitian",
+      desc: "Infografis alur 6 tahap pengajuan kaji etik ke KEPK UAA, daftar 6 berkas softfile PDF yang harus disiapkan, nomor kontak konfirmasi Bu Ela, dan waktu penerbitan sertifikat.",
+      href: "/alur-pengajuan-ec.pdf",
+      fileName: "Alur_Pengajuan_Ethical_Clearance_UAA.pdf",
+      isWord: false
+    },
+    {
+      title: "Buku Panduan Skor Prestasi Mahasiswa (SPM) UAA",
+      code: "Pedoman SPM • 3.3 MB",
+      badge: "Kemahasiswaan",
+      category: "Poin SPM",
+      desc: "Panduan pemenuhan minimal 25 poin SPM sebagai syarat ujian pendadaran, pembagian poin akademik/prodi, serta program klinik konten media sosial (9 poin) syarat sempro.",
+      href: "/panduan-skor-prestasi-mahasiswa-spm.pdf",
+      fileName: "Panduan_Skor_Prestasi_Mahasiswa_SPM_UAA.pdf",
+      isWord: false
+    },
+    {
+      title: "Kalender Akademik Universitas Alma Ata TA 2026/2027",
+      code: "SK Rektor 216/2026 • 1.5 MB",
+      badge: "Jadwal Resmi UAA",
+      category: "Jadwal Akademik",
+      desc: "Jadwal kalender akademik universitas lengkap: periode perkuliahan, batas pendaftaran ujian skripsi/pendadaran, batas yudisium Periode I–V, dan tanggal wisuda sarjana.",
+      href: "/kalender-akademik-2026-2027.pdf",
+      fileName: "Kalender_Akademik_UAA_2026_2027.pdf",
+      isWord: false
+    }
+  ];
+
   return (
     <div className="space-y-8 animate-fadeIn font-instrument">
-      
+
       {/* Header Banner Card - Solid Blue UAA */}
       <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -45,7 +129,7 @@ export default function PanduanFktView() {
             Ringkasan Buku Panduan Skripsi FKT
           </h1>
           <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
-            Intisari dari 50 halaman buku panduan resmi (SK Rektor No: {PANDUAN_FKT.skRektor}) 
+            Intisari dari 50 halaman buku panduan resmi (SK Rektor No: {PANDUAN_FKT.skRektor})
             serta Surat Edaran Dekan FSET No. 002/2026 tentang Ethical Clearance (EC) agar mahasiswa Informatika 23 siap tuntas skripsi.
           </p>
         </div>
@@ -63,13 +147,14 @@ export default function PanduanFktView() {
       {/* Navigation Sub-Tabs */}
       <div className="flex flex-wrap gap-2 border-b-2 border-primary-200 pb-3">
         {[
-          { id: 'syarat', label: '1. Persyaratan Akademik', icon: FileCheck2 },
+          { id: 'syarat', label: 'Persyaratan Akademik', icon: FileCheck2 },
           { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
           { id: 'sistematika', label: '3. Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
           { id: 'ec', label: '5. Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
           { id: 'magang', label: '6. Panduan Magang (KKL) Sem 7', icon: Briefcase },
           { id: 'spm', label: '7. Skor Prestasi Mahasiswa (SPM)', icon: Award },
+          { id: 'dokumen', label: '8. Pusat Dokumen (PDF/DOCX)', icon: FolderDown },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSection === tab.id;
@@ -77,11 +162,10 @@ export default function PanduanFktView() {
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
-              className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                isActive
+              className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${isActive
                   ? 'bg-primary text-white shadow-xs'
                   : 'bg-white text-slate-600 border-2 border-slate-200 hover:text-primary hover:bg-white'
-              }`}
+                }`}
             >
               <Icon className="w-3.5 h-3.5" />
               <span className="font-philosopher text-sm">{tab.label}</span>
@@ -125,7 +209,7 @@ export default function PanduanFktView() {
             <ShieldAlert className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
             <div>
               <strong className="text-accent font-bold block mb-0.5">Penting Diingat Mengenai Dosen Pembimbing:</strong>
-              Sesuai panduan FKT Bab II Bagian b, 1 dosen pembimbing prodi hanya membimbing maksimal 6 mahasiswa per periode. 
+              Sesuai panduan FKT Bab II Bagian b, 1 dosen pembimbing prodi hanya membimbing maksimal 6 mahasiswa per periode.
               Segera ajukan draf judul dan komunikasi dengan calon dospem agar kuota bimbingan tidak penuh!
             </div>
           </div>
@@ -135,7 +219,7 @@ export default function PanduanFktView() {
       {/* SECTION 2: FORMAT PENULISAN & MARGIN */}
       {activeSection === 'format' && (
         <div className="space-y-6">
-          
+
           {/* Visual Margin Simulation Card */}
           <div className="bg-gradient-to-br from-sky-50/60 via-white to-sky-50/80 rounded-3xl p-6 sm:p-8 border-2 border-sky-200/90 shadow-sm">
             <h2 className="text-xl font-bold font-philosopher text-primary mb-2">
@@ -205,7 +289,7 @@ export default function PanduanFktView() {
       {activeSection === 'sistematika' && (
         <div className="space-y-6">
           <div className="p-4 rounded-2xl bg-sky-50 border-2 border-sky-200 text-xs text-primary font-instrument">
-            Berikut struktur baku draf <strong>Proposal Skripsi (Bab 1 s/d Bab 3)</strong> yang wajib diselesaikan 
+            Berikut struktur baku draf <strong>Proposal Skripsi (Bab 1 s/d Bab 3)</strong> yang wajib diselesaikan
             sebelum maju Seminar Proposal Bersama di bulan Januari:
           </div>
 
@@ -317,7 +401,7 @@ export default function PanduanFktView() {
       {/* SECTION 5: ETHICAL CLEARANCE (EC) & SURAT EDARAN DEKAN */}
       {activeSection === 'ec' && (
         <div className="space-y-8 animate-fadeIn">
-          
+
           {/* Box Surat Edaran Dekan - Wajib Jeda 3 Bulan */}
           <div className="bg-gradient-to-r from-red-600 via-rose-700 to-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-red-500 shadow-xl relative overflow-hidden">
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 relative z-10">
@@ -332,7 +416,7 @@ export default function PanduanFktView() {
                 <p className="text-xs sm:text-sm text-white/95 leading-relaxed max-w-3xl">
                   {PANDUAN_FKT.ethicalClearance.suratEdaran.aturanKunci}
                 </p>
-                
+
                 <div className="bg-black/30 border border-white/20 p-4 rounded-2xl space-y-2">
                   <div className="flex items-center space-x-2 text-amber-300 font-bold text-xs uppercase tracking-wider">
                     <AlertTriangle className="w-4 h-4" />
@@ -384,7 +468,7 @@ export default function PanduanFktView() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {PANDUAN_FKT.ethicalClearance.alurPengajuan.map((step) => (
-                <div 
+                <div
                   key={step.step}
                   className="bg-primary text-white rounded-2xl p-5 border-2 border-primary-700 shadow-md flex flex-col justify-between hover:border-accent hover:-translate-y-1 transition-all"
                 >
@@ -405,7 +489,7 @@ export default function PanduanFktView() {
 
           {/* Grid: Berkas Persyaratan & Kontak Layanan */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
+
             {/* Berkas Wajib */}
             <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border-2 border-primary/20 shadow-md">
               <div className="flex items-center space-x-2 text-primary mb-4">
@@ -516,7 +600,7 @@ export default function PanduanFktView() {
       {/* SECTION 6: PANDUAN LAPORAN MAGANG (KKL) */}
       {activeSection === 'magang' && (
         <div className="space-y-8 animate-fadeIn">
-          
+
           {/* Header Banner Magang */}
           <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
@@ -619,7 +703,7 @@ export default function PanduanFktView() {
                       <span className="text-xs text-white/70 font-mono">KKL Informatika</span>
                     </div>
                     <h4 className="font-bold text-white font-philosopher text-base mb-3">{item.judul}</h4>
-                    
+
                     <ul className="space-y-1.5 text-xs text-white/90 font-instrument">
                       {item.subBab.map((sub, sIdx) => (
                         <li key={sIdx} className="flex items-start space-x-2">
@@ -660,7 +744,7 @@ export default function PanduanFktView() {
       {/* SECTION 7: SKOR PRESTASI MAHASISWA (SPM) */}
       {activeSection === 'spm' && (
         <div className="space-y-8 animate-fadeIn">
-          
+
           {/* Header Banner SPM */}
           <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
@@ -672,9 +756,9 @@ export default function PanduanFktView() {
                 2 Syarat Wajib Skor Prestasi Mahasiswa (SPM)
               </h2>
               <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed">
-                Ketetapan resmi bagi mahasiswa S1 Informatika: Wajib memenuhi 
-                <strong className="text-accent font-bold"> SPM Akademik/Birokrasi (9 Poin) </strong> dan 
-                <strong className="text-accent font-bold"> SPM Prodi Informatika (Min. 25 Poin) </strong> 
+                Ketetapan resmi bagi mahasiswa S1 Informatika: Wajib memenuhi
+                <strong className="text-accent font-bold"> SPM Akademik/Birokrasi (9 Poin) </strong> dan
+                <strong className="text-accent font-bold"> SPM Prodi Informatika (Min. 25 Poin) </strong>
                 sebagai prasyarat Sempro dan Ujian Pendadaran.
               </p>
             </div>
@@ -702,7 +786,7 @@ export default function PanduanFktView() {
 
           {/* Rincian 2 Kategori Wajib SPM */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
+
             {/* Kategori 1: SPM Akademik / Birokrasi (9 Poin) */}
             <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-amber-300 shadow-md flex flex-col justify-between">
               <div>
@@ -817,19 +901,17 @@ export default function PanduanFktView() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {PANDUAN_FKT.skorPrestasiMahasiswa.alurValidasi.map((item) => (
-                <div 
-                  key={item.step} 
-                  className={`bg-primary text-white rounded-2xl p-5 border-2 shadow-md flex flex-col justify-between hover:-translate-y-1 transition-all ${
-                    item.step === 2 
-                      ? 'border-emerald-400 ring-2 ring-emerald-400/20' 
+                <div
+                  key={item.step}
+                  className={`bg-primary text-white rounded-2xl p-5 border-2 shadow-md flex flex-col justify-between hover:-translate-y-1 transition-all ${item.step === 2
+                      ? 'border-emerald-400 ring-2 ring-emerald-400/20'
                       : 'border-primary-700 hover:border-accent'
-                  }`}
+                    }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <span className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center font-philosopher shadow-xs ${
-                        item.step === 2 ? 'bg-emerald-500 text-white' : 'bg-accent text-white'
-                      }`}>
+                      <span className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center font-philosopher shadow-xs ${item.step === 2 ? 'bg-emerald-500 text-white' : 'bg-accent text-white'
+                        }`}>
                         {item.step}
                       </span>
                       <div className="flex items-center space-x-1.5">
@@ -900,6 +982,113 @@ export default function PanduanFktView() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* SECTION 8: PUSAT DOKUMEN (PDF/DOCX) */}
+      {activeSection === 'dokumen' && (
+        <div className="space-y-8 animate-fadeIn">
+
+          {/* Header Banner Section 8 */}
+          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2 font-instrument">
+                <FolderDown className="w-4 h-4 text-accent" />
+                <span>Repository Terpadu • Berkas Resmi Siap Unduh</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
+                Pusat Dokumen & Formulir (PDF / DOCX)
+              </h2>
+              <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed font-instrument">
+                Akses cepat seluruh format dokumen resmi, template naskah Microsoft Word (.docx), surat edaran dekan, dan buku panduan asli (.pdf) untuk mempermudah administrasi magang dan skripsi angkatan 2023.
+              </p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-xs border border-white/20 p-4 rounded-2xl flex-shrink-0 text-center font-instrument self-start md:self-auto min-w-[140px]">
+              <span className="text-2xl font-bold font-philosopher text-accent block">8 Berkas</span>
+              <span className="text-[11px] text-white/80">Format Resmi Aktif</span>
+            </div>
+          </div>
+
+          {/* Grid Dokumen Siap Unduh */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {repositoryDokumen.map((doc, idx) => (
+              <div
+                key={idx}
+                className="bg-primary text-white p-6 rounded-3xl border-2 border-primary-700 hover:border-accent shadow-md transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/15 text-white border border-white/20">
+                      {doc.code}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-accent text-white shadow-xs">
+                      {doc.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="font-bold text-base sm:text-lg text-white mb-2 font-philosopher leading-snug">
+                    {doc.title}
+                  </h3>
+
+                  <p className="text-xs text-white/90 leading-relaxed mb-6 font-instrument">
+                    {doc.desc}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-white/20">
+                  <a
+                    href={doc.href}
+                    download={doc.fileName}
+                    className={`w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl font-bold text-xs shadow-md transition-all transform hover:-translate-y-0.5 font-instrument ${doc.isWord
+                        ? 'bg-accent hover:bg-amber-600 text-white shadow-accent/25'
+                        : 'bg-white hover:bg-sky-50 text-primary shadow-xs'
+                      }`}
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>{doc.isWord ? 'Download Template Word (.docx)' : 'Download Dokumen PDF'}</span>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Box Informasi Formulir Lampiran Buku Panduan */}
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border-2 border-sky-100 shadow-xs">
+            <h3 className="font-bold text-primary font-philosopher text-base mb-1">
+              Formulir Tambahan di Lampiran Buku Panduan FKT
+            </h3>
+            <p className="text-xs text-slate-600 mb-4 font-instrument">
+              Selain file di atas, formulir administratif berikut dapat Anda fotokopi langsung dari bagian <strong>Lampiran Buku Panduan Skripsi FKT</strong>:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-instrument">
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                <span className="font-bold text-primary block">Form FKT.SPI.01:</span>
+                Pengajuan Judul Skripsi & Dospem (Lampiran 1)
+              </div>
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                <span className="font-bold text-primary block">Form FKT.SPI.04:</span>
+                Kartu Bimbingan Proposal Skripsi (Lampiran 10)
+              </div>
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                <span className="font-bold text-primary block">Form FKT.SPI.05:</span>
+                Kartu Bimbingan Skripsi Akhir (Lampiran 11)
+              </div>
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                <span className="font-bold text-primary block">Lampiran 4:</span>
+                Formulir Persetujuan Seminar Proposal (ACC Dosen)
+              </div>
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                <span className="font-bold text-primary block">Lampiran 12:</span>
+                Surat Pernyataan Keaslian Riset Bermaterai Rp10.000
+              </div>
+              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+                <span className="font-bold text-primary block">Lampiran 15:</span>
+                Format Surat Keterangan Lolos Uji Turnitin ≤ 20%
+              </div>
             </div>
           </div>
 
