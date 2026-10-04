@@ -156,7 +156,7 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 4,
-    title: "Fase 4: Seminar Hasil (Semhas) & Riset Skripsi",
+    title: "Seminar Hasil (Semhas) & Riset Skripsi",
     shortTitle: "Semhas",
     period: "Mei – Juni 2027 (Semester 8)",
     status: "Uji Produk & Hasil",
