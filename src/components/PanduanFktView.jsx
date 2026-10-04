@@ -284,7 +284,7 @@ export default function PanduanFktView() {
           { id: 'format', label: 'Format Naskah (Margin 4-4-3-3)', icon: Layout },
           { id: 'sistematika', label: 'Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: 'Aturan Sempro & Audiens', icon: AlertCircle },
-          { id: 'ec', label: '5. Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
+          { id: 'ec', label: 'Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
           { id: 'magang', label: '6. Panduan Magang (KKL) Sem 7', icon: Briefcase },
           { id: 'spm', label: '7. Skor Prestasi Mahasiswa (SPM)', icon: Award },
           { id: 'dokumen', label: '8. Pusat Dokumen (PDF/DOCX)', icon: FolderDown },
