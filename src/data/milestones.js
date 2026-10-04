@@ -44,7 +44,7 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 2,
-    title: "Fase 2: Seminar Proposal (Sempro)",
+    title: "Seminar Proposal (Sempro)",
     shortTitle: "Sempro",
     period: "Semester 7 Akhir – Januari 2027",
     status: "Milestone Penentu",
