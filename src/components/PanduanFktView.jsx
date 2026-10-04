@@ -288,7 +288,7 @@ export default function PanduanFktView() {
           { id: 'magang', label: 'Panduan Magang (KKL) Sem 7', icon: Briefcase },
           { id: 'spm', label: 'Skor Prestasi Mahasiswa (SPM)', icon: Award },
           { id: 'dokumen', label: 'Pusat Dokumen (PDF/DOCX)', icon: FolderDown },
-          { id: 'tautan', label: '9. Pusat Tautan Resmi', icon: ExternalLink },
+          { id: 'tautan', label: 'Pusat Tautan Resmi', icon: ExternalLink },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSection === tab.id;
