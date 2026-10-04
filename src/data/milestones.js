@@ -109,7 +109,7 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 3,
-    title: "Fase 3: Ethical Clearance (EC) & Masa Jeda Riset",
+    title: "Ethical Clearance (EC) & Masa Jeda Riset",
     shortTitle: "Ethical Clearance",
     period: "Februari – April 2027 (Wajib Jeda Min. 3 Bulan)",
     status: "Syarat Kunci Riset",
