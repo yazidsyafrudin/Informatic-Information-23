@@ -29,12 +29,14 @@ import { PANDUAN_FKT } from '../data/panduanFKT';
 
 export default function PanduanFktView() {
   const [activeSection, setActiveSection] = useState('syarat');
+  const [docFilter, setDocFilter] = useState('all');
 
   const repositoryDokumen = [
     {
       title: "Format Kerangka Laporan Magang (KKL) 2026",
-      code: "DOCX • 3.0 MB",
-      badge: "Template Word Siap Pakai",
+      format: "DOCX",
+      size: "3.0 MB",
+      badge: "Template Siap Pakai",
       category: "Magang (KKL)",
       desc: "Template resmi dokumen Microsoft Word penulisan laporan magang S1 Informatika lengkap dengan format cover, lembar pengesahan (Supervisor & DPL), Bab I–IV, dan logbook harian (Hari 1–40).",
       href: "/Format_Kerangka_Laporan_Magang_2026.docx",
@@ -43,17 +45,19 @@ export default function PanduanFktView() {
     },
     {
       title: "Formulir Kehadiran Mahasiswa Mengikuti Seminar Proposal",
-      code: "FKOM.SPI.05 • 38 KB",
-      badge: "Formulir Word Siap Cetak",
+      format: "DOCX",
+      size: "38 KB",
+      badge: "Formulir Siap Cetak",
       category: "Presensi Sempro",
-      desc: "Lembar bukti kehadiran resmi (Student Attendance at the Proposal Seminar) untuk mencatat nama mahasiswa yang diuji, judul proposal, serta tanda tangan Ketua Dewan Penguji dan DPA.",
+      desc: "Lembar bukti kehadiran resmi (FKOM.SPI.05 / Student Attendance) untuk mencatat nama mahasiswa yang diuji, judul proposal, serta tanda tangan Ketua Dewan Penguji dan DPA.",
       href: "/Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
       fileName: "Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
       isWord: true
     },
     {
       title: "Buku Panduan KKL (Magang) Informatika 2026",
-      code: "PDF • 496 KB",
+      format: "PDF",
+      size: "496 KB",
       badge: "Bahasa Indonesia",
       category: "Pedoman Magang",
       desc: "Pedoman resmi pelaksanaan magang industri, format laporan minimal 25 halaman, margin 4-3-3-3 cm, logbook 16 minggu, serta tata cara pengumpulan softfile ke email prodi.",
@@ -63,7 +67,8 @@ export default function PanduanFktView() {
     },
     {
       title: "Buku Panduan Skripsi FKT 2021–2025 (50 Halaman)",
-      code: "SK Rektor 182/2021 • 3.6 MB",
+      format: "PDF",
+      size: "3.6 MB",
       badge: "Buku Panduan Utama",
       category: "Pedoman Skripsi",
       desc: "Buku panduan lengkap skripsi Fakultas Komputer dan Teknik Universitas Alma Ata yang memuat aturan penulisan Bab 1–5, margin 4-4-3-3, lampiran, dan sistematika naskah.",
@@ -73,7 +78,8 @@ export default function PanduanFktView() {
     },
     {
       title: "Surat Edaran Dekan: Wajib Jeda 3 Bulan Ethical Clearance",
-      code: "SE 002/2026 • 322 KB",
+      format: "PDF",
+      size: "322 KB",
       badge: "Kebijakan Dekan",
       category: "Etika Penelitian",
       desc: "Surat edaran resmi Dekan FSET No. 002/A/ED/FSET/2026 yang mewajibkan jeda waktu minimal 3 bulan kalender antara tanggal terbit EC dan pelaksanaan Ujian Sidang/Seminar Hasil.",
@@ -83,7 +89,8 @@ export default function PanduanFktView() {
     },
     {
       title: "Infografis Alur Pengajuan Ethical Clearance Komisi Etik",
-      code: "SOP KEPK • 159 KB",
+      format: "PDF",
+      size: "159 KB",
       badge: "SOP Resmi KEPK",
       category: "Etika Penelitian",
       desc: "Infografis alur 6 tahap pengajuan kaji etik ke KEPK UAA, daftar 6 berkas softfile PDF yang harus disiapkan, nomor kontak konfirmasi Bu Ela, dan waktu penerbitan sertifikat.",
@@ -93,7 +100,8 @@ export default function PanduanFktView() {
     },
     {
       title: "Buku Panduan Skor Prestasi Mahasiswa (SPM) UAA",
-      code: "Pedoman SPM • 3.3 MB",
+      format: "PDF",
+      size: "3.3 MB",
       badge: "Kemahasiswaan",
       category: "Poin SPM",
       desc: "Panduan pemenuhan minimal 25 poin SPM sebagai syarat ujian pendadaran, pembagian poin akademik/prodi, serta program klinik konten media sosial (9 poin) syarat sempro.",
@@ -103,7 +111,8 @@ export default function PanduanFktView() {
     },
     {
       title: "Kalender Akademik Universitas Alma Ata TA 2026/2027",
-      code: "SK Rektor 216/2026 • 1.5 MB",
+      format: "PDF",
+      size: "1.5 MB",
       badge: "Jadwal Resmi UAA",
       category: "Jadwal Akademik",
       desc: "Jadwal kalender akademik universitas lengkap: periode perkuliahan, batas pendaftaran ujian skripsi/pendadaran, batas yudisium Periode I–V, dan tanggal wisuda sarjana.",
@@ -112,6 +121,12 @@ export default function PanduanFktView() {
       isWord: false
     }
   ];
+
+  const filteredDocs = repositoryDokumen.filter(doc => {
+    if (docFilter === 'word') return doc.isWord;
+    if (docFilter === 'pdf') return !doc.isWord;
+    return true;
+  });
 
   return (
     <div className="space-y-8 animate-fadeIn font-instrument">
@@ -147,7 +162,7 @@ export default function PanduanFktView() {
       {/* Navigation Sub-Tabs */}
       <div className="flex flex-wrap gap-2 border-b-2 border-primary-200 pb-3">
         {[
-          { id: 'syarat', label: 'Persyaratan Akademik', icon: FileCheck2 },
+          { id: 'syarat', label: '1. Persyaratan Akademik', icon: FileCheck2 },
           { id: 'format', label: '2. Format Naskah (Margin 4-4-3-3)', icon: Layout },
           { id: 'sistematika', label: '3. Sistematika Bab 1–3', icon: Layers },
           { id: 'sempro', label: '4. Aturan Sempro & Audiens', icon: AlertCircle },
@@ -990,102 +1005,148 @@ export default function PanduanFktView() {
 
       {/* SECTION 8: PUSAT DOKUMEN (PDF/DOCX) */}
       {activeSection === 'dokumen' && (
-        <div className="space-y-8 animate-fadeIn">
-
-          {/* Header Banner Section 8 */}
-          <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-6 animate-fadeIn">
+          
+          {/* Header Banner - Clean & Soft Styling */}
+          <div className="bg-gradient-to-r from-sky-50 via-white to-sky-50/80 p-6 sm:p-7 rounded-3xl border border-sky-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 text-accent text-xs font-bold uppercase tracking-wider mb-2 font-instrument">
+              <div className="flex items-center space-x-2 text-primary text-xs font-bold uppercase tracking-wider mb-1 font-instrument">
                 <FolderDown className="w-4 h-4 text-accent" />
-                <span>Repository Terpadu • Berkas Resmi Siap Unduh</span>
+                <span>Pusat Berkas & Template Resmi</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-philosopher text-white">
+              <h2 className="text-xl sm:text-2xl font-bold font-philosopher text-slate-800">
                 Pusat Dokumen & Formulir (PDF / DOCX)
               </h2>
-              <p className="text-xs sm:text-sm text-white/90 mt-1 max-w-2xl leading-relaxed font-instrument">
-                Akses cepat seluruh format dokumen resmi, template naskah Microsoft Word (.docx), surat edaran dekan, dan buku panduan asli (.pdf) untuk mempermudah administrasi magang dan skripsi angkatan 2023.
+              <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed font-instrument">
+                Akses cepat seluruh format dokumen resmi, template naskah Microsoft Word (.docx), dan buku panduan PDF untuk keperluan magang serta skripsi angkatan 2023.
               </p>
             </div>
-            <div className="bg-white/10 backdrop-blur-xs border border-white/20 p-4 rounded-2xl flex-shrink-0 text-center font-instrument self-start md:self-auto min-w-[140px]">
-              <span className="text-2xl font-bold font-philosopher text-accent block">8 Berkas</span>
-              <span className="text-[11px] text-white/80">Format Resmi Aktif</span>
+
+            {/* Quick Filter Tabs */}
+            <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 self-start md:self-auto flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setDocFilter('all')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
+                  docFilter === 'all'
+                    ? 'bg-white text-primary shadow-xs'
+                    : 'text-slate-600 hover:text-primary'
+                }`}
+              >
+                Semua ({repositoryDokumen.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setDocFilter('word')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
+                  docFilter === 'word'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                Template Word ({repositoryDokumen.filter(d => d.isWord).length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setDocFilter('pdf')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold font-instrument transition-all ${
+                  docFilter === 'pdf'
+                    ? 'bg-primary text-white shadow-xs'
+                    : 'text-slate-600 hover:text-primary'
+                }`}
+              >
+                Panduan PDF ({repositoryDokumen.filter(d => !d.isWord).length})
+              </button>
             </div>
           </div>
 
-          {/* Grid Dokumen Siap Unduh */}
+          {/* Grid Dokumen Siap Unduh - Clean White Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {repositoryDokumen.map((doc, idx) => (
+            {filteredDocs.map((doc, idx) => (
               <div
                 key={idx}
-                className="bg-primary text-white p-6 rounded-3xl border-2 border-primary-700 hover:border-accent shadow-md transition-all flex flex-col justify-between"
+                className="bg-white rounded-2xl border border-slate-200/90 hover:border-primary/50 hover:shadow-md transition-all p-5 sm:p-6 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/15 text-white border border-white/20">
-                      {doc.code}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-accent text-white shadow-xs">
-                      {doc.badge}
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold ${
+                        doc.isWord
+                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                          : 'bg-rose-50 text-rose-700 border border-rose-200'
+                      }`}>
+                        {doc.format}
+                      </span>
+                      <span className="text-[11px] font-mono text-slate-400">
+                        {doc.size}
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-semibold text-slate-500 font-instrument bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-100">
+                      {doc.category}
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-base sm:text-lg text-white mb-2 font-philosopher leading-snug">
+                  <h3 className="font-bold text-sm sm:text-base text-slate-800 mb-1.5 font-philosopher group-hover:text-primary transition-colors leading-snug">
                     {doc.title}
                   </h3>
 
-                  <p className="text-xs text-white/90 leading-relaxed mb-6 font-instrument">
+                  <p className="text-xs text-slate-500 leading-relaxed font-instrument line-clamp-2">
                     {doc.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/20">
+                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                  <span className="text-[11px] font-medium text-slate-400 font-instrument">
+                    {doc.badge}
+                  </span>
                   <a
                     href={doc.href}
                     download={doc.fileName}
-                    className={`w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl font-bold text-xs shadow-md transition-all transform hover:-translate-y-0.5 font-instrument ${doc.isWord
-                        ? 'bg-accent hover:bg-amber-600 text-white shadow-accent/25'
-                        : 'bg-white hover:bg-sky-50 text-primary shadow-xs'
-                      }`}
+                    className={`inline-flex items-center space-x-1.5 py-2 px-3.5 rounded-xl font-bold text-xs transition-colors font-instrument ${
+                      doc.isWord
+                        ? 'bg-accent hover:bg-amber-600 text-white shadow-xs'
+                        : 'bg-primary hover:bg-primary-700 text-white shadow-xs'
+                    }`}
                   >
-                    <Download className="w-4 h-4" />
-                    <span>{doc.isWord ? 'Download Template Word (.docx)' : 'Download Dokumen PDF'}</span>
+                    <Download className="w-3.5 h-3.5" />
+                    <span>{doc.isWord ? 'Unduh Word (.docx)' : 'Unduh PDF'}</span>
                   </a>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Box Informasi Formulir Lampiran Buku Panduan */}
-          <div className="bg-white p-6 sm:p-7 rounded-3xl border-2 border-sky-100 shadow-xs">
-            <h3 className="font-bold text-primary font-philosopher text-base mb-1">
+          {/* Box Informasi Formulir Lampiran Buku Panduan - Clean & Minimalist */}
+          <div className="bg-slate-50/80 p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
+            <h3 className="font-bold text-slate-800 font-philosopher text-sm sm:text-base mb-1">
               Formulir Tambahan di Lampiran Buku Panduan FKT
             </h3>
-            <p className="text-xs text-slate-600 mb-4 font-instrument">
+            <p className="text-xs text-slate-500 mb-3.5 font-instrument">
               Selain file di atas, formulir administratif berikut dapat Anda fotokopi langsung dari bagian <strong>Lampiran Buku Panduan Skripsi FKT</strong>:
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-instrument">
-              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs font-instrument">
+              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
                 <span className="font-bold text-primary block">Form FKT.SPI.01:</span>
                 Pengajuan Judul Skripsi & Dospem (Lampiran 1)
               </div>
-              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
                 <span className="font-bold text-primary block">Form FKT.SPI.04:</span>
                 Kartu Bimbingan Proposal Skripsi (Lampiran 10)
               </div>
-              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
                 <span className="font-bold text-primary block">Form FKT.SPI.05:</span>
                 Kartu Bimbingan Skripsi Akhir (Lampiran 11)
               </div>
-              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
                 <span className="font-bold text-primary block">Lampiran 4:</span>
                 Formulir Persetujuan Seminar Proposal (ACC Dosen)
               </div>
-              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
                 <span className="font-bold text-primary block">Lampiran 12:</span>
                 Surat Pernyataan Keaslian Riset Bermaterai Rp10.000
               </div>
-              <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 text-slate-700">
+              <div className="p-3 rounded-xl bg-white border border-slate-200/70 text-slate-700 shadow-2xs">
                 <span className="font-bold text-primary block">Lampiran 15:</span>
                 Format Surat Keterangan Lolos Uji Turnitin ≤ 20%
               </div>
