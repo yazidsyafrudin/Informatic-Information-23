@@ -418,7 +418,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
             </div>
             <div>
               <p className="text-xs sm:text-sm font-bold text-slate-800 font-philosopher">
-                Urutan Paling Direkomendasikan untuk Memulai:
+                Cuy urutan Paling Direkomendasikan untuk Memulai:
               </p>
               <p className="text-[11px] sm:text-xs text-slate-600 font-instrument leading-snug mt-0.5">
                 Mulai dari <strong>Langkah 1 (masalah nyata di tempat magang)</strong> agar objek riset jelas. Sembari menyusun Bab 1–3, <strong>cicil segera 9 poin SPM (terutama pembuatan konten kampus)</strong> dan kehadiran 5x sempro kawan agar berkas kelulusan aman tanpa kendala di akhir!
