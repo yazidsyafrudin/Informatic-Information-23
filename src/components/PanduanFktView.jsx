@@ -35,10 +35,8 @@ export default function PanduanFktView() {
     {
       title: "Format Kerangka Laporan Magang (KKL) 2026",
       format: "DOCX",
-      size: "3.0 MB",
       badge: "Template Siap Pakai",
       category: "Magang (KKL)",
-      desc: "Template resmi dokumen Microsoft Word penulisan laporan magang S1 Informatika lengkap dengan format cover, lembar pengesahan (Supervisor & DPL), Bab I–IV, dan logbook harian (Hari 1–40).",
       href: "/Format_Kerangka_Laporan_Magang_2026.docx",
       fileName: "Format_Kerangka_Laporan_Magang_2026.docx",
       isWord: true
@@ -46,10 +44,8 @@ export default function PanduanFktView() {
     {
       title: "Formulir Kehadiran Mahasiswa Mengikuti Seminar Proposal",
       format: "DOCX",
-      size: "38 KB",
       badge: "Formulir Siap Cetak",
       category: "Presensi Sempro",
-      desc: "Lembar bukti kehadiran resmi (FKOM.SPI.05 / Student Attendance) untuk mencatat nama mahasiswa yang diuji, judul proposal, serta tanda tangan Ketua Dewan Penguji dan DPA.",
       href: "/Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
       fileName: "Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
       isWord: true
@@ -57,10 +53,8 @@ export default function PanduanFktView() {
     {
       title: "Buku Panduan KKL (Magang) Informatika 2026",
       format: "PDF",
-      size: "496 KB",
       badge: "Bahasa Indonesia",
       category: "Pedoman Magang",
-      desc: "Pedoman resmi pelaksanaan magang industri, format laporan minimal 25 halaman, margin 4-3-3-3 cm, logbook 16 minggu, serta tata cara pengumpulan softfile ke email prodi.",
       href: "/panduan-laporan-magang-kkl.pdf",
       fileName: "Buku_Panduan_KKL_Informatika_2026.pdf",
       isWord: false
@@ -68,10 +62,8 @@ export default function PanduanFktView() {
     {
       title: "Buku Panduan Skripsi FKT 2021–2025 (50 Halaman)",
       format: "PDF",
-      size: "3.6 MB",
       badge: "Buku Panduan Utama",
       category: "Pedoman Skripsi",
-      desc: "Buku panduan lengkap skripsi Fakultas Komputer dan Teknik Universitas Alma Ata yang memuat aturan penulisan Bab 1–5, margin 4-4-3-3, lampiran, dan sistematika naskah.",
       href: "/panduan-skripsi-fkt-almaata.pdf",
       fileName: "Buku_Panduan_Skripsi_FKT_Alma_Ata.pdf",
       isWord: false
@@ -79,10 +71,8 @@ export default function PanduanFktView() {
     {
       title: "Surat Edaran Dekan: Wajib Jeda 3 Bulan Ethical Clearance",
       format: "PDF",
-      size: "322 KB",
       badge: "Kebijakan Dekan",
       category: "Etika Penelitian",
-      desc: "Surat edaran resmi Dekan FSET No. 002/A/ED/FSET/2026 yang mewajibkan jeda waktu minimal 3 bulan kalender antara tanggal terbit EC dan pelaksanaan Ujian Sidang/Seminar Hasil.",
       href: "/surat-edaran-dekan-ec.pdf",
       fileName: "Surat_Edaran_Dekan_Perihal_EC.pdf",
       isWord: false
@@ -90,10 +80,8 @@ export default function PanduanFktView() {
     {
       title: "Infografis Alur Pengajuan Ethical Clearance Komisi Etik",
       format: "PDF",
-      size: "159 KB",
-      badge: "SOP Resmi KEPK",
+      badge: "SOP KEPK",
       category: "Etika Penelitian",
-      desc: "Infografis alur 6 tahap pengajuan kaji etik ke KEPK UAA, daftar 6 berkas softfile PDF yang harus disiapkan, nomor kontak konfirmasi Bu Ela, dan waktu penerbitan sertifikat.",
       href: "/alur-pengajuan-ec.pdf",
       fileName: "Alur_Pengajuan_Ethical_Clearance_UAA.pdf",
       isWord: false
@@ -101,10 +89,8 @@ export default function PanduanFktView() {
     {
       title: "Buku Panduan Skor Prestasi Mahasiswa (SPM) UAA",
       format: "PDF",
-      size: "3.3 MB",
       badge: "Kemahasiswaan",
       category: "Poin SPM",
-      desc: "Panduan pemenuhan minimal 25 poin SPM sebagai syarat ujian pendadaran, pembagian poin akademik/prodi, serta program klinik konten media sosial (9 poin) syarat sempro.",
       href: "/panduan-skor-prestasi-mahasiswa-spm.pdf",
       fileName: "Panduan_Skor_Prestasi_Mahasiswa_SPM_UAA.pdf",
       isWord: false
@@ -112,10 +98,8 @@ export default function PanduanFktView() {
     {
       title: "Kalender Akademik Universitas Alma Ata TA 2026/2027",
       format: "PDF",
-      size: "1.5 MB",
       badge: "Jadwal Resmi UAA",
       category: "Jadwal Akademik",
-      desc: "Jadwal kalender akademik universitas lengkap: periode perkuliahan, batas pendaftaran ujian skripsi/pendadaran, batas yudisium Periode I–V, dan tanggal wisuda sarjana.",
       href: "/kalender-akademik-2026-2027.pdf",
       fileName: "Kalender_Akademik_UAA_2026_2027.pdf",
       isWord: false
@@ -1070,7 +1054,7 @@ export default function PanduanFktView() {
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/15 text-white border border-white/20">
-                      {doc.format} • {doc.size}
+                      {doc.format}
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-instrument bg-accent text-white shadow-xs">
                       {doc.category}
