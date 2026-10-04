@@ -293,7 +293,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 </span>
               </div>
               <h3 className="font-philosopher font-bold text-white text-sm sm:text-base leading-snug group-hover:text-amber-200 transition-colors min-h-[2.5rem] flex items-center">
-                Koleksi 5–10 Jurnal SINTA / Scopus
+                Kumpulkan 5–10 Jurnal SINTA / Scopus
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
                 Kunci peminatan (SE / AI / Jaringan). Cari 5–10 jurnal terakreditasi 3–5 tahun terakhir untuk rujukan metode penyelesaian (misal: CNN, Scrum, IoT).
