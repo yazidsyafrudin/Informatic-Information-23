@@ -105,6 +105,18 @@ export default function PanduanFktView() {
                 <p className="text-xs text-white/90 leading-relaxed pl-10 font-instrument">
                   {item.desc}
                 </p>
+                {item.downloadUrl && (
+                  <div className="pl-10 mt-3">
+                    <a
+                      href={item.downloadUrl}
+                      download="Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx"
+                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-accent hover:bg-amber-600 text-white font-bold text-[11px] shadow-xs transition-colors"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>{item.downloadLabel || 'Download Form'}</span>
+                    </a>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -250,6 +262,52 @@ export default function PanduanFktView() {
               <div className="p-4 rounded-2xl bg-sky-50 border-2 border-sky-100">
                 <span className="font-bold text-accent block mb-1">Syarat Audiens:</span>
                 Wajib dihadiri sekurang-kurangnya 5 mahasiswa (minimal semester 4). Saling hadir dan dukung teman angkatan 23 saat maju sempro!
+              </div>
+            </div>
+          </div>
+
+          {/* Card Download Template Formulir TTD Kehadiran Sempro (FKOM.SPI.05) */}
+          <div className="bg-gradient-to-r from-primary via-primary-800 to-slate-900 text-white p-6 sm:p-7 rounded-3xl border-2 border-primary-700 shadow-xl relative overflow-hidden">
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-2 max-w-2xl">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent text-[11px] font-bold uppercase tracking-wider font-instrument">
+                  <FileText className="w-3.5 h-3.5 text-accent" />
+                  <span>Kode Formulir: FKOM.SPI.05</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold font-philosopher text-white">
+                  Formulir Presensi / Bukti TTD Kehadiran Sempro
+                </h3>
+                <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-instrument">
+                  Format dokumen resmi Microsoft Word (<strong>Student Attendance at the Proposal Seminar</strong>) dari Fakultas Komputer & Teknik. Digunakan untuk mencatat kehadiran sebagai audiens sempro. Kumpulkan minimal <strong>5 tanda tangan Ketua Dewan Penguji</strong> sebelum kamu mendaftar sempro skripsimu sendiri.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] text-white/80 font-instrument">
+                  <div className="flex items-center space-x-1.5 bg-white/10 px-2.5 py-1.5 rounded-lg border border-white/10">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    <span>Nama Mahasiswa yang Diuji</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5 bg-white/10 px-2.5 py-1.5 rounded-lg border border-white/10">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    <span>Judul Proposal Skripsi/KTI</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5 bg-white/10 px-2.5 py-1.5 rounded-lg border border-white/10">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    <span>TTD Ketua Dewan Penguji</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 flex-shrink-0">
+                <a
+                  href="/Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx"
+                  download="Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx"
+                  className="flex items-center justify-center space-x-2 px-5 py-3.5 rounded-xl bg-accent hover:bg-amber-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-accent/25 transition-all transform hover:-translate-y-0.5 whitespace-nowrap font-instrument cursor-pointer"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download Form Word (.docx)</span>
+                </a>
+                <span className="text-[10px] text-center text-white/70 font-instrument">
+                  Format Word Siap Cetak • 38 KB
+                </span>
               </div>
             </div>
           </div>

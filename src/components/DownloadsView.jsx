@@ -8,12 +8,23 @@ import {
 export default function DownloadsView() {
   const downloadItems = [
     {
+      title: "Formulir Kehadiran Mahasiswa Mengikuti Seminar Proposal",
+      code: "FKOM.SPI.05 (DOCX)",
+      category: "Audiens & Sempro",
+      desc: "Template resmi lembar presensi / bukti TTD menghadiri sempro mahasiswa lain (Student Attendance at the Proposal Seminar) lengkap dengan kolom TTD Ketua Penguji & DPA.",
+      href: "/Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
+      fileName: "Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
+      buttonText: "Download Form Word (.docx) • 38 KB",
+      isPrimary: true
+    },
+    {
       title: "Buku Panduan Skripsi FKT 2021-2025 (PDF 50 Halaman)",
       code: "SK Rektor 182/2021",
       category: "Pedoman Resmi",
       desc: "Dokumen panduan lengkap dari Fakultas Komputer dan Teknik Universitas Alma Ata berisi aturan bab, margin, dan lampiran.",
       href: "/panduan-skripsi-fkt-almaata.pdf",
       fileName: "Buku_Panduan_Skripsi_FKT_Alma_Ata.pdf",
+      buttonText: "Download PDF Panduan (3.6 MB)",
       isPrimary: true
     },
     {
@@ -23,6 +34,7 @@ export default function DownloadsView() {
       desc: "Ketentuan resmi wajib jeda minimal 3 bulan kalender antara tanggal penerbitan Ethical Clearance dan Ujian Seminar Hasil Skripsi.",
       href: "/surat-edaran-dekan-ec.pdf",
       fileName: "Surat_Edaran_Dekan_Perihal_EC.pdf",
+      buttonText: "Download Surat Edaran (PDF)",
       isPrimary: true
     },
     {
@@ -32,6 +44,7 @@ export default function DownloadsView() {
       desc: "Panduan 6 tahap pengajuan etik, daftar 6 berkas persyaratan softfile PDF, nomor WA admin konfirmasi, dan kontak Bu Ela.",
       href: "/alur-pengajuan-ec.pdf",
       fileName: "Alur_Pengajuan_Ethical_Clearance_UAA.pdf",
+      buttonText: "Download Alur Pengajuan (PDF)",
       isPrimary: true
     },
     {
@@ -41,6 +54,7 @@ export default function DownloadsView() {
       desc: "Panduan resmi penyusunan laporan magang minimal 25 halaman, format margin 4-3-3-3, format logbook 16 minggu, dan tata cara pengumpulan.",
       href: "/panduan-laporan-magang-kkl.pdf",
       fileName: "Panduan_Laporan_Magang_KKL_Informatika_UAA.pdf",
+      buttonText: "Download Panduan Magang (PDF)",
       isPrimary: true
     },
     {
@@ -50,6 +64,7 @@ export default function DownloadsView() {
       desc: "Panduan resmi pemenuhan minimal 25 poin SPM (syarat pendadaran) & klinik konten medsos (syarat sempro) Universitas Alma Ata.",
       href: "/panduan-skor-prestasi-mahasiswa-spm.pdf",
       fileName: "Panduan_Skor_Prestasi_Mahasiswa_SPM_UAA.pdf",
+      buttonText: "Download Panduan SPM (PDF)",
       isPrimary: true
     },
     {
@@ -168,7 +183,7 @@ export default function DownloadsView() {
                   className="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs shadow-md shadow-accent/25 transition-colors font-instrument"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Download PDF Sekarang (3.6 MB)</span>
+                  <span>{item.buttonText || 'Download Sekarang'}</span>
                 </a>
               ) : (
                 <div className="flex items-center justify-between w-full text-xs text-slate-500 font-instrument">

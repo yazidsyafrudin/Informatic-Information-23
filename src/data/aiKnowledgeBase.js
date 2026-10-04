@@ -26,10 +26,12 @@ export const AI_KNOWLEDGE_BASE = [
 • Sertifikat AAEPT menjadi syarat wajib kelayakan sebelum mahasiswa mendaftar ujian pendadaran.`
   },
   {
-    keywords: ['audiens', 'hadir sempro', 'kehadiran sempro', 'penonton sempro', 'nonton sempro'],
-    answer: `Syarat Audiens Seminar Proposal (Sempro):
-• Mahasiswa wajib menghadiri seminar proposal teman minimal **5 kali (5x)** sebagai audiens/penonton.
-• Bukti kehadiran dicatat pada lembar kartu kendali kehadiran sempro dan ditandatangani oleh moderator/dosen penguji sempro.`
+    keywords: ['audiens', 'hadir sempro', 'kehadiran sempro', 'penonton sempro', 'nonton sempro', 'ttd sempro', 'format sempro', 'template sempro', 'form sempro', 'fkom.spi.05', 'bukti sempro'],
+    answer: `Syarat & Formulir Bukti Kehadiran Sempro:
+• Mahasiswa wajib menghadiri seminar proposal teman minimal **5 kali (5x)** sebagai audiens/penonton sebelum mendaftar sempro sendiri.
+• **Format Formulir Resmi**: Menggunakan format **FKOM.SPI.05** (*Student Attendance at the Proposal Seminar*).
+• Formulir ini mencatat Nama Mahasiswa yang Diuji, Judul Proposal, Tanda Tangan Ketua Dewan Penguji, dan disahkan oleh Dosen Pembimbing Akademik (DPA).
+• Dokumen template Word (.docx) siap cetak dapat Anda unduh langsung di menu **Panduan FKT** (sub-tab Aturan Sempro & Audiens) atau di menu **Pusat Berkas (Downloads)**!`
   },
   {
     keywords: ['yudisium', 'wisuda', 'jadwal', 'gelombang', 'periode'],

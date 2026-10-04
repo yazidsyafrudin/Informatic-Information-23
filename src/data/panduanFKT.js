@@ -67,9 +67,11 @@ export const PANDUAN_FKT = {
     {
       id: "audiens-sempro",
       title: "Menghadiri Minimal 5x Sempro Teman",
-      desc: "Wajib telah mengikuti/menjadi audiens minimal 5 kali seminar proposal skripsi mahasiswa lain sebelum mendaftar sempro sendiri.",
+      desc: "Wajib telah mengikuti/menjadi audiens minimal 5 kali seminar proposal skripsi mahasiswa lain sebelum mendaftar sempro sendiri. Bukti tanda tangan dicatat pada Formulir FKOM.SPI.05.",
       icon: "Users",
-      wajib: true
+      wajib: true,
+      downloadUrl: "/Formulir-Mahasiswa-Mengikuti-Seminar-Proposal-en.docx",
+      downloadLabel: "Download Form Presensi (DOCX)"
     },
     {
       id: "plagiasi",
