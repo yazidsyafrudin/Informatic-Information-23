@@ -215,7 +215,7 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 5,
-    title: "Fase 5: Yudisium (Pendadaran & Kelulusan)",
+    title: "Yudisium (Pendadaran & Kelulusan)",
     shortTitle: "Yudisium",
     period: "Juni – Juli 2027",
     status: "Sidang & Kelulusan",
