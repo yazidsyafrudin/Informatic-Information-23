@@ -287,7 +287,7 @@ export default function PanduanFktView() {
           { id: 'ec', label: 'Ethical Clearance (EC) & SE Dekan', icon: ShieldAlert },
           { id: 'magang', label: 'Panduan Magang (KKL) Sem 7', icon: Briefcase },
           { id: 'spm', label: 'Skor Prestasi Mahasiswa (SPM)', icon: Award },
-          { id: 'dokumen', label: '8. Pusat Dokumen (PDF/DOCX)', icon: FolderDown },
+          { id: 'dokumen', label: 'Pusat Dokumen (PDF/DOCX)', icon: FolderDown },
           { id: 'tautan', label: '9. Pusat Tautan Resmi', icon: ExternalLink },
         ].map((tab) => {
           const Icon = tab.icon;
