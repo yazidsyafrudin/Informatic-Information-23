@@ -14,7 +14,8 @@ import {
   ChevronDown, 
   ChevronUp,
   Camera,
-  Clock
+  Clock,
+  Info
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
 import StudentCalendarTracker from './StudentCalendarTracker';
@@ -30,6 +31,15 @@ export default function TrackerView({
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [formProfile, setFormProfile] = useState(profile || {});
   const [expandedPhase, setExpandedPhase] = useState(1);
+  const [expandedStepDetails, setExpandedStepDetails] = useState({});
+
+  const toggleStepDetail = (stepId, e) => {
+    if (e) e.stopPropagation();
+    setExpandedStepDetails(prev => ({
+      ...prev,
+      [stepId]: !prev[stepId]
+    }));
+  };
 
   useEffect(() => {
     if (profile) {
@@ -673,13 +683,13 @@ export default function TrackerView({
 
               {/* Tahap di dalam Fase (Hanya Muncul Jika Dropdown Terbuka) */}
               {isExpanded && (
-                <div className="p-5 sm:p-6 border-t-2 border-sky-100/80 space-y-3 font-instrument bg-sky-50/40 animate-fadeIn">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                    <p className="text-[11px] font-semibold text-slate-500">
-                      Tentukan status setiap tahap kelulusanmu dengan memilih <strong>Progres</strong> atau <strong>Selesai</strong>:
-                    </p>
-                    <span className="text-[10px] font-medium text-slate-400">
-                      Klik pilihan di pojok kanan kartu
+                <div className="p-4 sm:p-6 border-t-2 border-sky-100/80 space-y-2.5 font-instrument bg-sky-50/40 animate-fadeIn">
+                  <div className="flex items-center justify-between gap-2 mb-1 px-1">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider font-instrument">
+                      Checklist Tahap ({completedInPhase}/{totalInPhase} Selesai)
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">
+                      Pilih Progres atau Selesai
                     </span>
                   </div>
 
@@ -687,11 +697,12 @@ export default function TrackerView({
                     const status = progress[step.id];
                     const isDone = status === true || status === 'selesai';
                     const isInProgress = status === 'progres';
+                    const isDetailOpen = !!expandedStepDetails[step.id];
 
                     return (
                       <div
                         key={step.id}
-                        className={`p-4 rounded-2xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
+                        className={`rounded-2xl border-2 transition-all overflow-hidden ${
                           isDone
                             ? 'bg-emerald-50/90 border-emerald-300 shadow-2xs'
                             : isInProgress
@@ -699,89 +710,120 @@ export default function TrackerView({
                             : 'bg-white border-slate-200/90 hover:border-primary/40 shadow-xs'
                         }`}
                       >
-                        {/* Kiri: Ikon & Detail Tahap */}
-                        <div 
-                          onClick={() => handleCheckboxClick(step.id)}
-                          className="flex items-start space-x-3.5 flex-1 cursor-pointer"
-                        >
-                          <div className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
-                            isDone
-                              ? 'bg-emerald-600 text-white shadow-xs'
-                              : isInProgress
-                              ? 'bg-amber-500 text-white shadow-xs'
-                              : 'border-2 border-slate-300 bg-white hover:border-primary'
-                          }`}>
-                            {isDone ? (
-                              <Check className="w-3.5 h-3.5 stroke-[3]" />
-                            ) : isInProgress ? (
-                              <Clock className="w-3.5 h-3.5 stroke-[2.5]" />
-                            ) : null}
-                          </div>
+                        {/* Baris Utama Ramping (Compact Row) */}
+                        <div className="p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                          {/* Kiri: Checkbox & Judul Tahap */}
+                          <div 
+                            onClick={() => handleCheckboxClick(step.id)}
+                            className="flex items-center space-x-3 flex-1 cursor-pointer min-w-0"
+                          >
+                            <div className={`w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
+                              isDone
+                                ? 'bg-emerald-600 text-white shadow-xs'
+                                : isInProgress
+                                ? 'bg-amber-500 text-white shadow-xs'
+                                : 'border-2 border-slate-300 bg-white hover:border-primary'
+                            }`}>
+                              {isDone ? (
+                                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                              ) : isInProgress ? (
+                                <Clock className="w-3.5 h-3.5 stroke-[2.5]" />
+                              ) : null}
+                            </div>
 
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <h4 className={`text-xs sm:text-sm font-bold leading-snug ${
+                            <div className="flex items-center gap-2 flex-wrap min-w-0 flex-1">
+                              <h4 className={`text-xs sm:text-sm font-semibold truncate ${
                                 isDone 
-                                  ? 'text-emerald-800 line-through' 
+                                  ? 'text-emerald-800 line-through opacity-80' 
                                   : isInProgress 
                                   ? 'text-amber-950 font-bold' 
-                                  : 'text-slate-900'
+                                  : 'text-slate-800'
                               }`}>
                                 {step.title}
                               </h4>
+
                               {isInProgress && (
-                                <span className="px-2 py-0.2 rounded-md bg-amber-200/80 text-amber-900 text-[10px] font-bold uppercase tracking-wider">
+                                <span className="px-2 py-0.5 rounded-md bg-amber-200/80 text-amber-900 text-[10px] font-bold uppercase tracking-wider flex-shrink-0">
                                   Sedang Dikerjakan
                                 </span>
                               )}
                               {isDone && (
-                                <span className="px-2 py-0.2 rounded-md bg-emerald-200/80 text-emerald-900 text-[10px] font-bold uppercase tracking-wider">
+                                <span className="px-2 py-0.5 rounded-md bg-emerald-200/80 text-emerald-900 text-[10px] font-bold uppercase tracking-wider flex-shrink-0">
                                   Tuntas
                                 </span>
                               )}
+
+                              {/* Tombol Toggle Detail */}
+                              <button
+                                type="button"
+                                onClick={(e) => toggleStepDetail(step.id, e)}
+                                className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-lg text-[11px] font-semibold transition-colors cursor-pointer ml-auto sm:ml-1 ${
+                                  isDetailOpen 
+                                    ? 'bg-primary text-white shadow-2xs' 
+                                    : 'text-slate-400 hover:text-primary hover:bg-sky-100/70'
+                                }`}
+                                title="Lihat detail penjelasan & tips"
+                              >
+                                <Info className="w-3 h-3" />
+                                <span>{isDetailOpen ? 'Tutup' : 'Detail'}</span>
+                                {isDetailOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                              </button>
                             </div>
-                            <p className={`text-xs mt-1 leading-relaxed ${
-                              isDone ? 'text-emerald-700/80' : isInProgress ? 'text-amber-800/90' : 'text-slate-600'
-                            }`}>
-                              {step.desc}
-                            </p>
+                          </div>
+
+                          {/* Kanan: Pilihan 'Progres' dan 'Selesai' */}
+                          <div className="flex items-center gap-1.5 flex-shrink-0 justify-end pt-1.5 sm:pt-0 border-t sm:border-t-0 border-slate-200/60">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSetStatus(step.id, 'progres');
+                              }}
+                              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
+                                isInProgress
+                                  ? 'bg-amber-500 text-white shadow-xs ring-2 ring-amber-300'
+                                  : 'bg-white border border-slate-200 text-slate-600 hover:border-amber-400 hover:text-amber-600 hover:bg-amber-50/60'
+                              }`}
+                            >
+                              <Clock className="w-3.5 h-3.5" />
+                              <span>Progres</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSetStatus(step.id, 'selesai');
+                              }}
+                              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
+                                isDone
+                                  ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-300'
+                                  : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50/60'
+                              }`}
+                            >
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                              <span>Selesai</span>
+                            </button>
                           </div>
                         </div>
 
-                        {/* Pojok Kanan: Pilihan 'Progres' dan 'Selesai' */}
-                        <div className="flex items-center gap-1.5 flex-shrink-0 self-end sm:self-center pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 w-full sm:w-auto justify-end">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleSetStatus(step.id, 'progres');
-                            }}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
-                              isInProgress
-                                ? 'bg-amber-500 text-white shadow-xs ring-2 ring-amber-300'
-                                : 'bg-white border border-slate-200 text-slate-600 hover:border-amber-400 hover:text-amber-600 hover:bg-amber-50/60'
-                            }`}
-                          >
-                            <Clock className="w-3.5 h-3.5" />
-                            <span>Progres</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleSetStatus(step.id, 'selesai');
-                            }}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
-                              isDone
-                                ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-300'
-                                : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50/60'
-                            }`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                            <span>Selesai</span>
-                          </button>
-                        </div>
+                        {/* Panel Detail (Hanya Muncul Jika Diklik) */}
+                        {isDetailOpen && (
+                          <div className="px-4 pb-3.5 pt-2 text-xs border-t border-slate-200/70 bg-white/80 space-y-2 animate-fadeIn">
+                            <p className="text-slate-600 leading-relaxed font-instrument">
+                              {step.desc}
+                            </p>
+                            {step.tips && (
+                              <div className="p-2.5 rounded-xl bg-sky-50 border border-sky-200/70 text-sky-950 flex items-start gap-2 text-[11px] leading-relaxed font-instrument">
+                                <Sparkles className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-primary font-bold">Tips Mahasiswa: </strong>
+                                  <span>{step.tips}</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
