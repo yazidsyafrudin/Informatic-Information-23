@@ -34,7 +34,7 @@ export default function App() {
 
   const allMilestoneIds = ROADMAP_PHASES.flatMap(phase => phase.steps.map(s => s.id));
   const totalMilestones = allMilestoneIds.length;
-  const progressCount = allMilestoneIds.filter(id => progress[id]).length;
+  const progressCount = allMilestoneIds.filter(id => progress[id] === true || progress[id] === 'selesai').length;
 
   // Sinkronisasi data saat pertama kali aplikasi dibuka
   useEffect(() => {
@@ -122,10 +122,19 @@ export default function App() {
     await StorageService.saveProfile(newProfile);
   };
 
-  const handleToggleMilestone = async (milestoneId) => {
+  const handleToggleMilestone = async (milestoneId, forcedState) => {
     const nim = currentUser?.nim || profile.nim;
-    const currentState = Boolean(progress[milestoneId]);
-    const newState = !currentState;
+    let newState;
+    if (forcedState !== undefined) {
+      newState = forcedState;
+    } else {
+      const current = progress[milestoneId];
+      if (current === true || current === 'selesai') {
+        newState = false;
+      } else {
+        newState = 'selesai';
+      }
+    }
     
     const updatedProgress = { ...progress, [milestoneId]: newState };
     setProgress(updatedProgress);

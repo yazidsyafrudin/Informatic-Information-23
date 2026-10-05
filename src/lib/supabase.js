@@ -469,13 +469,14 @@ export const StorageService = {
 
     if (supabase && isSupabaseConfigured && nim) {
       try {
+        const isCompleted = newState === true || newState === 'selesai';
         await supabase
           .from('student_progress')
           .upsert({
             nim: nim,
             milestone_id: milestoneId,
-            is_completed: newState,
-            completed_at: newState ? new Date().toISOString() : null
+            is_completed: isCompleted,
+            completed_at: isCompleted ? new Date().toISOString() : null
           }, { onConflict: 'nim, milestone_id' });
       } catch (err) {
         console.error('Supabase progress upsert error:', err);

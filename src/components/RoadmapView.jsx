@@ -13,7 +13,8 @@ import {
   Sparkles,
   LogIn,
   X,
-  ShieldAlert
+  ShieldAlert,
+  Clock
 } from 'lucide-react';
 
 export default function RoadmapView({ progress, onToggleMilestone, setActiveTab, currentUser }) {
@@ -24,12 +25,23 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab,
     setExpandedPhase(expandedPhase === phaseId ? null : phaseId);
   };
 
-  const handleStepClick = (stepId) => {
+  const handleStepStatus = (stepId, targetStatus) => {
     if (!currentUser) {
       setShowAuthPromptModal(true);
       return;
     }
-    onToggleMilestone(stepId);
+    const current = progress[stepId];
+    let nextStatus;
+    if (current === targetStatus || (targetStatus === 'selesai' && current === true)) {
+      nextStatus = false;
+    } else {
+      nextStatus = targetStatus;
+    }
+    onToggleMilestone(stepId, nextStatus);
+  };
+
+  const handleStepClick = (stepId) => {
+    handleStepStatus(stepId, 'selesai');
   };
 
   return (
@@ -68,14 +80,14 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab,
             Navigasi Cepat Fase (Klik untuk Buka/Tutup):
           </span>
           <span className="text-xs font-bold text-primary font-mono">
-            {ROADMAP_PHASES.reduce((acc, p) => acc + p.steps.filter(s => progress[s.id]).length, 0)} / {ROADMAP_PHASES.reduce((acc, p) => acc + p.steps.length, 0)} Tahap Keseluruhan
+            {ROADMAP_PHASES.reduce((acc, p) => acc + p.steps.filter(s => progress[s.id] === true || progress[s.id] === 'selesai').length, 0)} / {ROADMAP_PHASES.reduce((acc, p) => acc + p.steps.length, 0)} Tahap Keseluruhan
           </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {ROADMAP_PHASES.map((phase) => {
             const isSelected = expandedPhase === phase.phaseId;
-            const completedCount = phase.steps.filter(s => progress[s.id]).length;
+            const completedCount = phase.steps.filter(s => progress[s.id] === true || progress[s.id] === 'selesai').length;
             const totalInPhase = phase.steps.length;
             const isPhaseDone = completedCount === totalInPhase && totalInPhase > 0;
 
@@ -122,7 +134,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab,
       <div className="space-y-6">
         {ROADMAP_PHASES.map((phase) => {
           const isExpanded = expandedPhase === phase.phaseId;
-          const completedCount = phase.steps.filter(s => progress[s.id]).length;
+          const completedCount = phase.steps.filter(s => progress[s.id] === true || progress[s.id] === 'selesai').length;
           const totalInPhase = phase.steps.length;
           const isPhaseDone = completedCount === totalInPhase && totalInPhase > 0;
 
@@ -200,39 +212,97 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab,
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {phase.steps.map((step, idx) => {
-                      const isDone = Boolean(progress[step.id]);
+                      const status = progress[step.id];
+                      const isDone = status === true || status === 'selesai';
+                      const isInProgress = status === 'progres';
 
                       return (
                         <div
                           key={step.id}
-                          onClick={() => handleStepClick(step.id)}
-                          className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between ${
+                          className={`p-5 rounded-2xl border-2 transition-all flex flex-col justify-between ${
                             isDone
                               ? 'bg-emerald-50/90 border-emerald-300 shadow-xs'
+                              : isInProgress
+                              ? 'bg-amber-50/80 border-amber-300 ring-2 ring-amber-300/30 shadow-xs'
                               : 'bg-white border-slate-200/90 hover:border-primary/60 hover:shadow-md hover:scale-[1.005] shadow-xs'
                           }`}
                         >
                           <div>
-                            <div className="flex items-start justify-between gap-3 mb-2">
-                              <div className="flex items-start space-x-3">
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <div 
+                                onClick={() => handleStepClick(step.id)}
+                                className="flex items-start space-x-3 cursor-pointer flex-1"
+                              >
                                 <div
                                   className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
                                     isDone
                                       ? 'bg-emerald-600 text-white shadow-xs'
+                                      : isInProgress
+                                      ? 'bg-amber-500 text-white shadow-xs'
                                       : 'border-2 border-slate-300 bg-white hover:border-primary'
                                   }`}
                                 >
-                                  {isDone && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                                  {isDone ? (
+                                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                                  ) : isInProgress ? (
+                                    <Clock className="w-3.5 h-3.5 stroke-[2.5]" />
+                                  ) : null}
                                 </div>
                                 <div>
-                                  <h4 className={`text-sm font-bold font-instrument leading-snug ${isDone ? 'text-emerald-800 line-through' : 'text-slate-800'}`}>
-                                    {step.title}
-                                  </h4>
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <h4 className={`text-sm font-bold font-instrument leading-snug ${
+                                      isDone ? 'text-emerald-800 line-through' : isInProgress ? 'text-amber-950 font-bold' : 'text-slate-800'
+                                    }`}>
+                                      {step.title}
+                                    </h4>
+                                    {isInProgress && (
+                                      <span className="px-1.5 py-0.2 rounded bg-amber-200 text-amber-900 text-[9px] font-bold uppercase">
+                                        Progres
+                                      </span>
+                                    )}
+                                    {isDone && (
+                                      <span className="px-1.5 py-0.2 rounded bg-emerald-200 text-emerald-900 text-[9px] font-bold uppercase">
+                                        Tuntas
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                              <span className="text-[10px] font-mono font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-md flex-shrink-0">
-                                #{idx + 1}
-                              </span>
+
+                              {/* Pilihan Progres dan Selesai di Pojok Kanan */}
+                              <div className="flex items-center gap-1.5 flex-shrink-0">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleStepStatus(step.id, 'progres');
+                                  }}
+                                  className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center space-x-1 cursor-pointer ${
+                                    isInProgress
+                                      ? 'bg-amber-500 text-white shadow-xs ring-2 ring-amber-300'
+                                      : 'bg-slate-100 hover:bg-amber-50 hover:text-amber-700 text-slate-600'
+                                  }`}
+                                >
+                                  <Clock className="w-3 h-3" />
+                                  <span>Progres</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleStepStatus(step.id, 'selesai');
+                                  }}
+                                  className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center space-x-1 cursor-pointer ${
+                                    isDone
+                                      ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-300'
+                                      : 'bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-600'
+                                  }`}
+                                >
+                                  <Check className="w-3 h-3 stroke-[3]" />
+                                  <span>Selesai</span>
+                                </button>
+                              </div>
                             </div>
 
                             <p className="text-xs font-instrument text-slate-600 pl-8 mb-3 leading-relaxed">

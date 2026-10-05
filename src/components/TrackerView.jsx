@@ -13,7 +13,8 @@ import {
   Flame, 
   ChevronDown, 
   ChevronUp,
-  Camera
+  Camera,
+  Clock
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
 import StudentCalendarTracker from './StudentCalendarTracker';
@@ -114,11 +115,18 @@ export default function TrackerView({
     }
   };
 
-  const handleCheckboxClick = (id) => {
-    const isCurrentlyChecked = Boolean(progress[id]);
-    onToggleMilestone(id);
+  const handleSetStatus = (id, targetStatus) => {
+    const current = progress[id];
+    let nextStatus;
+    // Jika tombol status yang sama diklik ulang, batalkan status (uncheck/belum)
+    if (current === targetStatus || (targetStatus === 'selesai' && current === true)) {
+      nextStatus = false;
+    } else {
+      nextStatus = targetStatus;
+    }
+    onToggleMilestone(id, nextStatus);
 
-    if (!isCurrentlyChecked) {
+    if (nextStatus === 'selesai') {
       confetti({
         particleCount: 50,
         spread: 60,
@@ -126,6 +134,10 @@ export default function TrackerView({
         colors: ['#0b5e91', '#d98804', '#38bdf8', '#34d399']
       });
     }
+  };
+
+  const handleCheckboxClick = (id) => {
+    handleSetStatus(id, 'selesai');
   };
 
   return (
@@ -591,7 +603,8 @@ export default function TrackerView({
 
         {ROADMAP_PHASES.map((phase) => {
           const isExpanded = expandedPhase === phase.phaseId;
-          const completedInPhase = phase.steps.filter(s => progress[s.id]).length;
+          const completedInPhase = phase.steps.filter(s => progress[s.id] === true || progress[s.id] === 'selesai').length;
+          const inProgressInPhase = phase.steps.filter(s => progress[s.id] === 'progres').length;
           const totalInPhase = phase.steps.length;
           const isPhaseComplete = completedInPhase === totalInPhase && totalInPhase > 0;
 
@@ -599,7 +612,9 @@ export default function TrackerView({
             <div 
               key={phase.phaseId} 
               className={`rounded-3xl border-2 transition-all overflow-hidden ${
-                isExpanded 
+                isPhaseComplete
+                  ? 'border-emerald-300 shadow-xs bg-white hover:border-emerald-400'
+                  : isExpanded 
                   ? 'border-primary/50 shadow-md ring-2 ring-primary/10 bg-white' 
                   : 'border-sky-200/80 shadow-xs bg-white hover:border-primary/40'
               }`}
@@ -636,7 +651,13 @@ export default function TrackerView({
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3 flex-shrink-0 ml-3">
+                <div className="flex items-center space-x-2 flex-shrink-0 ml-3">
+                  {inProgressInPhase > 0 && (
+                    <span className="text-[11px] font-mono font-bold font-instrument px-2.5 py-1 rounded-full border bg-amber-50 text-amber-800 border-amber-200 shadow-2xs flex items-center space-x-1">
+                      <Clock className="w-3 h-3 text-amber-600" />
+                      <span>{inProgressInPhase} Progres</span>
+                    </span>
+                  )}
                   <span className={`text-xs font-mono font-bold font-instrument px-3 py-1 rounded-full border shadow-2xs ${
                     isPhaseComplete
                       ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
@@ -653,41 +674,113 @@ export default function TrackerView({
               {/* Tahap di dalam Fase (Hanya Muncul Jika Dropdown Terbuka) */}
               {isExpanded && (
                 <div className="p-5 sm:p-6 border-t-2 border-sky-100/80 space-y-3 font-instrument bg-sky-50/40 animate-fadeIn">
-                  <p className="text-[11px] font-semibold text-slate-500 mb-2">
-                    Centang setiap tahap yang telah kamu selesaikan untuk memperbarui status kelulusanmu:
-                  </p>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                    <p className="text-[11px] font-semibold text-slate-500">
+                      Tentukan status setiap tahap kelulusanmu dengan memilih <strong>Progres</strong> atau <strong>Selesai</strong>:
+                    </p>
+                    <span className="text-[10px] font-medium text-slate-400">
+                      Klik pilihan di pojok kanan kartu
+                    </span>
+                  </div>
+
                   {phase.steps.map((step) => {
-                    const isChecked = Boolean(progress[step.id]);
+                    const status = progress[step.id];
+                    const isDone = status === true || status === 'selesai';
+                    const isInProgress = status === 'progres';
 
                     return (
                       <div
                         key={step.id}
-                        onClick={() => handleCheckboxClick(step.id)}
-                        className={`p-4 rounded-2xl border-2 flex items-start space-x-3.5 cursor-pointer transition-all ${
-                          isChecked
+                        className={`p-4 rounded-2xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
+                          isDone
                             ? 'bg-emerald-50/90 border-emerald-300 shadow-2xs'
-                            : 'bg-white border-slate-200/90 hover:border-primary/60 hover:shadow-md hover:scale-[1.003] shadow-xs'
+                            : isInProgress
+                            ? 'bg-amber-50/80 border-amber-300 ring-2 ring-amber-300/30 shadow-2xs'
+                            : 'bg-white border-slate-200/90 hover:border-primary/40 shadow-xs'
                         }`}
                       >
-                        <div className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
-                          isChecked
-                            ? 'bg-emerald-600 text-white shadow-xs'
-                            : 'border-2 border-slate-300 bg-white hover:border-primary'
-                        }`}>
-                          {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                        {/* Kiri: Ikon & Detail Tahap */}
+                        <div 
+                          onClick={() => handleCheckboxClick(step.id)}
+                          className="flex items-start space-x-3.5 flex-1 cursor-pointer"
+                        >
+                          <div className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
+                            isDone
+                              ? 'bg-emerald-600 text-white shadow-xs'
+                              : isInProgress
+                              ? 'bg-amber-500 text-white shadow-xs'
+                              : 'border-2 border-slate-300 bg-white hover:border-primary'
+                          }`}>
+                            {isDone ? (
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                            ) : isInProgress ? (
+                              <Clock className="w-3.5 h-3.5 stroke-[2.5]" />
+                            ) : null}
+                          </div>
+
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h4 className={`text-xs sm:text-sm font-bold leading-snug ${
+                                isDone 
+                                  ? 'text-emerald-800 line-through' 
+                                  : isInProgress 
+                                  ? 'text-amber-950 font-bold' 
+                                  : 'text-slate-900'
+                              }`}>
+                                {step.title}
+                              </h4>
+                              {isInProgress && (
+                                <span className="px-2 py-0.2 rounded-md bg-amber-200/80 text-amber-900 text-[10px] font-bold uppercase tracking-wider">
+                                  Sedang Dikerjakan
+                                </span>
+                              )}
+                              {isDone && (
+                                <span className="px-2 py-0.2 rounded-md bg-emerald-200/80 text-emerald-900 text-[10px] font-bold uppercase tracking-wider">
+                                  Tuntas
+                                </span>
+                              )}
+                            </div>
+                            <p className={`text-xs mt-1 leading-relaxed ${
+                              isDone ? 'text-emerald-700/80' : isInProgress ? 'text-amber-800/90' : 'text-slate-600'
+                            }`}>
+                              {step.desc}
+                            </p>
+                          </div>
                         </div>
 
-                        <div className="flex-1">
-                          <h4 className={`text-xs sm:text-sm font-bold leading-snug ${
-                            isChecked ? 'text-emerald-800 line-through' : 'text-slate-900'
-                          }`}>
-                            {step.title}
-                          </h4>
-                          <p className={`text-xs mt-1 leading-relaxed ${
-                            isChecked ? 'text-emerald-700/80' : 'text-slate-600'
-                          }`}>
-                            {step.desc}
-                          </p>
+                        {/* Pojok Kanan: Pilihan 'Progres' dan 'Selesai' */}
+                        <div className="flex items-center gap-1.5 flex-shrink-0 self-end sm:self-center pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 w-full sm:w-auto justify-end">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSetStatus(step.id, 'progres');
+                            }}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
+                              isInProgress
+                                ? 'bg-amber-500 text-white shadow-xs ring-2 ring-amber-300'
+                                : 'bg-white border border-slate-200 text-slate-600 hover:border-amber-400 hover:text-amber-600 hover:bg-amber-50/60'
+                            }`}
+                          >
+                            <Clock className="w-3.5 h-3.5" />
+                            <span>Progres</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSetStatus(step.id, 'selesai');
+                            }}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
+                              isDone
+                                ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-300'
+                                : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50/60'
+                            }`}
+                          >
+                            <Check className="w-3.5 h-3.5 stroke-[3]" />
+                            <span>Selesai</span>
+                          </button>
                         </div>
                       </div>
                     );
