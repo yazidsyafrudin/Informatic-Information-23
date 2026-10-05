@@ -44,6 +44,41 @@ export const ROADMAP_PHASES = [
   },
   {
     phaseId: 2,
+    title: "Skor Prestasi Mahasiswa (SPM)",
+    shortTitle: "SPM Prestasi",
+    period: "Semester 7 – 8 (Sebelum Sempro & Yudisium)",
+    status: "Syarat Wajib",
+    color: "from-amber-500 to-orange-500",
+    description: "Pemenuhan kewajiban Skor Prestasi Mahasiswa (SPM), mencakup SPM Birokrasi (konten video, review Google Maps, artikel media sosial) dan akumulasi poin SPM Prodi minimal 25 poin.",
+    steps: [
+      {
+        id: "m-spm-1",
+        title: "Tahap Pembuatan Konten (Video Promosi / Edukasi Kampus)",
+        desc: "Membuat dan mengunggah video kreatif promosi/edukasi kampus Universitas Alma Ata di media sosial (TikTok / Instagram / YouTube) dengan tagar resmi.",
+        tips: "Bagian dari SPM Birokrasi (bobot 4 Poin). Ikuti pedoman Klinik Konten SPM dan simpan link unggahan serta bukti screenshot penayangan."
+      },
+      {
+        id: "m-spm-2",
+        title: "Tahap Review Google Maps Universitas Alma Ata",
+        desc: "Memberikan rating bintang 5 dan ulasan positif yang membangun pada lokasi resmi Google Maps Universitas Alma Ata.",
+        tips: "Bagian dari SPM Birokrasi (bobot 1 Poin). Gunakan akun Google pribadi yang aktif dan screenshot ulasan yang sudah tayang."
+      },
+      {
+        id: "m-spm-3",
+        title: "Tahap Penulisan & Publikasi Artikel Media Sosial / Web",
+        desc: "Menulis dan mempublikasikan artikel bertema kegiatan akademik/prestasi/prodi di media sosial, blog, atau portal kampus.",
+        tips: "Bagian dari SPM Birokrasi (bobot 4 Poin). Konsultasikan draf tulisan di grup pendampingan konten SPM agar cepat disetujui."
+      },
+      {
+        id: "m-spm-4",
+        title: "Tahap Pemenuhan & Validasi SPM Prodi (Minimal 25 Poin)",
+        desc: "Mengumpulkan dan memvalidasi sertifikat/SK kegiatan kemahasiswaan (KKL/Magang, KKN, Organisasi HIMA, kepanitiaan, atau perlombaan) hingga mencapai minimal 25 poin.",
+        tips: "Ajukan Form Validasi Prestasi ke Koordinator Kemahasiswaan Prodi Informatika dan pastikan berstatus 'MEMENUHI' pada portal SPM UAA."
+      }
+    ]
+  },
+  {
+    phaseId: 3,
     title: "Seminar Proposal (Sempro)",
     shortTitle: "Sempro",
     period: "Semester 7 Akhir – Januari 2027",
@@ -108,7 +143,7 @@ export const ROADMAP_PHASES = [
     ]
   },
   {
-    phaseId: 3,
+    phaseId: 4,
     title: "Ethical Clearance (EC) & Masa Jeda Riset",
     shortTitle: "Ethical Clearance",
     period: "Februari – April 2027 (Wajib Jeda Min. 3 Bulan)",
@@ -155,7 +190,7 @@ export const ROADMAP_PHASES = [
     ]
   },
   {
-    phaseId: 4,
+    phaseId: 5,
     title: "Seminar Hasil (Semhas) & Riset Skripsi",
     shortTitle: "Semhas",
     period: "Mei – Juni 2027 (Semester 8)",
@@ -214,7 +249,7 @@ export const ROADMAP_PHASES = [
     ]
   },
   {
-    phaseId: 5,
+    phaseId: 6,
     title: "Yudisium (Pendadaran & Kelulusan)",
     shortTitle: "Yudisium",
     period: "Juni – Juli 2027",
@@ -261,7 +296,7 @@ export const ROADMAP_PHASES = [
     ]
   },
   {
-    phaseId: 6,
+    phaseId: 7,
     title: "Wisuda Sarjana Komputer (S.Kom)",
     shortTitle: "Wisuda",
     period: "Agustus – September 2027",

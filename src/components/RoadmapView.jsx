@@ -84,7 +84,7 @@ export default function RoadmapView({ progress, onToggleMilestone, setActiveTab,
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
           {ROADMAP_PHASES.map((phase) => {
             const isSelected = expandedPhase === phase.phaseId;
             const completedCount = phase.steps.filter(s => progress[s.id] === true || progress[s.id] === 'selesai').length;
