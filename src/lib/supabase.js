@@ -440,6 +440,9 @@ export const StorageService = {
 
   // Ambil progres milestone
   async getProgress(nim) {
+    const saved = localStorage.getItem(`IF23_PROGRESS_${nim || 'DEFAULT'}`);
+    let localMap = saved ? JSON.parse(saved) : {};
+
     if (supabase && isSupabaseConfigured && nim) {
       try {
         const { data, error } = await supabase
@@ -447,18 +450,27 @@ export const StorageService = {
           .select('*')
           .eq('nim', nim);
         if (!error && data) {
-          const map = {};
+          const map = { ...localMap };
           data.forEach(item => {
-            map[item.milestone_id] = item.is_completed;
+            // Periksa apakah status tersimpan di kolom notes atau status
+            if (item.notes === 'progres' || item.status === 'progres') {
+              map[item.milestone_id] = 'progres';
+            } else if (item.is_completed || item.notes === 'selesai' || item.status === 'selesai') {
+              map[item.milestone_id] = 'selesai';
+            } else if (item.notes === 'belum' || item.is_completed === false) {
+              if (item.notes !== 'progres') {
+                map[item.milestone_id] = false;
+              }
+            }
           });
+          localStorage.setItem(`IF23_PROGRESS_${nim || 'DEFAULT'}`, JSON.stringify(map));
           return map;
         }
       } catch (err) {
         console.warn('Fallback progress ke local storage:', err);
       }
     }
-    const saved = localStorage.getItem(`IF23_PROGRESS_${nim || 'DEFAULT'}`);
-    return saved ? JSON.parse(saved) : {};
+    return localMap;
   },
 
   // Simpan toggle milestone
@@ -470,12 +482,15 @@ export const StorageService = {
     if (supabase && isSupabaseConfigured && nim) {
       try {
         const isCompleted = newState === true || newState === 'selesai';
+        const progressStatus = newState === 'progres' ? 'progres' : (isCompleted ? 'selesai' : 'belum');
+
         await supabase
           .from('student_progress')
           .upsert({
             nim: nim,
             milestone_id: milestoneId,
             is_completed: isCompleted,
+            notes: progressStatus,
             completed_at: isCompleted ? new Date().toISOString() : null
           }, { onConflict: 'nim, milestone_id' });
       } catch (err) {
