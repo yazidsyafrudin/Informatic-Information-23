@@ -297,7 +297,7 @@ export const MAHASISWA_IF23_LIST = [
     status: "Aktif",
     quote: "Merancang inovasi web dan solusi cerdas untuk Informatika 2023.",
     foto: "/mahasiswa/233200299.jpg",
-    socials: { instagram: "#", github: "#", linkedin: "#", web: "#" }
+    socials: { instagram: "#", github: "https://github.com/yazidsyafrudin", linkedin: "#", web: "https://www.pusingcoding.web.id" }
   }
 ];
 
