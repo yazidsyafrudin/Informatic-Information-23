@@ -17,6 +17,7 @@ import {
   Clock
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
+import { DOSEN_INFORMATIKA } from '../data/mahasiswaIf23';
 import StudentCalendarTracker from './StudentCalendarTracker';
 
 export default function TrackerView({ 
@@ -263,13 +264,23 @@ export default function TrackerView({
 
                 <div>
                   <label className="block text-xs font-bold text-white/90 mb-1">Dosen Pembimbing</label>
-                  <input
-                    type="text"
+                  <select
                     value={formProfile.dosen_pembimbing || ''}
                     onChange={(e) => setFormProfile({ ...formProfile, dosen_pembimbing: e.target.value })}
-                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
-                    placeholder="Nama Dosen Pembimbing"
-                  />
+                    className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs cursor-pointer"
+                  >
+                    <option value="">-- Belum Ditentukan / Sedang Pengajuan --</option>
+                    {DOSEN_INFORMATIKA.map((dosen, dIdx) => (
+                      <option key={dIdx} value={dosen}>
+                        {dosen}
+                      </option>
+                    ))}
+                    {formProfile.dosen_pembimbing && !DOSEN_INFORMATIKA.includes(formProfile.dosen_pembimbing) && (
+                      <option value={formProfile.dosen_pembimbing}>
+                        {formProfile.dosen_pembimbing}
+                      </option>
+                    )}
+                  </select>
                 </div>
 
                 <div className="sm:col-span-2 lg:col-span-4">

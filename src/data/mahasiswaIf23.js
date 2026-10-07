@@ -349,3 +349,13 @@ export function detectUserRole({ nim = '', email = '', selectedRole = null }) {
   // 4. Default: Tamu / Umum
   return "Umum / Pengunjung";
 }
+
+// Daftar Resmi Dosen Informatika Universitas Alma Ata
+export const DOSEN_INFORMATIKA = [
+  "Dhina Puspasari Wijaya, S.Kom., M.Kom.",
+  "Deden Hardan Gutama, S.Kom., M.Kom.",
+  "Andri Pramuntadi, S.Kom., M.Kom.",
+  "Dita Danianti, S.Kom., M.Kom",
+  "Ahmad Subhan Yazid, S.Kom., M.Cs.",
+  "Cicin Hardiyanti P, S.Kom., M.Kom"
+];
