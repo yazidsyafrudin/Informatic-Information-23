@@ -287,6 +287,9 @@ export default function AuthView({ onLoginSuccess, onContinueAsGuest, noticeMess
                 1-Klik
               </span>
             </button>
+            <p className="text-[11px] text-slate-400 text-center mt-2.5">
+              Dengan melanjutkan, Anda menyetujui <a href="/privacy.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary font-medium">Kebijakan Privasi</a> dan <a href="/terms.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary font-medium">Ketentuan Layanan</a> kami.
+            </p>
 
             {/* Separator */}
             <div className="relative my-6">

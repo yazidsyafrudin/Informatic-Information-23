@@ -299,6 +299,20 @@ export default function App() {
               >
                 Panduan PDF
               </button>
+              <span className="text-white/40">•</span>
+              <a
+                href="/privacy.html"
+                className="hover:text-accent transition-colors cursor-pointer text-white/90"
+              >
+                Kebijakan Privasi
+              </a>
+              <span className="text-white/40">•</span>
+              <a
+                href="/terms.html"
+                className="hover:text-accent transition-colors cursor-pointer text-white/90"
+              >
+                Ketentuan
+              </a>
             </div>
             <strong className="text-accent font-philosopher text-base tracking-wide block">
               Satu Angkatan, Lulus Bareng 2025!
