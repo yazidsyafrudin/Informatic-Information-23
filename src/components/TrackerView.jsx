@@ -14,7 +14,8 @@ import {
   ChevronDown, 
   ChevronUp,
   Camera,
-  Clock
+  Clock,
+  GraduationCap
 } from 'lucide-react';
 import { ROADMAP_PHASES } from '../data/milestones';
 import { DOSEN_INFORMATIKA } from '../data/mahasiswaIf23';
@@ -144,13 +145,18 @@ export default function TrackerView({
   return (
     <div className="space-y-8 animate-fadeIn">
       
-      {/* Header & Profil Card - Solid Blue UAA */}
-      <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 border-2 border-primary-700 shadow-xl">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      {/* Header & Profil Card - Solid Blue UAA Premium */}
+      <div className="bg-gradient-to-r from-[#084870] via-[#0b5e91] to-[#0d6fa8] text-white rounded-3xl p-6 sm:p-7 border-2 border-primary-600/70 shadow-xl relative overflow-hidden">
+        {/* Subtle decorative glow */}
+        <div className="absolute -top-16 -right-16 w-56 h-56 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           
           {/* User Info */}
-          <div className="flex items-start space-x-4">
-            <div className="w-16 h-16 rounded-2xl bg-white text-primary overflow-hidden flex items-center justify-center font-extrabold text-2xl shadow-md flex-shrink-0 font-philosopher border-2 border-white/40">
+          <div className="flex items-center sm:items-start space-x-4 sm:space-x-5 flex-1 min-w-0">
+            {/* Avatar dengan ring putih lembut & shadow */}
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white text-primary overflow-hidden flex items-center justify-center font-extrabold text-2xl sm:text-3xl shadow-lg flex-shrink-0 font-philosopher ring-4 ring-white/20 border border-white/40">
               {profile?.avatar_url ? (
                 <img 
                   src={profile.avatar_url} 
@@ -161,15 +167,16 @@ export default function TrackerView({
                 profile?.nama_lengkap?.charAt(0) || 'M'
               )}
             </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <h1 className="text-xl sm:text-2xl font-bold font-philosopher text-white">
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                <h1 className="text-xl sm:text-2xl font-bold font-philosopher text-white tracking-tight truncate">
                   {profile?.nama_lengkap || 'Mahasiswa Informatika 23'}
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-white/15 text-white border border-white/20 shadow-xs">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-white/15 text-sky-100 border border-white/20 shadow-xs">
                   {profile?.nim || 'NIM Belum Diatur'}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold font-instrument bg-accent text-white shadow-xs">
+                <span className="px-3 py-0.5 rounded-full text-xs font-bold font-instrument bg-amber-400 text-slate-950 shadow-xs">
                   {profile?.peminatan === 'Artificial Intelligence' || profile?.peminatan === 'Data Science' || profile?.peminatan === 'Data Sains'
                     ? 'Data Sains'
                     : profile?.peminatan === 'Software Engineering'
@@ -178,36 +185,62 @@ export default function TrackerView({
                 </span>
               </div>
               
-              <p className="text-xs font-instrument text-white/80">
-                Dosen Pembimbing: <strong className="text-white">{profile?.dosen_pembimbing || 'Belum Ditentukan / Sedang Pengajuan'}</strong>
-              </p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-instrument text-sky-100/90">
+                <div className="flex items-center gap-1.5">
+                  <GraduationCap className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                  <span>Dosen Pembimbing: <strong className="text-white font-semibold">{profile?.dosen_pembimbing || 'Belum Ditentukan / Sedang Pengajuan'}</strong></span>
+                </div>
+              </div>
+
               {profile?.quote && (
-                <p className="text-xs font-instrument text-accent mt-1 italic font-medium">
+                <p className="text-xs font-instrument text-amber-200/90 mt-1.5 italic font-medium max-w-xl truncate">
                   "{profile.quote}"
                 </p>
               )}
             </div>
           </div>
 
-          {/* Badge & Progres Ringkas */}
-          <div className="flex items-center space-x-4 bg-white/15 backdrop-blur-xs p-4 rounded-2xl border border-white/20 self-stretch sm:self-auto justify-between sm:justify-start shadow-xs">
-            <div>
-              <div className="flex items-center space-x-1.5 text-xs font-instrument text-white/80 mb-1">
-                <BadgeIcon className="w-4 h-4 text-accent" />
-                <span className="font-bold text-white">{badge.label}</span>
+          {/* Badge & Progres Ringkas Card */}
+          <div className="bg-black/20 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20 self-stretch sm:self-auto min-w-[260px] flex flex-col justify-between gap-3 shadow-inner">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center space-x-1.5 text-xs font-instrument">
+                <BadgeIcon className="w-4 h-4 text-amber-300 flex-shrink-0" />
+                <span className="font-bold text-white text-xs">{badge.label}</span>
               </div>
-              <div className="text-2xl font-black text-white font-mono">
-                {percent}% <span className="text-xs font-normal text-white/80">({progressCount}/{totalMilestones} Selesai)</span>
-              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsEditingProfile(!isEditingProfile)}
+                className={`px-3 py-1 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs border ${
+                  isEditingProfile
+                    ? 'bg-amber-400 text-slate-950 border-amber-300'
+                    : 'bg-white/15 hover:bg-white/25 text-white border-white/20 hover:border-white/40'
+                }`}
+                title="Edit Data & Profil Publik Mahasiswa"
+              >
+                <Edit3 className="w-3.5 h-3.5" />
+                <span>{isEditingProfile ? 'Tutup' : 'Edit Profil'}</span>
+              </button>
             </div>
 
-            <button
-              onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="p-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/20 shadow-2xs transition-colors cursor-pointer"
-              title="Edit Data & Profil Publik Mahasiswa"
-            >
-              <Edit3 className="w-4 h-4" />
-            </button>
+            <div>
+              <div className="flex items-baseline justify-between mb-1.5">
+                <span className="text-2xl font-black text-white font-mono tracking-tight">
+                  {percent}%
+                </span>
+                <span className="text-[11px] font-mono text-sky-200">
+                  {progressCount}/{totalMilestones} Selesai
+                </span>
+              </div>
+
+              {/* Progress bar visual ramping */}
+              <div className="w-full h-2 bg-white/15 rounded-full overflow-hidden p-0.5 border border-white/10">
+                <div 
+                  className="h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full transition-all duration-500 shadow-xs"
+                  style={{ width: `${percent}%` }}
+                />
+              </div>
+            </div>
           </div>
 
         </div>
