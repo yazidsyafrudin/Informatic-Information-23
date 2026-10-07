@@ -21,7 +21,7 @@ export default function App() {
   const [profile, setProfile] = useState({
     nim: "230101001",
     nama_lengkap: "Mahasiswa Informatika 23",
-    peminatan: "Software Engineering",
+    peminatan: "Rekayasa Perangkat Lunak (RPL)",
     judul_skripsi: "",
     dosen_pembimbing: "",
     ipk: 3.50,

@@ -94,7 +94,7 @@ CREATE POLICY "Public Messages Access" ON public.community_messages FOR ALL USIN
 const DEFAULT_LOCAL_PROFILE = {
   nim: "230101001",
   nama_lengkap: "Mahasiswa Informatika 23",
-  peminatan: "Software Engineering",
+  peminatan: "Rekayasa Perangkat Lunak (RPL)",
   judul_skripsi: "",
   dosen_pembimbing: "",
   ipk: 3.50,

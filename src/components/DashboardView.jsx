@@ -296,7 +296,7 @@ export default function DashboardView({ setActiveTab, profile, progressCount, to
                 Kumpulkan 5–10 Jurnal SINTA / Scopus
               </h3>
               <p className="font-instrument text-[11px] sm:text-xs text-white/90 leading-relaxed">
-                Kunci peminatan (SE / AI / Jaringan). Cari 5–10 jurnal terakreditasi 3–5 tahun terakhir untuk rujukan metode penyelesaian (misal: CNN, Scrum, IoT).
+                Kunci peminatan (RPL / Data Sains). Cari 5–10 jurnal terakreditasi 3–5 tahun terakhir untuk rujukan metode penyelesaian (misal: CNN, Scrum, AI/ML).
               </p>
             </div>
 

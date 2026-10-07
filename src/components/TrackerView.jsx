@@ -169,7 +169,11 @@ export default function TrackerView({
                   {profile?.nim || 'NIM Belum Diatur'}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-bold font-instrument bg-accent text-white shadow-xs">
-                  {profile?.peminatan || 'Software Engineering'}
+                  {profile?.peminatan === 'Artificial Intelligence' || profile?.peminatan === 'Data Science' || profile?.peminatan === 'Data Sains'
+                    ? 'Data Sains'
+                    : profile?.peminatan === 'Software Engineering'
+                    ? 'Rekayasa Perangkat Lunak (RPL)'
+                    : profile?.peminatan || 'Rekayasa Perangkat Lunak (RPL)'}
                 </span>
               </div>
               
@@ -244,14 +248,16 @@ export default function TrackerView({
                 <div>
                   <label className="block text-xs font-bold text-white/90 mb-1">Peminatan</label>
                   <select
-                    value={formProfile.peminatan || 'Software Engineering'}
+                    value={
+                      formProfile.peminatan === 'Artificial Intelligence' || formProfile.peminatan === 'Data Science' || formProfile.peminatan === 'Data Sains'
+                        ? 'Data Sains'
+                        : 'Rekayasa Perangkat Lunak (RPL)'
+                    }
                     onChange={(e) => setFormProfile({ ...formProfile, peminatan: e.target.value })}
                     className="w-full bg-white border border-white/30 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs"
                   >
-                    <option value="Software Engineering">Software Engineering / Web / Mobile</option>
-                    <option value="Artificial Intelligence">Artificial Intelligence / Data Science</option>
-                    <option value="Networking & Security">Networking & Cyber Security</option>
-                    <option value="Internet of Things">Internet of Things (IoT) & Hardware</option>
+                    <option value="Rekayasa Perangkat Lunak (RPL)">Rekayasa Perangkat Lunak (RPL)</option>
+                    <option value="Data Sains">Data Sains</option>
                   </select>
                 </div>
 
